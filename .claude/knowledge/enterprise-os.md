@@ -15,13 +15,13 @@ Owns the long-term vision/roadmap concept, sourced from `docs/product/orgofin-id
 
 ## The Evolution Roadmap (per the source PDF, §11)
 
-| Horizon | Timeline | Milestone | Revenue Target |
-|---|---|---|---|
-| H1: HRMS Wedge | 0–12 months | Best HRMS in India; 500+ customers; AI-native payroll-to-retire | $2–5M ARR |
-| H2: Full-Stack SMB OS | 12–36 months | HRMS + Finance + CRM + Desk + Workspace live; 3,000+ customers; UK/US launched | $20–40M ARR |
-| H3: AGaaS Platform | 36–60 months | Agent Marketplace live; 10,000+ customers; AGaaS >30% of revenue | $100–200M ARR |
-| H4: Company Brain as Platform | 5–8 years | Third-party developers build on Orgofin's Company Brain API; ecosystem of 10,000+ agents | $500M+ ARR |
-| H5: Enterprise OS | 8–12 years | Orgofin is the default OS for mid-market companies globally; IPO or strategic exit | $1B+ ARR |
+| Horizon                       | Timeline     | Milestone                                                                                | Revenue Target |
+| ----------------------------- | ------------ | ---------------------------------------------------------------------------------------- | -------------- |
+| H1: HRMS Wedge                | 0–12 months  | Best HRMS in India; 500+ customers; AI-native payroll-to-retire                          | $2–5M ARR      |
+| H2: Full-Stack SMB OS         | 12–36 months | HRMS + Finance + CRM + Desk + Workspace live; 3,000+ customers; UK/US launched           | $20–40M ARR    |
+| H3: AGaaS Platform            | 36–60 months | Agent Marketplace live; 10,000+ customers; AGaaS >30% of revenue                         | $100–200M ARR  |
+| H4: Company Brain as Platform | 5–8 years    | Third-party developers build on Orgofin's Company Brain API; ecosystem of 10,000+ agents | $500M+ ARR     |
+| H5: Enterprise OS             | 8–12 years   | Orgofin is the default OS for mid-market companies globally; IPO or strategic exit       | $1B+ ARR       |
 
 ## The 40+ Module / 8-Suite Structure
 
@@ -55,5 +55,6 @@ None — faithful extraction of the source PDF's long-term vision material.
 - [`docs/architecture/platform-overview.md`](../../docs/architecture/platform-overview.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Product (TODO: assign a DRI)

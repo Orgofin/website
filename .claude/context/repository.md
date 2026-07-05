@@ -27,14 +27,14 @@ Owns: top-level folder purpose, the human-vs-AI documentation split, markdown au
 
 This is the single most important organizing principle in the repository, and the one most likely to be violated by habit if it isn't understood. The distinction is **not** "what Claude is allowed to read" — Claude reads both, same as a human would. The distinction is **purpose and audience**:
 
-| | `docs/` | `.claude/` |
-|---|---|---|
-| **Primary audience** | Humans — founders, future hires, investors reading a specific artifact | Claude (and any engineer wanting the standing rule, not the artifact) |
-| **Nature of content** | Point-in-time artifacts and records: business facts, product requirements, architecture decisions, copy, runbooks | Living, standing instructions: conventions, philosophy, domain-concept reference consulted on *every* task |
-| **Changes when...** | ...a business fact changes, a decision is made, a runbook step changes | ...a coding/design/writing convention changes |
-| **Example** | `docs/product/company.md` (what Orgofin *is*, as a business fact) | `.claude/context/branding.md` (the *rule* for how to write about it) |
+|                       | `docs/`                                                                                                           | `.claude/`                                                                                                 |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| **Primary audience**  | Humans — founders, future hires, investors reading a specific artifact                                            | Claude (and any engineer wanting the standing rule, not the artifact)                                      |
+| **Nature of content** | Point-in-time artifacts and records: business facts, product requirements, architecture decisions, copy, runbooks | Living, standing instructions: conventions, philosophy, domain-concept reference consulted on _every_ task |
+| **Changes when...**   | ...a business fact changes, a decision is made, a runbook step changes                                            | ...a coding/design/writing convention changes                                                              |
+| **Example**           | `docs/product/company.md` (what Orgofin _is_, as a business fact)                                                 | `.claude/context/branding.md` (the _rule_ for how to write about it)                                       |
 
-**Rule of thumb:** if you're about to write "here's what we decided" or "here's a fact about the business," it's `docs/`. If you're about to write "here's the rule to follow every time," it's `.claude/context/`. If you're capturing a recurring product *concept* Claude needs to reference constantly when writing copy or features (Company Brain, HRMS, AGaaS), it's `.claude/knowledge/` — distinct from `docs/product/company.md`, which is the business overview, not the concept deep-dive.
+**Rule of thumb:** if you're about to write "here's what we decided" or "here's a fact about the business," it's `docs/`. If you're about to write "here's the rule to follow every time," it's `.claude/context/`. If you're capturing a recurring product _concept_ Claude needs to reference constantly when writing copy or features (Company Brain, HRMS, AGaaS), it's `.claude/knowledge/` — distinct from `docs/product/company.md`, which is the business overview, not the concept deep-dive.
 
 ## `docs/` Structure
 
@@ -85,7 +85,7 @@ Conventional Commits format: `type(scope): summary`, imperative mood, no trailin
 
 - **Types:** `feat`, `fix`, `docs`, `refactor`, `style`, `test`, `chore`, `perf`
 - **Scope** is the area touched (`docs`, `frontend`, `waitlist`, `ci`) — omit only when a change is genuinely repo-wide.
-- **Body** explains *why*, not *what* — the diff already shows what changed.
+- **Body** explains _why_, not _what_ — the diff already shows what changed.
 - Examples: `docs(claude): add coding standards and repository conventions`, `feat(waitlist): add company-size field to signup form`.
 
 ## Current Status
@@ -110,5 +110,6 @@ As `docs/product/` accumulates more artifacts (case studies, press kit, meeting 
 - [`coding-standards.md`](./coding-standards.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

@@ -44,5 +44,6 @@ Accepted and reflected in `.claude/context/frontend.md` and `.claude/context/arc
 - [`README.md`](./README.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

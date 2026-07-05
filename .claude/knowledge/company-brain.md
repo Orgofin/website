@@ -7,7 +7,7 @@
 
 ## Responsibilities
 
-Owns the concept definition, sourced faithfully from `docs/product/orgofin-idea.pdf`. Does not own how it's *visually* represented (`docs/product/copy.md` §1 Chapter 5, and the eventual `CompanyBrainGraph` component per `.claude/context/frontend.md`) — this file is the concept; those are its expressions.
+Owns the concept definition, sourced faithfully from `docs/product/orgofin-idea.pdf`. Does not own how it's _visually_ represented (`docs/product/copy.md` §1 Chapter 5, and the eventual `CompanyBrainGraph` component per `.claude/context/frontend.md`) — this file is the concept; those are its expressions.
 
 ## What It Is
 
@@ -59,5 +59,6 @@ None — this is a faithful, complete extraction of everything the source PDF sa
 - [`enterprise-os.md`](./enterprise-os.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Product (TODO: assign a DRI)

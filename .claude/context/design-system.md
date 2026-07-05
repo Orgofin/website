@@ -4,9 +4,9 @@
 > **Applies to:** anyone (human or Claude) writing UI/styling code. No component may introduce a raw color, size, or duration value that isn't one of these tokens.
 
 **Target quality bar:** Stripe, Linear, Vercel, Notion, Apple.
-**Scope:** tokens and rules only. No components are defined here; see [`frontend.md`](./frontend.md) for how components are structured, and [`branding.md`](./branding.md) for voice/copy (a design system covers *how it looks*, not *what it says*).
+**Scope:** tokens and rules only. No components are defined here; see [`frontend.md`](./frontend.md) for how components are structured, and [`branding.md`](./branding.md) for voice/copy (a design system covers _how it looks_, not _what it says_).
 
-**Brand mandate this system exists to satisfy** (per [`docs/product/prd.md`](../../docs/product/prd.md) §8 and the founder's original spec): *"NOT standard black/white. An original Orgofin color system... The palette should become part of Orgofin's identity in the same way Claude → warm tones, ChatGPT → green, Linear → dark purple, Apple → neutral elegance."* Every decision below is made in service of that — nothing here is generic Tailwind-default blue.
+**Brand mandate this system exists to satisfy** (per [`docs/product/prd.md`](../../docs/product/prd.md) §8 and the founder's original spec): _"NOT standard black/white. An original Orgofin color system... The palette should become part of Orgofin's identity in the same way Claude → warm tones, ChatGPT → green, Linear → dark purple, Apple → neutral elegance."_ Every decision below is made in service of that — nothing here is generic Tailwind-default blue.
 
 ---
 
@@ -19,30 +19,32 @@ Owns: type scale, color primitives/semantics, spacing, radius, motion tokens, ic
 ## 1. Typography
 
 ### Typefaces
-| Role | Typeface | Fallback stack | Rationale |
-|---|---|---|---|
-| UI + Display | **Geist Sans** | `ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif` | Same family Vercel uses for its own product — open license (SIL OFL), geometric but warm, reads as engineering-grade at any size. Matches the "Vercel" bar in the target quality list directly. |
-| Numeric / Data / Code | **Geist Mono** | `ui-monospace, "SF Mono", Menlo, monospace` | For metrics, financial figures, GST/compliance numbers, code snippets — tabular figures matter given how much of the product surfaces payroll/financial data. |
+
+| Role                  | Typeface       | Fallback stack                                                    | Rationale                                                                                                                                                                                       |
+| --------------------- | -------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UI + Display          | **Geist Sans** | `ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif` | Same family Vercel uses for its own product — open license (SIL OFL), geometric but warm, reads as engineering-grade at any size. Matches the "Vercel" bar in the target quality list directly. |
+| Numeric / Data / Code | **Geist Mono** | `ui-monospace, "SF Mono", Menlo, monospace`                       | For metrics, financial figures, GST/compliance numbers, code snippets — tabular figures matter given how much of the product surfaces payroll/financial data.                                   |
 
 Do not introduce a third typeface (e.g., a decorative serif for "editorial" sections). One family, used with weight/size/color contrast, keeps the system disciplined — the moment a second display face appears, it becomes a template-picker aesthetic rather than an identity.
 
 ### Scale
+
 Fluid where noted (`clamp()` sizing) so hero/display type scales with viewport instead of jumping at breakpoints — critical for the cinematic chapter format in [`docs/product/website-strategy.md`](../../docs/product/website-strategy.md).
 
-| Token | Size (fluid or fixed) | Line height | Weight | Letter spacing | Usage |
-|---|---|---|---|---|---|
-| `display-2xl` | clamp(3rem, 6vw, 5.5rem) | 1.0 | 600 | -0.02em | Home chapter headlines only (Ch.1–10 hero lines) |
-| `display-xl` | clamp(2.25rem, 4.5vw, 4rem) | 1.05 | 600 | -0.02em | Page hero headlines (Vision, Investors, Company Brain) |
-| `display-lg` | clamp(1.75rem, 3vw, 2.75rem) | 1.1 | 600 | -0.01em | Section headlines within a page |
-| `heading-lg` | 1.5rem | 1.25 | 600 | -0.01em | Sub-headlines |
-| `heading-md` | 1.25rem | 1.3 | 600 | 0 | Card/module titles |
-| `heading-sm` | 1.0625rem | 1.4 | 600 | 0 | Nav items, form labels |
-| `body-lg` | 1.125rem | 1.6 | 400 | 0 | Lead paragraphs, sub-headline support copy |
-| `body-md` | 1rem | 1.6 | 400 | 0 | Default body copy |
-| `body-sm` | 0.875rem | 1.5 | 400 | 0 | Secondary copy, helper text |
-| `caption` | 0.8125rem | 1.4 | 500 | 0.01em | Microcopy, badges, timestamps |
-| `micro` | 0.75rem | 1.4 | 500 | 0.02em | Legal fine print, footer bottom bar |
-| `mono-md` | 0.9375rem | 1.5 | 400 | 0 | Inline financial/data figures (Geist Mono) |
+| Token         | Size (fluid or fixed)        | Line height | Weight | Letter spacing | Usage                                                  |
+| ------------- | ---------------------------- | ----------- | ------ | -------------- | ------------------------------------------------------ |
+| `display-2xl` | clamp(3rem, 6vw, 5.5rem)     | 1.0         | 600    | -0.02em        | Home chapter headlines only (Ch.1–10 hero lines)       |
+| `display-xl`  | clamp(2.25rem, 4.5vw, 4rem)  | 1.05        | 600    | -0.02em        | Page hero headlines (Vision, Investors, Company Brain) |
+| `display-lg`  | clamp(1.75rem, 3vw, 2.75rem) | 1.1         | 600    | -0.01em        | Section headlines within a page                        |
+| `heading-lg`  | 1.5rem                       | 1.25        | 600    | -0.01em        | Sub-headlines                                          |
+| `heading-md`  | 1.25rem                      | 1.3         | 600    | 0              | Card/module titles                                     |
+| `heading-sm`  | 1.0625rem                    | 1.4         | 600    | 0              | Nav items, form labels                                 |
+| `body-lg`     | 1.125rem                     | 1.6         | 400    | 0              | Lead paragraphs, sub-headline support copy             |
+| `body-md`     | 1rem                         | 1.6         | 400    | 0              | Default body copy                                      |
+| `body-sm`     | 0.875rem                     | 1.5         | 400    | 0              | Secondary copy, helper text                            |
+| `caption`     | 0.8125rem                    | 1.4         | 500    | 0.01em         | Microcopy, badges, timestamps                          |
+| `micro`       | 0.75rem                      | 1.4         | 500    | 0.02em         | Legal fine print, footer bottom bar                    |
+| `mono-md`     | 0.9375rem                    | 1.5         | 400    | 0              | Inline financial/data figures (Geist Mono)             |
 
 **Weight discipline:** only three weights in the whole system — 400 (regular), 500 (medium, for microcopy/labels), 600 (semibold, for everything that needs emphasis). No 700/800/900 — heavier weights read as generic-SaaS-bold, not premium. Emphasis comes from size and color, not boldness.
 
@@ -51,67 +53,72 @@ Fluid where noted (`clamp()` sizing) so hero/display type scales with viewport i
 ## 2. Color
 
 ### Brand anchor: "Orgofin Blue"
+
 Not a generic SaaS blue (`#2563EB`/Tailwind `blue-600` territory is explicitly banned — it's the default every template ships with). Orgofin Blue is a deep, slightly cool cobalt that reads as confident/technical rather than "trustworthy corporate" — closer to a satellite-instrument blue than a fintech blue.
 
-| Token | HSL | Hex (approx.) | Usage |
-|---|---|---|---|
-| `blue-50` | 217° 100% 97% | #EFF5FF | Tinted backgrounds, hover states on light surfaces |
-| `blue-100` | 217° 95% 93% | #DCE9FF | Subtle badges, chip backgrounds |
-| `blue-300` | 217° 90% 78% | #93B8FF | Borders/dividers on accent surfaces |
-| `blue-500` | 217° 85% 60% | #3D7FFF | Secondary accent, links (light mode) |
-| `blue-600` | 219° 90% 52% | #1E63F0 | **Primary brand accent** — CTAs, active states, brand marks |
-| `blue-700` | 221° 85% 42% | #1A4FC4 | Hover/pressed state of primary accent |
-| `blue-900` | 224° 70% 22% | #0F2559 | Deep accent for gradients, dark-mode glow cores |
-| `blue-950` | 226° 65% 14% | #081334 | Gradient terminus, dark-mode background tint |
+| Token      | HSL           | Hex (approx.) | Usage                                                       |
+| ---------- | ------------- | ------------- | ----------------------------------------------------------- |
+| `blue-50`  | 217° 100% 97% | #EFF5FF       | Tinted backgrounds, hover states on light surfaces          |
+| `blue-100` | 217° 95% 93%  | #DCE9FF       | Subtle badges, chip backgrounds                             |
+| `blue-300` | 217° 90% 78%  | #93B8FF       | Borders/dividers on accent surfaces                         |
+| `blue-500` | 217° 85% 60%  | #3D7FFF       | Secondary accent, links (light mode)                        |
+| `blue-600` | 219° 90% 52%  | #1E63F0       | **Primary brand accent** — CTAs, active states, brand marks |
+| `blue-700` | 221° 85% 42%  | #1A4FC4       | Hover/pressed state of primary accent                       |
+| `blue-900` | 224° 70% 22%  | #0F2559       | Deep accent for gradients, dark-mode glow cores             |
+| `blue-950` | 226° 65% 14%  | #081334       | Gradient terminus, dark-mode background tint                |
 
 ### Neutrals — warm-cool balanced, never pure black/white
-| Token | HSL | Hex (approx.) | Usage |
-|---|---|---|---|
-| `neutral-0` (light bg) | 220° 30% 99% | #FAFBFD | Light-mode page background — *not* `#FFFFFF` |
-| `neutral-50` | 220° 25% 97% | #F3F5F9 | Light-mode raised surface |
-| `neutral-100` | 218° 20% 93% | #E6E9F0 | Borders, dividers (light) |
-| `neutral-300` | 218° 12% 75% | #B4BAC8 | Disabled text, placeholders |
-| `neutral-500` | 220° 10% 50% | #7B8194 | Secondary text |
-| `neutral-700` | 222° 15% 30% | #3B4152 | Primary text (light mode) |
-| `neutral-900` | 224° 25% 10% | #12151F | Primary text (dark mode) / near-black, not `#000000` |
-| `neutral-950` (dark bg) | 226° 30% 6% | #080A11 | Dark-mode page background — deep navy-black, *not* `#000000` |
+
+| Token                   | HSL          | Hex (approx.) | Usage                                                        |
+| ----------------------- | ------------ | ------------- | ------------------------------------------------------------ |
+| `neutral-0` (light bg)  | 220° 30% 99% | #FAFBFD       | Light-mode page background — _not_ `#FFFFFF`                 |
+| `neutral-50`            | 220° 25% 97% | #F3F5F9       | Light-mode raised surface                                    |
+| `neutral-100`           | 218° 20% 93% | #E6E9F0       | Borders, dividers (light)                                    |
+| `neutral-300`           | 218° 12% 75% | #B4BAC8       | Disabled text, placeholders                                  |
+| `neutral-500`           | 220° 10% 50% | #7B8194       | Secondary text                                               |
+| `neutral-700`           | 222° 15% 30% | #3B4152       | Primary text (light mode)                                    |
+| `neutral-900`           | 224° 25% 10% | #12151F       | Primary text (dark mode) / near-black, not `#000000`         |
+| `neutral-950` (dark bg) | 226° 30% 6%  | #080A11       | Dark-mode page background — deep navy-black, _not_ `#000000` |
 
 ### Semantic tokens
+
 These are what components should ever reference — never a raw scale value directly.
 
-| Semantic token | Light mode | Dark mode |
-|---|---|---|
-| `color-bg-page` | `neutral-0` | `neutral-950` |
-| `color-bg-surface` | `neutral-50` | `#0D1019` (neutral-950 +1 step lighter) |
-| `color-bg-surface-raised` | `#FFFFFF` | `#141826` |
-| `color-border-default` | `neutral-100` | `rgba(255,255,255,0.08)` |
-| `color-border-strong` | `neutral-300` | `rgba(255,255,255,0.16)` |
-| `color-text-primary` | `neutral-700` | `neutral-100`-equivalent (`#E8EAF0`) |
-| `color-text-secondary` | `neutral-500` | `#9AA1B5` |
-| `color-text-tertiary` | `neutral-300` | `#5C6478` |
-| `color-accent` | `blue-600` | `blue-500` *(lightened for legibility against dark bg)* |
-| `color-accent-hover` | `blue-700` | `blue-300` |
-| `color-accent-subtle-bg` | `blue-50` | `rgba(30,99,240,0.12)` |
-| `color-success` | `#178A4C` | `#3DDC8A` |
-| `color-warning` | `#B8790C` | `#F2B84B` |
-| `color-danger` | `#C4362E` | `#F0645C` |
-| `color-info` | `blue-500` | `blue-300` |
+| Semantic token            | Light mode    | Dark mode                                               |
+| ------------------------- | ------------- | ------------------------------------------------------- |
+| `color-bg-page`           | `neutral-0`   | `neutral-950`                                           |
+| `color-bg-surface`        | `neutral-50`  | `#0D1019` (neutral-950 +1 step lighter)                 |
+| `color-bg-surface-raised` | `#FFFFFF`     | `#141826`                                               |
+| `color-border-default`    | `neutral-100` | `rgba(255,255,255,0.08)`                                |
+| `color-border-strong`     | `neutral-300` | `rgba(255,255,255,0.16)`                                |
+| `color-text-primary`      | `neutral-700` | `neutral-100`-equivalent (`#E8EAF0`)                    |
+| `color-text-secondary`    | `neutral-500` | `#9AA1B5`                                               |
+| `color-text-tertiary`     | `neutral-300` | `#5C6478`                                               |
+| `color-accent`            | `blue-600`    | `blue-500` _(lightened for legibility against dark bg)_ |
+| `color-accent-hover`      | `blue-700`    | `blue-300`                                              |
+| `color-accent-subtle-bg`  | `blue-50`     | `rgba(30,99,240,0.12)`                                  |
+| `color-success`           | `#178A4C`     | `#3DDC8A`                                               |
+| `color-warning`           | `#B8790C`     | `#F2B84B`                                               |
+| `color-danger`            | `#C4362E`     | `#F0645C`                                               |
+| `color-info`              | `blue-500`    | `blue-300`                                              |
 
 ### Gradients & glow (the identity signature)
+
 This is what makes the palette memorable rather than "blue like everyone else":
 
-| Token | Definition | Usage |
-|---|---|---|
-| `gradient-brand-text` | linear-gradient, `blue-600 → blue-900`, 135° | Hero headline accent words only (used sparingly — one phrase per chapter max) |
-| `gradient-brand-cta` | linear-gradient, `blue-500 → blue-700`, 120° | Primary button fill |
-| `glow-ambient` | radial-gradient, `blue-600` at 18% opacity → transparent, large radius (600–900px) | Background ambient glow behind Company Brain graph, hero sections — dark mode only, near-invisible in light mode |
-| `glow-focus` | radial-gradient, `blue-500` at 30% opacity → transparent, small radius (200–300px) | Behind interactive graph nodes on hover/active |
+| Token                 | Definition                                                                         | Usage                                                                                                            |
+| --------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `gradient-brand-text` | linear-gradient, `blue-600 → blue-900`, 135°                                       | Hero headline accent words only (used sparingly — one phrase per chapter max)                                    |
+| `gradient-brand-cta`  | linear-gradient, `blue-500 → blue-700`, 120°                                       | Primary button fill                                                                                              |
+| `glow-ambient`        | radial-gradient, `blue-600` at 18% opacity → transparent, large radius (600–900px) | Background ambient glow behind Company Brain graph, hero sections — dark mode only, near-invisible in light mode |
+| `glow-focus`          | radial-gradient, `blue-500` at 30% opacity → transparent, small radius (200–300px) | Behind interactive graph nodes on hover/active                                                                   |
 
 ### Glass surfaces
-| Token | Definition | Usage |
-|---|---|---|
-| `glass-surface` | background `rgba(255,255,255,0.04)` (dark) / `rgba(255,255,255,0.6)` (light), backdrop-blur 20px, 1px border `color-border-default` | Nav bar, floating cards over the graph/animation layers, modals |
-| `glass-border-glow` | 1px border, `blue-500` at 24% opacity | Edge highlight on glass surfaces in dark mode only — light mode uses plain `color-border-default` (glow reads as a smudge on white, not premium) |
+
+| Token               | Definition                                                                                                                          | Usage                                                                                                                                            |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `glass-surface`     | background `rgba(255,255,255,0.04)` (dark) / `rgba(255,255,255,0.6)` (light), backdrop-blur 20px, 1px border `color-border-default` | Nav bar, floating cards over the graph/animation layers, modals                                                                                  |
+| `glass-border-glow` | 1px border, `blue-500` at 24% opacity                                                                                               | Edge highlight on glass surfaces in dark mode only — light mode uses plain `color-border-default` (glow reads as a smudge on white, not premium) |
 
 **Rule:** glass and glow effects are dark-mode-forward. In light mode they're dialed down substantially or omitted — glow effects that look premium on near-black backgrounds usually look like a rendering bug on near-white ones.
 
@@ -121,18 +128,18 @@ This is what makes the palette memorable rather than "blue like everyone else":
 
 Base unit: **4px**, aligned to Tailwind's default spacing scale (the PRD mandates Tailwind CSS — the token scale should ride the framework's grain, not fight it with a bespoke scale that requires config overrides everywhere).
 
-| Token | Value | Typical usage |
-|---|---|---|
-| `space-1` | 4px | Icon-to-label gap |
-| `space-2` | 8px | Tight inline gaps |
-| `space-3` | 12px | Form field internal padding |
-| `space-4` | 16px | Default component padding |
-| `space-6` | 24px | Card padding |
-| `space-8` | 32px | Gap between related components |
-| `space-12` | 48px | Gap between distinct content blocks |
-| `space-16` | 64px | Sub-section spacing |
-| `space-24` | 96px | Section spacing (mobile/tablet) |
-| `space-32` | 128px | Section spacing (desktop) |
+| Token      | Value | Typical usage                                |
+| ---------- | ----- | -------------------------------------------- |
+| `space-1`  | 4px   | Icon-to-label gap                            |
+| `space-2`  | 8px   | Tight inline gaps                            |
+| `space-3`  | 12px  | Form field internal padding                  |
+| `space-4`  | 16px  | Default component padding                    |
+| `space-6`  | 24px  | Card padding                                 |
+| `space-8`  | 32px  | Gap between related components               |
+| `space-12` | 48px  | Gap between distinct content blocks          |
+| `space-16` | 64px  | Sub-section spacing                          |
+| `space-24` | 96px  | Section spacing (mobile/tablet)              |
+| `space-32` | 128px | Section spacing (desktop)                    |
 | `space-48` | 192px | Chapter-to-chapter spacing on Home (desktop) |
 
 **Rule:** section-level spacing (`space-24`–`space-48`) should scale down proportionally at smaller breakpoints rather than staying fixed — a 192px gap between chapters is cinematic on a 27" display and just empty scrolling on a tablet.
@@ -143,14 +150,14 @@ Base unit: **4px**, aligned to Tailwind's default spacing scale (the PRD mandate
 
 A restrained scale — premium products (Linear, Vercel, Stripe) use fewer radius steps than generic UI kits, applied consistently by component category rather than case-by-case.
 
-| Token | Value | Usage |
-|---|---|---|
-| `radius-xs` | 4px | Badges, tags, checkboxes |
-| `radius-sm` | 8px | Buttons, inputs, small chips |
-| `radius-md` | 12px | Cards, dropdown menus |
-| `radius-lg` | 16px | Modals, large panels, product screenshots/frames |
-| `radius-xl` | 24px | Hero-level containers, the Company Brain graph canvas frame |
-| `radius-full` | 9999px | Pills, avatars, the theme toggle |
+| Token         | Value  | Usage                                                       |
+| ------------- | ------ | ----------------------------------------------------------- |
+| `radius-xs`   | 4px    | Badges, tags, checkboxes                                    |
+| `radius-sm`   | 8px    | Buttons, inputs, small chips                                |
+| `radius-md`   | 12px   | Cards, dropdown menus                                       |
+| `radius-lg`   | 16px   | Modals, large panels, product screenshots/frames            |
+| `radius-xl`   | 24px   | Hero-level containers, the Company Brain graph canvas frame |
+| `radius-full` | 9999px | Pills, avatars, the theme toggle                            |
 
 No arbitrary in-between values (e.g., no 10px, no 20px) — consistency here is what separates "designed system" from "whatever felt right at the time."
 
@@ -161,26 +168,29 @@ No arbitrary in-between values (e.g., no 10px, no 20px) — consistency here is 
 Governs Framer Motion usage per [`docs/product/prd.md`](../../docs/product/prd.md) §9 ("animations must feel meaningful, no random floating elements").
 
 ### Durations
-| Token | Value | Usage |
-|---|---|---|
-| `motion-instant` | 100ms | Micro-feedback (button press, checkbox toggle) |
-| `motion-fast` | 180ms | Hover states, tooltips |
-| `motion-base` | 280ms | Default transitions — modals opening, dropdowns |
-| `motion-slow` | 450ms | Section reveals, staggered list items |
+
+| Token              | Value      | Usage                                                                                        |
+| ------------------ | ---------- | -------------------------------------------------------------------------------------------- |
+| `motion-instant`   | 100ms      | Micro-feedback (button press, checkbox toggle)                                               |
+| `motion-fast`      | 180ms      | Hover states, tooltips                                                                       |
+| `motion-base`      | 280ms      | Default transitions — modals opening, dropdowns                                              |
+| `motion-slow`      | 450ms      | Section reveals, staggered list items                                                        |
 | `motion-cinematic` | 700–1000ms | Chapter transitions, the Company Brain graph assembling, page-level scroll-triggered reveals |
 
 ### Easing
-| Token | Curve | Usage |
-|---|---|---|
-| `ease-standard` | `cubic-bezier(0.16, 1, 0.3, 1)` (expo-out) | Default for nearly everything — fast start, gentle settle. This single curve is what gives Linear/Vercel-style UI its "premium" feel; overuse of `ease-in-out` is what makes generic sites feel sluggish. |
-| `ease-in` | `cubic-bezier(0.4, 0, 1, 1)` | Elements leaving the screen |
-| `ease-spring-ui` | Framer spring: `stiffness 260, damping 26, mass 1` | Interactive elements users directly manipulate (drag, toggle, graph node press) |
-| `ease-spring-ambient` | Framer spring: `stiffness 80, damping 20, mass 1.2` | Ambient/background motion (floating glow, idle graph drift) — slower, heavier, never distracting |
+
+| Token                 | Curve                                               | Usage                                                                                                                                                                                                     |
+| --------------------- | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ease-standard`       | `cubic-bezier(0.16, 1, 0.3, 1)` (expo-out)          | Default for nearly everything — fast start, gentle settle. This single curve is what gives Linear/Vercel-style UI its "premium" feel; overuse of `ease-in-out` is what makes generic sites feel sluggish. |
+| `ease-in`             | `cubic-bezier(0.4, 0, 1, 1)`                        | Elements leaving the screen                                                                                                                                                                               |
+| `ease-spring-ui`      | Framer spring: `stiffness 260, damping 26, mass 1`  | Interactive elements users directly manipulate (drag, toggle, graph node press)                                                                                                                           |
+| `ease-spring-ambient` | Framer spring: `stiffness 80, damping 20, mass 1.2` | Ambient/background motion (floating glow, idle graph drift) — slower, heavier, never distracting                                                                                                          |
 
 ### Principles
+
 1. **Stagger increment:** 40–80ms between siblings in a reveal group — never more than 6–8 items staggered before it reads as slow rather than elegant.
 2. **Parallax ratio:** background layers move at 0.3–0.5x scroll speed relative to foreground; never invert (foreground never moves faster than background).
-3. **One motion idea per section.** A chapter gets *one* signature motion (e.g., Ch.5's graph assembles once) — not simultaneous parallax + stagger + 3D tilt competing for attention.
+3. **One motion idea per section.** A chapter gets _one_ signature motion (e.g., Ch.5's graph assembles once) — not simultaneous parallax + stagger + 3D tilt competing for attention.
 4. **`prefers-reduced-motion`:** every `motion-cinematic` and `motion-slow` transition degrades to a plain opacity cross-fade at `motion-fast` duration. No parallax, no 3D transforms, no auto-playing graph animation — this is not a lesser experience, it's the accessible default rendering of the same content.
 
 ---
@@ -200,14 +210,14 @@ Governs Framer Motion usage per [`docs/product/prd.md`](../../docs/product/prd.m
 
 Premium products avoid heavy drop-shadows (they read as Material Design/dated). Elevation here is communicated primarily through **background lightness shift + hairline borders**, with shadow as a secondary, subtle signal — and the approach differs by theme because shadows barely register on dark backgrounds.
 
-| Level | Light mode | Dark mode | Usage |
-|---|---|---|---|
-| `elevation-0` | flat, no shadow, `color-bg-page` | flat, `color-bg-page` | Page background |
-| `elevation-1` | `color-bg-surface` + 1px border + shadow `0 1px 2px rgba(15,20,35,0.04)` | `color-bg-surface` (one step lighter than page) + 1px border | Cards, static panels |
-| `elevation-2` | `color-bg-surface-raised` + shadow `0 4px 12px rgba(15,20,35,0.08)` | surface one step lighter still + subtle `blue-900` tinted shadow | Hover state of cards, dropdown triggers |
-| `elevation-3` | shadow `0 8px 24px rgba(15,20,35,0.10)` | + faint `glow-focus` bleed | Open dropdowns, popovers |
-| `elevation-4` | shadow `0 16px 40px rgba(15,20,35,0.14)` | + `glass-surface` treatment | Modals, dialogs |
-| `elevation-5` | shadow `0 20px 48px rgba(15,20,35,0.18)` | + `glass-border-glow` | Toasts, command palette, the topmost interactive layer |
+| Level         | Light mode                                                               | Dark mode                                                        | Usage                                                  |
+| ------------- | ------------------------------------------------------------------------ | ---------------------------------------------------------------- | ------------------------------------------------------ |
+| `elevation-0` | flat, no shadow, `color-bg-page`                                         | flat, `color-bg-page`                                            | Page background                                        |
+| `elevation-1` | `color-bg-surface` + 1px border + shadow `0 1px 2px rgba(15,20,35,0.04)` | `color-bg-surface` (one step lighter than page) + 1px border     | Cards, static panels                                   |
+| `elevation-2` | `color-bg-surface-raised` + shadow `0 4px 12px rgba(15,20,35,0.08)`      | surface one step lighter still + subtle `blue-900` tinted shadow | Hover state of cards, dropdown triggers                |
+| `elevation-3` | shadow `0 8px 24px rgba(15,20,35,0.10)`                                  | + faint `glow-focus` bleed                                       | Open dropdowns, popovers                               |
+| `elevation-4` | shadow `0 16px 40px rgba(15,20,35,0.14)`                                 | + `glass-surface` treatment                                      | Modals, dialogs                                        |
+| `elevation-5` | shadow `0 20px 48px rgba(15,20,35,0.18)`                                 | + `glass-border-glow`                                            | Toasts, command palette, the topmost interactive layer |
 
 **Rule:** never stack more than one elevation jump on hover (e.g., `elevation-1 → elevation-2` on hover is correct; jumping straight to `elevation-4` reads as broken, not delightful).
 
@@ -231,14 +241,14 @@ Ties directly to [`docs/product/prd.md`](../../docs/product/prd.md) §13 (WCAG A
 
 Matches the device tiers in the founder's original spec (Desktop, Laptop, Tablet, Large Mobile) plus the explicit <390px lockout, with an added top tier since this is a cinematic, scroll-driven experience that should be designed deliberately for large displays, not just capped at "desktop."
 
-| Token | Range | Treatment |
-|---|---|---|
-| `bp-blocked` | < 390px | Full-screen premium lockout message (per PRD §7) — no layout attempted |
-| `bp-mobile-lg` | 390px – 767px | Single-column, chapters stack vertically, motion reduced to opacity/slide only (no parallax/3D) |
-| `bp-tablet` | 768px – 1023px | Two-column where appropriate, light parallax reintroduced |
-| `bp-laptop` | 1024px – 1365px | Full experience, standard parallax/stagger |
-| `bp-desktop` | 1366px – 1919px | Full experience, baseline design target |
-| `bp-desktop-xl` | ≥ 1920px | Content max-width capped (`~1440–1600px` reading/visual column) and centered — never stretch the cinematic layout edge-to-edge on ultrawide/large displays; excess space becomes ambient glow/background, not stretched content |
+| Token           | Range           | Treatment                                                                                                                                                                                                                       |
+| --------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `bp-blocked`    | < 390px         | Full-screen premium lockout message (per PRD §7) — no layout attempted                                                                                                                                                          |
+| `bp-mobile-lg`  | 390px – 767px   | Single-column, chapters stack vertically, motion reduced to opacity/slide only (no parallax/3D)                                                                                                                                 |
+| `bp-tablet`     | 768px – 1023px  | Two-column where appropriate, light parallax reintroduced                                                                                                                                                                       |
+| `bp-laptop`     | 1024px – 1365px | Full experience, standard parallax/stagger                                                                                                                                                                                      |
+| `bp-desktop`    | 1366px – 1919px | Full experience, baseline design target                                                                                                                                                                                         |
+| `bp-desktop-xl` | ≥ 1920px        | Content max-width capped (`~1440–1600px` reading/visual column) and centered — never stretch the cinematic layout edge-to-edge on ultrawide/large displays; excess space becomes ambient glow/background, not stretched content |
 
 ---
 
@@ -247,7 +257,7 @@ Matches the device tiers in the founder's original spec (Desktop, Laptop, Tablet
 Dark mode is treated as the **primary designed experience**, not a CSS-filter inversion of light mode — consistent with the brand mandate that glows/glass/gradients are dark-mode-forward (§2).
 
 - **Base:** deep navy-black (`neutral-950`, §2) rather than true black — true black next to the `blue-900`/`blue-950` glow tokens produces harsh, unpleasant contrast; a navy-tinted dark keeps everything feeling like one coherent hue family.
-- **Accent recalibration:** `color-accent` shifts from `blue-600` (light) to the lighter `blue-500` (dark) — the same hex value that's a confident accent on white becomes murky and low-contrast on near-black, so the token *value* changes per theme even though its *role* doesn't.
+- **Accent recalibration:** `color-accent` shifts from `blue-600` (light) to the lighter `blue-500` (dark) — the same hex value that's a confident accent on white becomes murky and low-contrast on near-black, so the token _value_ changes per theme even though its _role_ doesn't.
 - **Elevation via lightness, not shadow:** each elevation step in dark mode gets progressively lighter background rather than a heavier shadow (shadows don't read on dark backgrounds) — see §7 table.
 - **Glow and glass are amplified:** ambient background glows, graph-node glows, and glass blur are all more pronounced in dark mode — this is deliberate, not an inconsistency between themes.
 - **Theme switching:** instant token swap, no cross-fade animation longer than `motion-fast` (180ms) — a slow theme-transition animation reads as gimmicky on repeated toggling, which is exactly what happens when someone is testing it (a tracked GA4 event per PRD §10).
@@ -273,6 +283,7 @@ space-6                   →   space-card-padding            →   card-padding
 Examples: `color-bg-surface-hover`, `color-text-accent-default`, `space-inline-md`, `radius-card`, `motion-duration-cinematic`, `motion-ease-standard`.
 
 **Rules:**
+
 1. Components reference **semantic** tokens only. If a component needs something a semantic token doesn't cover, add a new semantic token — never reach back to a primitive (`blue-600`) from component-level styling.
 2. Every semantic color token must resolve in **both** themes — a token that's only defined for light mode isn't done.
 3. Component-level tokens (tier 3) are the exception, not the rule — introduce one only when a component's need is genuinely narrower than any existing semantic token, not as a default habit.
@@ -290,7 +301,7 @@ Tokens are specified as values/rules in this document only. No `tailwind.config`
 
 ## Future Improvements
 
-- Once implemented, this document should link to the actual token source file (e.g., `tailwind.config.ts` or `tokens.css`) rather than being the only place values live — at that point this doc becomes the *rationale* layer, and the config becomes the *source of truth* layer.
+- Once implemented, this document should link to the actual token source file (e.g., `tailwind.config.ts` or `tokens.css`) rather than being the only place values live — at that point this doc becomes the _rationale_ layer, and the config becomes the _source of truth_ layer.
 - Add a visual token reference (Storybook or a static token-preview page) once components exist — a markdown table of hex values is a starting point, not a permanent substitute for seeing them rendered.
 
 ## TODO
@@ -311,5 +322,6 @@ Tokens are specified as values/rules in this document only. No `tailwind.config`
 - [`accessibility.md`](./accessibility.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Design/Engineering (TODO: assign a DRI)

@@ -43,5 +43,6 @@ Once a real backend is built (post-launch, per the roadmap in `docs/product/visi
 - [`repository.md`](./repository.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

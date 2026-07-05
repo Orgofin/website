@@ -22,41 +22,49 @@ Flagged as missing in [`prd.md`](./prd.md) §20.4 — a short working version so
 ## 1. Home (`/`)
 
 ### Chapter 1 — The World Today
+
 **Headline:** Your company runs on twenty tools that have never met each other.
 **Sub-headline:** Payroll doesn't talk to accounting. Support doesn't talk to sales. And no one — not even your AI copilot — sees the whole picture.
 **Microcopy (scroll prompt):** Scroll to see the cost.
 
 ### Chapter 2 — The Hidden Cost
+
 **Headline:** Fragmentation isn't an inconvenience. It's a line item.
 **Sub-headline:** A 200-person company spends $52,000–$220,000 a year — ₹1.5 crore or more — keeping tools that don't talk to each other.
 **Section copy (cost breakdown, condensed for visual treatment):**
+
 - HR & Payroll — $8,000–$24,000/yr
 - Finance — $2,400–$12,000/yr
 - Sales & CRM — $12,000–$60,000/yr
 - Customer Support — $6,000–$30,000/yr
 - Collaboration — $12,000–$36,000/yr
 - IT & Security — $8,000–$40,000/yr
-**Kicker line:** Zero unified context. Every time.
+  **Kicker line:** Zero unified context. Every time.
 
 ### Chapter 3 — There Must Be A Better Way
+
 **Headline:** What if your company had one brain instead of twenty tools?
-**Sub-headline:** *(transition beat — kept to a single line, no body copy)*
+**Sub-headline:** _(transition beat — kept to a single line, no body copy)_
 
 ### Chapter 4 — Introducing Company Brain
+
 **Headline:** Meet the Company Brain.
 **Sub-headline:** One living map of your company — every employee, every invoice, every customer, every decision — connected, not siloed.
 **Section copy:** Not a dashboard. Not a data warehouse. A real-time graph that updates the moment anything happens in your business — so every question has an answer, instantly.
 
 ### Chapter 5 — Visualize the Company Brain
+
 **Headline:** Everything connected. Nothing lost.
 **Sub-headline:** "Employee A approved Invoice B for Project C, billed to Customer D." One line most software can't draw. Company Brain draws it automatically.
 **Microcopy (interactive graph):** Click a node to see how it connects.
 
 ### Chapter 6 — AI Agents
+
 **Headline:** Digital employees, not chatbots.
 **Sub-headline:** Orgofin agents don't wait to be asked. They work.
 **Section copy (the vignette):**
 Every morning, before you've opened your laptop, your CEO Intelligence Agent has already —
+
 - Flagged that payroll in Hyderabad rose 11%, traced to three hires approved last Tuesday
 - Noticed a key customer has gone quiet for six weeks, and drafted an outreach email
 - Spotted 23 days of inventory left on a critical SKU, and raised a draft purchase order
@@ -66,36 +74,43 @@ Every morning, before you've opened your laptop, your CEO Intelligence Agent has
 This isn't automation. It's a company that runs on intelligence.
 
 ### Chapter 7 — Enterprise OS
+
 **Headline:** Stop paying for twenty apps. Start running on one brain.
 **Sub-headline:** Old way: Tally + Zoho + Keka + Slack + Jira, none of them speaking the same language. New way: Orgofin.
 **Closing line:** Enterprise software was built tool by tool. Orgofin was built brain first — the products came after.
 
-### Chapter 7.5 — Why We Win *(new chapter, per Strategy §5.1)*
+### Chapter 7.5 — Why We Win _(new chapter, per Strategy §5.1)_
+
 **Headline:** Everyone else connects tools. We started with the brain.
 **Sub-headline:** Zoho has 45+ products and no shared graph. Salesforce costs $150–300 a user and only sees your CRM. SAP takes ₹50L and a year to implement. Orgofin was never built that way.
 **Callout copy:** The fundamental difference: every competitor builds products, then tries to connect them. Orgofin builds the brain first — the products emerge from it.
 
 ### Chapter 8 — Roadmap
+
 **Headline:** We start where the pain is worst.
 **Sub-headline:** Orgofin HRMS first — hire to retire, India compliance built in, not bolted on. Then Finance. Then CRM. Then everything else.
 **Module chips (sequence):** HRMS → Books → CRM → Desk → Workspace → Analytics → Company Brain API → Agent Marketplace → Enterprise OS
 
-### Chapter 8.5 — Why Now *(new chapter, per Strategy §5.2)*
+### Chapter 8.5 — Why Now _(new chapter, per Strategy §5.2)_
+
 **Headline:** This is the moment fragmented software runs out of road.
 **Section copy:**
+
 - AI can finally run multi-step business work, not just answer questions.
 - India's GST, DPDP, and e-invoicing mandates are forcing 60 million SMEs to modernize.
 - The average company spends $3,500 per employee, per year, on tools that don't talk to each other.
 - No India-born company has tried to build the full stack since Zoho.
-**Closing line:** The fragmented SaaS era is ending. We intend to be what replaces it.
+  **Closing line:** The fragmented SaaS era is ending. We intend to be what replaces it.
 
 ### Chapter 9 — Vision
+
 **Headline:** The Operating System for Every Company.
 **Sub-headline:** Windows became the OS for the PC. iOS became the OS for mobile. Orgofin is becoming the OS for the company itself.
 **Closing line:** We are not building another SaaS tool. We are building the last platform a company will ever need.
 **Link-out microcopy:** Read the full vision →
 
 ### Chapter 10 — Waiting List
+
 **Headline:** Be early to the Company Brain.
 **Sub-headline:** Join founders and operators who are done paying for fragmentation.
 **CTA button:** Join the Waitlist
@@ -128,7 +143,7 @@ This isn't automation. It's a company that runs on intelligence.
 **Headline:** It gets smarter the longer you use it.
 **Body:** Company Brain learns your approval thresholds, your reporting preferences, your seasonal patterns. The longer you stay, the more it understands.
 
-**CTA:** See how agents use the Brain → *(links to Home Ch.6 / `/agents`)* · Join the Waitlist
+**CTA:** See how agents use the Brain → _(links to Home Ch.6 / `/agents`)_ · Join the Waitlist
 
 ---
 
@@ -141,20 +156,21 @@ This isn't automation. It's a company that runs on intelligence.
 **Hero sub-headline:** Not 40 separate products. One brain, expressed as 40+ modules — each one smarter because of everything around it.
 
 **Suite one-liners** (badge each **Available Now** or **Roadmap** — resolves the MVP-vs-roadmap conflict in [`prd.md`](./prd.md) §19.4):
-- **HR & People — Orgofin HRMS** *(Available Now)*: Hire to retire, fully automated — India compliance from day one.
-- **Finance & Operations — Orgofin Books** *(Available Now)*: GST-native accounting that never needs a manual reconciliation again.
-- **Sales & Revenue — Orgofin CRM** *(Roadmap)*: WhatsApp-native CRM that already knows the customer's billing history.
-- **Support & CX — Orgofin CX** *(Roadmap)*: Support that sees the invoice, the contract, and the ticket — together.
-- **Collaboration — Orgofin Workspace** *(Available Now: Mail, Chat)*: Mail and chat that already understand your business, not just your inbox.
-- **IT & Security — Orgofin IT Ops** *(Roadmap)*: Identity, device, and access management with India data residency.
-- **Data, AI & Automation — Orgofin Intelligence** *(Roadmap)*: Analytics and automation that read the same brain as everything else.
-- **Compliance & Admin — Orgofin Governance** *(Available Now: e-Invoicing/GST Suite, Sign)*: GST e-invoicing, audit trails, and DPDP-ready consent management.
+
+- **HR & People — Orgofin HRMS** _(Available Now)_: Hire to retire, fully automated — India compliance from day one.
+- **Finance & Operations — Orgofin Books** _(Available Now)_: GST-native accounting that never needs a manual reconciliation again.
+- **Sales & Revenue — Orgofin CRM** _(Roadmap)_: WhatsApp-native CRM that already knows the customer's billing history.
+- **Support & CX — Orgofin CX** _(Roadmap)_: Support that sees the invoice, the contract, and the ticket — together.
+- **Collaboration — Orgofin Workspace** _(Available Now: Mail, Chat)_: Mail and chat that already understand your business, not just your inbox.
+- **IT & Security — Orgofin IT Ops** _(Roadmap)_: Identity, device, and access management with India data residency.
+- **Data, AI & Automation — Orgofin Intelligence** _(Roadmap)_: Analytics and automation that read the same brain as everything else.
+- **Compliance & Admin — Orgofin Governance** _(Available Now: e-Invoicing/GST Suite, Sign)_: GST e-invoicing, audit trails, and DPDP-ready consent management.
 
 **CTA:** Join the Waitlist · Request a Demo
 
 ---
 
-## 4. Security & Compliance (`/security`) *(new page, per Strategy §5)*
+## 4. Security & Compliance (`/security`) _(new page, per Strategy §5)_
 
 **SEO title:** Security & Compliance — Data Residency, DPDP, and GDPR-Ready | Orgofin
 **Meta description:** Orgofin is built for India-first compliance — DPDP Act, GST e-invoicing, and data residency in India, UK, and US — with the same rigor we sell, applied to how we handle your data.
@@ -216,6 +232,7 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 **Section — Market**
 **Headline:** $500B+ today. Nearly $1T by 2030.
 **Body:** Our serviceable market across India, UK, and US SMB/mid-market — HRMS, Finance, and Collaboration — is roughly $1.73B over the next three years. We're targeting $2–5M ARR in Year 1, $20–40M by Year 3, $100–200M by Year 5.
+
 > ⚠️ **Do not publish these TAM figures as final** — [`prd.md`](./prd.md) §19.1 flags two conflicting TAM tables in the source PDF. Reconcile with founders before this goes live.
 
 **Section — Why We Win**
@@ -225,6 +242,7 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 **Section — The Six Moats**
 **Headline:** Why this gets harder to copy, not easier, over time.
 **Body:**
+
 1. Organisational memory that compounds with every customer.
 2. Data network effects across thousands of Indian SMBs.
 3. India compliance depth competitors won't easily replicate.
@@ -242,27 +260,28 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 
 ## 7. Investor Data Room (`/investors/data-room`)
 
-**SEO title:** Investor Data Room | Orgofin *(recommend `noindex, nofollow` — gated content)*
+**SEO title:** Investor Data Room | Orgofin _(recommend `noindex, nofollow` — gated content)_
 
 **Headline:** Everything you need to evaluate Orgofin.
 **Sub-headline:** Deck, financial model, and product walkthrough — shared directly, not published.
 **Form helper text:** Enter your email and firm name — we'll follow up personally, not with an autoresponder.
-**Form fields:** Full name · Work email · Firm / Fund · Check size *(optional)*
+**Form fields:** Full name · Work email · Firm / Fund · Check size _(optional)_
 **Button:** Request Access
 **Success message:** Request received. A founder will follow up within 48 hours.
 
 ---
 
-## 8. Team (`/team`) *(new page, per PRD §18.1)*
+## 8. Team (`/team`) _(new page, per PRD §18.1)_
 
 **SEO title:** Team — The People Building Orgofin
 **Meta description:** Meet the founders and team behind Orgofin — building the Company Brain and Agent-as-a-Service platform for enterprise.
 
 **Headline:** Built by people who've lived the problem.
+
 > ⚠️ **Placeholder — no founder names, titles, or bios exist in the source PDF or PRD.** This is the one page in the whole deck that cannot be ghostwritten responsibly. Structure below; content pending from the founders directly.
 
 **Per-founder template:**
-**[Founder Name]** — *[Title]*
+**[Founder Name]** — _[Title]_
 [One or two lines: relevant background, why this problem, prior company/experience.]
 
 **Section — We're hiring**
@@ -271,7 +290,7 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 
 ---
 
-## 9. Partners (`/partners`) *(new page, per PRD §18.4 / Strategy §5)*
+## 9. Partners (`/partners`) _(new page, per PRD §18.4 / Strategy §5)_
 
 **SEO title:** Partner With Orgofin — For CA, CS, and HR Consulting Firms
 **Meta description:** Join Orgofin's partner network. India has 350,000 Chartered Accountants — become part of how Orgofin reaches SMEs who need compliance-first enterprise software.
@@ -284,6 +303,7 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 
 **Section — How it works**
 **Body:**
+
 1. Apply and get onboarded.
 2. Introduce Orgofin to clients who are ready.
 3. Earn a 30% referral commission on every subscription, for as long as they stay.
@@ -342,7 +362,7 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 
 **Headline:** Let's talk about your business, not our features.
 **Sub-headline:** Tell us what's broken in your current stack. We'll tell you honestly whether Company Brain fixes it — or if it's not the right time yet.
-**Form fields:** Name · Work email · Company · Company size · What's your biggest pain right now? *(textarea)*
+**Form fields:** Name · Work email · Company · Company size · What's your biggest pain right now? _(textarea)_
 **Button:** Request a Demo
 **Success message:** Thanks — we read every one of these ourselves. Expect a reply within 1–2 business days.
 **Secondary line:** Looking to partner instead? Visit our Partners page →
@@ -370,7 +390,7 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 
 ## 16. Small-Screen Block (<390px)
 
-*(Kept verbatim from the founder's original handwritten PRD — already on-brand, no changes needed.)*
+_(Kept verbatim from the founder's original handwritten PRD — already on-brand, no changes needed.)_
 
 > "Orgofin is best experienced on a larger screen. We're building an immersive experience to showcase the future of enterprise software. Please switch to a tablet or desktop."
 
@@ -387,7 +407,7 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 
 - **Nav CTA button:** Join the Waitlist
 - **Theme toggle (aria-label/tooltip):** "Switch to dark mode" / "Switch to light mode"
-- **Waitlist form fields:** Name*, Email*, Company*, Role, Country, Company Size, Products Interested In *(multi-select: HRMS, Finance, CRM, Support, Collaboration, IT, Compliance)*, Notes *(optional)*
+- **Waitlist form fields:** Name*, Email*, Company*, Role, Country, Company Size, Products Interested In _(multi-select: HRMS, Finance, CRM, Support, Collaboration, IT, Compliance)_, Notes _(optional)_
 - **Waitlist submit button:** Join the Waitlist
 - **Waitlist success message:** You're on the list. Welcome to the early group.
 - **Waitlist generic error message:** Something went wrong on our end — try again, or email us directly at [support email].
@@ -405,8 +425,9 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 **Tagline under logo:** The Operating System for Every Company.
 **Column headers:** Platform · Company · Investors · Legal
 **Column links:**
+
 - Platform: Company Brain · AI Agents · Products · Security
 - Company: About · Team · Careers · Blog · Contact
 - Investors: Investors · Data Room · Partners
 - Legal: Privacy Policy · Terms
-**Bottom bar:** © [Year] Orgofin. All rights reserved. · India → UK → USA · Privacy · Terms
+  **Bottom bar:** © [Year] Orgofin. All rights reserved. · India → UK → USA · Privacy · Terms

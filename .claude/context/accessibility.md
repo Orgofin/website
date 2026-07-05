@@ -7,7 +7,7 @@
 
 ## Responsibilities
 
-Owns the *requirement* (what must be true, at what standard). `frontend.md` §7 owns the implementation approach. `design-system.md` §8 owns the specific contrast/sizing values these requirements are checked against.
+Owns the _requirement_ (what must be true, at what standard). `frontend.md` §7 owns the implementation approach. `design-system.md` §8 owns the specific contrast/sizing values these requirements are checked against.
 
 ## Non-Negotiable Rules
 
@@ -47,5 +47,6 @@ Once components exist, consider a periodic manual screen-reader pass (VoiceOver/
 - [`testing.md`](./testing.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

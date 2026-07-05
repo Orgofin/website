@@ -21,14 +21,14 @@ Agent-as-a-Service — the layer that sits on top of [Company Brain](./company-b
 
 ## The Named Agents (per the source PDF's V1–V3 roadmap)
 
-| Agent | Function | Modules Used | Phase |
-|---|---|---|---|
-| HR Operations Agent | Processes onboarding, offboarding, leave approvals, payroll queries | HRMS, Payroll, Attendance, Sign | V1 |
-| Finance Agent | Reconciles bank statements, flags anomalies, generates GST reports | Books, Expenses, GST Suite | V2 |
-| Sales Agent | Enriches leads, drafts proposals, follows up on stalled deals | CRM, CPQ, Sign, Mail | V2 |
-| Support Agent | Resolves L1 tickets, escalates L2+, updates CRM automatically | Desk, Chat, CRM, Books | V2 |
-| Compliance Agent | Monitors regulatory changes, flags violations, auto-files returns | GST Suite, Compliance Center, Payroll | V3 |
-| CEO Intelligence Agent | Daily business briefing, anomaly alerts, strategic recommendations | All modules | V3 |
+| Agent                  | Function                                                            | Modules Used                          | Phase |
+| ---------------------- | ------------------------------------------------------------------- | ------------------------------------- | ----- |
+| HR Operations Agent    | Processes onboarding, offboarding, leave approvals, payroll queries | HRMS, Payroll, Attendance, Sign       | V1    |
+| Finance Agent          | Reconciles bank statements, flags anomalies, generates GST reports  | Books, Expenses, GST Suite            | V2    |
+| Sales Agent            | Enriches leads, drafts proposals, follows up on stalled deals       | CRM, CPQ, Sign, Mail                  | V2    |
+| Support Agent          | Resolves L1 tickets, escalates L2+, updates CRM automatically       | Desk, Chat, CRM, Books                | V2    |
+| Compliance Agent       | Monitors regulatory changes, flags violations, auto-files returns   | GST Suite, Compliance Center, Payroll | V3    |
+| CEO Intelligence Agent | Daily business briefing, anomaly alerts, strategic recommendations  | All modules                           | V3    |
 
 ## Multi-Agent Collaboration Protocol
 
@@ -65,5 +65,6 @@ None — faithful, complete extraction of the source PDF's AGaaS material.
 - [`enterprise-os.md`](./enterprise-os.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Product (TODO: assign a DRI)

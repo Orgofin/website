@@ -15,13 +15,13 @@ Owns the 10-year vision and roadmap horizons, sourced from `orgofin-idea.pdf` §
 
 ## The Evolution Roadmap
 
-| Horizon | Timeline | Milestone | Revenue Target |
-|---|---|---|---|
-| H1: HRMS Wedge | 0–12 months | Best HRMS in India; 500+ customers; AI-native payroll-to-retire | $2–5M ARR |
-| H2: Full-Stack SMB OS | 12–36 months | HRMS + Finance + CRM + Desk + Workspace live; 3,000+ customers; UK/US launched | $20–40M ARR |
-| H3: AGaaS Platform | 36–60 months | Agent Marketplace live; 10,000+ customers; AGaaS >30% of revenue | $100–200M ARR |
-| H4: Company Brain as Platform | 5–8 years | Third-party developers build on Orgofin's Company Brain API; ecosystem of 10,000+ agents | $500M+ ARR |
-| H5: Enterprise OS | 8–12 years | Orgofin is the default OS for mid-market companies globally; IPO or strategic exit | $1B+ ARR |
+| Horizon                       | Timeline     | Milestone                                                                                | Revenue Target |
+| ----------------------------- | ------------ | ---------------------------------------------------------------------------------------- | -------------- |
+| H1: HRMS Wedge                | 0–12 months  | Best HRMS in India; 500+ customers; AI-native payroll-to-retire                          | $2–5M ARR      |
+| H2: Full-Stack SMB OS         | 12–36 months | HRMS + Finance + CRM + Desk + Workspace live; 3,000+ customers; UK/US launched           | $20–40M ARR    |
+| H3: AGaaS Platform            | 36–60 months | Agent Marketplace live; 10,000+ customers; AGaaS >30% of revenue                         | $100–200M ARR  |
+| H4: Company Brain as Platform | 5–8 years    | Third-party developers build on Orgofin's Company Brain API; ecosystem of 10,000+ agents | $500M+ ARR     |
+| H5: Enterprise OS             | 8–12 years   | Orgofin is the default OS for mid-market companies globally; IPO or strategic exit       | $1B+ ARR       |
 
 ## Go-to-Market Phasing
 
@@ -61,5 +61,6 @@ Revisit this document if the roadmap is formally revised — it should always re
 - [`../architecture/platform-overview.md`](../architecture/platform-overview.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Founders (TODO: assign a DRI)
