@@ -15,7 +15,7 @@ A point-in-time technical decision with real alternatives that were considered �
 
 ## Naming & Numbering
 
-`NNNN-short-title.md` — zero-padded four-digit sequence, permanent once assigned. If a decision is later superseded, mark the old ADR **Superseded by ADR-NNNN** in its own Status field — never renumber or delete it. The record of *why* something used to be true is as valuable as the current decision.
+`NNNN-short-title.md` — zero-padded four-digit sequence, permanent once assigned. If a decision is later superseded, mark the old ADR **Superseded by ADR-NNNN** in its own Status field — never renumber or delete it. The record of _why_ something used to be true is as valuable as the current decision.
 
 ## Template
 
@@ -26,15 +26,19 @@ A point-in-time technical decision with real alternatives that were considered �
 **Date:** YYYY-MM-DD
 
 ## Context
+
 What situation/problem prompted this decision.
 
 ## Decision
+
 What was decided.
 
 ## Alternatives Considered
+
 What else was on the table, and why it wasn't chosen.
 
 ## Consequences
+
 What this makes easier, harder, or possible later — including honest trade-offs, not just upside.
 ```
 
@@ -59,5 +63,6 @@ None.
 - [`../../.claude/context/workflows.md`](../../.claude/context/workflows.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

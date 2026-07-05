@@ -7,13 +7,14 @@
 
 ## Responsibilities
 
-This file owns the *judgment call* — should this thing animate, and why. It does not own token values (durations/easings live in `design-system.md`) or implementation (component structure lives in `frontend.md`). If you're choosing a duration in milliseconds, you're in the wrong document.
+This file owns the _judgment call_ — should this thing animate, and why. It does not own token values (durations/easings live in `design-system.md`) or implementation (component structure lives in `frontend.md`). If you're choosing a duration in milliseconds, you're in the wrong document.
 
 ## The founding principle
 
 The original, and still the test every animation decision should pass:
 
 > Animations should:
+>
 > - Enhance usability
 > - Not distract
 > - Be subtle
@@ -24,7 +25,7 @@ Everything below is an elaboration of this, not a replacement for it.
 
 ## Elaboration
 
-- **No random floating elements.** An animation must be *about* something — revealing content, indicating a relationship, confirming an action. "It looked cool in isolation" is not a reason to ship it.
+- **No random floating elements.** An animation must be _about_ something — revealing content, indicating a relationship, confirming an action. "It looked cool in isolation" is not a reason to ship it.
 - **One signature motion per section.** If a section combines parallax and stagger and a 3D transform simultaneously, that's a defect, not richness — see `design-system.md` §5 principle 3.
 - **`prefers-reduced-motion` is not an afterthought toggle.** It's a first-class rendering path — every `motion-cinematic`/`motion-slow` transition has a defined, equally complete reduced-motion equivalent (opacity-only, at `motion-fast` duration). See `frontend.md` §7 and §10.
 - **Framer Motion is the only animation library.** Not GSAP, not raw CSS keyframes scattered through components, not a second library for "just this one effect." Consistency of implementation is what keeps 40+ future sections maintainable.
@@ -54,5 +55,6 @@ Once the first chapter animations are built, consider whether this document need
 - [`frontend.md`](./frontend.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Design/Engineering (TODO: assign a DRI)

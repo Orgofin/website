@@ -15,14 +15,14 @@ Owns the long-term, full-platform architecture (HRMS + Finance + CRM + Company B
 
 ## The Six-Layer Stack (per the source PDF §4.1)
 
-| Layer | Name | Responsibility | Example Technologies Named in Source |
-|---|---|---|---|
-| L6 | Application Layer | 40+ product modules (HRMS, Books, CRM, Desk, etc.) | React, Next.js, Module Federation |
-| L5 | Agent Layer (AGaaS) | Autonomous agents, multi-agent orchestration, task execution | LangGraph, AutoGen, Custom Agent Runtime |
-| L4 | Workflow Engine | Business process automation, approvals, triggers, state machines | Temporal.io, BPMN, Custom Rule Engine |
-| L3 | Company Brain | Entity graph, organisational memory, context engine, semantic search | Neo4j, pgvector, Qdrant, Knowledge Graph |
-| L2 | Data & Integration Layer | Event bus, CDC, API gateway, external connectors, iPaaS | Kafka, Debezium, Kong, Webhooks |
-| L1 | Infrastructure | Multi-tenant cloud, India/UK/US data centres, encryption, DR | AWS/GCP, Kubernetes, Terraform |
+| Layer | Name                     | Responsibility                                                       | Example Technologies Named in Source     |
+| ----- | ------------------------ | -------------------------------------------------------------------- | ---------------------------------------- |
+| L6    | Application Layer        | 40+ product modules (HRMS, Books, CRM, Desk, etc.)                   | React, Next.js, Module Federation        |
+| L5    | Agent Layer (AGaaS)      | Autonomous agents, multi-agent orchestration, task execution         | LangGraph, AutoGen, Custom Agent Runtime |
+| L4    | Workflow Engine          | Business process automation, approvals, triggers, state machines     | Temporal.io, BPMN, Custom Rule Engine    |
+| L3    | Company Brain            | Entity graph, organisational memory, context engine, semantic search | Neo4j, pgvector, Qdrant, Knowledge Graph |
+| L2    | Data & Integration Layer | Event bus, CDC, API gateway, external connectors, iPaaS              | Kafka, Debezium, Kong, Webhooks          |
+| L1    | Infrastructure           | Multi-tenant cloud, India/UK/US data centres, encryption, DR         | AWS/GCP, Kubernetes, Terraform           |
 
 > ⚠️ **Named but unreconciled in the source material:** L5 lists three different agent-orchestration approaches (LangGraph, AutoGen, and a "Custom Agent Runtime") without specifying which is canonical. L3 lists three different graph/vector stores (Neo4j, pgvector, Qdrant) without specifying which does what. These are open technical decisions, not settled architecture — do not treat this table as a finalized stack choice.
 
@@ -53,5 +53,6 @@ When the actual product (HRMS backend, Company Brain, agent runtime) begins impl
 - [`../../.claude/context/architecture.md`](../../.claude/context/architecture.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering Leadership (TODO: assign a DRI)

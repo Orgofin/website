@@ -19,14 +19,14 @@ Owns voice, tone, and brand personality. Does not own the actual page-by-page co
 - **Plain English before jargon.** "Company Brain" and "AGaaS" always get a one-sentence plain-language translation before or alongside the term — see the Company Brain hero copy in `docs/product/copy.md` §2 for the reference example.
 - **Show, don't sell.** Prefer the CEO Intelligence Agent vignette style — concrete, specific, almost boring in its factual detail — over adjectives about "the future of work."
 
-## Brand Personality *(synthesized, unconfirmed — see status flag above)*
+## Brand Personality _(synthesized, unconfirmed — see status flag above)_
 
 Inferred from the tone and word choice of the source vision document:
 
 - **Category-defining, not incremental** — "we don't build tools, we build the brain."
 - **Anti-fragmentation, pro-consolidation** — near-evangelical about "one subscription" replacing vendor sprawl.
 - **Technically confident / architecture-forward** — leads with graph/event/agent architecture even in investor-facing material, unusual restraint from generic hype language.
-- **Outcome-obsessed, not feature-obsessed** — the CEO Intelligence Agent narrative sells a *result* (a morning briefing that already happened), not a UI.
+- **Outcome-obsessed, not feature-obsessed** — the CEO Intelligence Agent narrative sells a _result_ (a morning briefing that already happened), not a UI.
 
 ## What this voice should never do
 
@@ -57,5 +57,6 @@ Replace the "synthesized" Brand Personality section with a founder-authored one 
 - [`design-system.md`](./design-system.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Founders (voice/personality sign-off pending — see TODO)

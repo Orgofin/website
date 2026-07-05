@@ -7,7 +7,7 @@
 
 ## Responsibilities
 
-Owns the SEO *policy* — what must be true of every page. `frontend.md` §6 owns the *implementation* (which Next.js APIs deliver it). `information-architecture.md` owns the actual route/sitemap inventory these rules apply to.
+Owns the SEO _policy_ — what must be true of every page. `frontend.md` §6 owns the _implementation_ (which Next.js APIs deliver it). `information-architecture.md` owns the actual route/sitemap inventory these rules apply to.
 
 ## Non-Negotiable Rules
 
@@ -44,5 +44,6 @@ Once the site is live, add a recurring SEO audit cadence here (e.g., quarterly L
 - [`information-architecture.md`](./information-architecture.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

@@ -26,15 +26,15 @@ Owns: language/framework conventions, naming, imports, styling, error handling, 
 
 ## Naming Conventions
 
-| What | Convention | Example |
-|---|---|---|
-| Component files | PascalCase | `WaitlistForm.tsx` |
-| Non-component files (hooks, utils, lib) | camelCase | `useReducedMotion.ts`, `trackEvent.ts` |
-| Route folders (App Router) | kebab-case | `app/(marketing)/company-brain/` |
-| CSS/Tailwind — no custom class names | n/a | utility classes only, no bespoke `.hero-title { }` |
-| Design tokens | kebab-case, role-based (see `design-system.md` §11) | `color-accent`, `space-6` |
-| Markdown docs | kebab-case | `frontend-architecture.md` → now `frontend.md` |
-| Environment variables | SCREAMING_SNAKE_CASE, `NEXT_PUBLIC_` prefix only if genuinely needed client-side | `SUPABASE_SERVICE_ROLE_KEY` (server-only, no prefix), `NEXT_PUBLIC_GA_MEASUREMENT_ID` (client-visible, prefixed) |
+| What                                    | Convention                                                                       | Example                                                                                                          |
+| --------------------------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Component files                         | PascalCase                                                                       | `WaitlistForm.tsx`                                                                                               |
+| Non-component files (hooks, utils, lib) | camelCase                                                                        | `useReducedMotion.ts`, `trackEvent.ts`                                                                           |
+| Route folders (App Router)              | kebab-case                                                                       | `app/(marketing)/company-brain/`                                                                                 |
+| CSS/Tailwind — no custom class names    | n/a                                                                              | utility classes only, no bespoke `.hero-title { }`                                                               |
+| Design tokens                           | kebab-case, role-based (see `design-system.md` §11)                              | `color-accent`, `space-6`                                                                                        |
+| Markdown docs                           | kebab-case                                                                       | `frontend-architecture.md` → now `frontend.md`                                                                   |
+| Environment variables                   | SCREAMING_SNAKE_CASE, `NEXT_PUBLIC_` prefix only if genuinely needed client-side | `SUPABASE_SERVICE_ROLE_KEY` (server-only, no prefix), `NEXT_PUBLIC_GA_MEASUREMENT_ID` (client-visible, prefixed) |
 
 ## Imports
 
@@ -84,5 +84,6 @@ Once the first components exist, add a short "before/after" example section here
 - [`workflows.md`](./workflows.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

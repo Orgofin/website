@@ -76,15 +76,15 @@ Proceed without asking when:
 
 The rule, stated once so it doesn't need repeating per-task:
 
-| If this changes... | ...update this |
-|---|---|
+| If this changes...                                  | ...update this                                                                               |
+| --------------------------------------------------- | -------------------------------------------------------------------------------------------- |
 | Architecture (folders, component tiers, strategies) | `.claude/context/frontend.md` (and `architecture.md` if the "current state" summary changes) |
-| Visual design (tokens, colors, spacing) | `.claude/context/design-system.md` |
-| Copy voice or brand direction | `.claude/context/branding.md` |
-| A component's shape/contract | wherever that component is documented in `frontend.md` §3 |
-| Routes/pages/nav | `.claude/context/information-architecture.md` |
-| A workflow or process | this document |
-| A deployment/CI step | `.claude/context/deployment.md` and, if it's a runbook-level change, `docs/deployment/` |
+| Visual design (tokens, colors, spacing)             | `.claude/context/design-system.md`                                                           |
+| Copy voice or brand direction                       | `.claude/context/branding.md`                                                                |
+| A component's shape/contract                        | wherever that component is documented in `frontend.md` §3                                    |
+| Routes/pages/nav                                    | `.claude/context/information-architecture.md`                                                |
+| A workflow or process                               | this document                                                                                |
+| A deployment/CI step                                | `.claude/context/deployment.md` and, if it's a runbook-level change, `docs/deployment/`      |
 
 If none of these obviously fit, that's a signal a new doc is needed — not a reason to skip documenting the change.
 
@@ -110,5 +110,6 @@ Once real PRs start flowing, consider whether a PR template (`.github/PULL_REQUE
 - [`deployment.md`](./deployment.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

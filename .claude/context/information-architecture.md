@@ -67,26 +67,26 @@ Three pages beyond the founder's original page list and beyond `docs/product/prd
 - **Platform** and **Company** are dropdown clusters; everything else is a flat top-level link.
 - **Investors** stays top-level, un-nested — treated as a distinct, high-value audience per `docs/product/website-strategy.md`, not buried in a dropdown.
 - **Join Waitlist** is a persistent button, visually distinct from nav links — the one CTA that matters (see §6).
-- **Partners** is deliberately *not* in the primary nav — reached via footer/direct outreach links, not casual discovery.
+- **Partners** is deliberately _not_ in the primary nav — reached via footer/direct outreach links, not casual discovery.
 
 ## 3. Pages & Sections
 
-| Page | Sections |
-|---|---|
-| **Home** `/` | Ch.1 World Today → Ch.2 Hidden Cost → Ch.3 Better Way → Ch.4 Company Brain intro → Ch.5 The Graph → Ch.6 AI Agents (CEO vignette) → Ch.7 Enterprise OS → Ch.7.5 Why We Win → Ch.8 Roadmap → Ch.8.5 Why Now → Ch.9 Vision teaser → Ch.10 Waitlist |
-| **Company Brain** `/company-brain` | Plain-English hero → Entity graph deep-dive → Context Engine → Decision Intelligence → worked example ("why did Bangalore payroll rise 12%?") → CTA |
-| **Products** `/products` | Suite grid (8 suites) → per-suite anchors, each module tagged **Available** vs **Roadmap** (resolves the MVP-vs-roadmap conflict in `docs/product/prd.md` §19.4) → CTA |
-| **Security** `/security` *(new)* | Data residency (India/UK/US) → DPDP/GDPR/CCPA approach → encryption/access model |
-| **Vision** `/vision` | Full 10-year narrative, Windows/iOS analogy, "Enduring Promise" |
-| **Investors** `/investors` | Why Now → TAM/SAM/SOM → Why We Win/competitors → Six Moats → Roadmap horizons + revenue targets → unit economics → CTA to Data Room |
-| **Investor Data Room** `/investors/data-room` | Gated email capture → deck/one-pager download → optional founder follow-up |
-| **Team** `/team` *(new)* | Founder bios, advisors, "we're hiring" tie-in |
-| **Partners** `/partners` *(new)* | CA/CS channel pitch, referral commission structure, apply CTA |
-| **About** `/about` | Origin story, links to Vision + Team |
-| **Careers** `/careers` | Premium "coming soon" state, culture teaser, register-interest form |
-| **Blog** `/blog` | Compliance-content SEO engine (PF calculator, TDS calculator, Form 16 generator) — category taxonomy from day one |
-| **Contact** `/contact` | Demo request (primary), general inquiry, partner inquiry redirect |
-| **Privacy / Terms** | Framed with a short trust-building intro, not raw legal boilerplate |
+| Page                                          | Sections                                                                                                                                                                                                                                         |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Home** `/`                                  | Ch.1 World Today → Ch.2 Hidden Cost → Ch.3 Better Way → Ch.4 Company Brain intro → Ch.5 The Graph → Ch.6 AI Agents (CEO vignette) → Ch.7 Enterprise OS → Ch.7.5 Why We Win → Ch.8 Roadmap → Ch.8.5 Why Now → Ch.9 Vision teaser → Ch.10 Waitlist |
+| **Company Brain** `/company-brain`            | Plain-English hero → Entity graph deep-dive → Context Engine → Decision Intelligence → worked example ("why did Bangalore payroll rise 12%?") → CTA                                                                                              |
+| **Products** `/products`                      | Suite grid (8 suites) → per-suite anchors, each module tagged **Available** vs **Roadmap** (resolves the MVP-vs-roadmap conflict in `docs/product/prd.md` §19.4) → CTA                                                                           |
+| **Security** `/security` _(new)_              | Data residency (India/UK/US) → DPDP/GDPR/CCPA approach → encryption/access model                                                                                                                                                                 |
+| **Vision** `/vision`                          | Full 10-year narrative, Windows/iOS analogy, "Enduring Promise"                                                                                                                                                                                  |
+| **Investors** `/investors`                    | Why Now → TAM/SAM/SOM → Why We Win/competitors → Six Moats → Roadmap horizons + revenue targets → unit economics → CTA to Data Room                                                                                                              |
+| **Investor Data Room** `/investors/data-room` | Gated email capture → deck/one-pager download → optional founder follow-up                                                                                                                                                                       |
+| **Team** `/team` _(new)_                      | Founder bios, advisors, "we're hiring" tie-in                                                                                                                                                                                                    |
+| **Partners** `/partners` _(new)_              | CA/CS channel pitch, referral commission structure, apply CTA                                                                                                                                                                                    |
+| **About** `/about`                            | Origin story, links to Vision + Team                                                                                                                                                                                                             |
+| **Careers** `/careers`                        | Premium "coming soon" state, culture teaser, register-interest form                                                                                                                                                                              |
+| **Blog** `/blog`                              | Compliance-content SEO engine (PF calculator, TDS calculator, Form 16 generator) — category taxonomy from day one                                                                                                                                |
+| **Contact** `/contact`                        | Demo request (primary), general inquiry, partner inquiry redirect                                                                                                                                                                                |
+| **Privacy / Terms**                           | Framed with a short trust-building intro, not raw legal boilerplate                                                                                                                                                                              |
 
 ## 4. Footer
 
@@ -108,14 +108,14 @@ Exists mainly for crawlability (no orphan pages — every page reachable within 
 
 ## 5. User Journeys
 
-| Persona | Path |
-|---|---|
-| Cold investor | Home (full scroll) → Ch.7.5/Ch.8.5 → `/investors` → `/team` → `/investors/data-room` |
+| Persona             | Path                                                                                                         |
+| ------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Cold investor       | Home (full scroll) → Ch.7.5/Ch.8.5 → `/investors` → `/team` → `/investors/data-room`                         |
 | Founder/CEO in pain | Google "Keka alternative" → `/blog/[compliance-article]` → `/products` (HRMS) → Home → Ch.2 → Ch.10 waitlist |
-| CFO/HR Head | Sent link → skims Home → `/security` (compliance trust check) → `/products` → `/contact` (Request Demo) |
-| Engineer/candidate | Home (notices build quality) → `/company-brain` → `/careers` → `/team` |
-| CA/CS partner | Outreach email → `/partners` → `/contact` (partner inquiry) |
-| Press/cold visitor | `/about` → `/vision` → `/team` |
+| CFO/HR Head         | Sent link → skims Home → `/security` (compliance trust check) → `/products` → `/contact` (Request Demo)      |
+| Engineer/candidate  | Home (notices build quality) → `/company-brain` → `/careers` → `/team`                                       |
+| CA/CS partner       | Outreach email → `/partners` → `/contact` (partner inquiry)                                                  |
+| Press/cold visitor  | `/about` → `/vision` → `/team`                                                                               |
 
 Each journey branches off the shared Home spine — never a separate landing experience, per `docs/product/website-strategy.md`'s "one story, not three pitches" principle.
 
@@ -181,5 +181,6 @@ Once `/products` graduates to per-suite pages, this document's §1 tree and §7 
 - [`seo.md`](./seo.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Product/Engineering (TODO: assign a DRI)

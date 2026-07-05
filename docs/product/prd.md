@@ -2,6 +2,7 @@
 
 **Status:** Draft v1 — merged from founder-authored website spec + [`orgofin-idea.pdf`](./orgofin-idea.pdf) (Vision & Strategy Document, June 2025)
 **Sources:**
+
 - Founder's original handwritten website requirements (as given in conversation)
 - [`orgofin-idea.pdf`](./orgofin-idea.pdf) (business vision, market, product, GTM, moat, and financial narrative)
 
@@ -28,9 +29,11 @@ The site must communicate:
 The experience should tell a story, not look like a marketing page.
 
 **[FROM PDF] One-line vision to anchor every page:**
+
 > "Orgofin is the unified Company Brain and Agent-as-a-Service (AGaaS) platform that replaces the fragmented SaaS stack with a single intelligence layer — where AI agents operate as digital employees across every business function."
 
 **[FROM PDF] Core philosophy the design and copy should never contradict:**
+
 > "Enterprise software is tool-centric. The future is company-centric. Orgofin does not build tools — it builds the brain that makes tools obsolete."
 > "Every competitor builds products and then tries to connect them. Orgofin builds the brain first, and the products emerge from it."
 
@@ -41,7 +44,9 @@ The experience should tell a story, not look like a marketing page.
 Three audiences, each with a distinct conversion goal:
 
 ### Investors
+
 Convince them:
+
 - This is a category-defining company (not incremental SaaS #46)
 - The market opportunity is enormous
 - The technical vision is credible
@@ -50,9 +55,11 @@ Convince them:
 **[FROM PDF] Data this audience needs to see somewhere on the site** (see Section 3 for full figures): TAM/SAM/SOM, unit economics trajectory, competitive teardown, the 6 stated moats, and the "why now" timing argument. None of this was in the original chapter list (Section 14) — see Section 21.
 
 ### Potential Customers
-Make them feel: *"This solves a problem I experience every day."* → join the waiting list.
+
+Make them feel: _"This solves a problem I experience every day."_ → join the waiting list.
 
 **[FROM PDF] ICP to write copy against** (don't write generically — the vision doc is specific):
+
 - Size: 50–500 employees, rapid growth phase
 - Industry: Tech/SaaS, IT Services, D2C, Manufacturing, BFSI
 - Geography: India (Tier 1 + Tier 2), UK (London, Birmingham, Leicester), USA (Bay Area, NYC, NJ, Texas)
@@ -62,7 +69,8 @@ Make them feel: *"This solves a problem I experience every day."* → join the w
 - Willingness to pay: $200–$2,000/mo; ROI story is "saves even 1 FTE of manual work"
 
 ### Engineers
-Every animation, transition, and interaction should communicate: *"This company builds world-class software."*
+
+Every animation, transition, and interaction should communicate: _"This company builds world-class software."_
 
 ---
 
@@ -71,6 +79,7 @@ Every animation, transition, and interaction should communicate: *"This company 
 The original website spec had no section grounding the story in real business facts. This section exists so that whoever writes Chapter copy (Section 14) or the Investors page (Section 15) isn't inventing numbers or guessing at positioning.
 
 ### 3.1 Why Now (investor urgency argument — currently unused anywhere in the site plan)
+
 - AI has crossed the capability threshold for reliable multi-step autonomous agents.
 - India's digitisation wave: GST mandates, DPDP Act, e-invoicing, UPI rails forcing 60M+ SMEs to replace legacy tools.
 - Global SMB SaaS fatigue: average mid-market company spends **$3,500/employee/year** on fragmented SaaS.
@@ -78,40 +87,46 @@ The original website spec had no section grounding the story in real business fa
 - Post-Zoho, no India-born player has credibly attempted a full-stack, agent-native enterprise OS.
 
 ### 3.2 The Cost of Fragmentation (visceral, quotable numbers for Chapters 1–2)
+
 A typical 200-person Indian SME runs 7+ vendors, 15+ tools, **$52K–$220K/year**, **₹1.5Cr+/year** — with zero unified context. Per-function cost ranges (HR&Payroll $8–24K, Finance $2.4–12K, Sales&CRM $12–60K, Support $6–30K, Collaboration $12–36K, PM $3.6–18K, IT&Security $8–40K) are available if the story wants a "watch the bill grow" moment in Chapter 2.
 
 ### 3.3 Market Sizing
+
 > **[CONFLICT — see Section 19.1]** The PDF contains two different TAM tables (p.3 and p.17) with different totals ($405B+/$823B+ vs. $500B+/$998B+) and an extra "DevOps & Dev" category in the second that has no corresponding product suite anywhere else in the document. **Do not publish either table verbatim until this is reconciled with the founders** — pick or ask, don't silently choose.
 
 Directionally safe figures (consistent across both tables):
+
 - Total addressable market: **$500B+ (2025) → ~$1T (2030)**, ~15% CAGR
 - SAM (India + UK + US SMB/mid-market, Year 1–3): **~$1.73B**
 - SOM: Year 1 $2–5M ARR (250–500 orgs) → Year 3 $20–40M ARR (2,000–4,000 orgs) → Year 5 $100–200M ARR
 
 ### 3.4 Unit Economics (investor-credibility material, currently absent from site plan)
-| Metric | Year 1 | Year 3 | Year 5 |
-|---|---|---|---|
-| ACV | $4,800 | $12,000 | $36,000 |
-| Gross Margin | 65% | 72% | 78% |
-| Payback Period | 18mo | 12mo | 8mo |
-| NRR | 105% | 115% | 125% |
-| CAC (blended) | $1,200 | $2,400 | $3,600 |
-| LTV (5-yr) | $22,000 | $64,000 | $180,000 |
-| LTV:CAC | 18x | 27x | 50x |
+
+| Metric         | Year 1  | Year 3  | Year 5   |
+| -------------- | ------- | ------- | -------- |
+| ACV            | $4,800  | $12,000 | $36,000  |
+| Gross Margin   | 65%     | 72%     | 78%      |
+| Payback Period | 18mo    | 12mo    | 8mo      |
+| NRR            | 105%    | 115%    | 125%     |
+| CAC (blended)  | $1,200  | $2,400  | $3,600   |
+| LTV (5-yr)     | $22,000 | $64,000 | $180,000 |
+| LTV:CAC        | 18x     | 27x     | 50x      |
 
 ### 3.5 Competitive Teardown (completely absent from the current landing-page story)
-| Competitor | Fatal weakness vs. Orgofin |
-|---|---|
-| Zoho (45+ tools) | No unified data graph; siloed tools; no real AGaaS layer; weak compliance |
-| Salesforce | $150–300/user; poor India SMB fit; AI is CRM-only |
-| SAP / Oracle | ₹50L+ implementation; SMB-hostile; monolithic |
-| Microsoft 365 + Copilot | Collaboration-only; Copilot is document-centric, not process-aware |
-| Freshworks | Not truly unified; no Company Brain; no Finance/compliance |
-| Darwinbox / Keka | HRMS-only; no AGaaS; no Company Brain |
-| Rippling | US-only; expensive; no India compliance |
-| HubSpot | CRM-only; no unified brain; no India compliance |
+
+| Competitor              | Fatal weakness vs. Orgofin                                                |
+| ----------------------- | ------------------------------------------------------------------------- |
+| Zoho (45+ tools)        | No unified data graph; siloed tools; no real AGaaS layer; weak compliance |
+| Salesforce              | $150–300/user; poor India SMB fit; AI is CRM-only                         |
+| SAP / Oracle            | ₹50L+ implementation; SMB-hostile; monolithic                             |
+| Microsoft 365 + Copilot | Collaboration-only; Copilot is document-centric, not process-aware        |
+| Freshworks              | Not truly unified; no Company Brain; no Finance/compliance                |
+| Darwinbox / Keka        | HRMS-only; no AGaaS; no Company Brain                                     |
+| Rippling                | US-only; expensive; no India compliance                                   |
+| HubSpot                 | CRM-only; no unified brain; no India compliance                           |
 
 ### 3.6 The Six Moats (defensibility — the direct answer to "what stops a copycat")
+
 1. **Organisational Memory** — the brain learns each org's specific patterns; re-learning cost for a switcher is months.
 2. **Data Network Effects** — anonymised cross-customer benchmarks (payroll, GST compliance, attrition) improve agents over time.
 3. **India Compliance Depth** — IRP e-invoicing API, PF/ESI challans, Form 16/24Q, Aadhaar e-KYC, DPDP — months of regulatory engineering competitors won't replicate.
@@ -120,26 +135,31 @@ Directionally safe figures (consistent across both tables):
 6. **CA/CS Partner Network** — India has 350,000 Chartered Accountants; once embedded in a CA's workflow, the CA becomes a sales channel.
 
 ### 3.7 Business Model & Pricing (for reference — see Section 19.3 on whether/how to expose this)
+
 Revenue streams: SaaS subscriptions, AGaaS usage billing (per-agent-task), Agent Marketplace (30% rev share), Professional Services, Compliance & Data Services, Partner Channel revenue share.
 
 Tiers: Starter $99–199/org/mo (100 agent tasks) · Growth $5–8/user/mo (500 tasks) · Business $10–15/user/mo (2,000 tasks) · Enterprise custom/₹15L+ ACV (unlimited) · AGaaS Add-on $0.05–0.10/task.
 
 ### 3.8 GTM Phasing (for the Roadmap chapter and Investors page)
+
 Phase 1 (0–12mo): India HRMS wedge — direct + CA/CS partner channel (30% referral commission) + HR consultants + compliance-content SEO + community (NHRD, SHRM India, YourStory/Inc42/Nasscom).
 Phase 2 (12–24mo): Finance + CRM cross-sell. Phase 3 (18–36mo): UK & US expansion. Phase 4 (Year 3+): Enterprise & AGaaS upsell.
 
 ### 3.9 The Vivid End-State Vignette (ready-made "show don't tell" copy — currently unused)
+
 The PDF's own illustration of the product at maturity (p.27) is stronger than anything currently scripted for Chapter 6 ("AI Agents — show orchestration"). Recommend lifting it directly:
+
 > A CEO wakes up and Orgofin's CEO Intelligence Agent has already: flagged that payroll in Hyderabad rose 11% (traced to 3 new ATS-approved hires last Tuesday); noticed a key enterprise customer hasn't logged a support ticket in 6 weeks and drafted an outreach email; identified 23 days of inventory left on SKU-447 and raised a draft PO; prepared Thursday's board deck from real data; reminded Employee #1042 about overdue POSH training.
 
 ### 3.10 Roadmap Horizons (for Chapter 8 + Investors page)
-| Horizon | Timeline | Milestone | Revenue Target |
-|---|---|---|---|
-| H1: HRMS Wedge | 0–12mo | 500+ customers, India | $2–5M ARR |
-| H2: Full-Stack SMB OS | 12–36mo | 3,000+ customers, UK/US live | $20–40M ARR |
-| H3: AGaaS Platform | 36–60mo | Marketplace live, 10,000+ customers | $100–200M ARR |
-| H4: Company Brain as Platform | 5–8yr | 3rd-party devs, 10,000+ agents | $500M+ ARR |
-| H5: Enterprise OS | 8–12yr | Default mid-market OS globally | $1B+ ARR |
+
+| Horizon                       | Timeline | Milestone                           | Revenue Target |
+| ----------------------------- | -------- | ----------------------------------- | -------------- |
+| H1: HRMS Wedge                | 0–12mo   | 500+ customers, India               | $2–5M ARR      |
+| H2: Full-Stack SMB OS         | 12–36mo  | 3,000+ customers, UK/US live        | $20–40M ARR    |
+| H3: AGaaS Platform            | 36–60mo  | Marketplace live, 10,000+ customers | $100–200M ARR  |
+| H4: Company Brain as Platform | 5–8yr    | 3rd-party devs, 10,000+ agents      | $500M+ ARR     |
+| H5: Enterprise OS             | 8–12yr   | Default mid-market OS globally      | $1B+ ARR       |
 
 ---
 
@@ -158,6 +178,7 @@ Reference bar: Apple, Stripe, Linear, Arc Browser, Vercel, Anthropic. Not: gener
 ## 5. Technical Requirements
 
 Production-grade architecture:
+
 - Next.js (App Router), React, TypeScript, Tailwind CSS, Framer Motion
 - Supabase (waiting list, newsletter, contact forms, analytics events)
 - Vercel (hosting/deployment)
@@ -165,7 +186,7 @@ Production-grade architecture:
 
 Frontend-first architecture. **Do not build a dedicated backend yet.** Architecture must allow future migration to NestJS/Go without changing the frontend.
 
-> **[GAP — see Section 18.6]** "Admin should be able to export the waiting list" (Section 11) and "Explore the CMS/manage the Blog" (implied by having a Blog page, Section 15) both imply *some* admin surface. Supabase's dashboard can satisfy CSV export directly (no custom admin UI required) — confirm that's acceptable before assuming a bespoke admin panel is in scope, since none is listed as a deliverable.
+> **[GAP — see Section 18.6]** "Admin should be able to export the waiting list" (Section 11) and "Explore the CMS/manage the Blog" (implied by having a Blog page, Section 15) both imply _some_ admin surface. Supabase's dashboard can satisfy CSV export directly (no custom admin UI required) — confirm that's acceptable before assuming a bespoke admin panel is in scope, since none is listed as a deliverable.
 
 ---
 
@@ -184,6 +205,7 @@ Requirements: lazy loading, image optimization, code splitting, SSR where approp
 Support desktop, laptop, tablet, large mobile.
 
 For screens < 390px, show a full-screen premium message instead of a broken layout:
+
 > "Orgofin is best experienced on a larger screen. We're building an immersive experience to showcase the future of enterprise software. Please switch to a tablet or desktop."
 
 > **[WEAK — see Section 20.1]** Locking out small-mobile visitors is a defensible design call for a cinematic experience, but it directly excludes a share of the "potential customer" audience (Section 2) who will first encounter Orgofin via a shared LinkedIn/WhatsApp link on a phone. Given India is the primary launch market and mobile-first browsing is the norm there, this deserves an explicit founder sign-off, not just a design default — see Section 22.
@@ -213,6 +235,7 @@ Animations must feel meaningful — no random floating elements. Use Framer Moti
 Implement GA4. Requirements: explain what GA4 is and why it matters, show property setup, configure and integrate into Next.js. Track: Page Views, Waiting List Signups, CTA Clicks, Scroll Depth, Section Views, Theme Changes, Outbound Links, **Investor PDF Downloads**, **Demo Requests**, Future product interest. Architecture must be production-ready and privacy-conscious.
 
 > **[GAP — see Section 18.4, 18.5]** Two tracked events have no corresponding feature anywhere in this spec:
+>
 > - **"Investor PDF Downloads"** — there is no investor deck/one-pager/data-room feature defined to download in the first place. See Section 15 for the proposed fix (Investor Data Room page).
 > - **"Demo Requests"** — the only defined CTA anywhere in the plan is "Join Waiting List" (Chapter 10). There's no "Request a Demo" form/page/CTA specified. Either add the feature or drop the tracked event.
 
@@ -253,46 +276,58 @@ Keyboard navigation, screen reader support, focus states, ARIA labels, reduced-m
 Narrative flow instead of Hero/Features/Pricing. Each chapter below is the original founder-authored beat, annotated with the specific PDF material that should ground its copy — and the two chapters that are recommended additions.
 
 ### Chapter 1 — The World Today
+
 Show disconnected SaaS, fragmented tools, duplicated work, context switching, lost knowledge.
 **Ground it with:** the 10 Core Failures list (siloed data, no organisational memory after attrition, fragmented per-tool AI copilots, brittle Zapier-style integrations, duplicate data entry, 30–40% context-switching tax, compliance gaps, slow cross-system decisions, lock-in without network effects, ₹1.5Cr+/yr cost).
 
 ### Chapter 2 — The Hidden Cost
+
 Visualize HRMS, CRM, Accounting, Support, Chat, Email, Projects — all disconnected. Show the pain.
 **Ground it with:** the per-function cost table (§3.2) — concrete dollar ranges per tool make this land harder than an abstract diagram.
 
 ### Chapter 3 — There Must Be A Better Way
+
 Transition. Everything converges.
 
 ### Chapter 4 — Introducing Company Brain
+
 Centerpiece. No paragraphs — visual, interactive, animated, beautiful.
 **Ground it with:** the plain-language translation problem flagged in Section 20.5 — "Company Brain" and "AGaaS" need a one-sentence plain translation here for the customer audience, not just technical framing for engineers.
 
 ### Chapter 5 — Visualize the Company Brain
+
 Animated graph: Employees, Projects, Invoices, Customers, Documents, Knowledge, Agents — everything connected.
 **Ground it with:** the entity-graph description from the vision doc — "Employee A approved Invoice B for Project C billed to Customer D" is a ready-made concrete example of cross-entity reasoning to animate literally.
 
 ### Chapter 6 — AI Agents
+
 Visualize HR Agent, Finance Agent, Sales Agent, CEO Agent working together; show orchestration.
 **Ground it with:** the CEO Intelligence Agent vignette (§3.9) — use it verbatim or near-verbatim as the payoff moment of this chapter instead of a generic "show orchestration" abstraction.
 
 ### Chapter 7 — Enterprise OS
+
 Old: 20 disconnected apps. New: One Company Brain.
 **Ground it with:** the $52K–$220K/yr / ₹1.5Cr+ figure again as the "old" side's price tag, and the "tool-centric vs. company-centric" core-philosophy line (Section 1) as the closing statement of this chapter.
 
-### Chapter 7.5 — Why We Win *(recommended new chapter — see Section 21.1)*
+### Chapter 7.5 — Why We Win _(recommended new chapter — see Section 21.1)_
+
 Currently no chapter addresses competition or defensibility at all — a direct gap against the stated investor goal in Section 2. Recommend a short, visual "why not Zoho / Salesforce / SAP" beat plus 2–3 of the Six Moats (§3.6), specifically Organisational Memory and India Compliance Depth, since those are the hardest to dismiss as "just an AI wrapper."
 
 ### Chapter 8 — Roadmap
+
 Show HRMS → Books → CRM → Desk → Workspace → Analytics → Company Brain → Agent Marketplace → Enterprise OS.
 **Ground it with:** the Roadmap Horizons table (§3.10), including revenue targets — turns a qualitative feature list into the same glide-path investors expect to see in a deck.
 
-### Chapter 8.5 — Why Now *(recommended new chapter — see Section 21.2)*
+### Chapter 8.5 — Why Now _(recommended new chapter — see Section 21.2)_
+
 The single strongest, most time-bound investor argument in the source material (§3.1) is currently unused anywhere on the site. Recommend inserting it either as its own beat before the Roadmap, or folded into the Vision chapter's opening.
 
 ### Chapter 9 — Vision
+
 Final emotional section: "The Operating System for Every Company." The 10-year vision.
 
 ### Chapter 10 — Waiting List
+
 Strong CTA: Join Early Access. Become part of the future.
 **See §11's opportunity note** — consider surfacing a live signee count here as investor-facing social proof, not just a form.
 
@@ -303,7 +338,8 @@ Strong CTA: Join Early Access. Become part of the future.
 Original list: About, Vision, Company Brain, Products, Careers (Coming Soon), Blog, Investors, Privacy Policy, Terms, Contact.
 
 > **[GAP — see Section 18.1, 18.2]** Two pages are missing that both source documents independently point to as necessary:
-> - **Team / Founders** — absent from the page list *and* absent from the PDF itself (flagged separately as a business-doc gap). Investor audience (Section 2) weighs team credibility heavily; a category-defining pitch with no visible founders is a red flag, not a stylistic choice.
+>
+> - **Team / Founders** — absent from the page list _and_ absent from the PDF itself (flagged separately as a business-doc gap). Investor audience (Section 2) weighs team credibility heavily; a category-defining pitch with no visible founders is a red flag, not a stylistic choice.
 > - **Investor Data Room / Downloads** — needed to make the "Investor PDF Downloads" analytics event (Section 10) mean anything. Could be as simple as a gated section on the existing "Investors" page (email-gated download of a one-pager, tracked via the same GA4 event), rather than a full separate page.
 
 > **[GAP]** No "Request a Demo" page/CTA exists anywhere, despite it being a tracked analytics event (Section 10). Either fold a lightweight "Talk to us" form into the Contact page and point the same event at it, or drop the event.

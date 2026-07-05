@@ -33,30 +33,30 @@ A typical Indian SME with 200 employees uses 7+ vendors and 15+ tools, spending 
 
 ## Target Customers
 
-| Segment | Size | Primary Pain | Entry Product | ARPU Target |
-|---|---|---|---|---|
-| India Tech SMBs | 50–500 emp | Tally + Excel + Keka fragmentation | HRMS + Payroll + Books | $400–$2,000/mo |
-| India Manufacturing | 100–2,000 emp | Shift mgmt, PF/ESI compliance, POS | HRMS + Payroll + Inventory | $600–$3,000/mo |
-| India D2C/eCom | 20–200 emp | Commerce + Inventory + Subscriptions | Books + Commerce + CRM | $300–$1,500/mo |
-| UK South Asian SMBs | 20–500 emp | India ops + UK payroll compliance | HRMS + Books (multi-entity) | $500–$3,000/mo |
-| US India-ops Companies | 50–1,000 emp | India subsidiary HR/Finance mgmt | HRMS + Books | $800–$5,000/mo |
-| BFSI (India) | 100–5,000 emp | Compliance + Audit + Identity + DLP | Compliance Suite + HRMS | $2,000–$15,000/mo |
+| Segment                | Size          | Primary Pain                         | Entry Product               | ARPU Target       |
+| ---------------------- | ------------- | ------------------------------------ | --------------------------- | ----------------- |
+| India Tech SMBs        | 50–500 emp    | Tally + Excel + Keka fragmentation   | HRMS + Payroll + Books      | $400–$2,000/mo    |
+| India Manufacturing    | 100–2,000 emp | Shift mgmt, PF/ESI compliance, POS   | HRMS + Payroll + Inventory  | $600–$3,000/mo    |
+| India D2C/eCom         | 20–200 emp    | Commerce + Inventory + Subscriptions | Books + Commerce + CRM      | $300–$1,500/mo    |
+| UK South Asian SMBs    | 20–500 emp    | India ops + UK payroll compliance    | HRMS + Books (multi-entity) | $500–$3,000/mo    |
+| US India-ops Companies | 50–1,000 emp  | India subsidiary HR/Finance mgmt     | HRMS + Books                | $800–$5,000/mo    |
+| BFSI (India)           | 100–5,000 emp | Compliance + Audit + Identity + DLP  | Compliance Suite + HRMS     | $2,000–$15,000/mo |
 
 **Ideal Customer Profile (V1):** 50–500 employees, Tech/SaaS/IT Services/D2C/Manufacturing/BFSI, India (Tier 1+2) → UK (London, Birmingham, Leicester) → USA (Bay Area, NYC, NJ, Texas). Decision-maker is Founder/CEO (<100 emp) or CFO + HR Head (100–500 emp). Willingness to pay $200–$2,000/mo.
 
 ## Competitive Landscape
 
-| Competitor | Fatal Weakness vs. Orgofin |
-|---|---|
-| Zoho (45+ tools) | No unified data graph; siloed tools; no real AGaaS layer; weak compliance |
-| Salesforce | $150–300/user; poor India SMB fit; AI is CRM-only |
-| SAP / Oracle | ₹50L+ implementation; SMB-hostile; monolithic |
-| Microsoft 365 + Copilot | Collaboration-only; Copilot is document-centric, not process-aware |
-| Freshworks | Not truly unified; no Company Brain; no Finance/compliance |
-| Darwinbox / Keka | HRMS-only; no AGaaS; no Company Brain |
-| Rippling | US-only; expensive; no India compliance |
-| Notion / Glean | Knowledge/search only; no transactional modules |
-| HubSpot | CRM-only; no unified brain; no India compliance |
+| Competitor              | Fatal Weakness vs. Orgofin                                                |
+| ----------------------- | ------------------------------------------------------------------------- |
+| Zoho (45+ tools)        | No unified data graph; siloed tools; no real AGaaS layer; weak compliance |
+| Salesforce              | $150–300/user; poor India SMB fit; AI is CRM-only                         |
+| SAP / Oracle            | ₹50L+ implementation; SMB-hostile; monolithic                             |
+| Microsoft 365 + Copilot | Collaboration-only; Copilot is document-centric, not process-aware        |
+| Freshworks              | Not truly unified; no Company Brain; no Finance/compliance                |
+| Darwinbox / Keka        | HRMS-only; no AGaaS; no Company Brain                                     |
+| Rippling                | US-only; expensive; no India compliance                                   |
+| Notion / Glean          | Knowledge/search only; no transactional modules                           |
+| HubSpot                 | CRM-only; no unified brain; no India compliance                           |
 
 **The stated fundamental difference:** "Every competitor builds products and then tries to connect them. Orgofin builds the brain first, and the products emerge from it."
 
@@ -77,13 +77,13 @@ Pricing tiers: Starter $99–199/org/mo (100 agent tasks) · Growth $5–8/user/
 
 ## Company Snapshot
 
-| | |
-|---|---|
-| Category | AGaaS + Company Brain + Enterprise SaaS OS |
-| V1 Product | HRMS Suite |
-| Geography (V1) | India → UK → USA |
-| Funding Stage | Pre-seed / Seed |
-| Total Modules Planned | 40+ across 8 functional suites |
+|                       |                                            |
+| --------------------- | ------------------------------------------ |
+| Category              | AGaaS + Company Brain + Enterprise SaaS OS |
+| V1 Product            | HRMS Suite                                 |
+| Geography (V1)        | India → UK → USA                           |
+| Funding Stage         | Pre-seed / Seed                            |
+| Total Modules Planned | 40+ across 8 functional suites             |
 
 ## Current Status
 
@@ -111,5 +111,6 @@ Update this document only from a new authoritative source (a revised vision docu
 - [`../../.claude/knowledge/company-brain.md`](../../.claude/knowledge/company-brain.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Founders (TODO: assign a DRI)

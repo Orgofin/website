@@ -11,12 +11,12 @@ Owns the concrete list of variables and where they're managed. Does not own the 
 
 ## Expected Variables (per `docs/product/prd.md` §5, §9)
 
-| Variable | Purpose | Client-visible? | Status |
-|---|---|---|---|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL | Yes | TODO — no Supabase project provisioned yet |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous/public key | Yes | TODO |
-| `SUPABASE_SERVICE_ROLE_KEY` | Server-only Supabase key, if any server-side admin operation needs it | No | TODO — only add if actually needed; don't provision unused elevated credentials |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | GA4 property ID | Yes | TODO — no GA4 property created yet |
+| Variable                        | Purpose                                                               | Client-visible? | Status                                                                          |
+| ------------------------------- | --------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Supabase project URL                                                  | Yes             | TODO — no Supabase project provisioned yet                                      |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous/public key                                         | Yes             | TODO                                                                            |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Server-only Supabase key, if any server-side admin operation needs it | No              | TODO — only add if actually needed; don't provision unused elevated credentials |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | GA4 property ID                                                       | Yes             | TODO — no GA4 property created yet                                              |
 
 ## Where They're Set
 
@@ -46,5 +46,6 @@ Add each real variable name to this table the moment it's provisioned — this f
 - [`README.md`](./README.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

@@ -16,29 +16,29 @@ The quality bar is Stripe, Linear, Vercel, Notion, Apple — both in what ships 
 
 Everything below is organized by purpose, not alphabetically. Read the row relevant to your task before starting; read all of `.claude/context/` before any substantial task if you haven't already this session.
 
-| Topic | Location |
-|---|---|
-| Business facts (what Orgofin is, market, moats, model) | [`docs/product/company.md`](docs/product/company.md) |
-| Long-term vision & roadmap | [`docs/product/vision.md`](docs/product/vision.md) |
-| Full product requirements | [`docs/product/prd.md`](docs/product/prd.md) |
-| Website narrative/emotional strategy | [`docs/product/website-strategy.md`](docs/product/website-strategy.md) |
-| Actual page copy | [`docs/product/copy.md`](docs/product/copy.md) |
-| Domain concepts (Company Brain, HRMS, AGaaS, Enterprise OS) | [`.claude/knowledge/`](.claude/knowledge/) |
-| Repository structure & the `docs/`↔`.claude/` split | [`.claude/context/repository.md`](.claude/context/repository.md) |
-| Current-state architecture | [`.claude/context/architecture.md`](.claude/context/architecture.md) |
-| Frontend architecture (folders, components, 7 strategies) | [`.claude/context/frontend.md`](.claude/context/frontend.md) |
-| Visual design tokens | [`.claude/context/design-system.md`](.claude/context/design-system.md) |
-| Voice, tone, brand personality | [`.claude/context/branding.md`](.claude/context/branding.md) |
-| Animation philosophy | [`.claude/context/animations.md`](.claude/context/animations.md) |
-| Coding standards (TS/React/Next/Tailwind) | [`.claude/context/coding-standards.md`](.claude/context/coding-standards.md) |
-| Routes, nav, sitemap | [`.claude/context/information-architecture.md`](.claude/context/information-architecture.md) |
-| Accessibility requirements | [`.claude/context/accessibility.md`](.claude/context/accessibility.md) |
-| SEO requirements | [`.claude/context/seo.md`](.claude/context/seo.md) |
-| Testing philosophy | [`.claude/context/testing.md`](.claude/context/testing.md) |
-| Deployment/CI conventions | [`.claude/context/deployment.md`](.claude/context/deployment.md) |
-| Git workflow, PR expectations, task workflow | [`.claude/context/workflows.md`](.claude/context/workflows.md) |
-| Reusable prompt templates | [`.claude/prompts/`](.claude/prompts/) |
-| Architecture Decision Records | [`docs/adr/`](docs/adr/) |
+| Topic                                                       | Location                                                                                     |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Business facts (what Orgofin is, market, moats, model)      | [`docs/product/company.md`](docs/product/company.md)                                         |
+| Long-term vision & roadmap                                  | [`docs/product/vision.md`](docs/product/vision.md)                                           |
+| Full product requirements                                   | [`docs/product/prd.md`](docs/product/prd.md)                                                 |
+| Website narrative/emotional strategy                        | [`docs/product/website-strategy.md`](docs/product/website-strategy.md)                       |
+| Actual page copy                                            | [`docs/product/copy.md`](docs/product/copy.md)                                               |
+| Domain concepts (Company Brain, HRMS, AGaaS, Enterprise OS) | [`.claude/knowledge/`](.claude/knowledge/)                                                   |
+| Repository structure & the `docs/`↔`.claude/` split         | [`.claude/context/repository.md`](.claude/context/repository.md)                             |
+| Current-state architecture                                  | [`.claude/context/architecture.md`](.claude/context/architecture.md)                         |
+| Frontend architecture (folders, components, 7 strategies)   | [`.claude/context/frontend.md`](.claude/context/frontend.md)                                 |
+| Visual design tokens                                        | [`.claude/context/design-system.md`](.claude/context/design-system.md)                       |
+| Voice, tone, brand personality                              | [`.claude/context/branding.md`](.claude/context/branding.md)                                 |
+| Animation philosophy                                        | [`.claude/context/animations.md`](.claude/context/animations.md)                             |
+| Coding standards (TS/React/Next/Tailwind)                   | [`.claude/context/coding-standards.md`](.claude/context/coding-standards.md)                 |
+| Routes, nav, sitemap                                        | [`.claude/context/information-architecture.md`](.claude/context/information-architecture.md) |
+| Accessibility requirements                                  | [`.claude/context/accessibility.md`](.claude/context/accessibility.md)                       |
+| SEO requirements                                            | [`.claude/context/seo.md`](.claude/context/seo.md)                                           |
+| Testing philosophy                                          | [`.claude/context/testing.md`](.claude/context/testing.md)                                   |
+| Deployment/CI conventions                                   | [`.claude/context/deployment.md`](.claude/context/deployment.md)                             |
+| Git workflow, PR expectations, task workflow                | [`.claude/context/workflows.md`](.claude/context/workflows.md)                               |
+| Reusable prompt templates                                   | [`.claude/prompts/`](.claude/prompts/)                                                       |
+| Architecture Decision Records                               | [`docs/adr/`](docs/adr/)                                                                     |
 
 ---
 

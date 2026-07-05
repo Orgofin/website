@@ -11,12 +11,12 @@ Owns: CI pipeline conventions, branch-to-environment mapping, and the backend-mi
 
 ## Environment Mapping
 
-| Branch | Vercel environment | Purpose |
-|---|---|---|
-| `main` | Production | Live site |
-| `uat` | Staging/UAT | Pre-production acceptance testing |
-| `dev` | Development preview | Active development |
-| any feature branch | PR preview | Automatic per-PR preview deployment |
+| Branch             | Vercel environment  | Purpose                             |
+| ------------------ | ------------------- | ----------------------------------- |
+| `main`             | Production          | Live site                           |
+| `uat`              | Staging/UAT         | Pre-production acceptance testing   |
+| `dev`              | Development preview | Active development                  |
+| any feature branch | PR preview          | Automatic per-PR preview deployment |
 
 ## CI Pipeline (GitHub Actions)
 
@@ -36,7 +36,7 @@ Recommended: separate Supabase projects (or at minimum clearly separated tables/
 
 ## The Backend-Migration Boundary
 
-Deployment conventions must preserve the seam described in `frontend.md` §11: today, `lib/api/*` calls Supabase directly from Vercel-hosted API routes. When a NestJS/Go backend eventually exists, deployment changes to *where that backend is hosted and how it's deployed* — it should never require changing how the Next.js app itself is deployed or configured.
+Deployment conventions must preserve the seam described in `frontend.md` §11: today, `lib/api/*` calls Supabase directly from Vercel-hosted API routes. When a NestJS/Go backend eventually exists, deployment changes to _where that backend is hosted and how it's deployed_ — it should never require changing how the Next.js app itself is deployed or configured.
 
 ## Current Status
 
@@ -64,5 +64,6 @@ Once the first workflow file is written, this document should link to it directl
 - [`workflows.md`](./workflows.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

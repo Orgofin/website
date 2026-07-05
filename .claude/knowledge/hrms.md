@@ -15,15 +15,15 @@ The go-to-market wedge: "the most complete, AI-native HRMS built for India — a
 
 ## The Hire-to-Retire Lifecycle (per the source PDF)
 
-| Phase | Module | AI Automation | India Compliance |
-|---|---|---|---|
-| Attract | Recruit (ATS) | AI resume scoring, interview scheduling, JD generation | — |
-| Hire | HRMS Core + Sign | Offer letter generation, Aadhaar e-KYC, digital onboarding | Form 11 (PF), ESI registration |
-| Manage | Attendance + Shifts | Biometric/geo-fence check-in, shift auto-scheduling, anomaly detection | Factory Act, Shops Act compliance |
-| Pay | Payroll | Auto salary calc, TDS, PF/ESI challan, Form 16 generation | PF, ESI, PT, LWF, TDS |
-| Develop | Performance + LMS | AI goal suggestions, continuous feedback, course recommendations | — |
-| Retain | Analytics Dashboard | Attrition prediction, compensation benchmarking, sentiment analysis | — |
-| Exit | HRMS Core | Clearance workflows, F&F calculation, experience letter auto-gen | PF withdrawal, gratuity calc |
+| Phase   | Module              | AI Automation                                                          | India Compliance                  |
+| ------- | ------------------- | ---------------------------------------------------------------------- | --------------------------------- |
+| Attract | Recruit (ATS)       | AI resume scoring, interview scheduling, JD generation                 | —                                 |
+| Hire    | HRMS Core + Sign    | Offer letter generation, Aadhaar e-KYC, digital onboarding             | Form 11 (PF), ESI registration    |
+| Manage  | Attendance + Shifts | Biometric/geo-fence check-in, shift auto-scheduling, anomaly detection | Factory Act, Shops Act compliance |
+| Pay     | Payroll             | Auto salary calc, TDS, PF/ESI challan, Form 16 generation              | PF, ESI, PT, LWF, TDS             |
+| Develop | Performance + LMS   | AI goal suggestions, continuous feedback, course recommendations       | —                                 |
+| Retain  | Analytics Dashboard | Attrition prediction, compensation benchmarking, sentiment analysis    | —                                 |
+| Exit    | HRMS Core           | Clearance workflows, F&F calculation, experience letter auto-gen       | PF withdrawal, gratuity calc      |
 
 ## Module Status (per the source PDF's own appendix, p.28)
 
@@ -57,5 +57,6 @@ Update this file the moment the MVP-status question above is resolved by the fou
 - [`enterprise-os.md`](./enterprise-os.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Product (TODO: assign a DRI)

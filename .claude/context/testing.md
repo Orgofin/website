@@ -21,7 +21,7 @@ Owns testing scope and philosophy. Does not own the CI pipeline that runs tests 
 
 - Static marketing copy/content sections with no logic (a `Section` component that just renders props) — covered adequately by the E2E path that renders the page, not a unit test asserting exact text.
 - Framer Motion animation timing itself — trust the library; test that the reduced-motion path renders the content, not the animation curve.
-- Third-party integrations' internals (Supabase, GA4) — test that *our code* calls them correctly (mocked), not that Supabase/GA4 themselves work.
+- Third-party integrations' internals (Supabase, GA4) — test that _our code_ calls them correctly (mocked), not that Supabase/GA4 themselves work.
 
 ## Current Status
 
@@ -50,5 +50,6 @@ Once the first components exist, decide the unit-test runner (Vitest is the natu
 - [`deployment.md`](./deployment.md)
 
 ---
+
 **Last Updated:** 2026-07-04
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
