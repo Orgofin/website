@@ -3,7 +3,7 @@
 > **Purpose:** Defines how the Orgofin website codebase is organized — folders, component tiers, rendering strategy, and the seven cross-cutting strategies (images, SEO, accessibility, performance, state, animation, deployment) every implementation must follow.
 > **Applies to:** anyone (human or Claude) writing frontend code in this repository.
 
-**Status:** Architecture design only — nothing described here has been implemented yet. This is the spec the first implementation PR should follow.
+**Status:** Partially implemented. Phase 10 (Core Infrastructure) built the shared foundation — design tokens, theme system, motion primitives, layout primitives, UI primitives, navigation/footer chrome, SEO utilities, image + feedback components, hooks, and App Router state files. See the catalog: [`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md). Marketing pages/sections and the data/API layer remain unbuilt (see [`docs/product/implementation-backlog.md`](../../docs/product/implementation-backlog.md)).
 **Grounded in:** [`docs/product/prd.md`](../../docs/product/prd.md) (tech stack, non-negotiables), [`design-system.md`](./design-system.md) (tokens), [`information-architecture.md`](./information-architecture.md) (page/route list), [`docs/product/copy.md`](../../docs/product/copy.md) (content that populates these components).
 
 Stack per the PRD: Next.js (App Router), React, TypeScript, Tailwind CSS, Framer Motion, Supabase, Vercel, ESLint, Prettier, Husky, GitHub Actions. Frontend-first — no dedicated backend yet, but the architecture must isolate that boundary cleanly so a future NestJS/Go backend can slot in without touching components or pages (see §11).
@@ -143,7 +143,7 @@ This mirrors the design-system's own primitive → semantic → component token 
 
 ## 4. Layout Strategy
 
-- **Root layout** (`app/layout.tsx`): loads self-hosted fonts via `next/font`, sets up `ThemeProvider`, reads the theme cookie server-side to set the initial `class` on `<html>` (avoids flash-of-wrong-theme), mounts the GA4 boot script, renders a skip-to-content link.
+- **Root layout** (`app/layout.tsx`): loads self-hosted fonts via `next/font`, mounts a blocking pre-hydration `ThemeScript` (first child of `<body>`) that applies the persisted theme class to `<html>` before first paint (avoids flash-of-wrong-theme _and_ supports system-preference detection, which a server-read cookie alone cannot do), wraps children in `ThemeProvider` + `LazyMotionProvider`, renders a skip-to-content link, and emits site-wide `Organization`/`WebSite` JSON-LD. _(GA4 boot is deferred to the analytics epic.)_ **Implemented.**
 - **Marketing layout** (`app/(marketing)/layout.tsx`): renders `Nav` + `{children}` + `Footer`, and mounts `MobileBlockScreen` here so the <390px lockout (design-system §9 `bp-blocked`) is enforced once, at the layout level — not re-implemented per page.
 - **`PageShell`**: every page's content sits inside this wrapper, which enforces the `bp-desktop-xl` max-width cap (~1440–1600px, per `design-system.md` §9) and applies the vertical rhythm spacing tokens (`space-24`/`space-32`) between sections — no page hand-rolls its own container widths.
 - **Home is the special case**: a single continuous scroll of `Section` components sharing a `ScrollProgressProvider` (local to the Home tree, not global) that drives the nav's active-chapter highlighting and an optional progress indicator.
@@ -205,7 +205,7 @@ This mirrors the design-system's own primitive → semantic → component token 
 
 Deliberately minimal — this is a marketing/content site, not an authenticated application, and the architecture shouldn't reach for app-scale state tooling it doesn't need yet.
 
-- **Theme (light/dark):** a small `ThemeProvider` context (or `next-themes`), persisted via cookie + localStorage, read server-side for the initial `<html>` class to avoid flash-of-wrong-theme.
+- **Theme (light/dark/system):** a small custom `ThemeProvider` context (`components/theme/`), persisted via `localStorage` (key `orgofin-theme`), with a pre-hydration `ThemeScript` applying the class before paint. `resolvedTheme` derives from `prefers-color-scheme` via `useSyncExternalStore` when the choice is `system`; cross-tab changes sync via a `storage` listener. No `next-themes` dependency. **Implemented.**
 - **Scroll/chapter progress** (Home nav highlighting, progress indicator): a lightweight context scoped to the Home page tree only — not global app state, since nothing outside Home needs it.
 - **Form state:** React Hook Form + Zod per form (`WaitlistForm`, `DemoRequestForm`, `PartnerApplicationForm`, `NewsletterInline`) — state lives inside each form component; no shared form store.
 - **Server-derived data** (live waitlist count for the social-proof counter, blog post listings): fetched directly in Server Components from Supabase at request/build time — no client data-fetching library (no React Query/SWR) since there's no authenticated, frequently-refetched surface yet.
@@ -244,7 +244,7 @@ The load-bearing calls made here, in one place, so a future editor knows what to
 
 ## Current Status
 
-Architecture only — no `package.json`, config file, or component exists yet in this repository. This document is the spec the first implementation PR should follow.
+Scaffold + core infrastructure implemented (Phase 10). The `src/` tree now contains the real component library (`components/{ui,layout,motion,theme,seo,feedback}`), hooks (`hooks/`), and libs (`lib/{seo,theme,motion,utils}`) — plus placeholder `.gitkeep` folders for the not-yet-built `components/{sections,graph,forms,icons}` and `lib/{supabase,api,analytics}`. Design tokens are live in `app/globals.css`. Marketing pages, the data/API seam (§11), forms, and analytics remain unbuilt. Full catalog: [`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md).
 
 ## Future Improvements
 

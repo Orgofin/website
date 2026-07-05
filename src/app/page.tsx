@@ -1,13 +1,25 @@
+import { Container } from "@/components/layout/Container";
+import { Heading } from "@/components/ui/Heading";
+import { Text } from "@/components/ui/Text";
+
+// Placeholder home — the real Home page (docs/product/copy.md,
+// information-architecture.md) is intentionally NOT built in the infrastructure
+// phase. This only confirms the shared foundation renders.
 export default function Home() {
   return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-4 p-16 text-center">
-      <h1 className="text-2xl font-semibold">Orgofin</h1>
-      <p className="text-muted-foreground max-w-md text-sm">
-        The Operating System for Every Company. The real Home page (per{" "}
-        <code>docs/product/copy.md</code> and{" "}
-        <code>.claude/context/information-architecture.md</code>) is not built
-        yet — this is a placeholder confirming the project scaffold works.
-      </p>
+    <main id="main-content" className="flex flex-1 items-center">
+      <Container
+        size="readable"
+        className="flex flex-col gap-4 py-24 text-center"
+      >
+        <Heading level={1} size="display-lg" balance>
+          Orgofin
+        </Heading>
+        <Text tone="muted" balance>
+          Core frontend infrastructure is in place. Pages are built in later
+          phases on top of this shared foundation.
+        </Text>
+      </Container>
     </main>
   );
 }

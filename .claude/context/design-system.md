@@ -295,14 +295,35 @@ This document defines the vocabulary. Component specs (buttons, cards, nav, the 
 
 The two decisions most likely to be second-guessed later, recorded so they're revisited deliberately rather than drifted from: (1) "Orgofin Blue" was chosen specifically to avoid Tailwind's default `blue-600` — if a future contributor reaches for a raw Tailwind blue class, that's a signal this doc wasn't consulted; (2) glow/glass effects are deliberately dark-mode-forward and intentionally dialed down in light mode — this is not an inconsistency to "fix."
 
+## Implementation — Token Source of Truth
+
+As of Phase 10 (Core Infrastructure), these tokens are **implemented** in [`src/app/globals.css`](../../src/app/globals.css) using Tailwind v4's CSS-first `@theme` / `@theme inline` — that file is now the _source of truth_ for values; this document is the _rationale_ layer. Motion tokens are additionally mirrored for Framer Motion in [`src/lib/motion/tokens.ts`](../../src/lib/motion/tokens.ts).
+
+The Tailwind **utility names** are role-based and slightly abbreviated from this doc's prose token names, so the mapping is explicit here:
+
+| This doc's concept                      | CSS var (globals.css)                              | Tailwind utility                                                             |
+| --------------------------------------- | -------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `color-bg-page`                         | `--page`                                           | `bg-page`                                                                    |
+| `color-bg-surface` / `-raised`          | `--surface` / `--surface-raised`                   | `bg-surface` / `bg-surface-raised`                                           |
+| `color-text-primary/secondary/tertiary` | `--fg` / `--fg-muted` / `--fg-subtle`              | `text-fg` / `text-fg-muted` / `text-fg-subtle`                               |
+| `color-border-default` / `-strong`      | `--border` / `--border-strong`                     | `border-border` / `border-border-strong`                                     |
+| `color-accent` (+ hover/subtle)         | `--accent` (+ `-hover`/`-subtle`)                  | `text-accent` / `bg-accent` / `-accent-hover` / `bg-accent-subtle`           |
+| status success/warning/danger/info      | `--success` … `--info`                             | `text-success` / `bg-danger` / …                                             |
+| type scale                              | `--text-display-2xl` …                             | `text-display-2xl` … `text-mono-md`                                          |
+| radius / shadow / easing                | `--radius-*` / `--shadow-elevation-*` / `--ease-*` | `rounded-*` / `shadow-elevation-*` / `ease-standard`                         |
+| gradients / glass / glow                | `--gradient-*` / `--glass-*` / `--glow-*`          | `text-gradient-brand` / `bg-brand-cta` / `glass-surface` / `bg-glow-ambient` |
+| breakpoints (device tiers)              | `--breakpoint-mobile…wide`                         | `mobile:` / `tablet:` / `laptop:` / `desktop:` / `wide:`                     |
+| content widths                          | `--container-readable…wide`                        | `max-w-readable` … `max-w-wide`                                              |
+
+Primitive scale values (`--blue-*`, `--neutral-*`) are deliberately **not** exposed as Tailwind utilities — components consume semantic utilities only, structurally enforcing §11 rule 1. Named device-tier breakpoints are added alongside (not replacing) Tailwind's default `sm/md/lg/xl/2xl`.
+
 ## Current Status
 
-Tokens are specified as values/rules in this document only. No `tailwind.config`, CSS custom properties, or theme provider has been implemented yet.
+Implemented. All token categories in this document exist in `globals.css` for both themes; consumed by the Phase 10 component library ([`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md)). The automated contrast-matrix check (§8 TODO) and a rendered token-preview page are not yet built.
 
 ## Future Improvements
 
-- Once implemented, this document should link to the actual token source file (e.g., `tailwind.config.ts` or `tokens.css`) rather than being the only place values live — at that point this doc becomes the _rationale_ layer, and the config becomes the _source of truth_ layer.
-- Add a visual token reference (Storybook or a static token-preview page) once components exist — a markdown table of hex values is a starting point, not a permanent substitute for seeing them rendered.
+- Add a visual token reference (Storybook or a static token-preview page) — a markdown table of hex values is a starting point, not a permanent substitute for seeing them rendered.
 
 ## TODO
 

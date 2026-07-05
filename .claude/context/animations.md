@@ -33,7 +33,7 @@ Everything below is an elaboration of this, not a replacement for it.
 
 ## Current Status
 
-Philosophy only — no animation has been implemented. This document, `design-system.md` §5, and `frontend.md` §10 together are the full spec.
+Reusable motion primitives are implemented (Phase 10): `LazyMotionProvider`, `FadeIn`, `Slide`/`SlideUp`/`SlideDown`, `Scale`, `Reveal`, `Stagger`/`StaggerItem`, `PageTransition`, and `Hoverable` in `components/motion/`, all reading tokens from `lib/motion/tokens.ts` and routing reduced-motion through the single `useReducedMotion` hook. No _section-specific_ signature animations exist yet (those arrive with the marketing sections). See [`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md).
 
 ## Future Improvements
 

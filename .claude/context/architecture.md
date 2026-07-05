@@ -21,7 +21,7 @@ This is a short index, not a full spec. Detail lives in [`frontend.md`](./fronte
 
 ## Current Status
 
-No code exists yet. This document, `frontend.md`, and `docs/architecture/platform-overview.md` are the specification the first implementation should follow.
+Frontend scaffold + core infrastructure implemented (Phase 10 — theme, tokens, motion/layout/UI primitives, chrome, SEO utilities; see [`frontend.md`](./frontend.md) and [`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md)). Still no backend and no product code — Supabase (`lib/supabase`, `lib/api`) is stubbed as empty folders, not yet wired. `docs/architecture/platform-overview.md` remains future-state only.
 
 ## Future Improvements
 
