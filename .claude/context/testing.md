@@ -23,20 +23,24 @@ Owns testing scope and philosophy. Does not own the CI pipeline that runs tests 
 - Framer Motion animation timing itself — trust the library; test that the reduced-motion path renders the content, not the animation curve.
 - Third-party integrations' internals (Supabase, GA4) — test that _our code_ calls them correctly (mocked), not that Supabase/GA4 themselves work.
 
+## Decision: Vitest (E15.1.1)
+
+The unit/component runner is **Vitest** (over Jest): it reuses Vite's transform pipeline, needs no separate Babel config, and runs TS/JSX out of the box — the lowest-friction fit for this toolchain. It runs with React Testing Library + `@testing-library/jest-dom`, jsdom environment, and the SWC React plugin (mirroring Next's compiler, and sidestepping a Babel peer-dependency conflict). Config: [`vitest.config.ts`](../../vitest.config.ts); shared setup: [`vitest.setup.ts`](../../vitest.setup.ts). Run with `npm run test` (CI) or `npm run test:watch`.
+
 ## Current Status
 
-**No tests exist.** No test runner is configured. This document states intent for when implementation begins — treat every claim above as a TODO until a test file exists to back it up.
+Vitest is configured and running in CI (the `test` step in [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml)). Seed coverage exists: a `lib/` unit test ([`src/lib/utils.test.ts`](../../src/lib/utils.test.ts)) and a primitive component test ([`src/components/ui/Button.test.tsx`](../../src/components/ui/Button.test.tsx)). Playwright/E2E, axe, and Lighthouse are still not set up.
 
 ## Future Improvements
 
-Once the first components exist, decide the unit-test runner (Vitest is the natural fit for a Next.js/Vite-adjacent toolchain; Jest is the more conservative default) — not yet decided.
+Broaden component coverage as primitives/molecules land (each ships with its test per the scope above), and stand up the Playwright + axe E2E layer once forms and pages exist.
 
 ## TODO
 
-- [ ] Choose and configure the unit/component test runner (Vitest vs. Jest).
+- [x] Choose and configure the unit/component test runner — Vitest (see decision above).
+- [x] Add the unit/component test step to the CI pipeline — done (E1.2.2).
 - [ ] Set up Playwright for E2E.
 - [ ] Wire `@axe-core/playwright` into the E2E suite (see `accessibility.md`).
-- [ ] Add the test step to the CI pipeline (see `deployment.md`).
 - [ ] Define a minimum coverage expectation, if any — not yet decided, and coverage percentage should not become a proxy for actual test quality.
 
 ## References

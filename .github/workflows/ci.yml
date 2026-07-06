@@ -5,11 +5,11 @@
 # of Done in docs/product/implementation-backlog.md.
 #
 # Steps run in the order defined by deployment.md:
-#   lint -> format check -> typecheck -> build
+#   lint -> format check -> typecheck -> unit tests -> build
 #
-# Test and Lighthouse steps (E1.2.2 / E1.2.3 / E1.2.4) are intentionally NOT
-# here yet: no test runner (E15.1.1) or Lighthouse config exists. They slot in
-# after this step in the same file once that infrastructure lands.
+# Still pending their own infrastructure (slot in after unit tests, before
+# build, in the order deployment.md defines): Playwright E2E + axe (E1.2.3)
+# and the Lighthouse CI gate (E1.2.4).
 
 name: CI
 
@@ -29,7 +29,7 @@ env:
 
 jobs:
   quality-gate:
-    name: Lint, format, typecheck, build
+    name: Lint, format, typecheck, test, build
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -54,6 +54,9 @@ jobs:
 
       - name: Type-check (tsc --noEmit)
         run: npm run typecheck
+
+      - name: Unit + component tests (Vitest)
+        run: npm run test
 
       - name: Build (next build)
         run: npm run build
