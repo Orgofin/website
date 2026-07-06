@@ -24,3 +24,4 @@ export {
   type FooterProps,
   type FooterColumn,
 } from "@/components/layout/Footer";
+export { MobileBlockScreen } from "@/components/layout/MobileBlockScreen";

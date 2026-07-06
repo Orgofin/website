@@ -911,7 +911,9 @@ Backlog authored from the `.claude/` corpus and the current repo baseline (2026-
 
 **E8.1.1 (`WaitlistForm`) + E11.3.2 (thank-you) — done:** the primary conversion form (`components/forms/WaitlistForm.tsx`) — React Hook Form + `@hookform/resolvers` validating with the _same_ `waitlistSchema` as the server, submitting via `POST /api/waitlist`, announcing failures through an `aria-live` region, and redirecting to `/waitlist/thank-you` (a `noindex` confirmation page using the copy deck's success message). Component-tested (validation, success redirect, server + network errors) and verified at runtime against the real route (graceful 502 while Supabase is unprovisioned; 400s for invalid input). It renders/validates now; live writes await Supabase (E7.1.2).
 
-Not started: the rest of E7 (other write surfaces), the rest of E8 (newsletter/demo/partner forms), E9–E12, E14, and the rest of E15 (Playwright/E2E, axe, launch hardening), plus the marketing route shell and pages. Task IDs are stable and safe to reference from a tracker.
+**Marketing shell + CTA — done:** `MobileBlockScreen` (E4.3.2, a pure-CSS sub-390px lockout), the `app/(marketing)/` route group + layout (E4.3.3 — sticky `Navbar` + `PageShell` + `Footer` + lockout), and `CTABand` (E6.2.1 — the reused end-of-page waitlist CTA, wired to `WaitlistForm`). The home page moved into `(marketing)/` and now renders a minimal hero (Chapter 1 copy) + the working waitlist — verified rendering end-to-end at runtime. This is **not** the full Home narrative (E9), just a live, visible first screen with the primary conversion.
+
+Not started: the rest of E7 (other write surfaces), the rest of E8 (newsletter/demo/partner forms), the full Home narrative E9, E10–E12, E14, and the rest of E15 (Playwright/E2E, axe, launch hardening). Nav/footer link content is still placeholder (real IA wiring is a later task). Task IDs are stable and safe to reference from a tracker.
 
 ## Future Improvements
 
