@@ -51,7 +51,7 @@ Wire the remaining pipeline steps (unit tests, Playwright/axe, Lighthouse gate) 
 ## TODO
 
 - [x] Write the actual GitHub Actions workflow file(s). — first slice done in `ci.yml`; test/E2E/Lighthouse steps still pending (E1.2.2–E1.2.4).
-- [ ] Set up the Vercel project and connect branch environments.
+- [ ] Set up the Vercel project and connect branch environments — the step-by-step guide is written ([`docs/deployment/vercel-setup.md`](../../docs/deployment/vercel-setup.md)); the connection itself is an interactive account step.
 - [ ] Decide Supabase environment isolation strategy (see above).
 - [ ] Populate `docs/deployment/environment-variables.md` with real variable names once Supabase/GA4 are provisioned.
 
