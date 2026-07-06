@@ -102,7 +102,8 @@ We run this on **GitHub Actions** (GitHub's built-in automation). Our configurat
 2. Lint                    (npm run lint)
 3. Format check            (npm run format:check)
 4. Type-check              (npm run typecheck)
-5. Build                   (npm run build)
+5. Unit + component tests  (npm run test)
+6. Build                   (npm run build)
 ```
 
 If **any** step fails, the pull request shows a red ✗ and **cannot be merged**. If all pass, a green ✓. There is deliberately no "merge now, fix later" path — see [`deployment.md`](../../.claude/context/deployment.md).
@@ -134,13 +135,13 @@ Put the pieces in sequence and you get the **quality gate** — the full bar a c
      │
      ▼
  open PR ─────▶ [GitHub Actions CI:                  ← minutes, clean server
-     │            lint → format → type-check → build]
+     │            lint → format → type-check → test → build]
      │           [PR checklist: docs synced?]         ← human judgment
      ▼
  all green ──▶ merge ──▶ deploy
 ```
 
-The eventual target adds three more CI steps — automated tests, accessibility checks, and a performance budget (Lighthouse) — but those need infrastructure we haven't built yet. See "Current Status."
+The eventual target adds two more CI steps — accessibility/end-to-end checks and a performance budget (Lighthouse) — but those need infrastructure we haven't built yet. See "Current Status."
 
 ---
 
@@ -156,13 +157,12 @@ The eventual target adds three more CI steps — automated tests, accessibility 
 
 ## Current Status
 
-The **lint → format → type-check → build** gate is live, in both layers (Husky hooks + GitHub Actions). Three planned CI steps are **not yet wired up** because they depend on infrastructure that doesn't exist yet:
+The **lint → format → type-check → test → build** gate is live, in both layers (Husky hooks + GitHub Actions). Automated **unit + component tests** run via Vitest (`npm run test`) — see [`testing.md`](../../.claude/context/testing.md) for what's tested. Two planned CI steps are **not yet wired up** because they depend on infrastructure that doesn't exist yet:
 
-- **Automated tests** — no test runner is set up yet (backlog task E15.1.1).
-- **Accessibility checks** (axe) and **end-to-end tests** (Playwright) — depend on the test runner and page work.
+- **Accessibility checks** (axe) and **end-to-end tests** (Playwright) — depend on forms and pages being built.
 - **Performance budget** (Lighthouse: Performance ≥95, Accessibility/SEO/Best-Practices 100) — depends on real pages to measure.
 
-Each will slot into `ci.yml` after the build step as it becomes possible. Deployment to Vercel is also not connected yet.
+Each will slot into `ci.yml` (after tests, before build) as it becomes possible. Deployment to Vercel is also not connected yet.
 
 ## Future Improvements
 
@@ -173,7 +173,7 @@ Each will slot into `ci.yml` after the build step as it becomes possible. Deploy
 ## TODO
 
 - [ ] Add the troubleshooting/FAQ section after the first few weeks of real PRs.
-- [ ] Revisit once test + Lighthouse CI steps land, so this guide matches the full pipeline described in `deployment.md`.
+- [ ] Revisit once the E2E/axe and Lighthouse CI steps land, so this guide matches the full pipeline described in `deployment.md`.
 
 ## References
 
