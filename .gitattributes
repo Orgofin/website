@@ -1,0 +1,19 @@
+# Enforce LF line endings for all text files, in the repo and on checkout.
+#
+# Without this, a Windows checkout (core.autocrlf=true) gives every file CRLF
+# line endings, which fails Prettier's format gate (endOfLine defaults to "lf")
+# on the developer's machine while passing on Linux/CI — a confusing split.
+# Pinning eol=lf makes `npm run format:check` behave identically everywhere.
+* text=auto eol=lf
+
+# Binary assets: never normalize line endings or attempt to diff them.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.avif binary
+*.ico  binary
+*.pdf  binary
+*.woff  binary
+*.woff2 binary

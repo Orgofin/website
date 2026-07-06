@@ -22,7 +22,9 @@ Owns: CI pipeline conventions, branch-to-environment mapping, and the backend-mi
 
 Required, in order, before merge: lint (ESLint) → format check (Prettier) → type-check (`tsc --noEmit`) → unit tests → Playwright E2E + axe accessibility pass → build → Lighthouse CI gate (Performance 95+, Accessibility/SEO/Best Practices 100 — see `docs/product/prd.md` §6). A regression at any step blocks merge; there is no "merge now, fix later" path for this pipeline.
 
-Local pre-commit/pre-push (Husky): lint + format on staged files at commit, type-check at push — catches most issues before they reach CI at all.
+The workflow implementing the first slice of this pipeline is [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) (E1.2.1): **lint → format check → typecheck → build** on every PR to `dev`/`uat`/`main`. The unit-test, Playwright/axe, and Lighthouse steps are not wired yet — they depend on test infrastructure (E15.1.1) and a Lighthouse config that don't exist yet, and slot into the same file after the build step once they do. A plain-English explainer of the whole gate lives at [`docs/engineering/quality-gates-explained.md`](../../docs/engineering/quality-gates-explained.md).
+
+Local pre-commit/pre-push (Husky): [`.husky/pre-commit`](../../.husky/pre-commit) runs `lint-staged` (ESLint + Prettier on staged files) at commit; [`.husky/pre-push`](../../.husky/pre-push) runs `npm run typecheck` at push — catching most issues before they reach CI at all.
 
 ## Environment Variables — Convention
 
@@ -40,15 +42,15 @@ Deployment conventions must preserve the seam described in `frontend.md` §11: t
 
 ## Current Status
 
-Conventions only — no `.github/workflows/*`, no Vercel project, no CI pipeline exists yet.
+First CI slice live: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) gates PRs on lint → format check → typecheck → build, and Husky pre-commit/pre-push hooks run the local gate. No Vercel project is connected yet, and the test/E2E/Lighthouse CI steps are still pending their underlying infrastructure.
 
 ## Future Improvements
 
-Once the first workflow file is written, this document should link to it directly rather than describing it in prose.
+Wire the remaining pipeline steps (unit tests, Playwright/axe, Lighthouse gate) into `ci.yml` as their infrastructure lands, and connect the Vercel project so branch → environment mapping (above) becomes real.
 
 ## TODO
 
-- [ ] Write the actual GitHub Actions workflow file(s).
+- [x] Write the actual GitHub Actions workflow file(s). — first slice done in `ci.yml`; test/E2E/Lighthouse steps still pending (E1.2.2–E1.2.4).
 - [ ] Set up the Vercel project and connect branch environments.
 - [ ] Decide Supabase environment isolation strategy (see above).
 - [ ] Populate `docs/deployment/environment-variables.md` with real variable names once Supabase/GA4 are provisioned.
