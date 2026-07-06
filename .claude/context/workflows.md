@@ -94,11 +94,11 @@ This is the current, intended workflow. No PRs have been merged under it yet (re
 
 ## Future Improvements
 
-Once real PRs start flowing, consider whether a PR template (`.github/PULL_REQUEST_TEMPLATE.md`) should encode the Documentation Synchronization table as a checklist — turns a documented rule into an enforced one.
+Revisit the PR template once real PRs surface friction — if a checklist row is routinely skipped or misread, tighten its wording (or promote it into a CI check) rather than letting it become decorative.
 
 ## TODO
 
-- [ ] Create `.github/PULL_REQUEST_TEMPLATE.md` once CI exists (see `deployment.md` TODO).
+- [x] Create `.github/PULL_REQUEST_TEMPLATE.md` once CI exists — done; it encodes the Documentation Synchronization table above as a checklist (E1.3.1).
 
 ## References
 

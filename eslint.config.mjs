@@ -14,6 +14,22 @@ const eslintConfig = defineConfig([
       // .claude/context/coding-standards.md: named exports only, except Next's
       // special files (which require a default export) — see override below.
       "import/no-default-export": "error",
+      // CLAUDE.md non-negotiable #3 / frontend.md §11: @supabase/* may be imported
+      // ONLY inside src/lib/supabase/** — the rest of the app goes through
+      // lib/api/*. This ESLint rule is what makes that seam enforced, not just
+      // documented; the src/lib/supabase/** override below re-permits it there.
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["@supabase/*", "@supabase/**"],
+              message:
+                "Import @supabase/* only inside src/lib/supabase/**. Everywhere else, call through lib/api/* — see CLAUDE.md non-negotiable #3 and frontend.md §11.",
+            },
+          ],
+        },
+      ],
       "import/order": [
         "warn",
         {
@@ -59,6 +75,15 @@ const eslintConfig = defineConfig([
     ],
     rules: {
       "import/no-default-export": "off",
+    },
+  },
+  {
+    // The one place @supabase/* is allowed to be imported (frontend.md §11).
+    // This is the backend-migration seam: when a real backend eventually
+    // replaces direct Supabase calls, only these files change.
+    files: ["src/lib/supabase/**"],
+    rules: {
+      "no-restricted-imports": "off",
     },
   },
   // Override default ignores of eslint-config-next.

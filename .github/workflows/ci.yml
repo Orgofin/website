@@ -1,0 +1,59 @@
+# Continuous Integration for the Orgofin website.
+#
+# Enforces the standing local gate on every PR so no red build can merge —
+# see .claude/context/deployment.md (CI Pipeline) and the Universal Definition
+# of Done in docs/product/implementation-backlog.md.
+#
+# Steps run in the order defined by deployment.md:
+#   lint -> format check -> typecheck -> build
+#
+# Test and Lighthouse steps (E1.2.2 / E1.2.3 / E1.2.4) are intentionally NOT
+# here yet: no test runner (E15.1.1) or Lighthouse config exists. They slot in
+# after this step in the same file once that infrastructure lands.
+
+name: CI
+
+on:
+  pull_request:
+    branches: [dev, uat, main]
+  workflow_dispatch:
+
+# Cancel superseded runs on the same branch/PR to save CI minutes.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Keep CI logs clean and deterministic.
+  NEXT_TELEMETRY_DISABLED: "1"
+
+jobs:
+  quality-gate:
+    name: Lint, format, typecheck, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (ESLint, zero warnings)
+        run: npm run lint
+
+      - name: Format check (Prettier)
+        run: npm run format:check
+
+      - name: Type-check (tsc --noEmit)
+        run: npm run typecheck
+
+      - name: Build (next build)
+        run: npm run build

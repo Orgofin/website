@@ -17,6 +17,7 @@ Owns the concrete list of variables and where they're managed. Does not own the 
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anonymous/public key                                         | Yes             | TODO                                                                            |
 | `SUPABASE_SERVICE_ROLE_KEY`     | Server-only Supabase key, if any server-side admin operation needs it | No              | TODO — only add if actually needed; don't provision unused elevated credentials |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | GA4 property ID                                                       | Yes             | TODO — no GA4 property created yet                                              |
+| `NEXT_PUBLIC_SITE_URL`          | Canonical site origin for metadata/sitemap/robots absolute URLs       | Yes             | Optional in dev (falls back to `src/lib/seo/site.ts`); set per-env in Vercel    |
 
 ## Where They're Set
 

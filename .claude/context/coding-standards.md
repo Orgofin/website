@@ -62,7 +62,7 @@ See `frontend.md` §9 for the full state-management philosophy. In short: Server
 
 ## Current Status
 
-Standards defined; no code exists yet to audit against them. ESLint/Prettier configuration enforcing these rules automatically is part of the first implementation PR, not yet written.
+Standards defined and now enforced by tooling. [`eslint.config.mjs`](../../eslint.config.mjs) implements import order, `no-default-export` (with Next special-file exceptions), `no-console` (allowing `warn`/`error`), and the `@supabase/*` import restriction that protects the `lib/api` seam; `npm run lint` runs at zero warnings. [`.prettierrc.json`](../../.prettierrc.json) includes `prettier-plugin-tailwindcss` for class ordering. Both run in CI ([`.github/workflows/ci.yml`](../../.github/workflows/ci.yml)) and locally via Husky.
 
 ## Future Improvements
 
@@ -70,8 +70,8 @@ Once the first components exist, add a short "before/after" example section here
 
 ## TODO
 
-- [ ] Write the actual ESLint config (`eslint-config-next` + custom rules for import order, no-default-export, no-console) — this document states the rules; the config is what enforces them and doesn't exist yet.
-- [ ] Write the Prettier config (`prettier-plugin-tailwindcss` included) matching the rules above.
+- [x] Write the actual ESLint config (import order, no-default-export, no-console, `@supabase/*` boundary) — done in `eslint.config.mjs`.
+- [x] Write the Prettier config (`prettier-plugin-tailwindcss` included) matching the rules above — done in `.prettierrc.json`.
 
 ## References
 
