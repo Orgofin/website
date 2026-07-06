@@ -909,7 +909,9 @@ Backlog authored from the `.claude/` corpus and the current repo baseline (2026-
 
 **E7 (data layer & API seam) — waitlist slice done:** `lib/supabase/{server,types}` (the only `@supabase/*` importers, ESLint-enforced) + `lib/api/waitlist` (shared Zod schema, `submitWaitlist` returning a typed `{ ok } | { error }`, unit-tested against a mocked client) + `app/api/waitlist/route.ts` (typed error shape, never leaks a stack) — E7.1.1 (server/types; browser `client.ts` deferred until a client-side use exists, to avoid unused code), E7.2.1, E7.3.1. **Not yet live:** Supabase isn't provisioned, so submissions error gracefully until the project + env vars exist (E7.1.2) and the env-isolation ADR (E1.3.3) is settled. The other write surfaces (newsletter/contact/demo/partner — E7.2.2/E7.3.2) are not built.
 
-Not started: the rest of E7, E8–E12, E14, and the rest of E15 (Playwright/E2E, axe, launch hardening), plus all marketing/page work. Task IDs are stable and safe to reference from a tracker.
+**E8.1.1 (`WaitlistForm`) + E11.3.2 (thank-you) — done:** the primary conversion form (`components/forms/WaitlistForm.tsx`) — React Hook Form + `@hookform/resolvers` validating with the _same_ `waitlistSchema` as the server, submitting via `POST /api/waitlist`, announcing failures through an `aria-live` region, and redirecting to `/waitlist/thank-you` (a `noindex` confirmation page using the copy deck's success message). Component-tested (validation, success redirect, server + network errors) and verified at runtime against the real route (graceful 502 while Supabase is unprovisioned; 400s for invalid input). It renders/validates now; live writes await Supabase (E7.1.2).
+
+Not started: the rest of E7 (other write surfaces), the rest of E8 (newsletter/demo/partner forms), E9–E12, E14, and the rest of E15 (Playwright/E2E, axe, launch hardening), plus the marketing route shell and pages. Task IDs are stable and safe to reference from a tracker.
 
 ## Future Improvements
 
