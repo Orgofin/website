@@ -245,7 +245,7 @@ The load-bearing calls made here, in one place, so a future editor knows what to
 
 ## Current Status
 
-Scaffold + core infrastructure implemented (Phase 10). The `src/` tree now contains the real component library (`components/{ui,layout,motion,theme,seo,feedback}`), hooks (`hooks/`), and libs (`lib/{seo,theme,motion,utils}`) — plus placeholder `.gitkeep` folders for the not-yet-built `components/{sections,graph,forms,icons}` and `lib/{supabase,api,analytics}`. Design tokens are live in `app/globals.css`. Marketing pages, the data/API seam (§11), forms, and analytics remain unbuilt. Full catalog: [`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md).
+Scaffold + core infrastructure implemented (Phase 10), with molecules (`components/molecules/`) and the first `lib/api` seam slice now added. The `src/` tree contains the real component library (`components/{ui,molecules,layout,motion,theme,seo,feedback}`), hooks (`hooks/`), and libs (`lib/{seo,theme,motion,utils}`). The §11 seam is now live for the waitlist path: `lib/supabase/{server,types}` (the only `@supabase/*` importers) and `lib/api/waitlist` (Zod schema + `submitWaitlist`), consumed by `app/api/waitlist/route.ts`. Still placeholder `.gitkeep` folders for `components/{sections,graph,forms,icons}` and `lib/analytics`; the browser Supabase client (`lib/supabase/client.ts`) is deferred until a client-side use exists. Design tokens are live in `app/globals.css`. Marketing pages, forms, and analytics remain unbuilt. Full catalog: [`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md).
 
 ## Future Improvements
 

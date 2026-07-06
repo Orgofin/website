@@ -907,7 +907,9 @@ Backlog authored from the `.claude/` corpus and the current repo baseline (2026-
 
 **E3 form/display primitives — done:** `Input` + `Textarea` (E3.1.2) and `Badge` (E3.2.1), each with component tests. Inputs forward refs and reflect `aria-invalid`; `Badge` conveys status by label + a colored dot (never color alone). This unblocks `FormField` (E6.1.5) and the `Badge` half of `ModuleCard` (E6.1.4). Still open in E3: `Select`/`Checkbox` (E3.1.3), `Tooltip` (E3.2.4), and the custom-icon scaffold (E3.3.x).
 
-Not started: E7–E12, E14, and the rest of E15 (Playwright/E2E, axe, launch hardening), plus all marketing/page work. Task IDs are stable and safe to reference from a tracker.
+**E7 (data layer & API seam) — waitlist slice done:** `lib/supabase/{server,types}` (the only `@supabase/*` importers, ESLint-enforced) + `lib/api/waitlist` (shared Zod schema, `submitWaitlist` returning a typed `{ ok } | { error }`, unit-tested against a mocked client) + `app/api/waitlist/route.ts` (typed error shape, never leaks a stack) — E7.1.1 (server/types; browser `client.ts` deferred until a client-side use exists, to avoid unused code), E7.2.1, E7.3.1. **Not yet live:** Supabase isn't provisioned, so submissions error gracefully until the project + env vars exist (E7.1.2) and the env-isolation ADR (E1.3.3) is settled. The other write surfaces (newsletter/contact/demo/partner — E7.2.2/E7.3.2) are not built.
+
+Not started: the rest of E7, E8–E12, E14, and the rest of E15 (Playwright/E2E, axe, launch hardening), plus all marketing/page work. Task IDs are stable and safe to reference from a tracker.
 
 ## Future Improvements
 
