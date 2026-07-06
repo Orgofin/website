@@ -60,6 +60,7 @@ src/
 │
 ├── components/
 │   ├── ui/               # primitives — Button, Input, Textarea, Select, Badge, Card, Dialog, Tooltip
+│   ├── molecules/        # tier-2 compositions — SectionHeading, StatCallout, CalloutBox, ModuleCard, FormField
 │   ├── layout/           # Nav, Footer, ThemeToggle, MobileBlockScreen, PageShell, SkipLink
 │   ├── sections/         # chapter/page-section organisms (WorldToday, HiddenCost, WhyWeWin, RoadmapTrack…)
 │   ├── graph/            # Company Brain graph visualization (isolated, heavy, code-split)
@@ -106,7 +107,7 @@ Pages (app/**/page.tsx)
 ```
 
 - **Primitives (`components/ui/`)** — no business logic, no copy hardcoded, styled only from design tokens. A `Button` doesn't know about "Join the Waitlist"; it just renders a variant/size.
-- **Molecules** — small compositions with a specific shape (e.g., `SectionHeading` = headline + sub-headline pattern used on every page per the copy deck) but still content-agnostic — they accept copy as props, never import it directly.
+- **Molecules (`components/molecules/`)** — small compositions with a specific shape (e.g., `SectionHeading` = headline + sub-headline pattern used on every page per the copy deck) but still content-agnostic — they accept copy as props, never import it directly. They compose primitives and are composed by sections; they never import a section.
 - **Sections (organisms)** — the actual chapter/page-block components (`WorldToday`, `HiddenCost`, `WhyWeWinSection`, `RoadmapTrack`, `SixMoatsList`). These _do_ import copy content and _do_ own animation orchestration for their block. This is where [`docs/product/copy.md`](../../docs/product/copy.md) content actually lands.
 - **Layout** (`components/layout/`) — page chrome: `Nav`, `Footer`, `ThemeToggle`, `MobileBlockScreen`, `PageShell` (the max-width/padding wrapper enforcing design-system §9's content cap on ultrawide).
 - **Pages** — compose Sections in sequence, handle route-level data fetching (e.g., live waitlist count for the social-proof counter flagged in [`docs/product/website-strategy.md`](../../docs/product/website-strategy.md) §6), and set `generateMetadata`.

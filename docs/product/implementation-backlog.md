@@ -903,7 +903,9 @@ Backlog authored from the `.claude/` corpus and the current repo baseline (2026-
 
 **E15.1.1 (test runner) — done:** Vitest + React Testing Library configured ([`vitest.config.ts`](../../vitest.config.ts)), with a `lib/` unit test and a `Button` component test passing in CI. Decision recorded in [`.claude/context/testing.md`](../../.claude/context/testing.md).
 
-Not started: E6–E12, E14, and the rest of E15 (Playwright/E2E, axe, launch hardening), plus all marketing/page work. Task IDs are stable and safe to reference from a tracker.
+**E6 (molecules) — first slice done:** the content-agnostic presentational molecules `SectionHeading` (E6.1.1), `StatCallout` (E6.1.2), and `CalloutBox` (E6.1.3), each with component tests, in a new `src/components/molecules/` folder (recorded in [`frontend.md`](../../.claude/context/frontend.md) §1–2). Still open in E6: `ModuleCard` (E6.1.4, blocked on `Badge` E3.2.1 + custom icons E3.3.2), `FormField` (E6.1.5, blocked on `Input`/`Textarea` E3.1.2), and the shared organisms `CTABand`/`RoadmapTrack`/`CompetitorTeardownTable` (E6.2.x).
+
+Not started: E7–E12, E14, and the rest of E15 (Playwright/E2E, axe, launch hardening), plus all marketing/page work. Task IDs are stable and safe to reference from a tracker.
 
 ## Future Improvements
 
