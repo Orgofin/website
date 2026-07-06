@@ -903,7 +903,9 @@ Backlog authored from the `.claude/` corpus and the current repo baseline (2026-
 
 **E15.1.1 (test runner) — done:** Vitest + React Testing Library configured ([`vitest.config.ts`](../../vitest.config.ts)), with a `lib/` unit test and a `Button` component test passing in CI. Decision recorded in [`.claude/context/testing.md`](../../.claude/context/testing.md).
 
-**E6 (molecules) — first slice done:** the content-agnostic presentational molecules `SectionHeading` (E6.1.1), `StatCallout` (E6.1.2), and `CalloutBox` (E6.1.3), each with component tests, in a new `src/components/molecules/` folder (recorded in [`frontend.md`](../../.claude/context/frontend.md) §1–2). Still open in E6: `ModuleCard` (E6.1.4, blocked on `Badge` E3.2.1 + custom icons E3.3.2), `FormField` (E6.1.5, blocked on `Input`/`Textarea` E3.1.2), and the shared organisms `CTABand`/`RoadmapTrack`/`CompetitorTeardownTable` (E6.2.x).
+**E6 (molecules) — first slice done:** the content-agnostic presentational molecules `SectionHeading` (E6.1.1), `StatCallout` (E6.1.2), and `CalloutBox` (E6.1.3), each with component tests, in a new `src/components/molecules/` folder (recorded in [`frontend.md`](../../.claude/context/frontend.md) §1–2). Still open in E6: `ModuleCard` (E6.1.4, still blocked on custom icons E3.3.2), `FormField` (E6.1.5, now unblocked — see below), and the shared organisms `CTABand`/`RoadmapTrack`/`CompetitorTeardownTable` (E6.2.x).
+
+**E3 form/display primitives — done:** `Input` + `Textarea` (E3.1.2) and `Badge` (E3.2.1), each with component tests. Inputs forward refs and reflect `aria-invalid`; `Badge` conveys status by label + a colored dot (never color alone). This unblocks `FormField` (E6.1.5) and the `Badge` half of `ModuleCard` (E6.1.4). Still open in E3: `Select`/`Checkbox` (E3.1.3), `Tooltip` (E3.2.4), and the custom-icon scaffold (E3.3.x).
 
 Not started: E7–E12, E14, and the rest of E15 (Playwright/E2E, axe, launch hardening), plus all marketing/page work. Task IDs are stable and safe to reference from a tracker.
 

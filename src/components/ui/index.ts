@@ -16,6 +16,9 @@ export {
 } from "@/components/ui/Card";
 export { Spinner, type SpinnerProps } from "@/components/ui/Spinner";
 export { Image, type ImageProps } from "@/components/ui/Image";
+export { Input, type InputProps } from "@/components/ui/Input";
+export { Textarea, type TextareaProps } from "@/components/ui/Textarea";
+export { Badge, badgeVariants, type BadgeProps } from "@/components/ui/Badge";
 
 export {
   Heading,
