@@ -9,6 +9,8 @@
 
 Owns the actual runbook once the site is live. Does not own CI/CD conventions or the backend-migration boundary (`.claude/context/deployment.md`).
 
+> **First-time connection:** follow [`vercel-setup.md`](./vercel-setup.md) to import the repo, set the production branch, and configure env vars. Fill the URLs and rollback specifics below once the first deploy exists.
+
 ## Environments
 
 | Branch | Environment         | URL                     |
@@ -19,7 +21,13 @@ Owns the actual runbook once the site is live. Does not own CI/CD conventions or
 
 ## Rollback Procedure
 
-TODO — document the actual Vercel rollback steps once the project is provisioned (expected: instant rollback to the prior deployment via the Vercel dashboard or CLI, per `.claude/context/deployment.md`).
+Vercel keeps every prior deployment immutable, so rollback is a promotion, not a rebuild:
+
+- **Dashboard:** Project → **Deployments** → pick the last known-good deployment → **⋯ → Promote to Production** (instant; no git revert needed).
+- **CLI:** `vercel rollback [deployment-url]` (or `vercel rollback` to pick interactively).
+- **Then** open a fix-forward PR for the actual bug — a rollback buys time, it isn't the fix.
+
+Record the exact production URL to promote against here once the project is connected.
 
 ## Incident Response
 
