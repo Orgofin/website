@@ -1,0 +1,62 @@
+# Continuous Integration for the Orgofin website.
+#
+# Enforces the standing local gate on every PR so no red build can merge —
+# see .claude/context/deployment.md (CI Pipeline) and the Universal Definition
+# of Done in docs/product/implementation-backlog.md.
+#
+# Steps run in the order defined by deployment.md:
+#   lint -> format check -> typecheck -> unit tests -> build
+#
+# Still pending their own infrastructure (slot in after unit tests, before
+# build, in the order deployment.md defines): Playwright E2E + axe (E1.2.3)
+# and the Lighthouse CI gate (E1.2.4).
+
+name: CI
+
+on:
+  pull_request:
+    branches: [dev, uat, main]
+  workflow_dispatch:
+
+# Cancel superseded runs on the same branch/PR to save CI minutes.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Keep CI logs clean and deterministic.
+  NEXT_TELEMETRY_DISABLED: "1"
+
+jobs:
+  quality-gate:
+    name: Lint, format, typecheck, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (ESLint, zero warnings)
+        run: npm run lint
+
+      - name: Format check (Prettier)
+        run: npm run format:check
+
+      - name: Type-check (tsc --noEmit)
+        run: npm run typecheck
+
+      - name: Unit + component tests (Vitest)
+        run: npm run test
+
+      - name: Build (next build)
+        run: npm run build
