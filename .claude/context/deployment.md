@@ -34,7 +34,7 @@ Local pre-commit/pre-push (Husky): [`.husky/pre-commit`](../../.husky/pre-commit
 
 ## Supabase Environment Isolation
 
-Recommended: separate Supabase projects (or at minimum clearly separated tables/RLS policies) for preview/dev vs. production — so test waitlist submissions during development never pollute the real, investor-facing signup count. Not yet decided — see `frontend.md` §11 TODO.
+**Decided (2026-07-08): two separate Supabase projects.** A **prod** project backs Production (`main`); a shared **non-prod** project backs `uat`, `dev`, and PR previews. The split is enforced by per-environment scoping of `NEXT_PUBLIC_SUPABASE_URL`/`ANON_KEY` in Vercel, so test waitlist submissions never pollute the real, investor-facing signup count. Variable-level detail: [`docs/deployment/environment-variables.md`](../../docs/deployment/environment-variables.md); schema: [`supabase/migrations/`](../../supabase/migrations/).
 
 ## The Backend-Migration Boundary
 
@@ -53,8 +53,8 @@ Wire the remaining pipeline steps (unit tests, Playwright/axe, Lighthouse gate) 
 - [x] Write the actual GitHub Actions workflow file(s). — first slice done in `ci.yml`; test/E2E/Lighthouse steps still pending (E1.2.2–E1.2.4).
 - [x] Set up the Vercel project and connect branch environments — done 2026-07-07 (production branch `main`); guide: [`docs/deployment/vercel-setup.md`](../../docs/deployment/vercel-setup.md).
 - [ ] Attach a custom production domain / configure DNS (E13.1.3) and set `NEXT_PUBLIC_SITE_URL`.
-- [ ] Decide Supabase environment isolation strategy (see above).
-- [ ] Populate `docs/deployment/environment-variables.md` with real variable names once Supabase/GA4 are provisioned.
+- [x] Decide Supabase environment isolation strategy — done 2026-07-08: two projects (prod + non-prod), see above.
+- [x] Populate `docs/deployment/environment-variables.md` with the real Supabase variables (done 2026-07-08); GA4 vars still pending its property.
 
 ## References
 
