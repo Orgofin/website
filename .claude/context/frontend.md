@@ -3,7 +3,7 @@
 > **Purpose:** Defines how the Orgofin website codebase is organized — folders, component tiers, rendering strategy, and the seven cross-cutting strategies (images, SEO, accessibility, performance, state, animation, deployment) every implementation must follow.
 > **Applies to:** anyone (human or Claude) writing frontend code in this repository.
 
-**Status:** Partially implemented. Phase 10 (Core Infrastructure) built the shared foundation — design tokens, theme system, motion primitives, layout primitives, UI primitives, navigation/footer chrome, SEO utilities, image + feedback components, hooks, and App Router state files. See the catalog: [`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md). Marketing pages/sections and the data/API layer remain unbuilt (see [`docs/product/implementation-backlog.md`](../../docs/product/implementation-backlog.md)).
+**Status:** Partially implemented. Phase 10 (Core Infrastructure) built the shared foundation — design tokens, theme system, motion primitives, layout primitives, UI primitives, navigation/footer chrome, SEO utilities, image + feedback components, hooks, and App Router state files. See the catalog: [`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md). The Home narrative (E9 static spine) is built — 11 chapter organisms in `components/sections/home/` assembled in `app/(marketing)/page.tsx`. Its two signature visualizations (`CompanyBrainGraph`, `AgentOrchestrationDiagram`) and the other marketing pages remain unbuilt (see [`docs/product/implementation-backlog.md`](../../docs/product/implementation-backlog.md)).
 **Grounded in:** [`docs/product/prd.md`](../../docs/product/prd.md) (tech stack, non-negotiables), [`design-system.md`](./design-system.md) (tokens), [`information-architecture.md`](./information-architecture.md) (page/route list), [`docs/product/copy.md`](../../docs/product/copy.md) (content that populates these components).
 
 Stack per the PRD: Next.js (App Router), React, TypeScript, Tailwind CSS, Framer Motion, Supabase, Vercel, ESLint, Prettier, Husky, GitHub Actions. Frontend-first — no dedicated backend yet, but the architecture must isolate that boundary cleanly so a future NestJS/Go backend can slot in without touching components or pages (see §11).
@@ -62,7 +62,7 @@ src/
 │   ├── ui/               # primitives — Button, Input, Textarea, Select, Badge, Card, Dialog, Tooltip
 │   ├── molecules/        # tier-2 compositions — SectionHeading, StatCallout, CalloutBox, ModuleCard, FormField
 │   ├── layout/           # Nav, Footer, ThemeToggle, MobileBlockScreen, PageShell, SkipLink
-│   ├── sections/         # chapter/page-section organisms (WorldToday, HiddenCost, WhyWeWin, RoadmapTrack…)
+│   ├── sections/         # page-section organisms; shared ones at root (CTABand…), per-page chapters grouped in a subfolder (sections/home/ = the Home narrative chapters)
 │   ├── graph/            # Company Brain graph visualization (isolated, heavy, code-split)
 │   ├── forms/            # WaitlistForm, DemoRequestForm, PartnerApplicationForm, NewsletterInline
 │   ├── motion/           # Reveal, Stagger, Parallax, ChapterTransition — shared Framer Motion primitives
