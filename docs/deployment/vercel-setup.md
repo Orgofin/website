@@ -62,7 +62,7 @@ Set these (from [`src/env.ts`](../../src/env.ts)) under **Settings → Environme
 
 ## Current Status
 
-Not connected yet. This guide is the checklist for the first connection; the operational details (real URLs, rollback) land in `README.md` at that time.
+Connected 2026-07-07 (Vercel project `website`, production branch `main`, zero-config, no env vars set — all currently optional). Production is live at https://website-chi-azure-55.vercel.app; live URLs and rollback target now recorded in [`README.md`](./README.md). Custom domain still pending (E13.1.3).
 
 ## Future Improvements
 
@@ -71,9 +71,9 @@ Not connected yet. This guide is the checklist for the first connection; the ope
 
 ## TODO
 
-- [ ] Connect the Vercel project (Step 1) and set the production branch (Step 2).
+- [x] Connect the Vercel project (Step 1) and set the production branch (Step 2). — done 2026-07-07.
+- [x] Record real URLs + rollback steps in `README.md` after first deploy. — done.
 - [ ] Add env vars as each service is provisioned (Step 3).
-- [ ] Record real URLs + rollback steps in `README.md` after first deploy.
 - [ ] Resolve the canonical domain decision (E13.1.3) and set `NEXT_PUBLIC_SITE_URL`.
 
 ## References
@@ -88,5 +88,5 @@ Not connected yet. This guide is the checklist for the first connection; the ope
 
 ---
 
-**Last Updated:** 2026-07-06
+**Last Updated:** 2026-07-07
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

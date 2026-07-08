@@ -34,7 +34,7 @@ Local pre-commit/pre-push (Husky): [`.husky/pre-commit`](../../.husky/pre-commit
 
 ## Supabase Environment Isolation
 
-Recommended: separate Supabase projects (or at minimum clearly separated tables/RLS policies) for preview/dev vs. production — so test waitlist submissions during development never pollute the real, investor-facing signup count. Not yet decided — see `frontend.md` §11 TODO.
+**Decided (2026-07-08): two separate Supabase projects.** A **prod** project backs Production (`main`); a shared **non-prod** project backs `uat`, `dev`, and PR previews. The split is enforced by per-environment scoping of `NEXT_PUBLIC_SUPABASE_URL`/`ANON_KEY` in Vercel, so test waitlist submissions never pollute the real, investor-facing signup count. Variable-level detail: [`docs/deployment/environment-variables.md`](../../docs/deployment/environment-variables.md); schema: [`supabase/migrations/`](../../supabase/migrations/).
 
 ## The Backend-Migration Boundary
 
@@ -42,18 +42,19 @@ Deployment conventions must preserve the seam described in `frontend.md` §11: t
 
 ## Current Status
 
-First CI slice live: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) gates PRs on lint → format check → typecheck → build, and Husky pre-commit/pre-push hooks run the local gate. No Vercel project is connected yet, and the test/E2E/Lighthouse CI steps are still pending their underlying infrastructure.
+First CI slice live: [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) gates PRs on lint → format check → typecheck → build, and Husky pre-commit/pre-push hooks run the local gate. The Vercel project is connected (2026-07-07): production builds from `main` at https://website-chi-azure-55.vercel.app, with automatic Preview deploys for `uat`/`dev`/PRs — see [`docs/deployment/README.md`](../../docs/deployment/README.md). The test/E2E/Lighthouse CI steps are still pending their underlying infrastructure.
 
 ## Future Improvements
 
-Wire the remaining pipeline steps (unit tests, Playwright/axe, Lighthouse gate) into `ci.yml` as their infrastructure lands, and connect the Vercel project so branch → environment mapping (above) becomes real.
+Wire the remaining pipeline steps (unit tests, Playwright/axe, Lighthouse gate) into `ci.yml` as their infrastructure lands. Vercel is connected; the next deployment milestone is attaching a custom production domain (E13.1.3) and giving `uat`/`dev` stable Staging/Development URLs via Custom Environments.
 
 ## TODO
 
 - [x] Write the actual GitHub Actions workflow file(s). — first slice done in `ci.yml`; test/E2E/Lighthouse steps still pending (E1.2.2–E1.2.4).
-- [ ] Set up the Vercel project and connect branch environments — the step-by-step guide is written ([`docs/deployment/vercel-setup.md`](../../docs/deployment/vercel-setup.md)); the connection itself is an interactive account step.
-- [ ] Decide Supabase environment isolation strategy (see above).
-- [ ] Populate `docs/deployment/environment-variables.md` with real variable names once Supabase/GA4 are provisioned.
+- [x] Set up the Vercel project and connect branch environments — done 2026-07-07 (production branch `main`); guide: [`docs/deployment/vercel-setup.md`](../../docs/deployment/vercel-setup.md).
+- [ ] Attach a custom production domain / configure DNS (E13.1.3) and set `NEXT_PUBLIC_SITE_URL`.
+- [x] Decide Supabase environment isolation strategy — done 2026-07-08: two projects (prod + non-prod), see above.
+- [x] Populate `docs/deployment/environment-variables.md` with the real Supabase variables (done 2026-07-08); GA4 vars still pending its property.
 
 ## References
 
@@ -67,5 +68,5 @@ Wire the remaining pipeline steps (unit tests, Playwright/axe, Lighthouse gate) 
 
 ---
 
-**Last Updated:** 2026-07-04
+**Last Updated:** 2026-07-07
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
