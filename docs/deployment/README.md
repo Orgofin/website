@@ -13,11 +13,11 @@ Owns the actual runbook once the site is live. Does not own CI/CD conventions or
 
 ## Environments
 
-| Branch | Environment         | URL                                                                                      |
-| ------ | ------------------- | ---------------------------------------------------------------------------------------- |
-| `main` | Production          | https://website-chi-azure-55.vercel.app — custom domain pending (DNS not yet configured) |
-| `uat`  | Staging             | Per-push Vercel Preview URL (see dashboard) — stable Staging URL is a future improvement |
-| `dev`  | Development preview | Per-push Vercel Preview URL (see dashboard)                                              |
+| Branch | Environment         | URL                                                                                                                                                      |
+| ------ | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `main` | Production          | https://website-chi-azure-55.vercel.app — custom domain `orgofin.com` pending (apex canonical; see [`custom-domain-setup.md`](./custom-domain-setup.md)) |
+| `uat`  | Staging             | Per-push Vercel Preview URL (see dashboard) — stable Staging URL is a future improvement                                                                 |
+| `dev`  | Development preview | Per-push Vercel Preview URL (see dashboard)                                                                                                              |
 
 ## Rollback Procedure
 
@@ -45,7 +45,7 @@ Fill in every TODO above at the moment of first production deployment — do not
 
 - [x] Provision the Vercel project and record the real URLs above. — connected 2026-07-07 (project `website`).
 - [x] Document the actual rollback steps (dashboard vs. CLI). — see Rollback Procedure above.
-- [ ] Attach a custom production domain and configure DNS (E13.1.3), then update the Production URL above.
+- [ ] Attach a custom production domain and configure DNS (E13.1.3), then update the Production URL above. Runbook: [`custom-domain-setup.md`](./custom-domain-setup.md) (apex `orgofin.com` canonical).
 - [ ] Define an incident response process once there's real traffic/data to protect.
 - [ ] See [`environment-variables.md`](./environment-variables.md) for the related, equally TODO-heavy variable reference.
 
