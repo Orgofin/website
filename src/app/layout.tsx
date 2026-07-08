@@ -1,6 +1,7 @@
 import { type Metadata, type Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
+import { GoogleAnalytics } from "@/components/analytics";
 import { LazyMotionProvider } from "@/components/motion/LazyMotionProvider";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
@@ -91,6 +92,7 @@ export default function RootLayout({
           <LazyMotionProvider>{children}</LazyMotionProvider>
         </ThemeProvider>
         <StructuredData data={[organizationSchema(), websiteSchema()]} />
+        <GoogleAnalytics />
       </body>
     </html>
   );
