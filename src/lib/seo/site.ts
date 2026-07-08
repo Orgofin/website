@@ -6,8 +6,10 @@ import { env } from "@/env";
  * sitemap, robots, structured data) reads from here so nothing is hardcoded in
  * two places.
  *
- * TODO(seo.md): confirm the canonical domain (apex vs. www) before launch and
- * set NEXT_PUBLIC_SITE_URL per environment. The fallback below is a placeholder.
+ * Canonical origin decided 2026-07-08: the apex `orgofin.com` (www redirects to
+ * it). See docs/deployment/custom-domain-setup.md. `NEXT_PUBLIC_SITE_URL` is set
+ * to this in Vercel Production; the fallback below keeps metadata correct in
+ * builds where the var is unset. Attaching the DNS is still pending (E13.1.3).
  * TODO: confirm the real social handle; `@orgofin` is a placeholder, not a
  * verified account (never assert an unverified business fact).
  */

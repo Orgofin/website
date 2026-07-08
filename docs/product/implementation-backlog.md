@@ -792,7 +792,8 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 
 - Depends on: E4.1.3, E1.3.2
 - Acceptance criteria:
-  - GA4 loaded via `next/script` `afterInteractive`; `lib/analytics/*` fire-and-forget helpers; `NEXT_PUBLIC_GA_MEASUREMENT_ID` gated (no-op when unset).
+  - ~~GA4 loaded via `next/script` `afterInteractive`~~; `lib/analytics/*` fire-and-forget helpers; `NEXT_PUBLIC_GA_MEASUREMENT_ID` gated (no-op when unset).
+- **Status (2026-07-08): boot DONE, helpers PENDING.** The GA4 boot + automatic pageviews ship via the first-party `@next/third-parties/google` `GoogleAnalytics` integration (`src/components/analytics/`, mounted in the root layout, env-gated) — a deliberate change from the hand-rolled `next/script` approach because the integration handles App Router client-navigation pageviews correctly and is version-aligned with Next. Rationale + trade-off recorded in `.claude/context/frontend.md` §8. The `lib/analytics/*` fire-and-forget `trackEvent`/`trackPageView` helpers are still to build (they can wrap `sendGAEvent` from `@next/third-parties/google`); the property + `NEXT_PUBLIC_GA_MEASUREMENT_ID` are provisioned in Vercel Production separately.
 
 **E14.2 — Instrument conversion + theme events**
 
@@ -800,11 +801,10 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 - Acceptance criteria:
   - Waitlist submit, demo request, partner apply, and theme-toggle events fire (PRD §10); no PII sent; helpers unit-tested (mocked).
 
-**E14.3 — [OPTIONAL] Evaluate Partytown worker offload**
+**E14.3 — [OPTIONAL] ~~Evaluate Partytown worker offload~~ (foreclosed)**
 
 - Depends on: E14.1, E1.2.4
-- Acceptance criteria:
-  - Measure GA4 main-thread cost in Lighthouse; adopt `strategy="worker"` only if it measurably helps; decision recorded in `frontend.md` §8.
+- **Superseded (2026-07-08):** the E14.1 switch to `@next/third-parties/google` forecloses this — the integration hard-codes `afterInteractive` and doesn't expose `strategy="worker"`. Accepted trade-off (see `frontend.md` §8). Reopen only if GA4 main-thread cost shows up as a real Lighthouse regression, in which case reconsider a hand-rolled loader.
 
 ---
 
