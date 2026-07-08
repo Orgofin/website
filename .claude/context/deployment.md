@@ -52,7 +52,7 @@ Wire the remaining pipeline steps (unit tests, Playwright/axe, Lighthouse gate) 
 
 - [x] Write the actual GitHub Actions workflow file(s). — first slice done in `ci.yml`; test/E2E/Lighthouse steps still pending (E1.2.2–E1.2.4).
 - [x] Set up the Vercel project and connect branch environments — done 2026-07-07 (production branch `main`); guide: [`docs/deployment/vercel-setup.md`](../../docs/deployment/vercel-setup.md).
-- [ ] Attach a custom production domain / configure DNS (E13.1.3) and set `NEXT_PUBLIC_SITE_URL`.
+- [ ] Attach a custom production domain / configure DNS (E13.1.3) and set `NEXT_PUBLIC_SITE_URL`. Canonical decided: apex `orgofin.com` (2026-07-08); runbook: [`docs/deployment/custom-domain-setup.md`](../../docs/deployment/custom-domain-setup.md).
 - [x] Decide Supabase environment isolation strategy — done 2026-07-08: two projects (prod + non-prod), see above.
 - [x] Populate `docs/deployment/environment-variables.md` with the real Supabase variables (done 2026-07-08); GA4 vars still pending its property.
 

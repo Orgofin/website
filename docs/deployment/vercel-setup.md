@@ -36,13 +36,13 @@ Vercel's native model is **Production** (one branch) + **Preview** (everything e
 
 Set these (from [`src/env.ts`](../../src/env.ts)) under **Settings → Environment Variables**, scoping each to the right environments (Production / Preview / Development). All are currently **optional** — the app builds and runs without them; add each as its service is provisioned (see [`environment-variables.md`](./environment-variables.md)).
 
-| Variable                        | Scope                       | Notes                                                                                                                                                                           |
-| ------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`          | all                         | Canonical origin for metadata/sitemap/robots. Set per-environment (prod = the real domain; preview = the Vercel preview origin). Depends on the apex-vs-www decision (E13.1.3). |
-| `NEXT_PUBLIC_SUPABASE_URL`      | all (once provisioned)      | Supabase project URL. Use **separate values per environment** if the Supabase project is split (E1.3.3) so preview signups never touch the production waitlist.                 |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | all (once provisioned)      | Public anon key.                                                                                                                                                                |
-| `SUPABASE_SERVICE_ROLE_KEY`     | server only, if ever needed | Never prefixed `NEXT_PUBLIC_`; only add if a server op actually requires elevated access.                                                                                       |
-| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Production (and Staging)    | GA4 id; leave unset on Preview to avoid polluting analytics.                                                                                                                    |
+| Variable                        | Scope                       | Notes                                                                                                                                                                                                                        |
+| ------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`          | all                         | Canonical origin for metadata/sitemap/robots. Prod = `https://orgofin.com` (apex canonical, decided 2026-07-08 — see [`custom-domain-setup.md`](./custom-domain-setup.md)); preview falls back to the Vercel preview origin. |
+| `NEXT_PUBLIC_SUPABASE_URL`      | all (once provisioned)      | Supabase project URL. Use **separate values per environment** if the Supabase project is split (E1.3.3) so preview signups never touch the production waitlist.                                                              |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | all (once provisioned)      | Public anon key.                                                                                                                                                                                                             |
+| `SUPABASE_SERVICE_ROLE_KEY`     | server only, if ever needed | Never prefixed `NEXT_PUBLIC_`; only add if a server op actually requires elevated access.                                                                                                                                    |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Production (and Staging)    | GA4 id; leave unset on Preview to avoid polluting analytics.                                                                                                                                                                 |
 
 ## Step 4 — Verify
 
@@ -51,7 +51,7 @@ Set these (from [`src/env.ts`](../../src/env.ts)) under **Settings → Environme
 
 ## Step 5 — Later
 
-- Attach the production **custom domain** and resolve the canonical apex-vs-www decision (E13.1.3), then set `NEXT_PUBLIC_SITE_URL` accordingly.
+- Attach the production **custom domain** — canonical decision resolved (apex `orgofin.com`); follow [`custom-domain-setup.md`](./custom-domain-setup.md) and set `NEXT_PUBLIC_SITE_URL=https://orgofin.com`.
 - Fill in the real environment URLs and rollback steps in [`README.md`](./README.md) once deployed.
 
 ## Design Decisions
@@ -74,7 +74,7 @@ Connected 2026-07-07 (Vercel project `website`, production branch `main`, zero-c
 - [x] Connect the Vercel project (Step 1) and set the production branch (Step 2). — done 2026-07-07.
 - [x] Record real URLs + rollback steps in `README.md` after first deploy. — done.
 - [ ] Add env vars as each service is provisioned (Step 3).
-- [ ] Resolve the canonical domain decision (E13.1.3) and set `NEXT_PUBLIC_SITE_URL`.
+- [x] Resolve the canonical domain decision — apex `orgofin.com` (2026-07-08), see [`custom-domain-setup.md`](./custom-domain-setup.md). Attaching DNS + setting `NEXT_PUBLIC_SITE_URL` still pending there.
 
 ## References
 
