@@ -9,15 +9,15 @@
 
 Owns the actual runbook once the site is live. Does not own CI/CD conventions or the backend-migration boundary (`.claude/context/deployment.md`).
 
-> **First-time connection:** follow [`vercel-setup.md`](./vercel-setup.md) to import the repo, set the production branch, and configure env vars. Fill the URLs and rollback specifics below once the first deploy exists.
+> **First-time connection:** follow [`vercel-setup.md`](./vercel-setup.md) to import the repo, set the production branch, and configure env vars. The project is now connected — the URLs and rollback target below are live.
 
 ## Environments
 
-| Branch | Environment         | URL                     |
-| ------ | ------------------- | ----------------------- |
-| `main` | Production          | TODO — not yet deployed |
-| `uat`  | Staging             | TODO — not yet deployed |
-| `dev`  | Development preview | TODO — not yet deployed |
+| Branch | Environment         | URL                                                                                      |
+| ------ | ------------------- | ---------------------------------------------------------------------------------------- |
+| `main` | Production          | https://website-chi-azure-55.vercel.app — custom domain pending (DNS not yet configured) |
+| `uat`  | Staging             | Per-push Vercel Preview URL (see dashboard) — stable Staging URL is a future improvement |
+| `dev`  | Development preview | Per-push Vercel Preview URL (see dashboard)                                              |
 
 ## Rollback Procedure
 
@@ -27,7 +27,7 @@ Vercel keeps every prior deployment immutable, so rollback is a promotion, not a
 - **CLI:** `vercel rollback [deployment-url]` (or `vercel rollback` to pick interactively).
 - **Then** open a fix-forward PR for the actual bug — a rollback buys time, it isn't the fix.
 
-Record the exact production URL to promote against here once the project is connected.
+Production URL to promote against: **https://website-chi-azure-55.vercel.app** (Vercel project `website`).
 
 ## Incident Response
 
@@ -35,7 +35,7 @@ TODO — no on-call rotation, alerting, or incident process exists yet. Define o
 
 ## Current Status
 
-Nothing is deployed. This is a placeholder structure to be filled in as part of the first deployment, not a description of an existing operation.
+Live on Vercel as of 2026-07-07. Production builds from `main` at https://website-chi-azure-55.vercel.app; `uat` and `dev` (plus every PR) get automatic Preview deploys. No custom domain yet (DNS pending — E13.1.3), no env vars set yet (all currently optional), and no incident-response process yet.
 
 ## Future Improvements
 
@@ -43,8 +43,9 @@ Fill in every TODO above at the moment of first production deployment — do not
 
 ## TODO
 
-- [ ] Provision the Vercel project and record the real URLs above.
-- [ ] Document the actual rollback steps (dashboard vs. CLI).
+- [x] Provision the Vercel project and record the real URLs above. — connected 2026-07-07 (project `website`).
+- [x] Document the actual rollback steps (dashboard vs. CLI). — see Rollback Procedure above.
+- [ ] Attach a custom production domain and configure DNS (E13.1.3), then update the Production URL above.
 - [ ] Define an incident response process once there's real traffic/data to protect.
 - [ ] See [`environment-variables.md`](./environment-variables.md) for the related, equally TODO-heavy variable reference.
 
@@ -59,5 +60,5 @@ Fill in every TODO above at the moment of first production deployment — do not
 
 ---
 
-**Last Updated:** 2026-07-04
+**Last Updated:** 2026-07-07
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

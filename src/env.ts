@@ -4,11 +4,18 @@ import { z } from "zod";
 /**
  * Typed, validated environment variables.
  *
- * All variables are optional today because none of the underlying services
- * (Supabase, GA4) are provisioned yet — see docs/deployment/environment-variables.md.
- * As each integration is actually wired up, tighten its field here to
- * `z.string().min(1)` (or `.url()` where applicable) so the build fails fast
- * if the corresponding secret is missing, instead of failing silently at runtime.
+ * The Supabase vars are provisioned (two projects — prod + non-prod, set
+ * per-environment in Vercel; see docs/deployment/environment-variables.md) but
+ * are kept `.optional()` here on purpose: `createEnv` validates eagerly at
+ * import, and CI + local `next build` compile WITHOUT any Supabase project.
+ * Making them required would break those builds for zero benefit — the deploy
+ * that actually serves traffic already has them, and their absence is enforced
+ * at request time by the guard in `lib/supabase/server.ts`, which throws a clear
+ * error that `lib/api/waitlist.ts` turns into a safe user-facing result.
+ *
+ * GA4 is still unprovisioned. Tighten any field to `z.string().min(1)` (or
+ * `.url()`) only once EVERY build path that imports this module is guaranteed
+ * to have the value.
  */
 export const env = createEnv({
   server: {

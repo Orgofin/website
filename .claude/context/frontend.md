@@ -232,7 +232,7 @@ Deliberately minimal — this is a marketing/content site, not an authenticated 
 - **CI (GitHub Actions):** lint (ESLint) → format check (Prettier) → type-check (`tsc --noEmit`) → unit tests → Playwright E2E + axe accessibility pass → build → Lighthouse CI gate (PRD §6 thresholds). All required to pass before merge; nothing is merged on a green build alone if Lighthouse regresses.
 - **Local gate:** Husky pre-commit runs lint + format on staged files; pre-push runs type-check — catches regressions before they even reach CI.
 - **Environment variables** (Supabase URL/anon key, GA4 measurement ID) managed per-environment in Vercel's dashboard — never committed, never shared verbatim between preview and production if the Supabase project is split (see below).
-- **Supabase environment isolation:** recommend a separate Supabase project (or at minimum clearly separated tables/RLS policies) for preview/dev vs. production, so test waitlist submissions during development never pollute the real investor-facing signup count.
+- **Supabase environment isolation:** implemented as two separate projects (prod backs Production; a shared non-prod project backs uat/dev/previews), scoped per-environment in Vercel, so test waitlist submissions never pollute the real investor-facing signup count. Details in `.claude/context/deployment.md`.
 - **Rollback:** Vercel's instant rollback to the prior deployment if a production issue surfaces — no manual redeploy-from-git-history needed.
 - **Global delivery:** Vercel's edge network naturally serves the India/UK/US audience without extra configuration; OG image generation and any edge-eligible API routes (e.g., waitlist submission) run at the edge for low latency across all three regions.
 - **The backend-migration seam (per PRD §5's explicit future-proofing requirement):** components and pages never import `@supabase/*` directly — they only ever call functions in `lib/api/*` (e.g., `submitWaitlist()`, `requestDemo()`). Today, those functions call Supabase directly. When a NestJS/Go backend eventually replaces Supabase for these operations, only the _internals_ of `lib/api/*` change to call the new backend's REST/RPC endpoints instead — no component, page, or form is touched. This seam is the entire point of the "frontend-first, backend-agnostic" architecture and is enforced structurally by the folder boundary in §1, not just by convention.
@@ -254,7 +254,7 @@ Scaffold + core infrastructure implemented (Phase 10), with molecules (`componen
 
 ## TODO
 
-- [ ] Confirm Supabase environment isolation strategy (separate project vs. RLS-separated tables) before the first deploy — flagged as a recommendation in §11, not yet decided.
+- [x] Confirm Supabase environment isolation strategy — decided 2026-07-08: two separate projects (prod + non-prod), scoped per-environment in Vercel. See `.claude/context/deployment.md` (Supabase Environment Isolation).
 - [ ] Decide whether `CompanyBrainGraph` uses a physics/force-graph library (e.g., d3-force, react-force-graph) or a bespoke implementation — deferred until the visualization is actually scoped.
 
 ## References
