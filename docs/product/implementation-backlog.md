@@ -554,6 +554,8 @@ E15 Testing, Accessibility & Launch Hardening ◀── everything              
 
 **Goal:** The 10(+2)-chapter cinematic Home spine (`information-architecture.md` §3), each chapter a `Section` organism consuming `docs/product/copy.md`, one signature motion each. **Pull copy from the copy deck — never improvise it.**
 
+**Status (2026-07-08): static narrative spine SHIPPED.** All 11 chapter sections live in `src/components/sections/home/` (Ch.10 is the shared `CTABand`), assembled in `app/(marketing)/page.tsx` with a single `<h1>` (Ch.1) and canonical metadata. Copy is verbatim from the deck; each chapter has one signature Reveal/Stagger motion with the shared reduced-motion fallback; Server Components throughout (only the motion wrappers are client). **Deferred (documented follow-ons, not gaps):** the interactive `CompanyBrainGraph` (E9.3.2, blocked on E9.3.1) and `AgentOrchestrationDiagram` (E9.3.4) — Ch.5/Ch.6 ship copy + a static equivalent now; the Home `ScrollProgressProvider` (E9.1.1); and extracting Ch.7.5/Ch.8 into shared teaser organisms (E9.3.5, blocked on E6.2.x).
+
 ## Feature 9.1 — Home Infrastructure
 
 **E9.1.1 — Home `ScrollProgressProvider` (Home-tree-scoped)**

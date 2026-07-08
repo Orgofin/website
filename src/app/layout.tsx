@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     template: siteConfig.title.template,
   },
   description: siteConfig.description,
+  alternates: {
+    canonical: "/",
+  },
+
   applicationName: siteConfig.name,
   keywords: [...siteConfig.keywords],
   authors: [{ name: siteConfig.name }],
