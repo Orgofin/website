@@ -455,6 +455,7 @@ E15 Testing, Accessibility & Launch Hardening ◀── everything              
 - Depends on: E5.1.2, E6.1.1
 - Acceptance criteria:
   - One component drives both Home Ch.8 (teaser) and `/investors` (full) from different data (`frontend.md` §3); roadmap horizons from `enterprise-os.md`.
+- **Status (2026-07-14): DONE.** `components/sections/RoadmapTrack.tsx` (content-agnostic `stages` data + `variant`, component-tested); Home Ch.8 (`sections/home/Roadmap.tsx`) now mounts `variant="teaser"` — the `RoadmapTrack` half of E9.3.5. The `full` consumer arrives with `/investors` (E11.1.2).
 
 **E6.2.3 — `CompetitorTeardownTable` / `SixMoatsList` (`variant="teaser"|"full"`)**
 
@@ -906,7 +907,7 @@ Backlog authored from the `.claude/` corpus and the current repo baseline (2026-
 
 **E15.1.1 (test runner) — done:** Vitest + React Testing Library configured ([`vitest.config.ts`](../../vitest.config.ts)), with a `lib/` unit test and a `Button` component test passing in CI. Decision recorded in [`.claude/context/testing.md`](../../.claude/context/testing.md).
 
-**E6 (molecules) — first slice done:** the content-agnostic presentational molecules `SectionHeading` (E6.1.1), `StatCallout` (E6.1.2), and `CalloutBox` (E6.1.3), each with component tests, in a new `src/components/molecules/` folder (recorded in [`frontend.md`](../../.claude/context/frontend.md) §1–2). Still open in E6: `ModuleCard` (E6.1.4, still blocked on custom icons E3.3.2) and the shared organisms `CTABand`/`RoadmapTrack`/`CompetitorTeardownTable` (E6.2.x). **`FormField` (E6.1.5) — done:** a render-prop molecule that wires `aria-describedby`/`aria-invalid` and renders inline errors next to the field (`role="alert"`), composing `Label` + any control + `Input`/`Textarea`; component-tested. Unblocks the forms in E8.
+**E6 (molecules) — first slice done:** the content-agnostic presentational molecules `SectionHeading` (E6.1.1), `StatCallout` (E6.1.2), and `CalloutBox` (E6.1.3), each with component tests, in a new `src/components/molecules/` folder (recorded in [`frontend.md`](../../.claude/context/frontend.md) §1–2). Still open in E6: `ModuleCard` (E6.1.4, still blocked on custom icons E3.3.2) and `CompetitorTeardownTable`/`SixMoatsList` (E6.2.3) — `CTABand` (E6.2.1) and `RoadmapTrack` (E6.2.2) are done (see their status notes). **`FormField` (E6.1.5) — done:** a render-prop molecule that wires `aria-describedby`/`aria-invalid` and renders inline errors next to the field (`role="alert"`), composing `Label` + any control + `Input`/`Textarea`; component-tested. Unblocks the forms in E8.
 
 **E3 form/display primitives — done:** `Input` + `Textarea` (E3.1.2) and `Badge` (E3.2.1), each with component tests. Inputs forward refs and reflect `aria-invalid`; `Badge` conveys status by label + a colored dot (never color alone). This unblocks `FormField` (E6.1.5) and the `Badge` half of `ModuleCard` (E6.1.4). Still open in E3: `Select`/`Checkbox` (E3.1.3), `Tooltip` (E3.2.4), and the custom-icon scaffold (E3.3.x).
 
