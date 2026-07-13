@@ -32,13 +32,14 @@ export type NavbarProps = {
 };
 
 /**
- * Placeholder structure only — real routes/labels are wired in a later phase
- * (information-architecture.md §2). This exists to prove the architecture:
- * dropdown clusters, flat links, active state, sticky behaviour, mobile menu.
+ * Nav items per information-architecture.md §2, wired to real routes as each
+ * page ships — `#` entries are placeholders for pages that don't exist yet
+ * (dropdown clusters, flat links, active state, sticky behaviour, mobile menu
+ * are all already proven).
  */
 const DEFAULT_ITEMS: NavItem[] = [
   { label: "Platform", href: "#", items: [{ label: "Overview", href: "#" }] },
-  { label: "Vision", href: "#" },
+  { label: "Vision", href: "/vision" },
   { label: "Company", href: "#", items: [{ label: "About", href: "#" }] },
 ];
 
