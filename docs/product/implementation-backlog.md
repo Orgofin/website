@@ -666,6 +666,7 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 - Depends on: E5.1.5, E6.1.1
 - Acceptance criteria:
   - Full 10-year narrative, Windows/iOS analogy, Enduring Promise (`enterprise-os.md`); set as canonical (Home Ch.9 stays unique summary) per SEO rule.
+- **Status (2026-07-13): DONE.** Three organisms in `components/sections/vision/` (`VisionHero` with the page's single `<h1>`, `VisionNarrative`, `EnduringPromise`) + the shared `CTABand`, copy verbatim from `copy.md` §5; canonical `/vision` metadata, sitemap entry (priority 0.8), and the header nav "Vision" item wired to the route.
 
 **E11.1.2 — `/investors` page**
 
@@ -915,7 +916,7 @@ Backlog authored from the `.claude/` corpus and the current repo baseline (2026-
 
 **Marketing shell + CTA — done:** `MobileBlockScreen` (E4.3.2, a pure-CSS sub-390px lockout), the `app/(marketing)/` route group + layout (E4.3.3 — sticky `Navbar` + `PageShell` + `Footer` + lockout), and `CTABand` (E6.2.1 — the reused end-of-page waitlist CTA, wired to `WaitlistForm`). The home page moved into `(marketing)/` and now renders a minimal hero (Chapter 1 copy) + the working waitlist — verified rendering end-to-end at runtime. This is **not** the full Home narrative (E9), just a live, visible first screen with the primary conversion.
 
-Not started: the rest of E7 (other write surfaces), the rest of E8 (newsletter/demo/partner forms), the full Home narrative E9, E10–E12, E14, and the rest of E15 (Playwright/E2E, axe, launch hardening). Nav/footer link content is still placeholder (real IA wiring is a later task). Task IDs are stable and safe to reference from a tracker.
+Since then: the Home narrative static spine (E9 — see the epic's status note), the GA4 boot half of E14.1, and the first E11 slice — the `/vision` page (E11.1.1, see its status note). Not started: the rest of E7 (other write surfaces), the rest of E8 (newsletter/demo/partner forms), E9's deferred visualizations, E10, the rest of E11/E12, the `lib/analytics` helpers (E14.1) + E14.2, and the rest of E15 (Playwright/E2E, axe, launch hardening). Nav/footer links are still placeholder except the header "Vision" item (real IA wiring is a later task). Task IDs are stable and safe to reference from a tracker.
 
 ## Future Improvements
 
@@ -943,5 +944,5 @@ Not started: the rest of E7 (other write surfaces), the rest of E8 (newsletter/d
 
 ---
 
-**Last Updated:** 2026-07-05
+**Last Updated:** 2026-07-13
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
