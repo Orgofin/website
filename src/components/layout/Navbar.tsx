@@ -40,6 +40,7 @@ export type NavbarProps = {
 const DEFAULT_ITEMS: NavItem[] = [
   { label: "Platform", href: "#", items: [{ label: "Overview", href: "#" }] },
   { label: "Vision", href: "/vision" },
+  { label: "Investors", href: "/investors" },
   { label: "Company", href: "#", items: [{ label: "About", href: "#" }] },
 ];
 

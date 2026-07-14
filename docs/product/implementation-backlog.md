@@ -676,6 +676,7 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 - Depends on: E6.2.2, E6.2.3, E6.1.2
 - Acceptance criteria:
   - Why Now → TAM/SAM/SOM → Why We Win → Six Moats → Roadmap + revenue targets → unit economics → CTA to Data Room; reuses `RoadmapTrack`/`SixMoatsList` in `variant="full"`; conflicting TAM figures surfaced as a decision, not silently picked (PRD §22).
+- **Status (2026-07-14): DONE.** Seven organisms in `components/sections/investors/` + shared `CTABand`; mounts `CompetitorTeardownTable` (full 8-row PRD §3.5 teardown — Home Ch.7.5 shows the condensed 4), `SixMoatsList`, and `RoadmapTrack` in `variant="full"`. TAM decision surfaced to the founder and resolved (headline figures approved, per-category table withheld — `copy.md` §6, PRD §22.1); unit-economics table (PRD §3.4) included with synthesized headline recorded in `copy.md` §6. Sitemap entry (priority 0.7) + header nav "Investors" item wired. The closing Data Room CTA forward-links `/investors/data-room` (ships with E11.1.3).
 
 **E11.1.3 — `/investors/data-room` gated page**
 

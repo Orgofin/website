@@ -397,7 +397,7 @@ A production-ready, fully responsive site with premium animations, waiting list 
 
 These are decisions for the founders, not implementation details — flagging so they aren't made silently by whoever builds this:
 
-1. Which TAM table (or reconciled figure) is canonical for public/investor-facing use?
+1. Which TAM table (or reconciled figure) is canonical for public/investor-facing use? — **Partially resolved 2026-07-14:** founder approved publishing the §3.3 directionally-safe headline figures ($500B+ → ~$1T, SAM ~$1.73B, SOM targets) and the §3.4 unit-economics table on `/investors`; the per-category TAM breakdown stays unpublished until the two source tables are reconciled (see §19.1 and `copy.md` §6).
 2. Is excluding <390px visitors an acceptable tradeoff given India is the lead market and likely mobile-heavy traffic?
 3. Is the total absence of a Pricing page intentional for this pre-launch phase, or an oversight?
 4. Are the MVP-status modules listed in the PDF appendix actually functional today — should the site say "live" rather than "roadmap" for those?
