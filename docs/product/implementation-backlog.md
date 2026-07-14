@@ -455,12 +455,14 @@ E15 Testing, Accessibility & Launch Hardening ◀── everything              
 - Depends on: E5.1.2, E6.1.1
 - Acceptance criteria:
   - One component drives both Home Ch.8 (teaser) and `/investors` (full) from different data (`frontend.md` §3); roadmap horizons from `enterprise-os.md`.
+- **Status (2026-07-14): DONE.** `components/sections/RoadmapTrack.tsx` (content-agnostic `stages` data + `variant`, component-tested); Home Ch.8 (`sections/home/Roadmap.tsx`) now mounts `variant="teaser"` — the `RoadmapTrack` half of E9.3.5. The `full` consumer arrives with `/investors` (E11.1.2).
 
 **E6.2.3 — `CompetitorTeardownTable` / `SixMoatsList` (`variant="teaser"|"full"`)**
 
 - Depends on: E6.1.1
 - Acceptance criteria:
   - Shared by Home Ch.7.5 and `/investors`, same reuse pattern; table is a real accessible `<table>` with headers; horizontally scrollable within its own container on narrow viewports.
+- **Status (2026-07-14): DONE.** `components/sections/{CompetitorTeardownTable,SixMoatsList}.tsx` — content-agnostic (rows/moats from the consumer), real `<table>` with caption + column/row headers in an `overflow-x-auto` container, ordered moats list with visible mono numerals; both component-tested. Deliberately motion-free (motion wrappers can't wrap `<tr>`s): the consuming section owns the single signature motion.
 
 ---
 
@@ -554,7 +556,7 @@ E15 Testing, Accessibility & Launch Hardening ◀── everything              
 
 **Goal:** The 10(+2)-chapter cinematic Home spine (`information-architecture.md` §3), each chapter a `Section` organism consuming `docs/product/copy.md`, one signature motion each. **Pull copy from the copy deck — never improvise it.**
 
-**Status (2026-07-08): static narrative spine SHIPPED.** All 11 chapter sections live in `src/components/sections/home/` (Ch.10 is the shared `CTABand`), assembled in `app/(marketing)/page.tsx` with a single `<h1>` (Ch.1) and canonical metadata. Copy is verbatim from the deck; each chapter has one signature Reveal/Stagger motion with the shared reduced-motion fallback; Server Components throughout (only the motion wrappers are client). **Deferred (documented follow-ons, not gaps):** the interactive `CompanyBrainGraph` (E9.3.2, blocked on E9.3.1) and `AgentOrchestrationDiagram` (E9.3.4) — Ch.5/Ch.6 ship copy + a static equivalent now; the Home `ScrollProgressProvider` (E9.1.1); and extracting Ch.7.5/Ch.8 into shared teaser organisms (E9.3.5, blocked on E6.2.x).
+**Status (2026-07-08): static narrative spine SHIPPED.** All 11 chapter sections live in `src/components/sections/home/` (Ch.10 is the shared `CTABand`), assembled in `app/(marketing)/page.tsx` with a single `<h1>` (Ch.1) and canonical metadata. Copy is verbatim from the deck; each chapter has one signature Reveal/Stagger motion with the shared reduced-motion fallback; Server Components throughout (only the motion wrappers are client). **Deferred (documented follow-ons, not gaps):** the interactive `CompanyBrainGraph` (E9.3.2, blocked on E9.3.1) and `AgentOrchestrationDiagram` (E9.3.4) — Ch.5/Ch.6 ship copy + a static equivalent now; and the Home `ScrollProgressProvider` (E9.1.1). The shared-teaser-organism extraction (E9.3.5) landed 2026-07-14 — see its status note.
 
 ## Feature 9.1 — Home Infrastructure
 
@@ -618,6 +620,7 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 - Depends on: E6.2.2, E6.2.3
 - Acceptance criteria:
   - Home mounts `CompetitorTeardownTable`/`SixMoatsList` and `RoadmapTrack` in `variant="teaser"`, linking to `/investors` and `/products` respectively.
+- **Status (2026-07-14): DONE.** Ch.8 mounts `RoadmapTrack` (with E6.2.2) and Ch.7.5 mounts `CompetitorTeardownTable` + `SixMoatsList` (with E6.2.3), all `variant="teaser"`, with the existing `/investors` and `/products` link-outs. Teardown/moats data in Ch.7.5 comes verbatim from `copy.md` §6.
 
 ---
 
@@ -906,7 +909,7 @@ Backlog authored from the `.claude/` corpus and the current repo baseline (2026-
 
 **E15.1.1 (test runner) — done:** Vitest + React Testing Library configured ([`vitest.config.ts`](../../vitest.config.ts)), with a `lib/` unit test and a `Button` component test passing in CI. Decision recorded in [`.claude/context/testing.md`](../../.claude/context/testing.md).
 
-**E6 (molecules) — first slice done:** the content-agnostic presentational molecules `SectionHeading` (E6.1.1), `StatCallout` (E6.1.2), and `CalloutBox` (E6.1.3), each with component tests, in a new `src/components/molecules/` folder (recorded in [`frontend.md`](../../.claude/context/frontend.md) §1–2). Still open in E6: `ModuleCard` (E6.1.4, still blocked on custom icons E3.3.2) and the shared organisms `CTABand`/`RoadmapTrack`/`CompetitorTeardownTable` (E6.2.x). **`FormField` (E6.1.5) — done:** a render-prop molecule that wires `aria-describedby`/`aria-invalid` and renders inline errors next to the field (`role="alert"`), composing `Label` + any control + `Input`/`Textarea`; component-tested. Unblocks the forms in E8.
+**E6 (molecules) — first slice done:** the content-agnostic presentational molecules `SectionHeading` (E6.1.1), `StatCallout` (E6.1.2), and `CalloutBox` (E6.1.3), each with component tests, in a new `src/components/molecules/` folder (recorded in [`frontend.md`](../../.claude/context/frontend.md) §1–2). Still open in E6: `ModuleCard` (E6.1.4, still blocked on custom icons E3.3.2). All of Feature 6.2 — `CTABand` (E6.2.1), `RoadmapTrack` (E6.2.2), `CompetitorTeardownTable`/`SixMoatsList` (E6.2.3) — is done (see the status notes). **`FormField` (E6.1.5) — done:** a render-prop molecule that wires `aria-describedby`/`aria-invalid` and renders inline errors next to the field (`role="alert"`), composing `Label` + any control + `Input`/`Textarea`; component-tested. Unblocks the forms in E8.
 
 **E3 form/display primitives — done:** `Input` + `Textarea` (E3.1.2) and `Badge` (E3.2.1), each with component tests. Inputs forward refs and reflect `aria-invalid`; `Badge` conveys status by label + a colored dot (never color alone). This unblocks `FormField` (E6.1.5) and the `Badge` half of `ModuleCard` (E6.1.4). Still open in E3: `Select`/`Checkbox` (E3.1.3), `Tooltip` (E3.2.4), and the custom-icon scaffold (E3.3.x).
 

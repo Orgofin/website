@@ -317,6 +317,8 @@ The Tailwind **utility names** are role-based and slightly abbreviated from this
 
 Primitive scale values (`--blue-*`, `--neutral-*`) are deliberately **not** exposed as Tailwind utilities — components consume semantic utilities only, structurally enforcing §11 rule 1. Named device-tier breakpoints are added alongside (not replacing) Tailwind's default `sm/md/lg/xl/2xl`.
 
+**`cn()` must be taught every custom type-scale utility.** tailwind-merge only recognises Tailwind's default font sizes, so it classifies the custom `text-display-*`/`text-heading-*`/`text-body-*`/`text-caption`/`text-micro`/`text-mono-md` utilities as text _colors_ and silently drops one whenever a size and a color share a `cn()` call. [`src/lib/utils.ts`](../../src/lib/utils.ts) extends tailwind-merge's `font-size` class group with the full scale — **adding a new `--text-*` token to `globals.css` requires adding it there in the same PR**, or the new size will vanish wherever it's merged with a color.
+
 ## Current Status
 
 Implemented. All token categories in this document exist in `globals.css` for both themes; consumed by the Phase 10 component library ([`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md)). The automated contrast-matrix check (§8 TODO) and a rendered token-preview page are not yet built.
