@@ -233,7 +233,7 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 **Headline:** $500B+ today. Nearly $1T by 2030.
 **Body:** Our serviceable market across India, UK, and US SMB/mid-market — HRMS, Finance, and Collaboration — is roughly $1.73B over the next three years. We're targeting $2–5M ARR in Year 1, $20–40M by Year 3, $100–200M by Year 5.
 
-> ⚠️ **Do not publish these TAM figures as final** — [`prd.md`](./prd.md) §19.1 flags two conflicting TAM tables in the source PDF. Reconcile with founders before this goes live.
+> ✅ **Resolved 2026-07-14 (founder decision):** the headline figures above ($500B+ → ~$1T, SAM ~$1.73B, ARR targets) are approved for publication — [`prd.md`](./prd.md) §3.3 marks them consistent across both source tables. The **per-category TAM breakdown remains unpublished** until the two conflicting tables ([`prd.md`](./prd.md) §19.1) are reconciled — do not add a category table to `/investors` before then.
 
 **Section — Why We Win**
 **Headline:** Every competitor connects tools. We started with the brain.
@@ -253,6 +253,11 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 **Section — Roadmap & Targets**
 **Headline:** The path from HRMS wedge to Enterprise OS.
 **Body (horizons):** H1 HRMS Wedge (0–12mo, $2–5M ARR) → H2 Full-Stack SMB OS (12–36mo, $20–40M ARR) → H3 AGaaS Platform (36–60mo, $100–200M ARR) → H4 Company Brain as Platform (5–8yr, $500M+ ARR) → H5 Enterprise OS (8–12yr, $1B+ ARR)
+
+**Section — Unit Economics** _(added 2026-07-14; headline + sub-headline synthesized — no unit-economics copy existed in the source PDF; table figures verbatim from [`prd.md`](./prd.md) §3.4, founder-approved for publication)_
+**Headline:** Unit economics built to compound.
+**Sub-headline:** The projected trajectory from wedge to platform. Forward-looking targets, not audited results.
+**Body:** the PRD §3.4 trajectory table (ACV, Gross margin, Payback period, NRR, CAC, LTV, LTV:CAC × Year 1/3/5), published as-is.
 
 **CTA:** Access the Investor Data Room →
 

@@ -158,7 +158,7 @@ The `variant="teaser"|"full"` reuse pattern (see `frontend.md` §3) exists speci
 
 ## Current Status
 
-Implemented routes: `/` (the full Home narrative spine), `/vision` (canonical vision narrative, E11.1.1), and `/waitlist/thank-you` (noindex confirmation). The header nav's "Vision" item links to the real route; all other nav/footer entries are still placeholders pending their pages. Everything else in the §1 tree is planned, not built.
+Implemented routes: `/` (the full Home narrative spine), `/vision` (canonical vision narrative, E11.1.1), `/investors` (full investor thesis, E11.1.2), and `/waitlist/thank-you` (noindex confirmation). The header nav's "Vision" and "Investors" items link to their real routes; all other nav/footer entries are still placeholders pending their pages. Everything else in the §1 tree is planned, not built.
 
 ## Future Improvements
 
@@ -182,5 +182,5 @@ Once `/products` graduates to per-suite pages, this document's §1 tree and §7 
 
 ---
 
-**Last Updated:** 2026-07-13
+**Last Updated:** 2026-07-14
 **Owner:** Orgofin Product/Engineering (TODO: assign a DRI)
