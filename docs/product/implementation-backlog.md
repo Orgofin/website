@@ -595,6 +595,7 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 - Depends on: —
 - Acceptance criteria:
   - Decide physics/force-graph library (e.g., d3-force / react-force-graph) vs. bespoke; recorded resolving `frontend.md` §10 TODO; performance/bundle implications noted.
+- **Status (2026-07-15): DECIDED** (user-approved from a compared recommendation): headless **`d3-force`** physics + **bespoke SVG rendering** — ~6KB min+gz vs. ~53–57KB for react-force-graph-2d/@xyflow/react; SVG takes design tokens and theming directly and keeps the E9.3.3 text equivalent in real DOM; reduced-motion renders the settled layout statically. Full rationale recorded in `frontend.md` §10 (TODO resolved). Unblocks E9.3.2 and E10.1.1. V1 interaction scope: ambient motion + hover highlight; drag deferred.
 
 **E9.3.2 — Ch.5 `CompanyBrainGraph` (isolated, code-split client component)**
 
