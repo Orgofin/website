@@ -38,3 +38,4 @@ const browser = await chromium.launch({
 - Lazily mounted components (IntersectionObserver-gated) need a `scrollIntoViewIfNeeded()` on nearby text before their locator resolves.
 - Raw-HTML assertions (crawlable equivalents, no-JS content): plain `fetch(BASE)` from Node, not the browser.
 - The section worth screenshotting is found via `page.locator("section", { hasText: "…heading…" }).first()`. Element screenshots can include the sticky navbar band mid-frame — an artifact of scroll position, not a page bug.
+- **GA4 events:** build with `$env:NEXT_PUBLIC_GA_MEASUREMENT_ID = "G-TESTLOCAL1"` (baked at build time — setting it at `npm start` alone does nothing), block `**googletagmanager.com/**` via `page.route` to stay hermetic, then inspect `window.dataLayer`. gtag pushes `arguments` objects (array-LIKE, `Array.isArray` is false) — normalize with `Array.from(entry)` inside `page.evaluate` or every event looks missing.
