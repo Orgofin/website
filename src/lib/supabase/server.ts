@@ -31,3 +31,27 @@ export function createSupabaseServerClient() {
     auth: { persistSession: false },
   });
 }
+
+/**
+ * Service-role Supabase client — server-only, and used ONLY to mint
+ * time-limited signed URLs for the private investor-data-room storage bucket
+ * (the E11.1.4 decision: files are never public paths, and granting the anon
+ * key storage read would make the bucket effectively public since that key
+ * ships to every browser). Do not reach for this for table access — writes
+ * stay on the anon client + RLS. The key must never carry a `NEXT_PUBLIC_`
+ * prefix. Setup: docs/deployment/data-room-storage.md.
+ */
+export function createSupabaseAdminClient() {
+  const url = env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceRoleKey = env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!url || !serviceRoleKey) {
+    throw new Error(
+      "Supabase admin access is not configured (set SUPABASE_SERVICE_ROLE_KEY — see docs/deployment/data-room-storage.md).",
+    );
+  }
+
+  return createClient<Database>(url, serviceRoleKey, {
+    auth: { persistSession: false },
+  });
+}
