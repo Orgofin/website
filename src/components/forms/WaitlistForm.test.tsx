@@ -5,6 +5,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const { push } = vi.hoisted(() => ({ push: vi.fn() }));
 vi.mock("next/navigation", () => ({ useRouter: () => ({ push }) }));
 
+const { trackEvent } = vi.hoisted(() => ({ trackEvent: vi.fn() }));
+vi.mock("@/lib/analytics", () => ({ trackEvent }));
+
 import { WaitlistForm } from "@/components/forms/WaitlistForm";
 
 beforeEach(() => {
@@ -32,6 +35,7 @@ describe("WaitlistForm", () => {
     ).toBeInTheDocument();
     expect(fetchMock).not.toHaveBeenCalled();
     expect(push).not.toHaveBeenCalled();
+    expect(trackEvent).not.toHaveBeenCalled();
   });
 
   it("submits a valid email through the API and redirects on success", async () => {
@@ -62,6 +66,11 @@ describe("WaitlistForm", () => {
         }),
       }),
     );
+    // Conversion event carries attribution + outcome, never the email (PRD §10).
+    expect(trackEvent).toHaveBeenCalledExactlyOnceWith({
+      name: "waitlist_submit",
+      params: { source: "home-hero", status: "success" },
+    });
   });
 
   it("announces a server error and stays on the page", async () => {
@@ -81,6 +90,10 @@ describe("WaitlistForm", () => {
       await screen.findByText("We couldn't add you to the waitlist."),
     ).toBeInTheDocument();
     expect(push).not.toHaveBeenCalled();
+    expect(trackEvent).toHaveBeenCalledExactlyOnceWith({
+      name: "waitlist_submit",
+      params: { source: "unspecified", status: "error" },
+    });
   });
 
   it("announces a network error when the request throws", async () => {

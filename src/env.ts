@@ -13,9 +13,11 @@ import { z } from "zod";
  * at request time by the guard in `lib/supabase/server.ts`, which throws a clear
  * error that `lib/api/waitlist.ts` turns into a safe user-facing result.
  *
- * GA4 is still unprovisioned. Tighten any field to `z.string().min(1)` (or
- * `.url()`) only once EVERY build path that imports this module is guaranteed
- * to have the value.
+ * GA4 is provisioned the same way (`NEXT_PUBLIC_GA_MEASUREMENT_ID`, Vercel
+ * Production only) and stays `.optional()` for the same reason — the boot
+ * component and `lib/analytics/track.ts` both no-op without it. Tighten any
+ * field to `z.string().min(1)` (or `.url()`) only once EVERY build path that
+ * imports this module is guaranteed to have the value.
  */
 export const env = createEnv({
   server: {
