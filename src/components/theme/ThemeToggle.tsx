@@ -4,6 +4,7 @@ import { Monitor, Moon, Sun } from "lucide-react";
 
 import { useTheme } from "@/components/theme/ThemeProvider";
 import { Button } from "@/components/ui/Button";
+import { trackEvent } from "@/lib/analytics";
 import { type Theme } from "@/lib/theme/config";
 
 const CYCLE: readonly Theme[] = ["light", "dark", "system"];
@@ -38,6 +39,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
     const index = CYCLE.indexOf(active);
     const next = CYCLE[(index + 1) % CYCLE.length] ?? "system";
     setTheme(next);
+    trackEvent({ name: "theme_change", params: { theme: next } }); // PRD §10
   };
 
   return (

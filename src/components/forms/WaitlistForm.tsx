@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { FormField } from "@/components/molecules/FormField";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
+import { trackEvent } from "@/lib/analytics";
 import { waitlistSchema, type WaitlistInput } from "@/lib/api/waitlist";
 import { cn } from "@/lib/utils";
 
@@ -43,6 +44,14 @@ export function WaitlistForm({
     defaultValues: { email: "" },
   });
 
+  // Conversion event (PRD §10, E14.2): source + outcome only — never the email.
+  const trackSubmit = (status: "success" | "error") => {
+    trackEvent({
+      name: "waitlist_submit",
+      params: { source: source ?? "unspecified", status },
+    });
+  };
+
   const onSubmit = handleSubmit(async (values) => {
     setFormError(null);
     try {
@@ -57,14 +66,17 @@ export function WaitlistForm({
           error?: string;
         } | null;
         setFormError(data?.error ?? "Something went wrong. Please try again.");
+        trackSubmit("error");
         return;
       }
 
+      trackSubmit("success");
       router.push(successHref);
     } catch {
       setFormError(
         "Couldn't reach the server. Please check your connection and try again.",
       );
+      trackSubmit("error");
     }
   });
 
