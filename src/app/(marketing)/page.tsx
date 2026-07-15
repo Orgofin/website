@@ -21,10 +21,11 @@ export const metadata = createMetadata({ path: "/" });
  * §3). Each chapter is a `Section` organism; the single `<h1>` lives in Ch.1
  * (`WorldToday`), and the page closes on the shared waitlist `CTABand` (Ch.10).
  *
- * Deferred (documented follow-ons, not gaps): the interactive `CompanyBrainGraph`
- * (E9.3.2, blocked on the E9.3.1 library decision) and `AgentOrchestrationDiagram`
- * (E9.3.4) visuals — Ch.5/Ch.6 ship their copy and a static equivalent now; and
- * the Home `ScrollProgressProvider` for nav active-chapter highlight (E9.1.1).
+ * Deferred (documented follow-ons, not gaps): the `AgentOrchestrationDiagram`
+ * (E9.3.4) visual — Ch.6 ships its copy and a static equivalent now; and the
+ * Home `ScrollProgressProvider` for nav active-chapter highlight (E9.1.1).
+ * Ch.5 mounts the interactive `CompanyBrainGraph` (E9.3.2, lazy/client-only)
+ * alongside its static chain equivalent.
  */
 export default function Home() {
   return (
