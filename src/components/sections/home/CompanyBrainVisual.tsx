@@ -1,16 +1,15 @@
+import { CompanyBrainGraphLazy } from "@/components/graph";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/molecules/SectionHeading";
-import { Stagger, StaggerItem } from "@/components/motion/Stagger";
 import { Badge } from "@/components/ui/Badge";
 
 /**
- * The connection from copy.md §1 Ch.5's sub-headline, drawn as a static chain of
- * nodes. Each edge carries its relationship verb. This is the lightweight,
- * dependency-free interim for the chapter's visual — the full force-directed,
- * interactive `CompanyBrainGraph` is deferred (backlog E9.3.2, blocked on the
- * E9.3.1 library decision). Because it is plain DOM text, it doubles as the
- * accessible equivalent that graph will later need (E9.3.3).
+ * The connection from copy.md §1 Ch.5's sub-headline, drawn as a static chain
+ * of nodes. Deliberately motion-free: since the interactive graph landed
+ * (E9.3.2), this chain is the crawlable/no-JS/screen-reader equivalent of the
+ * same relationships (the E9.3.3 designation) — the section's one signature
+ * motion is the graph's assembly, not a chain stagger.
  */
 const CHAIN: ReadonlyArray<{ node: string; edge?: string }> = [
   { node: "Employee A" },
@@ -21,8 +20,10 @@ const CHAIN: ReadonlyArray<{ node: string; edge?: string }> = [
 
 /**
  * Chapter 5 — Visualize the Company Brain. Copy verbatim from
- * `docs/product/copy.md` §1 Ch.5. Signature motion: the chain assembles node by
- * node (reduced motion fades it in at once via the shared `Stagger` primitive).
+ * `docs/product/copy.md` §1 Ch.5. Signature motion: the `CompanyBrainGraph`
+ * assembling itself once (d3-force physics, not Framer Motion — frontend.md
+ * §10); the graph is client-only and lazy, the chain below stays static and
+ * server-rendered as its text equivalent.
  */
 export function CompanyBrainVisual() {
   return (
@@ -35,12 +36,19 @@ export function CompanyBrainVisual() {
           }
         />
 
-        <Stagger
+        <div className="flex flex-col gap-3">
+          <CompanyBrainGraphLazy />
+          <p className="text-caption text-fg-subtle text-center">
+            Click a node to see how it connects.
+          </p>
+        </div>
+
+        <div
           className="glass-surface border-border flex flex-wrap items-center gap-x-2 gap-y-4 rounded-lg border p-6 sm:gap-x-3"
           aria-label="Employee A approved Invoice B for Project C, billed to Customer D"
         >
           {CHAIN.map((step) => (
-            <StaggerItem
+            <span
               key={step.node}
               className="flex items-center gap-x-2 sm:gap-x-3"
             >
@@ -54,9 +62,9 @@ export function CompanyBrainVisual() {
               <Badge variant="accent" dot={false} className="text-body-sm">
                 {step.node}
               </Badge>
-            </StaggerItem>
+            </span>
           ))}
-        </Stagger>
+        </div>
       </Container>
     </Section>
   );

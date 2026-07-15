@@ -33,7 +33,7 @@ Everything below is an elaboration of this, not a replacement for it.
 
 ## Current Status
 
-Reusable motion primitives are implemented (Phase 10): `LazyMotionProvider`, `FadeIn`, `Slide`/`SlideUp`/`SlideDown`, `Scale`, `Reveal`, `Stagger`/`StaggerItem`, `PageTransition`, and `Hoverable` in `components/motion/`, all reading tokens from `lib/motion/tokens.ts` and routing reduced-motion through the single `useReducedMotion` hook. No _section-specific_ signature animations exist yet (those arrive with the marketing sections). See [`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md).
+Reusable motion primitives are implemented (Phase 10): `LazyMotionProvider`, `FadeIn`, `Slide`/`SlideUp`/`SlideDown`, `Scale`, `Reveal`, `Stagger`/`StaggerItem`, `PageTransition`, and `Hoverable` in `components/motion/`, all reading tokens from `lib/motion/tokens.ts` and routing reduced-motion through the single `useReducedMotion` hook. See [`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md). Section signature motions exist across the Home chapters and `/vision`/`/investors` organisms (one per section, via the shared primitives), and the one deliberate exception above is now real: `CompanyBrainGraph` (`components/graph/`, E9.3.2) runs a d3-force assembly + ambient drift outside Framer Motion, with Framer handling only its entrance.
 
 ## Future Improvements
 
@@ -56,5 +56,5 @@ Once the first chapter animations are built, consider whether this document need
 
 ---
 
-**Last Updated:** 2026-07-04
+**Last Updated:** 2026-07-15 (Current Status refreshed: chapter signature motions + the shipped `CompanyBrainGraph` exception)
 **Owner:** Orgofin Design/Engineering (TODO: assign a DRI)
