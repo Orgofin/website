@@ -99,12 +99,13 @@ AI Agents            Team               Data Room            Terms
 Products             Careers
 Security             Blog
                       Contact
+                      Vision
 
 ──────────────────────────────────────────────────────
 © Orgofin   ·   India → UK → USA   ·   [theme toggle]   ·   [Join Waitlist]
 ```
 
-Exists mainly for crawlability (no orphan pages — every page reachable within one click of the footer) and as the last low-friction shot at the primary CTA. `/partners` is included here even though it's absent from the header nav.
+Exists mainly for crawlability (no orphan pages — every page reachable within one click of the footer) and as the last low-friction shot at the primary CTA. `/partners` is included here even though it's absent from the header nav. `/vision` sits under Company (added 2026-07-15 — the copy deck's column list predated the page and omitted it; the no-orphan rule wins). **Population rule:** the implemented footer renders only links whose routes exist — a column appears once its first page ships — so the footer never links a 404 while the site grows into this target structure.
 
 ## 5. User Journeys
 

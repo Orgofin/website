@@ -17,37 +17,24 @@ export type FooterProps = {
 };
 
 /**
- * Site footer — structure only. Real link columns are populated in a later
- * phase (information-architecture.md §4); these are placeholders proving the
- * layout: brand block, link columns, and a bottom utility bar.
+ * Site footer. Column structure and labels come from `docs/product/copy.md`
+ * §19 / `information-architecture.md` §4, filtered to routes that actually
+ * exist — a column gains links as its pages ship (Platform/Legal render once
+ * their first page does), so the footer never links a 404. Still pending
+ * business facts from the founders (tracked in the backlog): legal entity
+ * name for the © line, social profile URLs, public contact email, and the
+ * newsletter block.
  */
 const DEFAULT_COLUMNS: FooterColumn[] = [
   {
-    heading: "Platform",
-    links: [
-      { label: "Placeholder", href: "#" },
-      { label: "Placeholder", href: "#" },
-    ],
-  },
-  {
     heading: "Company",
-    links: [
-      { label: "Placeholder", href: "#" },
-      { label: "Placeholder", href: "#" },
-    ],
+    links: [{ label: "Vision", href: "/vision" }],
   },
   {
-    heading: "Resources",
+    heading: "Investors",
     links: [
-      { label: "Placeholder", href: "#" },
-      { label: "Placeholder", href: "#" },
-    ],
-  },
-  {
-    heading: "Legal",
-    links: [
-      { label: "Placeholder", href: "#" },
-      { label: "Placeholder", href: "#" },
+      { label: "Investors", href: "/investors" },
+      { label: "Data Room", href: "/investors/data-room" },
     ],
   },
 ];
@@ -64,8 +51,7 @@ export function Footer({ columns = DEFAULT_COLUMNS, className }: FooterProps) {
               Orgofin
             </span>
             <Text size="body-sm" tone="muted" className="max-w-xs">
-              The Operating System for Every Company. (Placeholder mission —
-              final copy per docs/product/copy.md.)
+              The Operating System for Every Company.
             </Text>
           </div>
 
@@ -95,7 +81,11 @@ export function Footer({ columns = DEFAULT_COLUMNS, className }: FooterProps) {
         </div>
 
         <div className="border-border flex flex-col items-center justify-between gap-4 border-t py-6 sm:flex-row">
-          <Caption>© {year} Orgofin · India → UK → USA</Caption>
+          {/* "Orgofin" pending the registered legal entity name (business
+              fact, founders to confirm — backlog Business-Fact Placeholders). */}
+          <Caption>
+            © {year} Orgofin. All rights reserved. · India → UK → USA
+          </Caption>
           <ThemeToggle />
         </div>
       </Container>
