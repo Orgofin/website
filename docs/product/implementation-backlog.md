@@ -556,7 +556,7 @@ E15 Testing, Accessibility & Launch Hardening ◀── everything              
 
 **Goal:** The 10(+2)-chapter cinematic Home spine (`information-architecture.md` §3), each chapter a `Section` organism consuming `docs/product/copy.md`, one signature motion each. **Pull copy from the copy deck — never improvise it.**
 
-**Status (2026-07-08): static narrative spine SHIPPED.** All 11 chapter sections live in `src/components/sections/home/` (Ch.10 is the shared `CTABand`), assembled in `app/(marketing)/page.tsx` with a single `<h1>` (Ch.1) and canonical metadata. Copy is verbatim from the deck; each chapter has one signature Reveal/Stagger motion with the shared reduced-motion fallback; Server Components throughout (only the motion wrappers are client). **Deferred (documented follow-ons, not gaps):** the interactive `CompanyBrainGraph` (E9.3.2, blocked on E9.3.1) and `AgentOrchestrationDiagram` (E9.3.4) — Ch.5/Ch.6 ship copy + a static equivalent now; and the Home `ScrollProgressProvider` (E9.1.1). The shared-teaser-organism extraction (E9.3.5) landed 2026-07-14 — see its status note.
+**Status (2026-07-08): static narrative spine SHIPPED.** All 11 chapter sections live in `src/components/sections/home/` (Ch.10 is the shared `CTABand`), assembled in `app/(marketing)/page.tsx` with a single `<h1>` (Ch.1) and canonical metadata. Copy is verbatim from the deck; each chapter has one signature Reveal/Stagger motion with the shared reduced-motion fallback; Server Components throughout (only the motion wrappers are client). **Deferred (documented follow-ons, not gaps):** `AgentOrchestrationDiagram` (E9.3.4) — Ch.6 ships copy + a static equivalent now; and the Home `ScrollProgressProvider` (E9.1.1). The interactive `CompanyBrainGraph` (E9.3.2) shipped 2026-07-15. The shared-teaser-organism extraction (E9.3.5) landed 2026-07-14 — see its status note.
 
 ## Feature 9.1 — Home Infrastructure
 
@@ -603,12 +603,14 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 - Acceptance criteria:
   - `next/dynamic` `ssr:false` + IntersectionObserver-gated mount; Framer Motion only for entrance; entity graph reflects `company-brain.md` (Entity Graph / Event / Context / Decision Intelligence).
   - Not driven by Framer Motion's transition system; loads only when scrolled near; never blocks first paint.
+- **Status (2026-07-15): DONE.** `components/graph/` — `data.ts` (the eight `company-brain.md` entity types + relationship verbs, opening with the canonical Employee→Invoice→Project→Customer example), `CompanyBrainGraph` (d3-force + bespoke SVG per E9.3.1; assembly-on-mount signature motion, ambient idle drift paused off-screen, hover/focus/click-pin highlight with Escape/background-click clear, reduced-motion = same simulation settled static and still interactive), `CompanyBrainGraphLazy` (`ssr:false` + new one-shot `hooks/useInView` gate + `Scale` entrance, fixed-aspect frame so no CLS). Mounted in Home Ch.5 with the copy-deck microcopy; the static chain stays as the crawlable equivalent and is now motion-free (one signature motion per section). Verified end-to-end in headless Edge: SSR equivalent, lazy mount, drift, highlight/pin/keyboard, reduced-motion, dark mode, 600px width.
 
 **E9.3.3 — `CompanyBrainGraph` accessible text alternative**
 
 - Depends on: E9.3.2
 - Acceptance criteria:
   - Visually-hidden structured text/table of the same entity relationships, toggleable via a visible "view as text" control; crawlable static equivalent present in the same DOM position (`accessibility.md`, `frontend.md` §6/§7).
+- **Status (2026-07-15): partially satisfied by designation** — the static chain in `CompanyBrainVisual` is the crawlable/no-JS equivalent in the same DOM position, and each graph node carries a full relationship `aria-label`. Still open: the visible "view as text" toggle and a structured table covering all nine relationships (the chain covers the canonical four).
 
 **E9.3.4 — Ch.6 `AgentOrchestrationDiagram` + CEO Intelligence Agent vignette**
 
