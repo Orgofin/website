@@ -55,6 +55,7 @@ Wire the remaining pipeline steps (unit tests, Playwright/axe, Lighthouse gate) 
 - [ ] Attach a custom production domain / configure DNS (E13.1.3) and set `NEXT_PUBLIC_SITE_URL`. Canonical decided: apex `orgofin.com` (2026-07-08); runbook: [`docs/deployment/custom-domain-setup.md`](../../docs/deployment/custom-domain-setup.md).
 - [x] Decide Supabase environment isolation strategy — done 2026-07-08: two projects (prod + non-prod), see above.
 - [x] Populate `docs/deployment/environment-variables.md` with the real Supabase variables (done 2026-07-08); GA4 vars still pending its property.
+- [ ] Remove the `package.json` `overrides` entry forcing `next`'s nested `postcss` to `^8.5.10` (added 2026-07-15 for the Dependabot XSS alert, GHSA postcss < 8.5.10) once a Next release stops pinning `postcss@8.4.31` — check on each Next upgrade.
 
 ## References
 
