@@ -265,14 +265,18 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 
 ## 7. Investor Data Room (`/investors/data-room`)
 
-**SEO title:** Investor Data Room | Orgofin _(recommend `noindex, nofollow` — gated content)_
+**SEO title:** Investor Data Room | Orgofin _(ships `noindex, nofollow` — gated content)_
+
+> **Revised 2026-07-15 with the resolved E11.1.4 gating decision** (email-gated, instant unlock — see PRD §22.6 and the backlog). Two changes from the original draft: the sub-headline no longer promises a **financial model** (content discipline: diligence-grade material is shared 1:1 from a founder-controlled room, never from the website), and the success message reflects that documents unlock immediately rather than after founder approval. The founder-follow-up commitment is retained.
 
 **Headline:** Everything you need to evaluate Orgofin.
-**Sub-headline:** Deck, financial model, and product walkthrough — shared directly, not published.
+**Sub-headline:** The deck and one-pager behind the numbers on this site — shared with investors, not published.
 **Form helper text:** Enter your email and firm name — we'll follow up personally, not with an autoresponder.
 **Form fields:** Full name · Work email · Firm / Fund · Check size _(optional)_
 **Button:** Request Access
-**Success message:** Request received. A founder will follow up within 48 hours.
+**Success message:** Request received — the room is open below. A founder will follow up within 48 hours.
+**Pending-documents note** _(shown while founder-supplied files are still being prepared)_: The first documents are being finalized by the founding team. Your request is registered — a founder will follow up within 48 hours.
+**Link-expiry note** _(shown when downloads are live)_: Download links are valid for 15 minutes. Re-submit the form any time for fresh links.
 
 ---
 
