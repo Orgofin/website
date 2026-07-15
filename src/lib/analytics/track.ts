@@ -19,7 +19,10 @@ export type AnalyticsEvent =
   | { name: "demo_request"; params: { status: "success" | "error" } }
   | { name: "partner_apply"; params: { status: "success" | "error" } }
   | { name: "theme_change"; params: { theme: "light" | "dark" | "system" } }
-  | { name: "cta_click"; params: { cta: string; location: string } };
+  | { name: "cta_click"; params: { cta: string; location: string } }
+  | { name: "data_room_request"; params: { status: "success" | "error" } }
+  // PRD §10's "Investor PDF Downloads" event — `document` is the catalog slug.
+  | { name: "data_room_download"; params: { document: string } };
 
 /**
  * Fire-and-forget GA4 event (frontend.md §9 — analytics is not state). Wraps

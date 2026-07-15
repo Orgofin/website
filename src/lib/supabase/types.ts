@@ -23,6 +23,23 @@ export type WaitlistInsert = {
   source?: string | null;
 };
 
+/** Mirrors `supabase/migrations/20260715120000_create_data_room_requests.sql`. */
+export type DataRoomRequestRow = {
+  id: string;
+  name: string;
+  email: string;
+  firm: string;
+  check_size: string | null;
+  created_at: string;
+};
+
+export type DataRoomRequestInsert = {
+  name: string;
+  email: string;
+  firm: string;
+  check_size?: string | null;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -30,6 +47,12 @@ export type Database = {
         Row: WaitlistRow;
         Insert: WaitlistInsert;
         Update: Partial<WaitlistInsert>;
+        Relationships: [];
+      };
+      data_room_requests: {
+        Row: DataRoomRequestRow;
+        Insert: DataRoomRequestInsert;
+        Update: Partial<DataRoomRequestInsert>;
         Relationships: [];
       };
     };
