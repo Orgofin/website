@@ -565,6 +565,7 @@ E15 Testing, Accessibility & Launch Hardening ◀── everything              
 - Depends on: E5.1.1
 - Acceptance criteria:
   - Lightweight context local to the Home tree (not global) driving nav active-chapter highlight + optional progress indicator (`frontend.md` §4/§9).
+- **Status (2026-07-16): DONE (progress indicator); nav active-chapter highlight has no surface to render on.** `hooks/useScrollProgress` (rAF-throttled 0–1 fraction, document height re-read per update) + `sections/home/ScrollProgressProvider` (context local to the Home tree, mounted in `page.tsx`, rendering the `aria-hidden` top-edge reading-progress bar — scroll-linked direct manipulation, no animation, so reduced-motion behaviour is identical). The acceptance criteria's nav active-chapter highlight is deliberately not built: IA §2's canonical header has no chapter-level links (the nav-structure decision is open with the founders), so there is nothing to highlight — `useHomeScrollProgress` is the documented seam a future chapter nav plugs into. Revisit if/when the nav decision adds chapter links.
 
 **E9.1.2 — Home page assembly + `generateMetadata`**
 
