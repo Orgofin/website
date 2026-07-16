@@ -4,7 +4,7 @@ import { useCallback, useSyncExternalStore } from "react";
 
 /**
  * Device tiers, matching the `--breakpoint-*` tokens in globals.css and the
- * ranges in design-system.md §9. `blocked` is the <390px lockout tier.
+ * ranges in design-system.md §9. `blocked` is the <320px lockout tier.
  */
 export type Breakpoint =
   "blocked" | "mobile" | "tablet" | "laptop" | "desktop" | "wide";
@@ -12,7 +12,7 @@ export type Breakpoint =
 /** Lower bound (px) of each tier, in ascending order. */
 export const BREAKPOINTS: Record<Breakpoint, number> = {
   blocked: 0,
-  mobile: 390,
+  mobile: 320,
   tablet: 768,
   laptop: 1024,
   desktop: 1366,

@@ -204,11 +204,11 @@ Requirements: lazy loading, image optimization, code splitting, SSR where approp
 
 Support desktop, laptop, tablet, large mobile.
 
-For screens < 390px, show a full-screen premium message instead of a broken layout:
+For screens < 320px, show a full-screen premium message instead of a broken layout:
 
 > "Orgofin is best experienced on a larger screen. We're building an immersive experience to showcase the future of enterprise software. Please switch to a tablet or desktop."
 
-> **[WEAK — see Section 20.1]** Locking out small-mobile visitors is a defensible design call for a cinematic experience, but it directly excludes a share of the "potential customer" audience (Section 2) who will first encounter Orgofin via a shared LinkedIn/WhatsApp link on a phone. Given India is the primary launch market and mobile-first browsing is the norm there, this deserves an explicit founder sign-off, not just a design default — see Section 22.
+> **[REVISED 2026-07-16 — founder decision]** The lockout threshold was originally <390px; the founder directed lowering the supported floor to **320px** (the WCAG 1.4.10 reflow width) so iPhone SE/Mini (375px) and compact Androids (360px) get the full site — resolving the Section 20.1 risk and Section 22 question 2. All routes were audited overflow-free at 320/360/375px when the floor changed; the lockout now applies only below 320px.
 
 ---
 
@@ -378,7 +378,7 @@ A production-ready, fully responsive site with premium animations, waiting list 
 
 ## 20. Weak Messaging (consolidated)
 
-1. **Small-mobile lockout risk.** Given India is the lead market and mobile-first browsing dominates there, excluding <390px visitors entirely (Section 7) cuts against reaching exactly the audience segment the GTM plan targets. Worth an explicit founder decision, not a design default.
+1. **Small-mobile lockout risk.** Given India is the lead market and mobile-first browsing dominates there, excluding <390px visitors entirely (Section 7) cuts against reaching exactly the audience segment the GTM plan targets. Worth an explicit founder decision, not a design default. — **Resolved 2026-07-16:** founder lowered the floor to 320px (Section 7); only sub-320px screens see the lockout.
 2. **"Why Now" argument is unused.** The single most specific, time-bound, and credible investor argument in the source material (AI capability threshold, India digitisation wave, $3,500/employee SaaS fatigue stat, foundation model cost curve, "no India-born full-stack player post-Zoho") has no home anywhere in the current 10-chapter story.
 3. **Competitive positioning is unused.** "The Fundamental Difference" one-liner ("every competitor builds products and connects them; Orgofin builds the brain first") is one of the strongest lines in the whole document and appears nowhere in the site plan.
 4. **No defined brand voice.** "Premium, cinematic, futuristic" (Section 4) describes visual/motion direction only. There's no guidance on sentence rhythm, formality, or verb choice for actual copywriting — risk of each chapter reading like disconnected ad copy from different writers.
@@ -398,7 +398,7 @@ A production-ready, fully responsive site with premium animations, waiting list 
 These are decisions for the founders, not implementation details — flagging so they aren't made silently by whoever builds this:
 
 1. Which TAM table (or reconciled figure) is canonical for public/investor-facing use? — **Partially resolved 2026-07-14:** founder approved publishing the §3.3 directionally-safe headline figures ($500B+ → ~$1T, SAM ~$1.73B, SOM targets) and the §3.4 unit-economics table on `/investors`; the per-category TAM breakdown stays unpublished until the two source tables are reconciled (see §19.1 and `copy.md` §6).
-2. Is excluding <390px visitors an acceptable tradeoff given India is the lead market and likely mobile-heavy traffic?
+2. Is excluding <390px visitors an acceptable tradeoff given India is the lead market and likely mobile-heavy traffic? — **Resolved 2026-07-16:** no; the founder lowered the supported floor to 320px (see §7).
 3. Is the total absence of a Pricing page intentional for this pre-launch phase, or an oversight?
 4. Are the MVP-status modules listed in the PDF appendix actually functional today — should the site say "live" rather than "roadmap" for those?
 5. Who are the named founders/team members to feature, and what can legally/comfortably be disclosed pre-funding?
