@@ -13,7 +13,7 @@ Owns testing scope and philosophy. Does not own the CI pipeline that runs tests 
 
 - **Unit tests:** pure functions in `lib/` (form validation schemas, analytics event formatting, SEO metadata builders) — anything with real logic and no rendering.
 - **Component tests:** primitives and molecules in `components/ui/` and form components — rendering, prop variants, basic interaction (does the button call its handler, does the form show a validation error).
-- **E2E tests (Playwright):** the critical user paths — waitlist signup end-to-end, demo request submission, theme toggle persistence, the <390px lockout screen actually appearing. Not every page, the paths that matter per `docs/product/website-strategy.md`'s CTA hierarchy.
+- **E2E tests (Playwright):** the critical user paths — waitlist signup end-to-end, demo request submission, theme toggle persistence, the <320px lockout screen actually appearing. Not every page, the paths that matter per `docs/product/website-strategy.md`'s CTA hierarchy.
 - **Accessibility tests:** axe integrated into the Playwright E2E run — see `accessibility.md`.
 - **Visual/Lighthouse:** performance, accessibility, SEO, best-practices scores gated in CI — see `deployment.md`.
 

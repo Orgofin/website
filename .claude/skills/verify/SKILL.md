@@ -32,6 +32,10 @@ const browser = await chromium.launch({
 
 3. Useful contexts: `{ reducedMotion: "reduce" }` for the reduced-motion path, `{ colorScheme: "dark" }` for dark mode (ThemeScript follows system preference by default), a ~600px viewport for mobile.
 
+## Mobile overflow audit (the 320px floor)
+
+The supported floor is **320px** (design-system §9; lockout only below that). Any layout-touching change should re-run the overflow audit: for each route × width in {320, 360, 375}, load the page, scroll through it so lazy content mounts, then assert `document.documentElement.scrollWidth <= clientWidth` and walk `body *` for elements whose bounding rect exceeds the viewport — skipping elements inside an ancestor with `overflow-x: auto|scroll` (tables/wide content are allowed to scroll inside their own container, the page body is not). Boundary checks: the `[aria-label="Screen too small"]` lockout is `display: none` at ≥320px and visible at 319px.
+
 ## Gotchas
 
 - **Continuously animating elements (e.g., the CompanyBrainGraph ambient drift) never pass Playwright's stability check** — `hover()`/`click()` time out with "element is not stable." Use `{ force: true }`; the graph's 22-unit hit radius tolerates the ±3-unit drift.

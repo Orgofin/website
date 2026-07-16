@@ -107,8 +107,10 @@
 
   /* Responsive breakpoints (design-system.md §9). Named for device tiers; the
      useBreakpoint hook mirrors these exact values. Tailwind's default
-     sm/md/lg/xl/2xl remain available alongside these. */
-  --breakpoint-mobile: 390px;
+     sm/md/lg/xl/2xl remain available alongside these. `mobile` is the 320px
+     supported floor (WCAG 1.4.10 reflow width; lowered from 390px 2026-07-16
+     to support iPhone SE/Mini and compact Androids — PRD §7 revision). */
+  --breakpoint-mobile: 320px;
   --breakpoint-tablet: 768px;
   --breakpoint-laptop: 1024px;
   --breakpoint-desktop: 1366px;
