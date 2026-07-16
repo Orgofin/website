@@ -1,5 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+/* Experimental brand palettes for the co-founder theme review — see the file
+   header. Deleted (or graduated into this file) once a direction is chosen.
+   Import position is safe: brand selectors carry (0,2,0) specificity, so they
+   override :root/.dark regardless of source order. */
+@import "./brands.css";
 
 /*
  * Orgofin Design Tokens — the single source of truth for the token layer.
