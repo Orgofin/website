@@ -617,6 +617,7 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 - Depends on: E5.1.2
 - Acceptance criteria:
   - Renders the CEO Intelligence Agent vignette from `ai-agents.md` verbatim/near-verbatim ("show, don't tell"); multi-agent orchestration depicted; accessible fallback for any non-text visual.
+- **Status (2026-07-16): DONE.** The vignette shipped with the chapter build; this task added `AgentOrchestrationDiagram` (`sections/home/`) — a motion-free, server-rendered semantic-DOM flow of the `ai-agents.md` multi-agent protocol (business request → Orchestrator Agent → the four named specialist agents, human-in-the-loop ₹10L caption). No non-text visual exists: the diagram is real DOM text, so it is its own crawlable/screen-reader equivalent (connector glyphs `aria-hidden`); Ch.6's one signature motion remains the vignette stagger. The CEO Intelligence Agent is deliberately not a diagram node — it is the vignette itself (PRD's own grounding recommendation). Microcopy recorded in `copy.md` §1 Ch.6, flagged synthesized.
 
 **E9.3.5 — Ch.7.5 Why We Win + Ch.8 Roadmap (mount shared organisms)**
 
