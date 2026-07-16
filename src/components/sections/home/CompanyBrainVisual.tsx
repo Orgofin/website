@@ -1,4 +1,7 @@
-import { CompanyBrainGraphLazy } from "@/components/graph";
+import {
+  CompanyBrainGraphLazy,
+  GraphTextAlternative,
+} from "@/components/graph";
 import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/molecules/SectionHeading";
@@ -7,9 +10,10 @@ import { Badge } from "@/components/ui/Badge";
 /**
  * The connection from copy.md §1 Ch.5's sub-headline, drawn as a static chain
  * of nodes. Deliberately motion-free: since the interactive graph landed
- * (E9.3.2), this chain is the crawlable/no-JS/screen-reader equivalent of the
- * same relationships (the E9.3.3 designation) — the section's one signature
- * motion is the graph's assembly, not a chain stagger.
+ * (E9.3.2), this chain is the always-visible crawlable/no-JS equivalent of the
+ * canonical four relationships; the full nine live in the
+ * `GraphTextAlternative` "View as text" disclosure under the graph (E9.3.3).
+ * The section's one signature motion is the graph's assembly.
  */
 const CHAIN: ReadonlyArray<{ node: string; edge?: string }> = [
   { node: "Employee A" },
@@ -41,6 +45,7 @@ export function CompanyBrainVisual() {
           <p className="text-caption text-fg-subtle text-center">
             Click a node to see how it connects.
           </p>
+          <GraphTextAlternative />
         </div>
 
         <div

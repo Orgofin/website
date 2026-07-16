@@ -611,7 +611,7 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 - Depends on: E9.3.2
 - Acceptance criteria:
   - Visually-hidden structured text/table of the same entity relationships, toggleable via a visible "view as text" control; crawlable static equivalent present in the same DOM position (`accessibility.md`, `frontend.md` §6/§7).
-- **Status (2026-07-15): partially satisfied by designation** — the static chain in `CompanyBrainVisual` is the crawlable/no-JS equivalent in the same DOM position, and each graph node carries a full relationship `aria-label`. Still open: the visible "view as text" toggle and a structured table covering all nine relationships (the chain covers the canonical four).
+- **Status (2026-07-16): DONE.** Built on the 2026-07-15 partial designation (static chain = same-DOM-position crawlable equivalent of the canonical four; graph nodes carry relationship `aria-label`s) by adding `components/graph/GraphTextAlternative`: a visible "View as text" disclosure (`aria-expanded`/`aria-controls`) under the graph revealing a structured table of all nine `BRAIN_EDGES` relationships (Entity / Relationship / Connected entity). The table is server-rendered collapsed via the `hidden` attribute — present in static HTML for crawlers, out of the reading order until toggled; no reveal animation (the section's signature motion is the graph's assembly). Ships with a component test.
 
 **E9.3.4 — Ch.6 `AgentOrchestrationDiagram` + CEO Intelligence Agent vignette**
 
