@@ -14,8 +14,8 @@ describe("MobileBlockScreen", () => {
     ).toBeInTheDocument();
   });
 
-  it("hides itself at and above the 390px breakpoint via CSS", () => {
-    // Pure-CSS lockout: visible by default, hidden at >=390px. (Viewport-based
+  it("hides itself at and above the 320px breakpoint via CSS", () => {
+    // Pure-CSS lockout: visible by default, hidden at >=320px. (Viewport-based
     // visibility is asserted end-to-end once Playwright lands — E15.1.2.)
     render(<MobileBlockScreen />);
     expect(screen.getByRole("dialog")).toHaveClass("mobile:hidden");
