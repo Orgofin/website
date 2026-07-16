@@ -896,7 +896,7 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 
 ## Business-Fact Placeholders (never invent — `TODO` until sourced)
 
-Founder bios/photos (`/team`), finalized pricing (`/products`), legal entity details (legal pages), any "Available Now" module status (`/products` — confirm with founders per `hrms.md`), conflicting TAM/SAM/SOM figures (`/investors` — PRD §22), real Careers roles (`JobPosting` schema).
+Founder bios/photos (`/team`), finalized pricing (`/products`), legal entity details (legal pages + the footer © line), any "Available Now" module status (`/products` — confirm with founders per `hrms.md`), conflicting TAM/SAM/SOM figures (`/investors` — PRD §22), real Careers roles (`JobPosting` schema), social profile URLs (footer icons + the placeholder `twitterHandle` in `lib/seo/site.ts`), public support/contact email (copy.md §18's `[support email]` + footer), investor deck/one-pager PDFs (data room — requested 2026-07-15, checklist shared with founders).
 
 ---
 
