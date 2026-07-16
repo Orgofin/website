@@ -2,10 +2,12 @@ import { Heading } from "@/components/ui/Heading";
 import { Text } from "@/components/ui/Text";
 
 /**
- * Full-screen lockout below the 390px `mobile` breakpoint (`design-system.md`
- * §9, PRD §7). Pure CSS: visible by default and hidden at ≥390px via the
- * `mobile:` variant — no JS, so there's no hydration flash or layout shift.
- * Mounted once at the marketing layout level.
+ * Full-screen lockout below the 320px `mobile` breakpoint (`design-system.md`
+ * §9, PRD §7 — floor lowered from 390px on 2026-07-16 so iPhone SE/Mini and
+ * compact Androids get the real site; 320px is the WCAG 1.4.10 reflow width).
+ * Pure CSS: visible by default and hidden at ≥320px via the `mobile:` variant
+ * — no JS, so there's no hydration flash or layout shift. Mounted once at the
+ * marketing layout level.
  */
 export function MobileBlockScreen() {
   return (
@@ -19,7 +21,7 @@ export function MobileBlockScreen() {
         A slightly wider view awaits.
       </Heading>
       <Text tone="muted" balance className="max-w-xs">
-        Orgofin is crafted for screens 390px and wider. Please open it on a
+        Orgofin is crafted for screens 320px and wider. Please open it on a
         larger phone, a tablet, or a desktop.
       </Text>
     </div>

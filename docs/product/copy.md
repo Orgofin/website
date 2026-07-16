@@ -403,9 +403,9 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 
 ---
 
-## 16. Small-Screen Block (<390px)
+## 16. Small-Screen Block (<320px)
 
-_(Kept verbatim from the founder's original handwritten PRD — already on-brand, no changes needed.)_
+_(Kept verbatim from the founder's original handwritten PRD — already on-brand, no changes needed. Threshold lowered from <390px to <320px on 2026-07-16 per the founder's responsive-floor decision, PRD §7.)_
 
 > "Orgofin is best experienced on a larger screen. We're building an immersive experience to showcase the future of enterprise software. Please switch to a tablet or desktop."
 

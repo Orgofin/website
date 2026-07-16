@@ -347,11 +347,11 @@ E15 Testing, Accessibility & Launch Hardening ◀── everything              
 - Acceptance criteria:
   - Enforces `bp-desktop-xl` max-width cap (~1440–1600px centered) and vertical rhythm spacing between sections; no page hand-rolls container widths (`frontend.md` §4).
 
-**E4.3.2 — `MobileBlockScreen` (<390px lockout)**
+**E4.3.2 — `MobileBlockScreen` (<320px lockout; floor lowered from 390px on 2026-07-16, founder decision — PRD §7. All routes audited overflow-free at 320/360/375px; audit recipe in the project verify skill.)**
 
 - Depends on: E2.1.*
 - Acceptance criteria:
-  - Full-screen premium lockout below 390px (`design-system.md` §9 `bp-blocked`, PRD §7); mounted once at the marketing layout level; has an E2E test asserting it appears.
+  - Full-screen premium lockout below 320px (`design-system.md` §9 `bp-blocked`, PRD §7); mounted once at the marketing layout level; has an E2E test asserting it appears.
 
 **E4.3.3 — Marketing route group + layout**
 
@@ -854,7 +854,7 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 
 - Depends on: E15.1.2, E8.1.1, E4.1.2, E4.3.2
 - Acceptance criteria:
-  - E2E covers: waitlist signup end-to-end, demo request submit, theme-toggle persistence across reload, and the <390px lockout appearing (`testing.md`); runs green in CI (E1.2.3).
+  - E2E covers: waitlist signup end-to-end, demo request submit, theme-toggle persistence across reload, and the <320px lockout appearing (`testing.md`); runs green in CI (E1.2.3).
 
 ## Feature 15.3 — Launch Hardening
 
