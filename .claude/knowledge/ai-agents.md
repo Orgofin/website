@@ -7,7 +7,7 @@
 
 ## Responsibilities
 
-Owns the AGaaS/agent concept definition, sourced from `docs/product/orgofin-idea.pdf`. Does not own the visual/interaction design of how agents are represented on the site (`docs/product/copy.md` §1 Chapter 6, and the eventual `AgentOrchestrationDiagram` component per `.claude/context/frontend.md`).
+Owns the AGaaS/agent concept definition, sourced from `docs/product/orgofin-idea.pdf`. Does not own the visual/interaction design of how agents are represented on the site (`docs/product/copy.md` §1 Chapter 6, and the `AgentOrchestrationDiagram` component per `.claude/context/frontend.md`).
 
 ## What AGaaS Is
 

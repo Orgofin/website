@@ -3,6 +3,7 @@ import { Section } from "@/components/layout/Section";
 import { SectionHeading } from "@/components/molecules/SectionHeading";
 import { Reveal } from "@/components/motion/Reveal";
 import { Stagger, StaggerItem } from "@/components/motion/Stagger";
+import { AgentOrchestrationDiagram } from "@/components/sections/home/AgentOrchestrationDiagram";
 import { Text } from "@/components/ui/Text";
 
 /** The CEO Intelligence Agent's overnight work, verbatim from copy.md §1 Ch.6. */
@@ -16,10 +17,10 @@ const VIGNETTE: readonly string[] = [
 
 /**
  * Chapter 6 — AI Agents. The CEO Intelligence Agent vignette, verbatim from
- * `docs/product/copy.md` §1 Ch.6 ("show, don't tell"). Signature motion: the
- * overnight actions stagger in like a feed. The `AgentOrchestrationDiagram`
- * visual is deferred (backlog E9.3.4); the vignette copy is the substance and
- * ships now.
+ * `docs/product/copy.md` §1 Ch.6 ("show, don't tell"), followed by the
+ * `AgentOrchestrationDiagram` (E9.3.4) showing the multi-agent protocol behind
+ * it. Signature motion: the overnight actions stagger in like a feed — the
+ * diagram is deliberately motion-free (one signature motion per section).
  */
 export function AgentsVignette() {
   return (
@@ -52,6 +53,14 @@ export function AgentsVignette() {
             </StaggerItem>
           ))}
         </Stagger>
+
+        <Reveal>
+          <Text size="body-lg" tone="muted">
+            No agent works alone.
+          </Text>
+        </Reveal>
+
+        <AgentOrchestrationDiagram />
 
         <Reveal>
           <Text size="body-lg" className="text-fg font-medium">

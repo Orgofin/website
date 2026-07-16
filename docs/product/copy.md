@@ -73,6 +73,12 @@ Every morning, before you've opened your laptop, your CEO Intelligence Agent has
 
 This isn't automation. It's a company that runs on intelligence.
 
+**Orchestration diagram** _(added 2026-07-16; microcopy synthesized for the `AgentOrchestrationDiagram` (E9.3.4) — no diagram copy existed in the source PDF; agent names verbatim and functions near-verbatim from `.claude/knowledge/ai-agents.md` (source PDF §4.3), including the ₹10L human-in-the-loop example)_
+
+- **Lead-in:** No agent works alone.
+- **Flow:** A business request → **Orchestrator Agent** (Breaks the request into sub-tasks, delegates them, and synthesises the results.) → _delegates to_ → HR Operations Agent · Finance Agent · Sales Agent · Support Agent, each with its one-line function from the `ai-agents.md` named-agent table. The CEO Intelligence Agent is deliberately not a node — it is the vignette above (PRD §22 Ch.6 grounding).
+- **Caption:** Results come back as one synthesised output — with human approval checkpoints for high-stakes actions, like payroll runs above ₹10L.
+
 ### Chapter 7 — Enterprise OS
 
 **Headline:** Stop paying for twenty apps. Start running on one brain.
