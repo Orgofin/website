@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="currentColor" role="img" aria-label="Orgofin">
+  <!-- Concept 07 as a one-colour mark: disc in currentColor with the F knocked
+       out (true negative space), so it works on any background. -->
+  <path fill-rule="evenodd" d="M1 32 A31 31 0 1 0 63 32 A31 31 0 1 0 1 32 Z M23 16.5 h6 v31 h-6 Z M29 16.5 h15 v6 h-15 Z M29 30 h9 v6 h-9 Z"/>
+</svg>
