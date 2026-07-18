@@ -14,19 +14,19 @@ Owns the shipped brand assets and their usage. The concept exploration and ratio
 
 ## 1. The selected mark
 
-**Concept 07 · Eclipse** — a **solid circular disc** containing a **custom, modular "F"**. The F is _not_ a font character: it is a digital-matrix glyph built from eight uniform square blocks (uniform stroke, sharp 90° corners, deliberate negative-space gaps). App icon first, letter second — recognizable as the Orgofin mark from the disc alone, and legible down to 16px.
+**Concept 07 · Eclipse** — reproduced exactly from the reviewed reference (`docs/brand/preview.html`): a **solid circular disc** with a clean, **sharp-cornered geometric "F" in negative space**. The F is a custom vector symbol (uniform stroke, 90° corners, no typeface), built from three connected blocks — stem + top arm + shorter mid arm. App icon first, letter second — recognizable from the disc alone and legible down to 16px.
 
-- **The mark fully inverts by theme** (matching the reference), driven by the `--logo-disc` / `--logo-f` tokens in `globals.css`:
-  - **Light:** purple disc `#7C3AED`, white F `#FFFFFF`.
+- **The mark fully inverts by theme** (matching the reference):
+  - **Light:** indigo→violet disc (`#4F46E5 → #7C3AED`), white F.
   - **Dark:** white disc `#FFFFFF`, dark F `#0B1020`. **The disc is not purple in dark mode — it inverts to white.**
-- **Custom geometric F:** eight `7×7` blocks on a 64-grid (top arm = 3 blocks, stem = 4, mid arm = 1 shared corner block), with `1.5`-unit gaps. The block coordinates are shared verbatim across `Logo.tsx`, `icon.svg`, and `logo.svg` — change them in one place and mirror.
+- **Custom geometric F:** three rectangles on a 64-grid, uniform 6-unit stroke — stem `(23, 16.5, 6×31)`, top arm `(29, 16.5, 15×6)`, mid arm `(29, 30, 9×6)`. These coordinates are shared verbatim across `Logo.tsx`, `icon.svg`, and `logo.svg` — change them in one place and mirror.
 - **How the inversion is wired:**
-  - **On the site** (`Logo` component) the disc and F read the `--logo-disc` / `--logo-f` tokens, which flip under the `.dark` class — so the whole mark inverts with the site theme toggle.
-  - **In the browser tab** (`icon.svg`, `favicon.ico`, `logo.svg`) an embedded `@media (prefers-color-scheme: dark)` inverts disc + F to match the OS/browser theme.
-- **Container forms:** a **disc** for favicon / site logo / social; a **full-bleed tile** (same construction) for app/PWA/Apple icons (opaque, maskable-safe — light variant: purple tile + white F).
-- **Mono variant:** [`public/logo-mono.svg`](../../public/logo-mono.svg) — single `currentColor` disc with the modular F knocked out (true negative space) for one-colour use.
+  - **On the site** (`Logo` component) the disc paints the gradient with `dark:fill-white` and the F paints white with `dark:fill-[#0b1020]` — so the whole mark flips with the site theme toggle (the `dark:` variant is bound to the `.dark` class in `globals.css`).
+  - **In the browser tab** (`icon.svg`, `logo.svg`) an embedded `@media (prefers-color-scheme: dark)` inverts disc + F to match the OS/browser theme.
+- **Container forms:** a **disc** for favicon / site logo / social; a **full-bleed tile** (same F) for app/PWA/Apple icons (opaque, maskable-safe — light variant: gradient tile + white F).
+- **Mono variant:** [`public/logo-mono.svg`](../../public/logo-mono.svg) — single `currentColor` disc with the F knocked out (true negative space) for one-colour use.
 
-> **Colours are provisional pending the palette decision.** Purple `#7C3AED` is carried from the reviewed exploration. If the palette experiment lands on a different primary, update `--logo-disc`/`--logo-f` in `globals.css`, the media-query colours in the source SVGs, `manifest.ts` `theme_color`, and re-run the asset generator (§3).
+> **Colours are provisional pending the palette decision.** The indigo→violet gradient is carried from the reviewed exploration; the reference renders the light disc with this gradient (it can be flattened to a solid purple if preferred). If the palette experiment lands on a different primary, update the gradient stops + `dark:` colours in `Logo.tsx`, the media-query colours in the source SVGs, `manifest.ts` `theme_color`, and re-run the asset generator (§3).
 
 ---
 
@@ -59,7 +59,7 @@ The PNGs and `.ico` are generated from the SVG sources with headless Chromium �
 3. Build `favicon.ico` from 16/32/48 PNGs via `png-to-ico`.
 4. Screenshot `og.html` at 1200×630 for `public/og/default.png`.
 
-To change the mark or colour: edit the block coordinates in the SVG sources + `Logo.tsx`, the `--logo-disc`/`--logo-f` tokens in `globals.css`, and the media-query colours in the SVGs; then re-run the generator and re-verify (favicon at 16px in light + dark, OG render, app icon in a rounded mask).
+To change the mark or colour: edit the F rectangles + gradient stops in `Logo.tsx` (and the `dark:` colours), and the matching colours/geometry in the source SVGs (`icon.svg`, `logo.svg`); then re-run the generator and re-verify (favicon at 16px in light + dark, OG render, app icon in a rounded mask).
 
 ---
 
@@ -67,7 +67,7 @@ To change the mark or colour: edit the block coordinates in the SVG sources + `L
 
 - **Clear space:** keep space equal to the F's stem width around the mark.
 - **Minimum size:** 16px (favicon). Below that, prefer the disc mark with no wordmark.
-- **Do not:** rebuild the F from a font, round its corners, or alter the block grid/gaps; stretch the disc; add effects; keep the disc purple in dark mode (it must invert to white).
+- **Do not:** rebuild the F from a font, round its corners, or change its geometry; stretch the disc; add effects; keep the disc purple in dark mode (it must invert to white).
 - **Backgrounds:** use the theme-appropriate variant (purple-on-light, white-on-dark). On arbitrary brand-coloured backgrounds, use `logo-mono.svg`.
 - **Wordmark:** Geist Semibold, tight tracking, sentence-case "Orgofin".
 
@@ -77,7 +77,7 @@ To change the mark or colour: edit the block coordinates in the SVG sources + `L
 
 - `lint`, `typecheck`, `test` (91), and `build` all pass.
 - Production build exposes `/icon.svg`, `/apple-icon.png`, `/manifest.webmanifest`; `<head>` emits the icon/apple/manifest links and `og:image` resolves to `/og/default.png` (verified via `curl`).
-- The **custom modular F** and the **full disc inversion** were verified with headless screenshots: navbar logo (purple/white F in light → white/dark F in dark), favicon at 16/32/64/128 in both light and dark (inverts via media query, legible at 16px), the light app-icon tile (purple + white F), and the dark OG card (white disc + dark F).
+- The **concept-07 F** and the **full disc inversion** were verified with headless screenshots: navbar logo (gradient disc/white F in light → white disc/dark F in dark), favicon at 16/32/64/128 in both light and dark (inverts via media query, legible at 16px), the light app-icon tile (gradient + white F), and the dark OG card (white disc + dark F).
 
 ---
 

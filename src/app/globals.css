@@ -185,11 +185,6 @@
   --info: var(--blue-500);
   --ring: var(--blue-600);
 
-  /* Brand logo (Eclipse mark) — inverts by theme. Light: purple disc, white
-     F. Dark: white disc, dark F. See docs/brand/brand-assets.md. */
-  --logo-disc: #7c3aed;
-  --logo-f: #ffffff;
-
   /* Identity effects — theme-aware (design-system.md §2). Glow/glass are
      dark-mode-forward; in light mode they are dialed down or omitted. */
   --gradient-brand-text: linear-gradient(
@@ -231,10 +226,6 @@
   --danger: #f0645c;
   --info: var(--blue-300);
   --ring: var(--blue-500);
-
-  /* Logo inverts in dark: white disc, dark F. */
-  --logo-disc: #ffffff;
-  --logo-f: #0b1020;
 
   --gradient-brand-text: linear-gradient(
     135deg,

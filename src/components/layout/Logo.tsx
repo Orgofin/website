@@ -15,31 +15,25 @@ export type LogoProps = {
 /**
  * The Orgofin brand lockup — the "Eclipse" mark plus the wordmark.
  *
- * The mark is a solid disc containing a CUSTOM, modular "F" built from uniform
- * square blocks (a digital-matrix glyph, deliberately not a font character).
- * Both the disc and the F invert with the theme via the `--logo-disc` /
- * `--logo-f` tokens (globals.css):
- *   - Light: purple disc, white F.
+ * The mark is exactly concept 07 (docs/brand/preview.html): a solid disc with a
+ * clean, sharp-cornered geometric "F" in negative space. It inverts with the
+ * theme (matching the reference):
+ *   - Light: indigo→violet disc, white F.
  *   - Dark:  white disc, dark F.
- *
- * The block coordinates are the single source of truth shared with the static
- * assets (`src/app/icon.svg`, `public/logo.svg`). Keep them in sync.
+ * The inversion uses the `dark:` variant (wired to the `.dark` class in
+ * globals.css), so it follows the site theme toggle. Keep the F geometry in
+ * sync with `src/app/icon.svg` / `public/logo.svg`.
  */
 
-/** The 8 uniform blocks that compose the F, on a 64×64 grid (x, y; size 7). */
-const F_BLOCKS: ReadonlyArray<readonly [number, number]> = [
-  [20, 11.5],
-  [28.5, 11.5],
-  [37, 11.5], // top arm
-  [20, 20], // stem
-  [20, 28.5],
-  [28.5, 28.5], // mid arm
-  [20, 37], // stem
-  [20, 45.5], // stem
+/** Concept-07 F, as non-overlapping blocks on a 64-grid (x, y, w, h). */
+const F_PARTS: ReadonlyArray<readonly [number, number, number, number]> = [
+  [23, 16.5, 6, 31], // stem
+  [29, 16.5, 15, 6], // top arm
+  [29, 30, 9, 6], // mid arm
 ];
 
 export function Logo({ withWordmark = true, size = 28, className }: LogoProps) {
-  const titleId = useId();
+  const gradientId = useId();
 
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
@@ -48,14 +42,27 @@ export function Logo({ withWordmark = true, size = 28, className }: LogoProps) {
         height={size}
         viewBox="0 0 64 64"
         role="img"
-        aria-labelledby={titleId}
+        aria-label={withWordmark ? "Orgofin" : "Orgofin home"}
         className="shrink-0"
       >
-        <title id={titleId}>{withWordmark ? "Orgofin" : "Orgofin home"}</title>
-        <circle cx="32" cy="32" r="31" style={{ fill: "var(--logo-disc)" }} />
-        <g style={{ fill: "var(--logo-f)" }}>
-          {F_BLOCKS.map(([x, y]) => (
-            <rect key={`${x}-${y}`} x={x} y={y} width="7" height="7" />
+        <defs>
+          <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#4F46E5" />
+            <stop offset="1" stopColor="#7C3AED" />
+          </linearGradient>
+        </defs>
+        {/* Disc: gradient in light, white in dark. */}
+        <circle
+          cx="32"
+          cy="32"
+          r="31"
+          fill={`url(#${gradientId})`}
+          className="dark:fill-white"
+        />
+        {/* F in negative space: white in light, dark in dark. */}
+        <g fill="#ffffff" className="dark:fill-[#0b1020]">
+          {F_PARTS.map(([x, y, w, h]) => (
+            <rect key={`${x}-${y}`} x={x} y={y} width={w} height={h} />
           ))}
         </g>
       </svg>
