@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="currentColor" role="img" aria-label="Orgofin">
-  <!-- One-colour negative-space mark: the disc renders in currentColor and the
-       F is knocked out (transparent), so it adapts to any background. -->
-  <path fill-rule="evenodd" d="M1 32 A31 31 0 1 0 63 32 A31 31 0 1 0 1 32 Z M23 16 H29 V48 H23 Z M23 16 H41 V22 H23 Z M23 30 H35 V36 H23 Z"/>
+  <!-- One-colour mark: disc renders in currentColor with the modular F knocked
+       out (true negative space), so it works on any background. -->
+  <path fill-rule="evenodd" d="M1 32 A31 31 0 1 0 63 32 A31 31 0 1 0 1 32 Z M20 11.5 h7 v7 h-7 Z M28.5 11.5 h7 v7 h-7 Z M37 11.5 h7 v7 h-7 Z M20 20 h7 v7 h-7 Z M20 28.5 h7 v7 h-7 Z M28.5 28.5 h7 v7 h-7 Z M20 37 h7 v7 h-7 Z M20 45.5 h7 v7 h-7 Z"/>
 </svg>

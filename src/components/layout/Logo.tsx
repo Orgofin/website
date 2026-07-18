@@ -13,23 +13,33 @@ export type LogoProps = {
 };
 
 /**
- * The Orgofin brand lockup — the "Eclipse" mark (a gradient disc = the O, with
- * the letter F in true negative space) plus the wordmark. Source of truth for
- * the mark is `public/logo.svg` / `src/app/icon.svg`; this inlines it so it
- * renders crisply at any size and inherits the wordmark's typography. The
- * gradient id is per-instance (`useId`) so multiple logos on one page never
- * collide.
+ * The Orgofin brand lockup — the "Eclipse" mark plus the wordmark.
  *
- * The F is drawn in the page background colour (`var(--page)`), so it reads as a
- * carved-out counter that flips with the theme — light on light, dark on dark —
- * rather than a fixed white letter.
+ * The mark is a solid disc containing a CUSTOM, modular "F" built from uniform
+ * square blocks (a digital-matrix glyph, deliberately not a font character).
+ * Both the disc and the F invert with the theme via the `--logo-disc` /
+ * `--logo-f` tokens (globals.css):
+ *   - Light: purple disc, white F.
+ *   - Dark:  white disc, dark F.
  *
- * Brand colour is the indigo→violet gradient from the selected concept
- * (docs/brand/logo-explorations.md, "07 Eclipse"); re-sync with the palette
- * decision when it lands.
+ * The block coordinates are the single source of truth shared with the static
+ * assets (`src/app/icon.svg`, `public/logo.svg`). Keep them in sync.
  */
+
+/** The 8 uniform blocks that compose the F, on a 64×64 grid (x, y; size 7). */
+const F_BLOCKS: ReadonlyArray<readonly [number, number]> = [
+  [20, 11.5],
+  [28.5, 11.5],
+  [37, 11.5], // top arm
+  [20, 20], // stem
+  [20, 28.5],
+  [28.5, 28.5], // mid arm
+  [20, 37], // stem
+  [20, 45.5], // stem
+];
+
 export function Logo({ withWordmark = true, size = 28, className }: LogoProps) {
-  const gradientId = useId();
+  const titleId = useId();
 
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
@@ -38,22 +48,15 @@ export function Logo({ withWordmark = true, size = 28, className }: LogoProps) {
         height={size}
         viewBox="0 0 64 64"
         role="img"
-        aria-label={withWordmark ? "Orgofin" : "Orgofin home"}
+        aria-labelledby={titleId}
         className="shrink-0"
       >
-        <defs>
-          <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#4F46E5" />
-            <stop offset="1" stopColor="#7C3AED" />
-          </linearGradient>
-        </defs>
-        <circle cx="32" cy="32" r="31" fill={`url(#${gradientId})`} />
-        {/* Negative-space F: fill matches the page background so it looks
-            knocked out of the disc and adapts to light/dark. */}
-        <g style={{ fill: "var(--page)" }}>
-          <rect x="23" y="16" width="6" height="32" />
-          <rect x="23" y="16" width="18" height="6" />
-          <rect x="23" y="30" width="12" height="6" />
+        <title id={titleId}>{withWordmark ? "Orgofin" : "Orgofin home"}</title>
+        <circle cx="32" cy="32" r="31" style={{ fill: "var(--logo-disc)" }} />
+        <g style={{ fill: "var(--logo-f)" }}>
+          {F_BLOCKS.map(([x, y]) => (
+            <rect key={`${x}-${y}`} x={x} y={y} width="7" height="7" />
+          ))}
         </g>
       </svg>
       {withWordmark && (
