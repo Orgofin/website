@@ -1,6 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="currentColor" role="img" aria-label="Orgofin">
-  <!-- True negative-space variant: the F is knocked out (transparent) so the
-       disc reads in a single colour and the F takes on whatever is behind it.
-       Use where a one-colour, theme-adaptive mark is wanted. -->
-  <path fill-rule="evenodd" d="M1 32 A31 31 0 1 0 63 32 A31 31 0 1 0 1 32 Z M22 16 h6.5 v32 h-6.5 Z M22 16 h19 v6.5 h-19 Z M22 29.5 h13.5 v6.5 h-13.5 Z"/>
+  <!-- One-colour negative-space mark: the disc renders in currentColor and the
+       F is knocked out (transparent), so it adapts to any background. -->
+  <path fill-rule="evenodd" d="M1 32 A31 31 0 1 0 63 32 A31 31 0 1 0 1 32 Z M23 16 H29 V48 H23 Z M23 16 H41 V22 H23 Z M23 30 H35 V36 H23 Z"/>
 </svg>

@@ -13,11 +13,16 @@ export type LogoProps = {
 };
 
 /**
- * The Orgofin brand lockup — the "Eclipse" mark (a gradient disc with the
- * letter F in negative space) plus the wordmark. Source of truth for the mark
- * is `public/logo.svg` / `src/app/icon.svg`; this inlines it so it renders
- * crisply at any size and inherits the wordmark's typography. The gradient id
- * is per-instance (`useId`) so multiple logos on one page never collide.
+ * The Orgofin brand lockup — the "Eclipse" mark (a gradient disc = the O, with
+ * the letter F in true negative space) plus the wordmark. Source of truth for
+ * the mark is `public/logo.svg` / `src/app/icon.svg`; this inlines it so it
+ * renders crisply at any size and inherits the wordmark's typography. The
+ * gradient id is per-instance (`useId`) so multiple logos on one page never
+ * collide.
+ *
+ * The F is drawn in the page background colour (`var(--page)`), so it reads as a
+ * carved-out counter that flips with the theme — light on light, dark on dark —
+ * rather than a fixed white letter.
  *
  * Brand colour is the indigo→violet gradient from the selected concept
  * (docs/brand/logo-explorations.md, "07 Eclipse"); re-sync with the palette
@@ -43,10 +48,12 @@ export function Logo({ withWordmark = true, size = 28, className }: LogoProps) {
           </linearGradient>
         </defs>
         <circle cx="32" cy="32" r="31" fill={`url(#${gradientId})`} />
-        <g fill="#ffffff">
-          <rect x="22" y="16" width="6.5" height="32" rx="1.8" />
-          <rect x="22" y="16" width="19" height="6.5" rx="1.8" />
-          <rect x="22" y="29.5" width="13.5" height="6.5" rx="1.8" />
+        {/* Negative-space F: fill matches the page background so it looks
+            knocked out of the disc and adapts to light/dark. */}
+        <g style={{ fill: "var(--page)" }}>
+          <rect x="23" y="16" width="6" height="32" />
+          <rect x="23" y="16" width="18" height="6" />
+          <rect x="23" y="30" width="12" height="6" />
         </g>
       </svg>
       {withWordmark && (

@@ -16,11 +16,15 @@ Owns the shipped brand assets and their usage. The concept exploration and ratio
 
 **Concept 07 · Eclipse** — a solid disc (the **O**) containing the letter **F** as its counter. The disc is Orgofin's "O"; the F sits inside it, so the mark reads as **O + F = Orgofin**, expressed as one confident, iconic glyph. It's the most app-icon-native and ownable of the explored directions and stays legible down to 16px.
 
-- **Colour:** indigo→violet gradient, `#4F46E5 → #7C3AED` (135°). White F counter.
+- **Colour:** indigo→violet gradient, `#4F46E5 → #7C3AED` (135°).
+- **True negative space (not a filled letter):** the F is a **knocked-out counter** (`fill-rule: evenodd`), so it takes on whatever is behind it rather than being a painted white F. The disc stays brand-gradient; the F flips with context.
+- **Theme-adaptive:**
+  - **On the site** (`Logo` component) the F is filled with `var(--page)`, so it is light in light theme and dark in dark theme — a carved F that switches with the theme.
+  - **In the browser tab** (`icon.svg`, `favicon.ico`) the F is genuinely transparent, so it adapts to the tab's light/dark background automatically.
 - **Two container forms:**
-  - **Disc** — used for the favicon, the site logo, and the JSON-LD logo (round, softer).
-  - **Full-bleed square tile** — used for app/PWA/Apple icons (fills the OS icon shape; content sits in the safe zone).
-- **Mono/negative-space variant:** [`public/logo-mono.svg`](../../public/logo-mono.svg) draws the F as a true knocked-out hole in a single `currentColor` disc, for one-colour or theme-adaptive use.
+  - **Disc** — favicon, site logo, JSON-LD logo (round; F cut through).
+  - **Full-bleed square tile** — app/PWA/Apple icons (opaque, maskable-safe; the F is cut to the light page colour so it reads on the home screen).
+- **Mono variant:** [`public/logo-mono.svg`](../../public/logo-mono.svg) is the single-`currentColor` disc with the same knocked-out F.
 
 > **Colour is provisional pending the palette decision.** The indigo→violet gradient is carried over from the reviewed exploration. If the in-progress brand-palette experiment (cobalt/aurum/indigo) lands on a different primary, update the gradient in the source SVGs, the `Logo` component, `manifest.ts` `theme_color`, and re-run the asset generator (§3).
 
@@ -63,7 +67,7 @@ To change the mark or colour: edit the SVG sources + the `Logo` component gradie
 
 - **Clear space:** keep space equal to the F's stem width around the mark.
 - **Minimum size:** 16px (favicon). Below that, prefer the disc mark with no wordmark.
-- **Do not:** recolour the F (always white on the gradient, or the knocked-out variant); stretch; add effects; place the gradient mark on a busy photo without a solid backing.
+- **Do not:** paint the F a fixed colour (it is negative space — let it be the background/`var(--page)`); stretch; add effects; place the gradient mark on a busy photo without a solid backing.
 - **Backgrounds:** the gradient disc reads on both light and dark. On brand-coloured backgrounds, use `logo-mono.svg` (white) instead.
 - **Wordmark:** Geist Semibold, tight tracking, sentence-case "Orgofin".
 
@@ -73,8 +77,8 @@ To change the mark or colour: edit the SVG sources + the `Logo` component gradie
 
 - `lint`, `typecheck`, `test` (91), and `build` all pass.
 - Production build exposes `/icon.svg`, `/apple-icon.png`, `/manifest.webmanifest`; `<head>` emits the icon/apple/manifest links and `og:image` resolves to `/og/default.png` (verified via `curl`).
-- Navbar and Footer render the mark + wordmark (verified via headless screenshot, light theme).
-- Favicon disc, app-icon tile, and OG image visually verified.
+- Navbar and Footer render the mark + wordmark, with the negative-space F verified **switching in both light and dark themes** (headless screenshots).
+- Favicon disc, app-icon tile, and OG image visually verified (the OG card shows the dark carved F; the app-icon tile the light carved F).
 
 ---
 
