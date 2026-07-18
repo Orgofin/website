@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Orgofin — Logo Explorations (15 directions)</title>
+    <style>
+      :root {
+        --brand: linear-gradient(135deg, #4f46e5, #7c3aed);
+        --ink: #0b1020;
+        --paper: #fafbfd;
+        --line: #e3e8f0;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 40px 24px 80px;
+        font-family: "Geist", "Inter", "Segoe UI", system-ui, sans-serif;
+        background: var(--paper);
+        color: var(--ink);
+      }
+      header {
+        max-width: 1200px;
+        margin: 0 auto 32px;
+      }
+      h1 {
+        font-size: 30px;
+        letter-spacing: -0.6px;
+        margin: 0 0 6px;
+      }
+      .lede {
+        color: #64708a;
+        max-width: 720px;
+        line-height: 1.55;
+        margin: 0;
+      }
+      .grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+        background: #fff;
+        display: flex;
+        flex-direction: column;
+      }
+      .card-head {
+        padding: 16px 18px 12px;
+      }
+      .card-head h2 {
+        font-size: 16px;
+        margin: 0;
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+      .num {
+        font-variant-numeric: tabular-nums;
+        color: #9aa4b8;
+        font-weight: 600;
+      }
+      .tag {
+        color: #64708a;
+        font-size: 13px;
+        margin: 4px 0 0;
+      }
+      .panels {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .panel {
+        padding: 20px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .panel.light {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .panel.dark {
+        background: var(--ink);
+        color: #fff;
+      }
+      .lockup {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .word {
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: -0.8px;
+      }
+      .swatches {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .plabel {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        opacity: 0.55;
+        margin: 0;
+        width: 100%;
+      }
+      /* Mask-based recoloring: one SVG → any fill */
+      .mark {
+        display: inline-block;
+        -webkit-mask: var(--m) center / contain no-repeat;
+        mask: var(--m) center / contain no-repeat;
+      }
+      .v-brand {
+        background: var(--brand);
+      }
+      .v-ink {
+        background: var(--ink);
+      }
+      .v-white {
+        background: #fff;
+      }
+      .s56 {
+        width: 44px;
+        height: 44px;
+      }
+      .s32 {
+        width: 32px;
+        height: 32px;
+      }
+      .s16 {
+        width: 16px;
+        height: 16px;
+      }
+      .s40 {
+        width: 40px;
+        height: 40px;
+      }
+      .tile {
+        width: 64px;
+        height: 64px;
+        border-radius: 15px;
+        background: var(--brand);
+        display: grid;
+        place-items: center;
+      }
+      .favi {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .favichip {
+        display: grid;
+        place-items: center;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        padding: 4px;
+      }
+      .philo {
+        padding: 14px 18px 18px;
+        border-top: 1px solid var(--line);
+        color: #4a5568;
+        font-size: 13.5px;
+        line-height: 1.5;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #06070d;
+          color: #eef1f6;
+        }
+        .card {
+          background: #0e1017;
+          border-color: #1e2230;
+        }
+        .philo {
+          color: #aeb6c6;
+          border-color: #1e2230;
+        }
+        .lede {
+          color: #97a0b3;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Orgofin — Logo Explorations</h1>
+      <p class="lede">
+        15 original directions, built to feel like a next-generation fintech +
+        AI platform — simple, geometric, and recognizable at any size. Each card
+        shows the logo lockup, monochrome, app icon, and 32/16&nbsp;px favicons,
+        on light and dark. No dollar signs, coins, or generic sparkles. Colors
+        (indigo→violet) and the Geist wordmark are placeholders you can swap.
+        Rationale for every concept is in
+        <code>logo-explorations.md</code>.
+      </p>
+    </header>
+    <main class="grid" id="grid"></main>
+
+    <script>
+      const concepts = [
+        [
+          "c01-aperture-o",
+          "Aperture",
+          "The O as a dynamic aperture",
+          "The O rendered as a camera-aperture ring: open, precise, in motion. Says 'organized and adaptive' without a single finance cliché. Superb at favicon size.",
+        ],
+        [
+          "c02-nodegraph-o",
+          "Nodegraph",
+          "The O as a connected network",
+          "The Company Brain, literally: entities wired into one graph forming an O. The most on-message mark — Orgofin builds the graph first.",
+        ],
+        [
+          "c03-orbit-o",
+          "Orbit",
+          "Core intelligence + agent",
+          "A central core with one agent in orbit — the AGaaS story in a glyph. Minimal, kinetic, and instantly an 'O'.",
+        ],
+        [
+          "c04-interlock-o",
+          "Interlock",
+          "Two rings becoming one",
+          "Two overlapping rings = unification and collaboration (20–80 tools → one). Reads as OO / infinity; warm and human.",
+        ],
+        [
+          "c05-grid-dissolve-o",
+          "Constellation",
+          "Order emerging from data",
+          "An O built from a ring of dots that resolve from small to large — clarity emerging from scattered data. Distinctive, a touch more detailed at 16px.",
+        ],
+        [
+          "c06-of-ligature",
+          "Monogram OF",
+          "O and F as one glyph",
+          "O + F fused into a single monogram: the company and its financial intelligence in one letter. Classic, enterprise-serious.",
+        ],
+        [
+          "c07-negspace-f",
+          "Eclipse",
+          "F carved from a solid O",
+          "A confident solid disc with an F in negative space. The most 'ownable/iconic' route (à la a filled-tile app icon). Bold on any background.",
+        ],
+        [
+          "c08-flow-f",
+          "Flow",
+          "Finance in motion",
+          "A warm, rounded F — finance and workflows in motion, built for a software brand not a bank. Friendly and highly legible.",
+        ],
+        [
+          "c09-chevron-forward",
+          "Vector",
+          "Momentum & forward flow",
+          "Nested chevrons = forward motion for capital and work. Energetic; pairs well with an ascending brand voice.",
+        ],
+        [
+          "c10-folder-o",
+          "Ledger",
+          "Structured docs + intelligence",
+          "A folder with a node at its heart — organized documents with intelligence inside. Communicates 'financial workflows' subtly.",
+        ],
+        [
+          "c11-iso-cube",
+          "Cube",
+          "The operating system",
+          "An isometric cube: dimensional, structured, foundational — the 'Enterprise OS'. Futuristic and abstract, becomes recognizable over time.",
+        ],
+        [
+          "c12-prism",
+          "Prism",
+          "Insight from raw inputs",
+          "A prism refracting one input into a clear spectrum — diligence and intelligence. Abstract, premium, memorable once learned.",
+        ],
+        [
+          "c13-pulse",
+          "Pulse",
+          "A living, thinking core",
+          "A core broadcasting concentric signals — a brain that thinks and acts. Implies real-time intelligence and agents.",
+        ],
+        [
+          "c14-ascending-nodes",
+          "Ascend",
+          "Growth as a connected path",
+          "Rising, connected nodes — growth and network effects without a bar/candlestick chart. Optimistic and clearly software.",
+        ],
+        [
+          "c15-keystone",
+          "Keystone",
+          "Trust, foundation, openness",
+          "An arch with an aperture keystone — 'the keystone of your company'. Evokes trust and diligence in an abstract, modern way.",
+        ],
+      ];
+
+      const grid = document.getElementById("grid");
+      concepts.forEach(([file, name, tag, philo], i) => {
+        const url = `url("${file}.svg")`;
+        const n = String(i + 1).padStart(2, "0");
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="card-head">
+            <h2><span class="num">${n}</span> ${name}</h2>
+            <p class="tag">${tag}</p>
+          </div>
+          <div class="panels">
+            <div class="panel light">
+              <p class="plabel">Light · logo + mono</p>
+              <div class="lockup">
+                <span class="mark v-brand s56" style="--m:${url}"></span>
+                <span class="word">Orgofin</span>
+              </div>
+              <div class="swatches">
+                <span class="mark v-ink s40" style="--m:${url}"></span>
+                <span class="favi">
+                  <span class="favichip"><span class="mark v-ink s32" style="--m:${url}"></span></span>
+                  <span class="favichip"><span class="mark v-ink s16" style="--m:${url}"></span></span>
+                </span>
+              </div>
+            </div>
+            <div class="panel dark">
+              <p class="plabel">Dark · app icon + favicon</p>
+              <div class="lockup">
+                <span class="mark v-white s56" style="--m:${url}"></span>
+                <span class="word">Orgofin</span>
+              </div>
+              <div class="swatches">
+                <span class="tile"><span class="mark v-white s40" style="--m:${url}"></span></span>
+                <span class="favi">
+                  <span class="mark v-white s32" style="--m:${url}"></span>
+                  <span class="mark v-white s16" style="--m:${url}"></span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <p class="philo">${philo}</p>
+        `;
+        grid.appendChild(card);
+      });
+    </script>
+  </body>
+</html>
