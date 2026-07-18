@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 96" width="300" height="96" role="img" aria-label="Concept 2 — Orbit: Orgofin">
+  <!-- Mark: a bright core (the Company Brain) with autonomous agents in orbit -->
+  <g transform="translate(48,48)">
+    <circle cx="0" cy="0" r="20" fill="none" stroke="#2647FF" stroke-width="2" stroke-dasharray="3 5" opacity="0.7"/>
+    <circle cx="0" cy="0" r="6.4" fill="#2647FF"/>
+    <!-- agents -->
+    <circle cx="0" cy="-20" r="4" fill="#F4B740"/>
+    <circle cx="-17.32" cy="10" r="4" fill="#2647FF"/>
+    <circle cx="17.32" cy="10" r="4" fill="#2647FF"/>
+  </g>
+  <text x="92" y="58" font-family="Geist, 'Segoe UI', system-ui, sans-serif" font-size="34" font-weight="600" letter-spacing="-1" fill="#0B1020">Orgofin</text>
+</svg>

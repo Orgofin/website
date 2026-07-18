@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation";
 import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { HoneypotField, readHoneypot } from "@/components/forms/HoneypotField";
 import { FormField } from "@/components/molecules/FormField";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { trackEvent } from "@/lib/analytics";
 import { waitlistSchema, type WaitlistInput } from "@/lib/api/waitlist";
+import { HONEYPOT_FIELD_NAME } from "@/lib/security/bot-protection";
 import { cn } from "@/lib/utils";
 
 export type WaitlistFormProps = {
@@ -52,13 +54,17 @@ export function WaitlistForm({
     });
   };
 
-  const onSubmit = handleSubmit(async (values) => {
+  const onSubmit = handleSubmit(async (values, event) => {
     setFormError(null);
     try {
       const response = await fetch("/api/waitlist", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: values.email, source }),
+        body: JSON.stringify({
+          email: values.email,
+          source,
+          [HONEYPOT_FIELD_NAME]: readHoneypot(event?.target),
+        }),
       });
 
       if (!response.ok) {
@@ -86,6 +92,8 @@ export function WaitlistForm({
       noValidate
       className={cn("flex flex-col gap-4", className)}
     >
+      <HoneypotField />
+
       <FormField
         label="Work email"
         htmlFor={`${fieldId}-email`}
