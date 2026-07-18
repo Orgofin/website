@@ -18,11 +18,12 @@ export type LogoProps = {
  * The mark is exactly concept 07 (docs/brand/preview.html): a solid disc with a
  * clean, sharp-cornered geometric "F" in negative space. It inverts with the
  * theme (matching the reference):
- *   - Light: indigo→violet disc, white F.
+ *   - Light: Cobalt Prime gradient disc, white F.
  *   - Dark:  white disc, dark F.
- * The inversion uses the `dark:` variant (wired to the `.dark` class in
- * globals.css), so it follows the site theme toggle. Keep the F geometry in
- * sync with `src/app/icon.svg` / `public/logo.svg`.
+ * The disc gradient reads the `--logo-grad-from` / `--logo-grad-to` tokens
+ * (globals.css), so re-theming the live logo is a two-line token change. The
+ * inversion uses the `dark:` variant (wired to the `.dark` class). Keep the F
+ * geometry in sync with `src/app/icon.svg` / `public/logo.svg`.
  */
 
 /** Concept-07 F, as non-overlapping blocks on a 64-grid (x, y, w, h). */
@@ -47,8 +48,8 @@ export function Logo({ withWordmark = true, size = 28, className }: LogoProps) {
       >
         <defs>
           <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#4F46E5" />
-            <stop offset="1" stopColor="#7C3AED" />
+            <stop offset="0" stopColor="var(--logo-grad-from)" />
+            <stop offset="1" stopColor="var(--logo-grad-to)" />
           </linearGradient>
         </defs>
         {/* Disc: gradient in light, white in dark. */}

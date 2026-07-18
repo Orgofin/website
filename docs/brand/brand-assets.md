@@ -16,17 +16,18 @@ Owns the shipped brand assets and their usage. The concept exploration and ratio
 
 **Concept 07 · Eclipse** — reproduced exactly from the reviewed reference (`docs/brand/preview.html`): a **solid circular disc** with a clean, **sharp-cornered geometric "F" in negative space**. The F is a custom vector symbol (uniform stroke, 90° corners, no typeface), built from three connected blocks — stem + top arm + shorter mid arm. App icon first, letter second — recognizable from the disc alone and legible down to 16px.
 
+- **Brand colour: Cobalt Prime** (the shipped identity) — cobalt gradient `#3D7FFF → #1A4FC4`, accent `#1E63F0`.
 - **The mark fully inverts by theme** (matching the reference):
-  - **Light:** indigo→violet disc (`#4F46E5 → #7C3AED`), white F.
-  - **Dark:** white disc `#FFFFFF`, dark F `#0B1020`. **The disc is not purple in dark mode — it inverts to white.**
+  - **Light:** Cobalt Prime gradient disc (`#3D7FFF → #1A4FC4`), white F.
+  - **Dark:** white disc `#FFFFFF`, dark F `#0B1020`. **The disc is not coloured in dark mode — it inverts to white.**
 - **Custom geometric F:** three rectangles on a 64-grid, uniform 6-unit stroke — stem `(23, 16.5, 6×31)`, top arm `(29, 16.5, 15×6)`, mid arm `(29, 30, 9×6)`. These coordinates are shared verbatim across `Logo.tsx`, `icon.svg`, and `logo.svg` — change them in one place and mirror.
 - **How the inversion is wired:**
-  - **On the site** (`Logo` component) the disc paints the gradient with `dark:fill-white` and the F paints white with `dark:fill-[#0b1020]` — so the whole mark flips with the site theme toggle (the `dark:` variant is bound to the `.dark` class in `globals.css`).
+  - **On the site** (`Logo` component) the disc gradient reads the `--logo-grad-from` / `--logo-grad-to` tokens (globals.css, default Cobalt Prime = `--blue-500`/`--blue-700`) and paints white in dark via `dark:fill-white`; the F paints white with `dark:fill-[#0b1020]` — so the whole mark flips with the site theme toggle (the `dark:` variant is bound to `.dark`).
   - **In the browser tab** (`icon.svg`, `logo.svg`) an embedded `@media (prefers-color-scheme: dark)` inverts disc + F to match the OS/browser theme.
 - **Container forms:** a **disc** for favicon / site logo / social; a **full-bleed tile** (same F) for app/PWA/Apple icons (opaque, maskable-safe — light variant: gradient tile + white F).
 - **Mono variant:** [`public/logo-mono.svg`](../../public/logo-mono.svg) — single `currentColor` disc with the F knocked out (true negative space) for one-colour use.
 
-> **Colours are provisional pending the palette decision.** The indigo→violet gradient is carried from the reviewed exploration; the reference renders the light disc with this gradient (it can be flattened to a solid purple if preferred). If the palette experiment lands on a different primary, update the gradient stops + `dark:` colours in `Logo.tsx`, the media-query colours in the source SVGs, `manifest.ts` `theme_color`, and re-run the asset generator (§3).
+> **Brand = Cobalt Prime; kept flexible for a future change.** The **on-site logo** is driven by two CSS tokens — repoint `--logo-grad-from` / `--logo-grad-to` in `globals.css` (e.g. to Indigo Meridian's values) and the live logo re-themes with **zero component edits**. The **static assets** (favicon, app icons, OG) are baked images: to re-theme them, update the hex in `src/app/icon.svg` + `public/logo.svg`, the generator's `tile-square.svg`/`og.html`, and `manifest.ts` `theme_color`, then re-run the generator (§3). Cobalt Prime keeps the base accent/gradient, so it also stays consistent with the site's CTA/accent colours.
 
 ---
 

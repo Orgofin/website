@@ -185,6 +185,14 @@
   --info: var(--blue-500);
   --ring: var(--blue-600);
 
+  /* Brand logo gradient (Eclipse mark) — Cobalt Prime, the shipped identity.
+     SINGLE SOURCE for the on-site logo colour: repoint these two tokens to
+     re-theme the live logo with zero component changes. (The static favicon /
+     app-icon / OG assets are baked images — regenerate them per
+     docs/brand/brand-assets.md §3 if the brand colour changes.) */
+  --logo-grad-from: var(--blue-500);
+  --logo-grad-to: var(--blue-700);
+
   /* Identity effects — theme-aware (design-system.md §2). Glow/glass are
      dark-mode-forward; in light mode they are dialed down or omitted. */
   --gradient-brand-text: linear-gradient(
