@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Orbit mark / favicon">
+  <rect width="64" height="64" rx="14" fill="#0B1020"/>
+  <g transform="translate(32,32)">
+    <circle cx="0" cy="0" r="18" fill="none" stroke="#5E79FF" stroke-width="2.2" stroke-dasharray="3 5" opacity="0.85"/>
+    <circle cx="0" cy="0" r="6.4" fill="#fff"/>
+    <circle cx="0" cy="-18" r="4.2" fill="#F4B740"/>
+    <circle cx="-15.6" cy="9" r="4.2" fill="#5E79FF"/>
+    <circle cx="15.6" cy="9" r="4.2" fill="#5E79FF"/>
+  </g>
+</svg>

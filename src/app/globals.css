@@ -1,5 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+/* Experimental brand palettes for the co-founder theme review — see the file
+   header. Deleted (or graduated into this file) once a direction is chosen.
+   Import position is safe: brand selectors carry (0,2,0) specificity, so they
+   override :root/.dark regardless of source order. */
+@import "./brands.css";
 
 /*
  * Orgofin Design Tokens — the single source of truth for the token layer.
@@ -179,6 +184,14 @@
   --danger: #c4362e;
   --info: var(--blue-500);
   --ring: var(--blue-600);
+
+  /* Brand logo gradient (Eclipse mark) — Cobalt Prime, the shipped identity.
+     SINGLE SOURCE for the on-site logo colour: repoint these two tokens to
+     re-theme the live logo with zero component changes. (The static favicon /
+     app-icon / OG assets are baked images — regenerate them per
+     docs/brand/brand-assets.md §3 if the brand colour changes.) */
+  --logo-grad-from: var(--blue-500);
+  --logo-grad-to: var(--blue-700);
 
   /* Identity effects — theme-aware (design-system.md §2). Glow/glass are
      dark-mode-forward; in light mode they are dialed down or omitted. */

@@ -63,6 +63,8 @@ describe("WaitlistForm", () => {
         body: JSON.stringify({
           email: "founder@orgofin.com",
           source: "home-hero",
+          // Honeypot field, empty for a real user (bot deterrence).
+          contact_channel: "",
         }),
       }),
     );

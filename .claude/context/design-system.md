@@ -319,9 +319,13 @@ Primitive scale values (`--blue-*`, `--neutral-*`) are deliberately **not** expo
 
 **`cn()` must be taught every custom type-scale utility.** tailwind-merge only recognises Tailwind's default font sizes, so it classifies the custom `text-display-*`/`text-heading-*`/`text-body-*`/`text-caption`/`text-micro`/`text-mono-md` utilities as text _colors_ and silently drops one whenever a size and a color share a `cn()` call. [`src/lib/utils.ts`](../../src/lib/utils.ts) extends tailwind-merge's `font-size` class group with the full scale — **adding a new `--text-*` token to `globals.css` requires adding it there in the same PR**, or the new size will vanish wherever it's merged with a color.
 
+## Brand Palette Experiment (2026-07-16, in review)
+
+The founders are evaluating a palette redesign. Three candidate directions — **Cobalt Prime** (evolved current), **Aurum Ledger** (graphite + gold), **Indigo Meridian** (indigo + violet) — live in [`src/app/brands.css`](../../src/app/brands.css) as `data-brand`-scoped semantic-token overrides, switchable via the dev/preview-only `BrandSwitcher` (`components/theme/`, gated on `NEXT_PUBLIC_BRAND_SWITCHER=1` — set in `.env.development` and Vercel's Preview environment, never Production). Because brands override only semantic tokens, no component changes per switch — which is also the future-proofing this experiment proves: a global rebrand is a variable swap. One direction graduates into this document + `globals.css` (with a full §8 contrast-matrix pass); the others, `brands.css`, and the switcher are then deleted. Cascade rule recorded in `brands.css`: every token a brand's light block sets must be restated in its dark block.
+
 ## Current Status
 
-Implemented. All token categories in this document exist in `globals.css` for both themes; consumed by the Phase 10 component library ([`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md)). The automated contrast-matrix check (§8 TODO) and a rendered token-preview page are not yet built.
+Implemented. All token categories in this document exist in `globals.css` for both themes; consumed by the Phase 10 component library ([`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md)). The automated contrast-matrix check (§8 TODO) and a rendered token-preview page are not yet built. A brand-palette redesign is in review — see the experiment section above.
 
 ## Future Improvements
 
