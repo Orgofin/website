@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round" role="img" aria-label="Isometric cube">
+  <path d="M24 8 L37.9 16 V32 L24 40 L10.1 32 V16 Z"/>
+  <path d="M24 24 L24 8"/>
+  <path d="M24 24 L37.9 32"/>
+  <path d="M24 24 L10.1 32"/>
+</svg>

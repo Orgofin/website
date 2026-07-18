@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 
+import { HoneypotField, readHoneypot } from "@/components/forms/HoneypotField";
 import { FormField } from "@/components/molecules/FormField";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -14,6 +15,7 @@ import {
   type DataRoomDocumentAccess,
   type DataRoomRequestInput,
 } from "@/lib/api/data-room";
+import { HONEYPOT_FIELD_NAME } from "@/lib/security/bot-protection";
 import { cn } from "@/lib/utils";
 
 export type DataRoomGateProps = {
@@ -50,13 +52,16 @@ export function DataRoomGate({ className }: DataRoomGateProps) {
     trackEvent({ name: "data_room_request", params: { status } });
   };
 
-  const onSubmit = handleSubmit(async (values) => {
+  const onSubmit = handleSubmit(async (values, event) => {
     setFormError(null);
     try {
       const response = await fetch("/api/data-room", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          [HONEYPOT_FIELD_NAME]: readHoneypot(event?.target),
+        }),
       });
 
       if (!response.ok) {
@@ -145,6 +150,8 @@ export function DataRoomGate({ className }: DataRoomGateProps) {
       noValidate
       className={cn("flex flex-col gap-4", className)}
     >
+      <HoneypotField />
+
       <FormField
         label="Full name"
         htmlFor={`${fieldId}-name`}

@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Keystone arch with aperture">
+  <path d="M12 38 V24 a12 12 0 0 1 24 0 V38"/>
+  <circle cx="24" cy="23" r="4.5"/>
+</svg>
