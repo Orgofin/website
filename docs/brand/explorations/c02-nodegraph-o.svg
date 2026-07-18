@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="Node-graph O">
+  <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M34.6 13.4 L13.4 13.4 L13.4 34.6 L34.6 34.6 Z"/>
+    <path d="M34.6 13.4 L13.4 34.6"/>
+    <path d="M13.4 13.4 L34.6 34.6"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="34.6" cy="13.4" r="3.4"/>
+    <circle cx="13.4" cy="13.4" r="3.4"/>
+    <circle cx="13.4" cy="34.6" r="3.4"/>
+    <circle cx="34.6" cy="34.6" r="3.4"/>
+    <circle cx="24" cy="24" r="3.6"/>
+  </g>
+</svg>

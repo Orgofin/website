@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Orgofin">
+  <!-- Concept 07 "Eclipse": solid disc with a sharp geometric F in negative
+       space. Inverts with the OS/browser colour scheme:
+       light = indigo→violet disc + white F, dark = white disc + dark F. -->
+  <defs>
+    <linearGradient id="orgofinGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3d7fff"/>
+      <stop offset="1" stop-color="#1a4fc4"/>
+    </linearGradient>
+  </defs>
+  <style>
+    .disc { fill: url(#orgofinGrad); }
+    .fmark { fill: #ffffff; }
+    @media (prefers-color-scheme: dark) {
+      .disc { fill: #ffffff; }
+      .fmark { fill: #0b1020; }
+    }
+  </style>
+  <circle class="disc" cx="32" cy="32" r="31"/>
+  <g class="fmark">
+    <rect x="23" y="16.5" width="6" height="31"/>
+    <rect x="29" y="16.5" width="15" height="6"/>
+    <rect x="29" y="30" width="9" height="6"/>
+  </g>
+</svg>

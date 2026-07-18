@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 96" width="300" height="96" role="img" aria-label="Concept 4 — Monogram O-graph: Orgofin">
+  <defs>
+    <linearGradient id="monoGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3B5BFF"/>
+      <stop offset="1" stop-color="#6E44FF"/>
+    </linearGradient>
+  </defs>
+  <!-- Mark: the "O" of Orgofin, formed as a ring with a graph inside -->
+  <g transform="translate(44,48)">
+    <circle cx="0" cy="0" r="20" fill="none" stroke="url(#monoGrad)" stroke-width="5"/>
+    <g stroke="url(#monoGrad)" stroke-width="2" opacity="0.7">
+      <line x1="0" y1="-20" x2="-17.32" y2="10"/>
+      <line x1="-17.32" y1="10" x2="17.32" y2="10"/>
+      <line x1="17.32" y1="10" x2="0" y2="-20"/>
+    </g>
+    <g fill="url(#monoGrad)">
+      <circle cx="0" cy="-20" r="4"/>
+      <circle cx="-17.32" cy="10" r="4"/>
+      <circle cx="17.32" cy="10" r="4"/>
+    </g>
+  </g>
+  <!-- Wordmark continues from the mark: the O is the logo -->
+  <text x="72" y="58" font-family="Geist, 'Segoe UI', system-ui, sans-serif" font-size="34" font-weight="600" letter-spacing="-1" fill="#0B1020">rgofin</text>
+</svg>

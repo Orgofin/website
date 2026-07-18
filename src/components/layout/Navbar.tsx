@@ -7,6 +7,7 @@ import { Dialog } from "radix-ui";
 import { useEffect, useRef, useState } from "react";
 
 import { Container } from "@/components/layout/Container";
+import { Logo } from "@/components/layout/Logo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Button } from "@/components/ui/Button";
 import { Caption } from "@/components/ui/Caption";
@@ -73,9 +74,10 @@ export function Navbar({ items = DEFAULT_ITEMS, cta, logo }: NavbarProps) {
         >
           <Link
             href="/"
-            className="text-heading-md text-fg font-semibold tracking-tight"
+            className="rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4"
+            aria-label="Orgofin home"
           >
-            {logo ?? "Orgofin"}
+            {logo ?? <Logo />}
           </Link>
 
           {/* Desktop navigation */}
