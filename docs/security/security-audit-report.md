@@ -36,7 +36,7 @@ None of these are exploitable for data theft of existing records or code executi
 | H-02 | No rate limiting / bot protection on public POST endpoints — ✅ **REMEDIATED 2026-07-18** (app layer; Cloudflare edge pending) | High     | Medium | Medium          |
 | M-01 | Data Room access is self-asserted (no verification)                                                                            | Medium   | Medium | High            |
 | M-02 | No CAPTCHA / human-verification on forms — ⚠️ **PARTIAL** (honeypot shipped; Turnstile recommended)                            | Medium   | Low    | Medium          |
-| M-03 | No automated security scanning in CI (SAST/deps/secrets)                                                                       | Medium   | Low    | Medium          |
+| M-03 | No automated security scanning in CI (SAST/deps/secrets) — ✅ **IMPLEMENTED 2026-07-19**                                       | Medium   | Low    | Medium          |
 | M-04 | No WAF / edge protection configured (Cloudflare not attached)                                                                  | Medium   | Medium | Medium          |
 | L-01 | Signed URLs are unwatermarked and shareable within TTL                                                                         | Low      | Medium | Medium          |
 | L-02 | No explicit request-body size / content-type hard limit                                                                        | Low      | Low    | Low             |
@@ -252,6 +252,8 @@ const securityHeaders = [
 
 **Severity: Medium · Effort: Low · Business impact: Medium.**
 
+**Resolution (2026-07-19).** ✅ Implemented. `npm audit --audit-level=high` is a merge-blocking step in `ci.yml`; CodeQL SAST runs via `.github/workflows/codeql.yml` (`javascript-typescript`, `security-extended`); GitHub-native **secret scanning + push protection** were enabled in repo settings (free — public repo), chosen over a Gitleaks CI job for zero maintenance; Dependabot **security** updates enabled + `.github/dependabot.yml` adds weekly version updates. Semgrep deferred (CodeQL covers SAST for a site this size). See [`.claude/context/deployment.md`](../../.claude/context/deployment.md) → CI Pipeline → Security scanning.
+
 ---
 
 ### M-04 — No WAF / edge protection (Cloudflare not yet attached) · Medium
@@ -336,18 +338,18 @@ Covered structurally by H-01's header baseline. Listed separately so it isn't lo
 
 ### OWASP Top 10 (2021)
 
-| Category                             | Status     | Notes                                                                                       |
-| ------------------------------------ | ---------- | ------------------------------------------------------------------------------------------- |
-| A01 Broken Access Control            | ⚠️ Partial | No auth to break; data-room gate is self-asserted by design (M-01). RLS insert-only strong. |
-| A02 Cryptographic Failures           | ✅ Pass    | HTTPS everywhere (Vercel TLS); no custom crypto; secrets segregated. Add HSTS (H-01).       |
-| A03 Injection                        | ✅ Pass    | Parameterized Supabase client + Zod validation + RLS. No raw SQL, no `eval`.                |
-| A04 Insecure Design                  | ⚠️ Partial | Deliberate minimal design; data-room gate strength is intentional (M-01). Add rate limits.  |
-| A05 Security Misconfiguration        | ❌ Gap     | Missing security headers/CSP (H-01); no WAF (M-04). Primary remediation area.               |
-| A06 Vulnerable/Outdated Components   | ✅ Pass    | `npm audit` = 0; lockfile pinned; postcss override for GHSA. Add CI scanning (M-03).        |
-| A07 Identification/Auth Failures     | ✅ N/A     | No authentication system exists.                                                            |
-| A08 Software/Data Integrity Failures | ⚠️ Partial | Lockfile + `npm ci`. Add SAST/secret scanning + Dependabot in CI (M-03).                    |
-| A09 Logging/Monitoring Failures      | ❌ Gap     | Only `console.error`; no error tracking/alerting yet (see monitoring doc). PII risk L-03.   |
-| A10 SSRF                             | ✅ Pass    | No server-side fetch of user-supplied URLs anywhere.                                        |
+| Category                             | Status     | Notes                                                                                                      |
+| ------------------------------------ | ---------- | ---------------------------------------------------------------------------------------------------------- |
+| A01 Broken Access Control            | ⚠️ Partial | No auth to break; data-room gate is self-asserted by design (M-01). RLS insert-only strong.                |
+| A02 Cryptographic Failures           | ✅ Pass    | HTTPS everywhere (Vercel TLS); no custom crypto; secrets segregated. Add HSTS (H-01).                      |
+| A03 Injection                        | ✅ Pass    | Parameterized Supabase client + Zod validation + RLS. No raw SQL, no `eval`.                               |
+| A04 Insecure Design                  | ⚠️ Partial | Deliberate minimal design; data-room gate strength is intentional (M-01). Add rate limits.                 |
+| A05 Security Misconfiguration        | ❌ Gap     | Missing security headers/CSP (H-01); no WAF (M-04). Primary remediation area.                              |
+| A06 Vulnerable/Outdated Components   | ✅ Pass    | `npm audit` = 0; lockfile pinned; postcss override for GHSA; CI `npm audit` gate + Dependabot (M-03 done). |
+| A07 Identification/Auth Failures     | ✅ N/A     | No authentication system exists.                                                                           |
+| A08 Software/Data Integrity Failures | ✅ Pass    | Lockfile + `npm ci`; CodeQL SAST + native secret scanning + Dependabot now in CI (M-03 done).              |
+| A09 Logging/Monitoring Failures      | ❌ Gap     | Only `console.error`; no error tracking/alerting yet (see monitoring doc). PII risk L-03.                  |
+| A10 SSRF                             | ✅ Pass    | No server-side fetch of user-supplied URLs anywhere.                                                       |
 
 ### OWASP API Security Top 10 (2023)
 
@@ -378,7 +380,7 @@ Covered structurally by H-01's header baseline. Listed separately so it isn't lo
 | Secrets management                 | ✅ Strong   | Service key server-only, gitignored env, not in client bundle.                                                             |
 | Encryption / data storage          | ✅ Pass     | TLS in transit; Supabase encryption at rest; no sensitive data beyond PII leads.                                           |
 | Rate limiting / brute force / DDoS | ❌ Gap      | H-02 + M-04.                                                                                                               |
-| Dependency / supply chain          | ✅ Good     | Clean audit + lockfile; add CI scanning (M-03).                                                                            |
+| Dependency / supply chain          | ✅ Good     | Clean audit + lockfile; CI `npm audit` gate + CodeQL + Dependabot wired (M-03 done).                                       |
 | Webhook security                   | ✅ N/A      | No webhooks implemented.                                                                                                   |
 | Cloud / Vercel security            | ⚠️ Partial  | Good defaults; add headers (H-01), and verify env-var scoping + team access controls.                                      |
 | Cloudflare configuration           | ❌ Pending  | Not yet attached (M-04).                                                                                                   |
@@ -414,7 +416,7 @@ A deliberately generous list — these are load-bearing controls the team should
 1. ✅ **DONE** H-01 — Security headers + CSP implemented in `next.config.ts`. _(2026-07-18)_
 2. ✅ **DONE (app layer)** H-02 — Per-IP rate limiting on both POST routes; Cloudflare edge + Upstash remain the fleet-wide upgrade. _(2026-07-18)_
 3. ⚠️ **PARTIAL** M-02 — Honeypot shipped on both forms; Turnstile recommended next. _(2026-07-18)_
-4. M-03 — Add `npm audit` gate + CodeQL + secret scanning to CI. _Low effort._
+4. ~~M-03 — Add `npm audit` gate + CodeQL + secret scanning to CI.~~ **Done 2026-07-19.** _Low effort._
 5. L-06 — Confirm Supabase backup coverage + set up a lead-table export. _Low effort._
 
 **At/just after domain cutover:** 6. M-04 — Attach Cloudflare, enable WAF + edge rate limiting + bot fight mode. 7. L-03 — Scrub PII from error logs; wire Sentry with `beforeSend` redaction. 8. L-05 — Optional Origin assertion on POST routes.
@@ -445,7 +447,7 @@ Re-run this audit (a) before the custom domain goes live, (b) whenever the first
 ## TODO
 
 - [ ] Implement H-01 (headers/CSP) and H-02 (rate limiting) before public launch.
-- [ ] Wire CI security scanning (M-03).
+- [x] Wire CI security scanning (M-03) — done 2026-07-19 (`npm audit` gate, CodeQL, native secret scanning + push protection, Dependabot).
 - [ ] Assign a security DRI (owner).
 
 ## References
