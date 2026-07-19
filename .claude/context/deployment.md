@@ -63,6 +63,7 @@ Wire the remaining pipeline steps (Playwright/axe, Lighthouse gate) into `ci.yml
 - [x] Decide Supabase environment isolation strategy — done 2026-07-08: two projects (prod + non-prod), see above.
 - [x] Populate `docs/deployment/environment-variables.md` with the real Supabase variables (done 2026-07-08); GA4 vars still pending its property.
 - [ ] Remove the `package.json` `overrides` entry forcing `next`'s nested `postcss` to `^8.5.10` (added 2026-07-15 for the Dependabot XSS alert, GHSA postcss < 8.5.10) once a Next release stops pinning `postcss@8.4.31` — check on each Next upgrade.
+- [ ] **Deferred toolchain majors (2026-07-19):** TypeScript **7.x** and ESLint **10.x** are `ignore`d for `semver-major` in `.github/dependabot.yml` — both broke `typecheck`/`lint` on the first Dependabot bump (TS 7 is the native-compiler jump past 6.x; ESLint 10 is a flat-config-breaking major) and are gated on ecosystem support. Do each as its own deliberate migration PR (verify the toolchain + Next.js/plugins are ready), then remove the corresponding `ignore` rule. Minor/patch for both still auto-update.
 
 ## References
 

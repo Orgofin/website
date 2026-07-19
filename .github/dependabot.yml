@@ -23,6 +23,17 @@ updates:
       # so they get a deliberate review.
       npm-minor-patch:
         update-types: ["minor", "patch"]
+    ignore:
+      # Toolchain majors that break the build/lint today and are gated on
+      # ecosystem readiness (Next.js + type/lint-plugin support). They are
+      # deferred to a DELIBERATE migration, not weekly auto-PRs — otherwise a
+      # perpetually-red PR risks an accidental force-merge and adds noise.
+      # Minor/patch for both still flow (security + bugfixes). Revisit + remove
+      # these when doing the migration — tracked in deployment.md TODO.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: "/"
