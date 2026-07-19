@@ -98,14 +98,14 @@ The engineering foundation is strong: strict TypeScript, App Router with Server 
 
 ## 6. Production Configuration
 
-| Item                             | Status     | Notes                                                                                                                                                       |
-| -------------------------------- | ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Env vars (Supabase/GA4/site URL) | ⚠️ Partial | Typed/validated via `@t3-oss/env-nextjs`, kept optional so builds don't require them. Confirm all are set in Vercel **Production** before launch.           |
-| Supabase migrations              | ⚠️ Action  | Waitlist migration applied; **data-room migration NOT yet applied** and bucket not created (per runbook) — required before the data room serves real files. |
-| Two-project isolation            | ✅ Good    | Prod vs non-prod Supabase projects scoped per Vercel environment.                                                                                           |
-| Error boundaries                 | ✅ Good    | `error.tsx`, `global-error.tsx`, `not-found.tsx`, `loading.tsx` all present.                                                                                |
-| `next.config.ts`                 | ❌ Empty   | No headers/redirects config — the vehicle for B-03 (security headers) and any www→apex redirect fallback.                                                   |
-| Brand experiment                 | ⚠️ Action  | `BrandSwitcher`/`brands.css` + `NEXT_PUBLIC_BRAND_SWITCHER` must stay **out of Production**; graduate or delete before/at launch per the initiative plan.   |
+| Item                             | Status      | Notes                                                                                                                                                       |
+| -------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Env vars (Supabase/GA4/site URL) | ⚠️ Partial  | Typed/validated via `@t3-oss/env-nextjs`, kept optional so builds don't require them. Confirm all are set in Vercel **Production** before launch.           |
+| Supabase migrations              | ⚠️ Action   | Waitlist migration applied; **data-room migration NOT yet applied** and bucket not created (per runbook) — required before the data room serves real files. |
+| Two-project isolation            | ✅ Good     | Prod vs non-prod Supabase projects scoped per Vercel environment.                                                                                           |
+| Error boundaries                 | ✅ Good     | `error.tsx`, `global-error.tsx`, `not-found.tsx`, `loading.tsx` all present.                                                                                |
+| `next.config.ts`                 | ❌ Empty    | No headers/redirects config — the vehicle for B-03 (security headers) and any www→apex redirect fallback.                                                   |
+| Brand experiment                 | ✅ Resolved | Graduated 2026-07-18: Cobalt Prime folded into `globals.css`; `BrandSwitcher`/`brands.css`/`.env.development` + `NEXT_PUBLIC_BRAND_SWITCHER` deleted.       |
 
 ---
 
@@ -128,7 +128,7 @@ The engineering foundation is strong: strict TypeScript, App Router with Server 
 2. **B-02** — Attach `orgofin.com`, set `NEXT_PUBLIC_SITE_URL` in Production, redeploy, verify canonicals/sitemap/robots use the apex. _(Medium)_
 3. **B-03** — Add security headers + CSP and rate limiting (security audit H-01/H-02). _(Low–Med)_
 4. Apply the data-room migration + create the private bucket **if** the data room is part of launch scope; otherwise confirm it stays in graceful "in preparation" state. _(Low)_
-5. Remove/graduate the brand experiment; confirm `NEXT_PUBLIC_BRAND_SWITCHER` is unset in Production. _(Low)_
+5. ~~Remove/graduate the brand experiment~~ — **done 2026-07-18** (Cobalt Prime graduated; experiment files deleted). Confirm `NEXT_PUBLIC_BRAND_SWITCHER` is unset in Vercel envs. _(Low)_
 6. Run Lighthouse + axe manually and record a baseline; fix any Perf<95 / a11y issues. _(Med)_
 
 **At/just after launch:** 7. **P-03** — Search Console + Bing, submit sitemap, verify indexing. 8. **P-01** — Wire Lighthouse CI + Playwright/axe gates. 9. **P-04** — Establish lead-table backup/export.

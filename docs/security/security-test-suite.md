@@ -150,7 +150,7 @@ Run before public launch, after any change to an API route / header config / dat
 ### 3.7 Secrets & config
 
 - [ ] `git log`/`git grep` for accidental secrets → none.
-- [ ] Confirm `.env*` (except example/development) are gitignored and no real secret is in `.env.development`.
+- [ ] Confirm `.env*` (except `.env.example`) are gitignored and no real secret sits in a committed env file.
 - [ ] Confirm Vercel env vars are scoped correctly (service key = Production/Preview only; no service key in Development).
 
 ### 3.8 Error handling & logging

@@ -33,8 +33,6 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 !.env.example
-# checked in deliberately: local-dev flags only, no secrets (brand switcher)
-!.env.development
 
 # confidential internal docs — never committed or pushed (see docs/internal/)
 /docs/internal/
