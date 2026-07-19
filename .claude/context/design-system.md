@@ -87,12 +87,12 @@ These are what components should ever reference — never a raw scale value dire
 | Semantic token            | Light mode    | Dark mode                                               |
 | ------------------------- | ------------- | ------------------------------------------------------- |
 | `color-bg-page`           | `neutral-0`   | `neutral-950`                                           |
-| `color-bg-surface`        | `neutral-50`  | `#0D1019` (neutral-950 +1 step lighter)                 |
+| `color-bg-surface`        | `#F1F4F9`     | `#10141F` (deep navy-tinted, cooler than page)          |
 | `color-bg-surface-raised` | `#FFFFFF`     | `#141826`                                               |
-| `color-border-default`    | `neutral-100` | `rgba(255,255,255,0.08)`                                |
+| `color-border-default`    | `#E3E7EF`     | `rgba(255,255,255,0.08)`                                |
 | `color-border-strong`     | `neutral-300` | `rgba(255,255,255,0.16)`                                |
-| `color-text-primary`      | `neutral-700` | `neutral-100`-equivalent (`#E8EAF0`)                    |
-| `color-text-secondary`    | `neutral-500` | `#9AA1B5`                                               |
+| `color-text-primary`      | `#2C3140`     | `neutral-100`-equivalent (`#E8EAF0`)                    |
+| `color-text-secondary`    | `#686F81`     | `#98A0B4`                                               |
 | `color-text-tertiary`     | `neutral-300` | `#5C6478`                                               |
 | `color-accent`            | `blue-600`    | `blue-500` _(lightened for legibility against dark bg)_ |
 | `color-accent-hover`      | `blue-700`    | `blue-300`                                              |
@@ -101,6 +101,8 @@ These are what components should ever reference — never a raw scale value dire
 | `color-warning`           | `#B8790C`     | `#F2B84B`                                               |
 | `color-danger`            | `#C4362E`     | `#F0645C`                                               |
 | `color-info`              | `blue-500`    | `blue-300`                                              |
+
+The light-mode `surface`, `border`, and `text` values above are off-scale hex rather than raw `neutral-*` primitives — the **Cobalt Prime** identity as it settled through application (2026-07-18): surfaces a touch cooler and deeper, foregrounds slightly darker for a crisper read. This is deliberate and mirrors how the dark block has always used bespoke hex. `text-secondary` light is `#686F81` (nudged from the design draft's `#6B7284`) so it clears **WCAG AA ≥4.5:1** on `surface` (`#F1F4F9`), not just on `page`. The dark block's `surface`/`text-secondary` were likewise deepened to `#10141F`/`#98A0B4`. All pairs re-verified against the §8 contrast matrix.
 
 ### Gradients & glow (the identity signature)
 
@@ -319,13 +321,15 @@ Primitive scale values (`--blue-*`, `--neutral-*`) are deliberately **not** expo
 
 **`cn()` must be taught every custom type-scale utility.** tailwind-merge only recognises Tailwind's default font sizes, so it classifies the custom `text-display-*`/`text-heading-*`/`text-body-*`/`text-caption`/`text-micro`/`text-mono-md` utilities as text _colors_ and silently drops one whenever a size and a color share a `cn()` call. [`src/lib/utils.ts`](../../src/lib/utils.ts) extends tailwind-merge's `font-size` class group with the full scale — **adding a new `--text-*` token to `globals.css` requires adding it there in the same PR**, or the new size will vanish wherever it's merged with a color.
 
-## Brand Palette Experiment (2026-07-16, in review)
+## Brand Palette Experiment (2026-07-16 → RESOLVED 2026-07-18)
 
-The founders are evaluating a palette redesign. Three candidate directions — **Cobalt Prime** (evolved current), **Aurum Ledger** (graphite + gold), **Indigo Meridian** (indigo + violet) — live in [`src/app/brands.css`](../../src/app/brands.css) as `data-brand`-scoped semantic-token overrides, switchable via the dev/preview-only `BrandSwitcher` (`components/theme/`, gated on `NEXT_PUBLIC_BRAND_SWITCHER=1` — set in `.env.development` and Vercel's Preview environment, never Production). Because brands override only semantic tokens, no component changes per switch — which is also the future-proofing this experiment proves: a global rebrand is a variable swap. One direction graduates into this document + `globals.css` (with a full §8 contrast-matrix pass); the others, `brands.css`, and the switcher are then deleted. Cascade rule recorded in `brands.css`: every token a brand's light block sets must be restated in its dark block.
+A palette redesign was run as a dev/preview-only experiment: three candidate directions — **Cobalt Prime** (evolved current), **Aurum Ledger** (graphite + gold), **Indigo Meridian** (indigo + violet) — lived in a `src/app/brands.css` as `data-brand`-scoped semantic-token overrides, switchable via a `BrandSwitcher` gated on `NEXT_PUBLIC_BRAND_SWITCHER=1` (never Production). Because brands overrode only semantic tokens, no component changed per switch — which is the future-proofing the experiment proved: **a global rebrand is a variable swap**, not a component migration.
+
+**Outcome:** the founders chose **Cobalt Prime**. Its evolved surface/foreground tints graduated into the §2 semantic-token table + `globals.css` (light `surface`/`border`/`text` and dark `surface`/`text-secondary`), with `text-secondary` nudged `#6B7284 → #686F81` to clear WCAG AA on `surface`. `brands.css`, the `BrandSwitcher` (+ test), the `.env.development` flag file, and its gitignore exception were then deleted; the mount was removed from `layout.tsx`. The live logo remains re-themable via `--logo-grad-from`/`--logo-grad-to` in `globals.css` (a rebrand of the mark is still a two-token change; static favicon/OG rasters regenerate per [`docs/brand/brand-assets.md`](../../docs/brand/brand-assets.md)).
 
 ## Current Status
 
-Implemented. All token categories in this document exist in `globals.css` for both themes; consumed by the Phase 10 component library ([`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md)). The automated contrast-matrix check (§8 TODO) and a rendered token-preview page are not yet built. A brand-palette redesign is in review — see the experiment section above.
+Implemented. All token categories in this document exist in `globals.css` for both themes; consumed by the Phase 10 component library ([`docs/architecture/frontend-infrastructure.md`](../../docs/architecture/frontend-infrastructure.md)). The Cobalt Prime palette is shipped (brand experiment resolved, above). Contrast for the graduated pairs was verified against the WCAG AA matrix; a _standing automated_ contrast check and a rendered token-preview page are still not built (Future Improvements / TODO).
 
 ## Future Improvements
 
@@ -333,7 +337,7 @@ Implemented. All token categories in this document exist in `globals.css` for bo
 
 ## TODO
 
-- [ ] Run the full color pairing matrix (all text/background token combinations, both themes) through an automated contrast checker before implementation — the ratios stated in §8 are targets, not yet verified programmatically.
+- [ ] Stand up an _automated_ contrast check in CI over the full color pairing matrix (all text/background token combinations, both themes). The graduated Cobalt Prime pairs were verified manually against WCAG AA on 2026-07-18; the standing programmatic guard is still not wired.
 - [ ] Confirm final typeface licensing (Geist Sans/Mono, SIL OFL) with whoever handles legal/brand sign-off.
 
 ## References
@@ -350,5 +354,5 @@ Implemented. All token categories in this document exist in `globals.css` for bo
 
 ---
 
-**Last Updated:** 2026-07-04
+**Last Updated:** 2026-07-18 (Cobalt Prime palette graduated; brand experiment torn down)
 **Owner:** Orgofin Design/Engineering (TODO: assign a DRI)

@@ -1,10 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-/* Experimental brand palettes for the co-founder theme review — see the file
-   header. Deleted (or graduated into this file) once a direction is chosen.
-   Import position is safe: brand selectors carry (0,2,0) specificity, so they
-   override :root/.dark regardless of source order. */
-@import "./brands.css";
 
 /*
  * Orgofin Design Tokens — the single source of truth for the token layer.
@@ -166,14 +161,18 @@
   --motion-slow: 450ms;
   --motion-cinematic: 800ms;
 
-  /* Semantic color tokens — LIGHT. */
+  /* Semantic color tokens — LIGHT. Surfaces/foregrounds run a touch cooler and
+     deeper than the raw neutral scale — the Cobalt Prime identity as it settled
+     through application (design-system.md §2). Off-scale hex on purpose (as in
+     the dark block); all pairs clear WCAG AA (fg-muted nudged #6b7284→#686f81
+     to hold ≥4.5:1 on --surface). */
   --page: var(--neutral-0);
-  --surface: var(--neutral-50);
+  --surface: #f1f4f9;
   --surface-raised: #ffffff;
-  --border: var(--neutral-100);
+  --border: #e3e7ef;
   --border-strong: var(--neutral-300);
-  --fg: var(--neutral-700);
-  --fg-muted: var(--neutral-500);
+  --fg: #2c3140;
+  --fg-muted: #686f81;
   --fg-subtle: var(--neutral-300);
   --accent: var(--blue-600);
   --accent-hover: var(--blue-700);
@@ -218,12 +217,12 @@
   color-scheme: dark;
 
   --page: var(--neutral-950);
-  --surface: #0d1019;
+  --surface: #10141f;
   --surface-raised: #141826;
   --border: rgba(255, 255, 255, 0.08);
   --border-strong: rgba(255, 255, 255, 0.16);
   --fg: #e8eaf0;
-  --fg-muted: #9aa1b5;
+  --fg-muted: #98a0b4;
   --fg-subtle: #5c6478;
   --accent: var(--blue-500);
   --accent-hover: var(--blue-300);

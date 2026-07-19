@@ -326,6 +326,8 @@ Covered structurally by H-01's header baseline. Listed separately so it isn't lo
 
 **Recommendation.** Not a security issue. When the brand experiment is graduated and `brands.css`/`BrandSwitcher` are deleted (already the documented plan), this disappears. No action needed pre-launch beyond awareness.
 
+**Resolution (2026-07-18).** ✅ Fixed by removal. The brand experiment was graduated (Cobalt Prime) and `brands.css`, `BrandSwitcher.tsx`, and `.env.development` were deleted; nothing writes `data-brand` anymore.
+
 **Severity: Info.**
 
 ---
@@ -395,7 +397,7 @@ A deliberately generous list — these are load-bearing controls the team should
 5. **Typed, non-leaky error handling** — every failure path returns a friendly `{ error }` string; exceptions are caught and never surface a stack trace to the client. (`route.ts`, `lib/api/*.ts`)
 6. **No `eval`, no `new Function`, no unsafe `innerHTML`** — the two `dangerouslySetInnerHTML` uses are a static theme constant and an escaped JSON-LD blob (`<` → `<`). (`ThemeScript.tsx`, `StructuredData.tsx`)
 7. **Clean dependency posture** — `npm audit` reports 0 vulnerabilities; `package-lock.json` committed; CI uses `npm ci`; a documented `overrides` pin closed a transitive `postcss` XSS advisory.
-8. **Secrets never committed** — `.gitignore` excludes all `.env*` except the example and a secrets-free `.env.development`; env vars managed per-environment in Vercel.
+8. **Secrets never committed** — `.gitignore` excludes all `.env*` except a secrets-free `.env.example`; env vars managed per-environment in Vercel.
 9. **Analytics is structurally PII-free** — the `AnalyticsEvent` union cannot express an email/name/message; only outcomes/slugs are sent. (`lib/analytics/track.ts`)
 10. **Environment isolation** — two Supabase projects (prod vs non-prod) so test submissions never pollute investor-facing counts.
 11. **Data room is `noindex, nofollow`, robots-disallowed, absent from sitemap and nav** — minimal discoverability.
