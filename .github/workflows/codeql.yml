@@ -1,0 +1,53 @@
+# CodeQL — static application security testing (SAST) for the Orgofin website.
+#
+# Part of the CI security-scanning layer (security audit M-03), alongside the
+# `npm audit` gate in ci.yml and GitHub-native secret scanning + push protection
+# (enabled in repo settings — no workflow needed for a public repo). Free for
+# public repositories. Findings surface in the repo Security tab and as PR
+# annotations; they do not block merges (SAST is advisory, reviewed, not gated).
+#
+# JavaScript/TypeScript needs no build for CodeQL (interpreted), so there is no
+# autobuild step. Runs on PRs into the release branches, on push to the default
+# branch (keeps the Security-tab baseline current), and weekly to catch new
+# query-pack detections against unchanged code.
+
+name: CodeQL
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [dev, uat, main]
+  schedule:
+    - cron: "27 3 * * 1" # Mondays 03:27 UTC
+  workflow_dispatch:
+
+concurrency:
+  group: codeql-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  analyze:
+    name: Analyze (javascript-typescript)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    permissions:
+      contents: read
+      security-events: write # upload SARIF to the Security tab
+      actions: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+          queries: security-extended
+
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"

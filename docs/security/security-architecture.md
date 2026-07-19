@@ -157,7 +157,7 @@ flowchart TB
 - **Vercel** provides TLS, a global CDN, immutable per-deploy artifacts (enabling instant rollback), and an encrypted environment-variable store scoped per environment (Production / Preview / Development).
 - **Secrets segregation:** `NEXT_PUBLIC_` prefix _only_ for values meant to be public (anon key, GA4 ID, site URL); the service-role key deliberately carries no such prefix and is never bundled into client code.
 - **Cloudflare (pending E13.1.3):** once the apex domain is attached and the certificate is live, enable the orange-cloud proxy with managed WAF, `/api/*` rate-limiting rules, and bot fight mode. Until then, use "DNS only" to avoid interfering with certificate issuance.
-- **CI/CD hardening:** `npm ci` (lockfile-exact installs) + a merge-blocking quality gate. Recommended additions: `npm audit`, CodeQL SAST, and secret scanning (audit M-03).
+- **CI/CD hardening:** `npm ci` (lockfile-exact installs) + a merge-blocking quality gate, now including a merge-blocking `npm audit --audit-level=high` step, CodeQL SAST, GitHub-native secret scanning + push protection, and Dependabot (audit M-03, wired 2026-07-19).
 
 ---
 
