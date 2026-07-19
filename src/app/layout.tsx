@@ -4,7 +4,6 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@/components/analytics";
 import { LazyMotionProvider } from "@/components/motion/LazyMotionProvider";
 import { StructuredData } from "@/components/seo/StructuredData";
-import { BrandSwitcher } from "@/components/theme/BrandSwitcher";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
 import { ThemeScript } from "@/components/theme/ThemeScript";
 import { siteConfig } from "@/lib/seo/site";
@@ -98,9 +97,6 @@ export default function RootLayout({
         </ThemeProvider>
         <StructuredData data={[organizationSchema(), websiteSchema()]} />
         <GoogleAnalytics />
-        {/* Dev/preview-only palette switcher for the brand review — no-op in
-            production builds (env-gated at build time). */}
-        <BrandSwitcher />
       </body>
     </html>
   );
