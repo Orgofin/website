@@ -22,7 +22,7 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 - [ ] **Domain:** `orgofin.com` attached in Vercel, DNS live, TLS valid, `www`→apex 301 working; `NEXT_PUBLIC_SITE_URL=https://orgofin.com` set in Production and redeployed. [Founder+Eng]
 - [ ] **Security headers + CSP** added (`next.config.ts`/`vercel.json`), verified Grade A on securityheaders.com. [Eng]
 - [ ] **Rate limiting + bot protection** on `/api/waitlist` and `/api/data-room` (Upstash/Cloudflare + Turnstile). [Eng]
-- [ ] **Brand experiment removed/graduated**; `NEXT_PUBLIC_BRAND_SWITCHER` unset in Production. [Eng]
+- [x] **Brand experiment graduated** (2026-07-18): Cobalt Prime folded into `globals.css`; `brands.css`, `BrandSwitcher`, and `.env.development`/`NEXT_PUBLIC_BRAND_SWITCHER` deleted. Confirm the flag is also unset in Vercel Preview/Production envs. [Eng]
 
 ### Data & backend
 
