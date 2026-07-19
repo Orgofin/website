@@ -1,0 +1,33 @@
+# Dependabot version updates (security audit M-03).
+#
+# Complements Dependabot *security* updates (enabled in repo settings, which
+# open fix PRs for known-vulnerable deps) with scheduled *version* updates so
+# the tree does not silently drift. The `postcss` override history showed this
+# was already the de-facto process — this makes it explicit and automatic.
+#
+# PRs target `dev` (the integration branch), then ride the normal dev → uat →
+# main promotion. Grouped to keep PR volume sane.
+
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    target-branch: dev
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    labels: ["dependencies"]
+    groups:
+      # One PR for routine minor/patch bumps; majors still come individually
+      # so they get a deliberate review.
+      npm-minor-patch:
+        update-types: ["minor", "patch"]
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    target-branch: dev
+    schedule:
+      interval: weekly
+      day: monday
+    labels: ["dependencies", "github-actions"]
