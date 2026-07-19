@@ -18,10 +18,10 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 
 ### Blockers (from the readiness review + security audit)
 
-- [ ] **Assets:** `public/og/default.png` (1200×630) and `public/logo.png` created and committed; social preview verified. [Eng]
-- [ ] **Domain:** `orgofin.com` attached in Vercel, DNS live, TLS valid, `www`→apex 301 working; `NEXT_PUBLIC_SITE_URL=https://orgofin.com` set in Production and redeployed. [Founder+Eng]
-- [ ] **Security headers + CSP** added (`next.config.ts`/`vercel.json`), verified Grade A on securityheaders.com. [Eng]
-- [ ] **Rate limiting + bot protection** on `/api/waitlist` and `/api/data-room` (Upstash/Cloudflare + Turnstile). [Eng]
+- [x] **Assets:** `public/og/default.png` + `public/logo.png` committed and serving `200` on the apex (Eclipse brand). Social-card _render_ still to verify in the debuggers (P-02). [Eng]
+- [x] **Domain:** `orgofin.com` live in Vercel, DNS + TLS valid, `www`→apex **308** working, `NEXT_PUBLIC_SITE_URL=https://orgofin.com` set in Production; canonicals/OG resolve to the apex (verified 2026-07-19). [Founder+Eng]
+- [x] **Security headers + CSP** live: CSP, HSTS (preload), `X-Frame-Options: DENY`, nosniff, Referrer/Permissions-Policy (`next.config.ts`). Confirm Grade A on securityheaders.com at launch. [Eng]
+- [x] **Rate limiting + bot protection** shipped app-layer (per-IP in-memory limiter + honeypot on both routes). Edge upgrade (Upstash/Cloudflare + Turnstile) recommended — security audit H-02/M-02/M-04. [Eng]
 - [x] **Brand experiment graduated** (2026-07-18): Cobalt Prime folded into `globals.css`; `brands.css`, `BrandSwitcher`, and `.env.development`/`NEXT_PUBLIC_BRAND_SWITCHER` deleted. Confirm the flag is also unset in Vercel Preview/Production envs. [Eng]
 
 ### Data & backend
@@ -208,5 +208,5 @@ After the first launch, convert this into a reusable template and record actuals
 
 ---
 
-**Last Updated:** 2026-07-18
+**Last Updated:** 2026-07-19 (blockers B-01/B-02/B-03 checked off — live on orgofin.com)
 **Owner:** Orgofin Founders + Engineering (TODO: assign DRIs)

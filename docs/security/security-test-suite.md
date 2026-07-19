@@ -79,22 +79,16 @@ describe("security headers", () => {
 });
 ```
 
-### 2.3 CI additions (recommended — audit M-03)
+### 2.3 CI additions (audit M-03) — ✅ IMPLEMENTED 2026-07-19
 
-Add to `.github/workflows/ci.yml`, after unit tests:
+Wired as follows:
 
-```yaml
-- name: Dependency audit (fail on high/critical)
-  run: npm audit --audit-level=high
+- **Dependency audit (merge-blocking)** — `npm audit --audit-level=high` step in the `ci.yml` quality gate, after unit tests, before build.
+- **SAST** — CodeQL in [`.github/workflows/codeql.yml`](../../.github/workflows/codeql.yml) (`javascript-typescript`, `security-extended`; PRs to release branches + push to `main` + weekly). Advisory, not gated.
+- **Secret scanning** — GitHub-**native** secret scanning + push protection (repo Settings → Code security), enabled instead of a Gitleaks CI job since the repo is public (free, zero-maintenance, blocks the push rather than the merge).
+- **Dependabot** — security updates enabled + [`.github/dependabot.yml`](../../.github/dependabot.yml) for weekly npm + github-actions version updates targeting `dev`.
 
-- name: SAST (CodeQL)
-  uses: github/codeql-action/analyze@v3 # + init step with javascript-typescript
-
-- name: Secret scan
-  uses: gitleaks/gitleaks-action@v2
-```
-
-Plus enable **Dependabot** (`.github/dependabot.yml`) for weekly npm updates — the `postcss` override history shows this is already the de-facto process; make it explicit.
+Verify: `npm audit --audit-level=high` locally returns 0; a CodeQL run appears in the Security tab; committing a fake token (e.g. an AWS-key-shaped string) is rejected by push protection.
 
 ---
 

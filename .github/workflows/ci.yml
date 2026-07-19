@@ -5,7 +5,11 @@
 # of Done in docs/product/implementation-backlog.md.
 #
 # Steps run in the order defined by deployment.md:
-#   lint -> format check -> typecheck -> unit tests -> build
+#   lint -> format check -> typecheck -> unit tests -> dependency audit -> build
+#
+# The dependency audit (`npm audit --audit-level=high`) is the merge-blocking
+# half of the CI security layer (audit M-03); SAST lives in codeql.yml and
+# secret scanning is GitHub-native (repo settings). See deployment.md.
 #
 # Still pending their own infrastructure (slot in after unit tests, before
 # build, in the order deployment.md defines): Playwright E2E + axe (E1.2.3)
@@ -57,6 +61,13 @@ jobs:
 
       - name: Unit + component tests (Vitest)
         run: npm run test
+
+      # Fail the build on a high/critical advisory in the dependency tree.
+      # No-fix advisories are handled the same way the postcss GHSA was: a
+      # documented `overrides` pin in package.json (see deployment.md), not by
+      # relaxing this gate.
+      - name: Dependency audit (fail on high/critical)
+        run: npm audit --audit-level=high
 
       - name: Build (next build)
         run: npm run build
