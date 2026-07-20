@@ -140,7 +140,7 @@ The four body sections deliberately carry **no new copy** — each is the overvi
 | Layer one — the foundation | §2 hero sub-headline, "What it knows", "Real-time, not batch"                                                                                                    |
 | Layer two — the workforce  | §1 Ch.6 headline/sub-headline + orchestration lead-in, plus the named-agent roster from [`.claude/knowledge/ai-agents.md`](../../.claude/knowledge/ai-agents.md) |
 | Layer three — the surface  | §3 hero + the eight suite one-liners with Available/Roadmap status                                                                                               |
-| Underneath all of it       | §4 hero + the three pillar headlines/bodies                                                                                                                      |
+| Underneath all of it       | §4 hero + a one-line summary, deep-linking to `/security` (teaser — the three pillars live canonically on `/security`, not here)                                 |
 
 **Deliberately omitted:** §2's "Ask a real question" / Decision Intelligence deep-dives, §1 Ch.6's CEO vignette (Home stays canonical for it — repeating it splits the ranking signal), and §4's "Read our Privacy Policy" CTA (`/privacy` doesn't exist yet).
 
@@ -199,7 +199,9 @@ The four body sections deliberately carry **no new copy** — each is the overvi
 
 ---
 
-## 4. Security & Compliance (`/security`) _(new page, per Strategy §5)_
+## 4. Security & Compliance (`/security`) _(new page, per Strategy §5; **built 2026-07-20**)_
+
+**Built with:** hero + the three trust pillars below (verbatim), plus a "compliance surface" section whose items are **not** from this deck — they are documented business facts from [`company.md`](./company.md) moat #3 (GST e-invoicing via IRP API, PF/ESI challans, TDS/Form 16 & 24Q, Aadhaar e-KYC, DPDP consent), corroborated by [`../../.claude/knowledge/hrms.md`](../../.claude/knowledge/hrms.md). **No security certifications (SOC 2, ISO 27001) are claimed** — none exist in the source material. The §4 CTAs below ("Read our Privacy Policy", "Talk to our team") are **deferred** until `/privacy` and `/contact` exist; the page closes on the shared waitlist CTA instead.
 
 **SEO title:** Security & Compliance — Data Residency, DPDP, and GDPR-Ready | Orgofin
 **Meta description:** Orgofin is built for India-first compliance — DPDP Act, GST e-invoicing, and data residency in India, UK, and US — with the same rigor we sell, applied to how we handle your data.

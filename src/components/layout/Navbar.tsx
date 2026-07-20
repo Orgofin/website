@@ -46,7 +46,10 @@ const DEFAULT_ITEMS: NavItem[] = [
   {
     label: "Platform",
     href: "/platform",
-    items: [{ label: "Overview", href: "/platform" }],
+    items: [
+      { label: "Overview", href: "/platform" },
+      { label: "Security", href: "/security" },
+    ],
   },
   { label: "Vision", href: "/vision" },
   { label: "Investors", href: "/investors" },
