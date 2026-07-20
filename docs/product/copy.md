@@ -125,6 +125,29 @@ This isn't automation. It's a company that runs on intelligence.
 
 ---
 
+## 2.0 Platform Overview (`/platform`) _(new page, 2026-07-20 — the Platform nav cluster's hub)_
+
+**SEO title:** Platform Overview — One Brain, Infinite Agents, Every Function | Orgofin
+**Meta description:** How Orgofin fits together: Company Brain as the unified data layer, autonomous AI agents on top of it, and 40+ modules across eight suites — with India-first compliance underneath.
+
+**Hero headline:** One brain. Infinite agents. Every function. _(synthesized — "one brain, infinite agents" is the framing from `CLAUDE.md`'s mission line; "every function" from the one-line vision in [`company.md`](./company.md))_
+**Hero sub-headline:** Company Brain holds everything your company knows. Agents act on it. Forty-plus modules across eight suites are how you use it. Here's how the pieces fit together. _(synthesized; the "40+ modules across 8 functional suites" figure is verbatim from [`company.md`](./company.md)'s Company Snapshot)_
+
+The four body sections deliberately carry **no new copy** — each is the overview cut of a section that already exists in this deck, so the deep-dive pages stay canonical when they ship (IA §7):
+
+| Section (eyebrow)          | Source                                                                                                                                                           |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Layer one — the foundation | §2 hero sub-headline, "What it knows", "Real-time, not batch"                                                                                                    |
+| Layer two — the workforce  | §1 Ch.6 headline/sub-headline + orchestration lead-in, plus the named-agent roster from [`.claude/knowledge/ai-agents.md`](../../.claude/knowledge/ai-agents.md) |
+| Layer three — the surface  | §3 hero + the eight suite one-liners with Available/Roadmap status                                                                                               |
+| Underneath all of it       | §4 hero + the three pillar headlines/bodies                                                                                                                      |
+
+**Deliberately omitted:** §2's "Ask a real question" / Decision Intelligence deep-dives, §1 Ch.6's CEO vignette (Home stays canonical for it — repeating it splits the ranking signal), and §4's "Read our Privacy Policy" CTA (`/privacy` doesn't exist yet).
+
+**CTA:** Join the Waitlist
+
+---
+
 ## 2. Company Brain (`/company-brain`)
 
 **SEO title:** Company Brain — The Unified Intelligence Layer for Your Business | Orgofin
