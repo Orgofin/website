@@ -31,6 +31,7 @@ const DEFAULT_COLUMNS: FooterColumn[] = [
     heading: "Platform",
     links: [
       { label: "Overview", href: "/platform" },
+      { label: "Products", href: "/products" },
       { label: "Security", href: "/security" },
     ],
   },
