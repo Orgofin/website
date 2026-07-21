@@ -139,7 +139,7 @@ Each journey branches off the shared Home spine — never a separate landing exp
 - Flat URLs; exceptions are `/blog/[slug]`, `/investors/data-room`, and (future) `/products/[suite]` once individual suites graduate from anchor-section to full page.
 - **Canonical:** `/vision` is canonical for the Vision narrative — Home's Ch.9 must render unique summary copy, not a duplicate block, or it splits the ranking signal.
 - Sitemap priority: Home 1.0 → Platform/Products/Company Brain/Vision 0.8 → Investors/Blog 0.7 → Team/About/Security 0.6 → legal 0.3.
-- **Canonical:** `/platform` is an overview hub, not a second home for the deep-dive narratives — it must never reuse `/company-brain`'s or Home Ch.6's headline copy verbatim. Its Company Brain section summarises; its agents section shows the named-agent roster (additive) rather than repeating Home's CEO vignette.
+- **Canonical:** `/platform` is an overview hub, not a second home for the deep-dive narratives — it must never reuse `/company-brain`'s or Home Ch.6's headline copy verbatim. Its Company Brain section summarises; its agents section shows the named-agent roster (additive) rather than repeating Home's CEO vignette. **`/security` is canonical for the compliance narrative** and **`/products` is canonical for the eight-suite grid** — `/platform`'s `SecurityLayer` and `SuitesLayer` are teasers that render a one-line summary and deep-link out (the same teaser→canonical pattern as Home's `VisionTeaser` → `/vision`), never the pillars or the suite grid verbatim. On `/products`, only HRMS gets a per-module breakdown (the one suite with a documented module list in `.claude/knowledge/hrms.md`); the other seven stay at suite level, and availability is asserted only at the suite level pending founder confirmation of module-level MVP status (`hrms.md` open question).
 - Structured data: `Organization` (Home), `Article` (Blog), `BreadcrumbList` (Blog/Products), `JobPosting` (Careers, once real roles exist).
 - Blog is the primary long-tail SEO growth engine (PF/TDS/GST calculators) — category taxonomy needs to exist from the first post, not be retrofitted later.
 
@@ -162,7 +162,7 @@ The `variant="teaser"|"full"` reuse pattern (see `frontend.md` §3) exists speci
 
 ## Current Status
 
-Implemented routes: `/` (the full Home narrative spine), `/platform` (Platform overview hub), `/vision` (canonical vision narrative, E11.1.1), `/investors` (full investor thesis, E11.1.2), `/about` (origin story), and `/waitlist/thank-you` (noindex confirmation). **The header nav no longer contains any `#` placeholders** — every visible nav and footer link resolves to a real page (2026-07-20). Everything else in the §1 tree is planned, not built; new nav entries appear only when their page ships.
+Implemented routes: `/` (the full Home narrative spine), `/platform` (Platform overview hub), `/products` (canonical eight-suite grid + HRMS lifecycle), `/security` (canonical Security & Compliance narrative), `/vision` (canonical vision narrative, E11.1.1), `/investors` (full investor thesis, E11.1.2), `/about` (origin story), and `/waitlist/thank-you` (noindex confirmation). **The header nav no longer contains any `#` placeholders** — every visible nav and footer link resolves to a real page (2026-07-20). Everything else in the §1 tree is planned, not built; new nav entries appear only when their page ships.
 
 ## Future Improvements
 
@@ -172,6 +172,9 @@ Once `/products` graduates to per-suite pages, this document's §1 tree and §7 
 
 - [ ] Decide whether `/agents` is a real standalone route or folds into `/company-brain` — currently listed in the tree (§1) but not detailed in §3's page table. Resolve before implementation.
 - [ ] Confirm gating mechanism for `/investors/data-room` (see `docs/product/prd.md` §22.6).
+- [ ] **Wire `/security`'s two deferred §4 CTAs when their targets ship:** "Read our Privacy Policy" → `/privacy`, and "Talk to our team about your compliance requirements" → `/contact`. Both are omitted today (never-link-a-404, §4) and the page closes on the shared waitlist `CTABand` instead.
+- [ ] **Wire `/products`'s deferred "Request a Demo" CTA (§3) to `/contact` when it ships** — omitted today; the page closes on the shared waitlist `CTABand`.
+- [ ] **Resolve the HRMS module-level MVP status** (`.claude/knowledge/hrms.md` open question, `docs/product/prd.md` §19.4/§22.4) — until then `/products` asserts Available/Roadmap only at suite level and the HRMS lifecycle is framed as designed scope, not per-module availability.
 - [ ] **`/about` is held short pending founder-supplied business facts.** Three sections ship today (hero, what we're building, where we're starting); nothing is fabricated to fill the gap and no empty section is rendered. Blocked on, and what each unblocks: - Founder bios + photos → the `/team` page, and the copy deck §10's "Meet the Team" CTA on `/about`. - Founding year + registered legal entity name → an origin dateline in `AboutHero`, and the Footer © line (already flagged there). - Any real traction (customers, LOIs, pilots) → an optional "where we are" section; absent from the source PDF entirely (`docs/product/company.md` TODO).
 
 ## References

@@ -139,8 +139,8 @@ The four body sections deliberately carry **no new copy** — each is the overvi
 | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Layer one — the foundation | §2 hero sub-headline, "What it knows", "Real-time, not batch"                                                                                                    |
 | Layer two — the workforce  | §1 Ch.6 headline/sub-headline + orchestration lead-in, plus the named-agent roster from [`.claude/knowledge/ai-agents.md`](../../.claude/knowledge/ai-agents.md) |
-| Layer three — the surface  | §3 hero + the eight suite one-liners with Available/Roadmap status                                                                                               |
-| Underneath all of it       | §4 hero + the three pillar headlines/bodies                                                                                                                      |
+| Layer three — the surface  | §3 hero + a one-line summary, deep-linking to `/products` (teaser — the eight-suite grid lives canonically on `/products`, not here)                             |
+| Underneath all of it       | §4 hero + a one-line summary, deep-linking to `/security` (teaser — the three pillars live canonically on `/security`, not here)                                 |
 
 **Deliberately omitted:** §2's "Ask a real question" / Decision Intelligence deep-dives, §1 Ch.6's CEO vignette (Home stays canonical for it — repeating it splits the ranking signal), and §4's "Read our Privacy Policy" CTA (`/privacy` doesn't exist yet).
 
@@ -176,7 +176,9 @@ The four body sections deliberately carry **no new copy** — each is the overvi
 
 ---
 
-## 3. Products (`/products`)
+## 3. Products (`/products`) _(**built 2026-07-20**)_
+
+**Built with:** hero + the eight suite one-liners below (verbatim, suite-level Available/Roadmap badges), plus an HRMS hire-to-retire lifecycle section whose seven phases are **not** from this deck — they are the documented module table in [`../../.claude/knowledge/hrms.md`](../../.claude/knowledge/hrms.md). Only HRMS gets a per-module breakdown (it's the one suite with a documented module list); the other seven stay at suite level. **Availability is asserted only at the suite level** — the HRMS lifecycle is framed as designed scope, not per-module live status, because `hrms.md` flags module-level MVP status as unconfirmed pending founder input. The §3 "Request a Demo" CTA is **deferred** until `/contact` exists; the page closes on the shared waitlist CTA.
 
 **SEO title:** Orgofin Products — HRMS, Finance, CRM, and 40+ Modules Built on One Brain
 **Meta description:** Explore Orgofin's growing suite of modules — from HRMS and Payroll to Finance, CRM, and Compliance — all connected by a single Company Brain, starting with India-first HR.
@@ -199,7 +201,9 @@ The four body sections deliberately carry **no new copy** — each is the overvi
 
 ---
 
-## 4. Security & Compliance (`/security`) _(new page, per Strategy §5)_
+## 4. Security & Compliance (`/security`) _(new page, per Strategy §5; **built 2026-07-20**)_
+
+**Built with:** hero + the three trust pillars below (verbatim), plus a "compliance surface" section whose items are **not** from this deck — they are documented business facts from [`company.md`](./company.md) moat #3 (GST e-invoicing via IRP API, PF/ESI challans, TDS/Form 16 & 24Q, Aadhaar e-KYC, DPDP consent), corroborated by [`../../.claude/knowledge/hrms.md`](../../.claude/knowledge/hrms.md). **No security certifications (SOC 2, ISO 27001) are claimed** — none exist in the source material. The §4 CTAs below ("Read our Privacy Policy", "Talk to our team") are **deferred** until `/privacy` and `/contact` exist; the page closes on the shared waitlist CTA instead.
 
 **SEO title:** Security & Compliance — Data Residency, DPDP, and GDPR-Ready | Orgofin
 **Meta description:** Orgofin is built for India-first compliance — DPDP Act, GST e-invoicing, and data residency in India, UK, and US — with the same rigor we sell, applied to how we handle your data.
