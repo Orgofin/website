@@ -19,6 +19,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: absoluteUrl("/platform"),
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: absoluteUrl("/vision"),
       lastModified,
       changeFrequency: "monthly",
@@ -29,6 +35,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "monthly",
       priority: 0.7,
+    },
+    {
+      url: absoluteUrl("/products"),
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: absoluteUrl("/security"),
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: absoluteUrl("/about"),
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
   ];
 }
