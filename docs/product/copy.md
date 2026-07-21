@@ -148,7 +148,7 @@ The four body sections deliberately carry **no new copy** — each is the overvi
 
 ---
 
-## 2. Company Brain (`/company-brain`)
+## 2. Company Brain (`/company-brain`) _(**built 2026-07-21**)_
 
 **SEO title:** Company Brain — The Unified Intelligence Layer for Your Business | Orgofin
 **Meta description:** Company Brain is Orgofin's real-time knowledge graph connecting every employee, customer, invoice, and decision in your business — the foundation for AI agents that actually understand your company.
