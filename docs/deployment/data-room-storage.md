@@ -29,7 +29,7 @@ Do this per Supabase project (prod, and non-prod if you want preview/uat testing
 
 ## Current Status
 
-Feature shipped in placeholder state: table migration written (not yet applied), bucket not yet created, no files uploaded, `SUPABASE_SERVICE_ROLE_KEY` not yet set anywhere, both catalog slots `storagePath: null`. The founder-supplied documents are the blocking input.
+**Pitch deck live (2026-07-22):** the founder uploaded the investor-safe deck to the private `investor-data-room` bucket (object key `pitch-deck.pptx`) and set `SUPABASE_SERVICE_ROLE_KEY` in Vercel; the `pitch-deck` slot's `storagePath` is flipped to `"pitch-deck.pptx"` (step 5 done). Still to confirm end-to-end (step 6) on the deployed environment, and verify the `data_room_requests` migration is applied so the gate's lead insert succeeds. The **one-pager** slot remains `storagePath: null` (no file yet). If a download 404s, re-check the object key — Supabase Storage paths are case-sensitive and must match exactly.
 
 ## Future Improvements
 
@@ -38,11 +38,11 @@ Feature shipped in placeholder state: table migration written (not yet applied),
 
 ## TODO
 
-- [ ] Apply the migration to both Supabase projects.
-- [ ] Create the private `investor-data-room` bucket (both projects).
-- [ ] Receive the founder-supplied PDFs and upload them (prod at minimum).
-- [ ] Set `SUPABASE_SERVICE_ROLE_KEY` in Vercel Production.
-- [ ] Flip the `storagePath` values and verify end-to-end per step 6.
+- [ ] Apply the migration to both Supabase projects. _(Confirm applied — required for the gate's lead insert to succeed.)_
+- [x] Create the private `investor-data-room` bucket (prod). _(Founder, 2026-07-22.)_
+- [x] Receive the founder-supplied pitch deck and upload it (prod). _(Founder, 2026-07-22: `pitch-deck.pptx`.)_ One-pager still pending.
+- [x] Set `SUPABASE_SERVICE_ROLE_KEY` in Vercel Production. _(Founder, 2026-07-22.)_
+- [x] Flip the `pitch-deck` `storagePath`. Still: **verify end-to-end per step 6** (download works + expires; row lands in `data_room_requests`; GA4 events fire). One-pager `storagePath` still `null`.
 
 ## References
 

@@ -94,14 +94,45 @@ describe("requestDataRoomAccess", () => {
     }
   });
 
-  it("does not create the admin client while every file is still pending", async () => {
+  it("signs uploaded documents and leaves pending slots null", async () => {
     insertMock.mockResolvedValue({ error: null });
+    const createSignedUrl = vi.fn(async (path: string) => ({
+      data: { signedUrl: `https://signed.example/${path}` },
+      error: null,
+    }));
+    adminFactoryMock.mockReturnValue({
+      storage: { from: () => ({ createSignedUrl }) },
+    });
 
     const result = await requestDataRoomAccess(VALID_INPUT);
 
-    // All catalog slots currently await founder-supplied files, so no signing
-    // should be attempted and every url must be null (the pending state).
-    expect(adminFactoryMock).not.toHaveBeenCalled();
+    // At least one live document (e.g. the pitch deck) means signing is
+    // attempted; uploaded slots resolve to a signed URL, pending slots stay
+    // null. Assertions derive from the catalog so they survive future flips.
+    const uploaded = DATA_ROOM_DOCUMENTS.filter((doc) => doc.storagePath);
+    expect(adminFactoryMock).toHaveBeenCalledTimes(uploaded.length > 0 ? 1 : 0);
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      for (const doc of result.documents) {
+        const source = DATA_ROOM_DOCUMENTS.find((d) => d.slug === doc.slug);
+        if (source?.storagePath) {
+          expect(doc.url).toBe(`https://signed.example/${source.storagePath}`);
+        } else {
+          expect(doc.url).toBeNull();
+        }
+      }
+    }
+  });
+
+  it("degrades to pending (no throw, null urls) when signing is unavailable", async () => {
+    insertMock.mockResolvedValue({ error: null });
+    // No service-role client (e.g. local/CI without the key) → signing fails,
+    // but the lead is still stored and the room opens with documents pending.
+    adminFactoryMock.mockReturnValue(undefined);
+
+    const result = await requestDataRoomAccess(VALID_INPUT);
+
+    expect(result.ok).toBe(true);
     if (result.ok) {
       expect(result.documents.every((doc) => doc.url === null)).toBe(true);
     }
