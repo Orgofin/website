@@ -373,16 +373,18 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 
 ---
 
-## 11. Careers (`/careers`)
+## 11. Careers (`/careers`) _(**built 2026-07-22**)_
 
-**SEO title:** Careers at Orgofin — Coming Soon
-**Meta description:** We're building the team behind the Company Brain. Register your interest to hear about open roles at Orgofin first.
+**Built with:** a premium "not currently hiring" state kept deliberately live for credibility and future growth (founder brief). Three sections — `CareersHero` (the single `<h1>` + a "Not currently hiring" status badge), `CareersManifesto` (three "why it'll be worth joining" pillars, grounded strictly in documented mission facts — no invented perks, headcount, funding, or team claims), and `CareersInvite` (an editorial "who we'll come looking for" statement). The page closes on the shared waitlist `CTABand`, **reframed** as the honest "stay connected" channel and source-tagged `careers-waitlist`. The copy-deck "Register your interest" form below is **deliberately not built as a separate capture**: a talent-network table/API would be inventing backend, and no dedicated careers inbox email exists yet (pending founder fact) — so interested people follow the build via the existing waitlist, segmented by source. Revisit if a first-class talent-network signup is wanted.
 
-**Headline:** We're not hiring yet. We will be soon.
-**Sub-headline:** Orgofin is early — which means the next few people who join will shape more of this company than the next fifty combined.
-**Body:** We're looking for engineers who want to build real infrastructure — not another CRUD app with an AI feature bolted on.
-**Form:** Register your interest — Name · Email · Area of interest (Engineering / Design / Sales / Other)
-**Success message:** You're on the list. We'll reach out when roles open.
+**SEO title:** Careers — We're Not Hiring Yet, But We're Building Something Worth Joining | Orgofin
+**Meta description:** Orgofin isn't hiring right now — we're early, and building the Company Brain deliberately. When roles open, the first people through the door will shape the company. Follow the build and hear it here first.
+
+**Headline (shipped):** We're not hiring today. We're building something worth joining.
+**Sub-headline (shipped):** Every company you admire had a moment before the world was watching. Orgofin is in that moment now — and the people who join first won't inherit a company. They'll shape the one everyone reads about later.
+**Body:** We're looking for engineers, designers, and operators who want to build real infrastructure — not another CRUD app with an AI feature bolted on.
+
+_Original deck copy (retained for reference):_ **Headline:** We're not hiring yet. We will be soon. · **Success message:** You're on the list. We'll reach out when roles open.
 
 ---
 
