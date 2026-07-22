@@ -87,13 +87,13 @@ export function HrmsLifecycle() {
     <Section spacing="lg" aria-labelledby="hrms-lifecycle-title">
       <Container size="content" className="flex flex-col gap-8">
         <SectionHeading
-          eyebrow="Start here — Orgofin HRMS"
+          eyebrow="In active development — Orgofin HRMS"
           title={
             <span id="hrms-lifecycle-title">
               Hire to retire, with India compliance built into every step.
             </span>
           }
-          subtitle="Our V1 wedge, shown in full. This is the scope the HRMS suite is built to cover across the employee lifecycle — the specific, painful compliance work most HR software leaves to you."
+          subtitle="Our first product, and what we're building right now. This is the scope the HRMS suite is designed to cover across the employee lifecycle — the specific, painful compliance work most HR software leaves to you. It's the plan we're shipping toward, not a live feature list."
         />
         <Stagger className="grid gap-4 md:grid-cols-2">
           {LIFECYCLE.map((item) => (

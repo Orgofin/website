@@ -176,26 +176,28 @@ The four body sections deliberately carry **no new copy** — each is the overvi
 
 ---
 
-## 3. Products (`/products`) _(**built 2026-07-20**)_
+## 3. Products (`/products`) _(**built 2026-07-20** · **availability corrected 2026-07-22**)_
 
-**Built with:** hero + the eight suite one-liners below (verbatim, suite-level Available/Roadmap badges), plus an HRMS hire-to-retire lifecycle section whose seven phases are **not** from this deck — they are the documented module table in [`../../.claude/knowledge/hrms.md`](../../.claude/knowledge/hrms.md). Only HRMS gets a per-module breakdown (it's the one suite with a documented module list); the other seven stay at suite level. **Availability is asserted only at the suite level** — the HRMS lifecycle is framed as designed scope, not per-module live status, because `hrms.md` flags module-level MVP status as unconfirmed pending founder input. The §3 "Request a Demo" CTA is **deferred** until `/contact` exists; the page closes on the shared waitlist CTA.
+> ⚠️ **Correction — 2026-07-22 (founder statement, supersedes the earlier "Available Now" badges).** Orgofin has **no publicly available products**. The first product, **HRMS, is in active development**; every other suite is roadmap/vision. The prior badges below asserted availability that does not exist — a business-fact violation ([`CLAUDE.md`](../../CLAUDE.md) non-negotiable #1) — so the page and this deck now badge **HRMS as _In development_** and **all other suites as _On the roadmap_**. This reverses the "Available Now" outcome of the [`prd.md`](./prd.md) §19.4 MVP-vs-roadmap resolution (annotated there); the resolution's _structure_ (status declared at suite level only) stands, but the _values_ were wrong. The hero was also reframed away from "Every function your company needs / 40+ modules," which read as an availability claim.
 
-**SEO title:** Orgofin Products — HRMS, Finance, CRM, and 40+ Modules Built on One Brain
-**Meta description:** Explore Orgofin's growing suite of modules — from HRMS and Payroll to Finance, CRM, and Compliance — all connected by a single Company Brain, starting with India-first HR.
+**Built with:** hero (pre-launch statement) + the one product in active development shown in depth (HRMS hire-to-retire lifecycle) + the eight suite one-liners below as the future ecosystem (suite-level _In development_/_On the roadmap_ badges). The HRMS lifecycle's seven phases are **not** from this deck — they are the documented module table in [`../../.claude/knowledge/hrms.md`](../../.claude/knowledge/hrms.md). Only HRMS gets a per-module breakdown (it's the one suite with a documented module list); the other seven stay at suite level. **Availability is asserted only at the suite level** — the HRMS lifecycle is framed as designed scope, not per-module live status, because `hrms.md` flags module-level MVP status as unconfirmed pending founder input. The §3 "Request a Demo" CTA is **deferred** until `/contact` exists; the page closes on the shared waitlist CTA.
 
-**Hero headline:** One subscription. Every function your company needs.
-**Hero sub-headline:** Not 40 separate products. One brain, expressed as 40+ modules — each one smarter because of everything around it.
+**SEO title:** Products — Building the Company Brain, Starting with India-First HRMS | Orgofin
+**Meta description:** Orgofin is pre-launch. Our first product, an India-first HRMS, is in active development — the wedge for a single Company Brain that later expands into Finance, CRM, and more. Here's what we're building and what's on the roadmap.
 
-**Suite one-liners** (badge each **Available Now** or **Roadmap** — resolves the MVP-vs-roadmap conflict in [`prd.md`](./prd.md) §19.4):
+**Hero headline:** We're not shipping forty products. We're building one brain.
+**Hero sub-headline:** Orgofin is pre-launch. Our first product — an India-first HRMS — is in active development. Everything beyond it is the roadmap that same Company Brain unlocks, not a shelf of things you can buy today.
 
-- **HR & People — Orgofin HRMS** _(Available Now)_: Hire to retire, fully automated — India compliance from day one.
-- **Finance & Operations — Orgofin Books** _(Available Now)_: GST-native accounting that never needs a manual reconciliation again.
-- **Sales & Revenue — Orgofin CRM** _(Roadmap)_: WhatsApp-native CRM that already knows the customer's billing history.
-- **Support & CX — Orgofin CX** _(Roadmap)_: Support that sees the invoice, the contract, and the ticket — together.
-- **Collaboration — Orgofin Workspace** _(Available Now: Mail, Chat)_: Mail and chat that already understand your business, not just your inbox.
-- **IT & Security — Orgofin IT Ops** _(Roadmap)_: Identity, device, and access management with India data residency.
-- **Data, AI & Automation — Orgofin Intelligence** _(Roadmap)_: Analytics and automation that read the same brain as everything else.
-- **Compliance & Admin — Orgofin Governance** _(Available Now: e-Invoicing/GST Suite, Sign)_: GST e-invoicing, audit trails, and DPDP-ready consent management.
+**Suite one-liners** (badge HRMS **In development**; every other suite **On the roadmap** — per the 2026-07-22 correction above, replacing the earlier Available/Roadmap split):
+
+- **HR & People — Orgofin HRMS** _(In development)_: Hire to retire, fully automated — India compliance from day one.
+- **Finance & Operations — Orgofin Books** _(On the roadmap)_: GST-native accounting that never needs a manual reconciliation again.
+- **Sales & Revenue — Orgofin CRM** _(On the roadmap)_: WhatsApp-native CRM that already knows the customer's billing history.
+- **Support & CX — Orgofin CX** _(On the roadmap)_: Support that sees the invoice, the contract, and the ticket — together.
+- **Collaboration — Orgofin Workspace** _(On the roadmap)_: Mail and chat that already understand your business, not just your inbox.
+- **IT & Security — Orgofin IT Ops** _(On the roadmap)_: Identity, device, and access management with India data residency.
+- **Data, AI & Automation — Orgofin Intelligence** _(On the roadmap)_: Analytics and automation that read the same brain as everything else.
+- **Compliance & Admin — Orgofin Governance** _(On the roadmap)_: GST e-invoicing, audit trails, and DPDP-ready consent management.
 
 **CTA:** Join the Waitlist · Request a Demo
 

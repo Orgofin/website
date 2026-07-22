@@ -7,18 +7,23 @@ import {
 import { createMetadata } from "@/lib/seo/metadata";
 
 export const metadata = createMetadata({
-  title: "Orgofin Products — HRMS, Finance, CRM, and 40+ Modules on One Brain",
+  title:
+    "Products — Building the Company Brain, Starting with India-First HRMS",
   description:
-    "Explore Orgofin’s growing suite of modules — from HRMS and Payroll to Finance, CRM, and Compliance — all connected by a single Company Brain, starting with India-first HR.",
+    "Orgofin is pre-launch. Our first product, an India-first HRMS, is in active development — the wedge for a single Company Brain that later expands into Finance, CRM, and more. Here's what we're building and what's on the roadmap.",
   path: "/products",
 });
 
 /**
- * Products (`docs/product/copy.md` §3, IA §3) — the canonical home of the
- * eight-suite grid, with Orgofin HRMS (the V1 wedge) shown in depth across its
- * hire-to-retire lifecycle. `/platform`'s `SuitesLayer` is the teaser that
- * deep-links here (IA §7). The single `<h1>` lives in `ProductsHero`; the page
- * closes on the shared waitlist `CTABand`.
+ * Products (`docs/product/copy.md` §3, IA §3) — the canonical home of the suite
+ * ecosystem. Restructured 2026-07-22 for accuracy (founder correction): Orgofin
+ * has **no publicly available products**, so the page now leads with the truth
+ * (`ProductsHero`), shows the one product in active development in depth
+ * (`HrmsLifecycle` — HRMS, the wedge), then presents the wider suite ecosystem
+ * as an honest roadmap (`SuiteGrid`, badged In development / On the roadmap).
+ * `/platform`'s `SuitesLayer` is the teaser that deep-links here (IA §7). The
+ * single `<h1>` lives in `ProductsHero`; the page closes on the shared waitlist
+ * `CTABand`.
  *
  * Only HRMS gets a per-module breakdown — it's the one suite with a documented
  * module list (`.claude/knowledge/hrms.md`); the other seven stay at suite
@@ -30,8 +35,8 @@ export default function ProductsPage() {
   return (
     <main id="main-content" className="flex flex-1 flex-col">
       <ProductsHero />
-      <SuiteGrid />
       <HrmsLifecycle />
+      <SuiteGrid />
       <CTABand source="products-waitlist" />
     </main>
   );
