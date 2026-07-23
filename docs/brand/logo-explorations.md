@@ -192,6 +192,7 @@ This is a recommendation — all 15 are provided so the founders can compare and
 
 ## Related Documents
 
+- [`logo-concepts.md`](./logo-concepts.md) — round 1 (4 concepts) · [`logo-round-3.md`](./logo-round-3.md) — round 3 (8 new concepts, 2026-07-22).
 - [`.claude/context/design-system.md`](../../.claude/context/design-system.md), [`.claude/context/branding.md`](../../.claude/context/branding.md)
 
 ---

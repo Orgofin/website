@@ -151,6 +151,7 @@ Four concepts delivered 2026-07-18 as viewable SVGs + a preview page, kept local
 
 ## Related Documents
 
+- [`logo-explorations.md`](./logo-explorations.md) — round 2 (15 concepts) · [`logo-round-3.md`](./logo-round-3.md) — round 3 (8 new concepts, 2026-07-22).
 - Memory: theme-and-responsive-initiative (brand-palette experiment).
 
 ---

@@ -29,7 +29,9 @@ Do this per Supabase project (prod, and non-prod if you want preview/uat testing
 
 ## Current Status
 
-Feature shipped in placeholder state: table migration written (not yet applied), bucket not yet created, no files uploaded, `SUPABASE_SERVICE_ROLE_KEY` not yet set anywhere, both catalog slots `storagePath: null`. The founder-supplied documents are the blocking input.
+**Pitch deck live on the prod project (2026-07-22):** the founder uploaded the investor-safe deck to the private `investor-data-room` bucket (object key `pitch-deck.pptx`) and set `SUPABASE_SERVICE_ROLE_KEY` in Vercel **Production** scope; the `pitch-deck` slot's `storagePath` is flipped to `"pitch-deck.pptx"` (step 5 done). The **one-pager** slot remains `storagePath: null` (no file yet). If a download 404s, re-check the object key — Supabase Storage paths are case-sensitive and must match exactly.
+
+**Not yet verified end-to-end (step 6), and there is a sequencing trap (2026-07-23):** steps 1–4 were done on the **prod** project only, but the step-5 flip currently lives on the `dev` branch, which deploys to **Preview** → the **non-prod** project ([`environment-variables.md`](./environment-variables.md) — two-project isolation). So a preview test hits a project with no migration, no bucket, no file, and no service-role key, and the room degrades to "In preparation"; while Production has all the Supabase pieces but not yet the flip. Either **mirror steps 1–4 into non-prod** (with the non-prod key scoped **Preview**) and verify on the `dev` preview before promoting — recommended, so investor-facing Production is never the first test — or apply the migration to prod only, promote `dev`→`uat`→`main`, and verify on Production.
 
 ## Future Improvements
 
@@ -38,11 +40,14 @@ Feature shipped in placeholder state: table migration written (not yet applied),
 
 ## TODO
 
-- [ ] Apply the migration to both Supabase projects.
-- [ ] Create the private `investor-data-room` bucket (both projects).
-- [ ] Receive the founder-supplied PDFs and upload them (prod at minimum).
-- [ ] Set `SUPABASE_SERVICE_ROLE_KEY` in Vercel Production.
-- [ ] Flip the `storagePath` values and verify end-to-end per step 6.
+- [ ] Apply the migration to **both** Supabase projects. _(Unconfirmed in either — required for the gate's lead insert to succeed; without it no signed URL is ever minted.)_
+- [x] Create the private `investor-data-room` bucket (**prod**). _(Founder, 2026-07-22.)_
+- [ ] Create the same bucket on the **non-prod** project — needed to verify on a preview deploy.
+- [x] Receive the founder-supplied pitch deck and upload it (**prod**). _(Founder, 2026-07-22: `pitch-deck.pptx`.)_ One-pager still pending.
+- [ ] Upload the same deck to the **non-prod** bucket (same lowercase key).
+- [x] Set `SUPABASE_SERVICE_ROLE_KEY` in Vercel **Production**. _(Founder, 2026-07-22.)_
+- [ ] Set `SUPABASE_SERVICE_ROLE_KEY` (non-prod key) in Vercel **Preview** scope, then redeploy `dev`.
+- [x] Flip the `pitch-deck` `storagePath`. Still: **verify end-to-end per step 6** (download works + expires; row lands in `data_room_requests`; GA4 events fire — prod only). One-pager `storagePath` still `null`.
 
 ## References
 
@@ -57,5 +62,5 @@ Feature shipped in placeholder state: table migration written (not yet applied),
 
 ---
 
-**Last Updated:** 2026-07-15
+**Last Updated:** 2026-07-23 (prod-only provisioning recorded; preview-verification sequencing trap documented)
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

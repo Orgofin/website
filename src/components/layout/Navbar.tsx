@@ -34,15 +34,35 @@ export type NavbarProps = {
 
 /**
  * Nav items per information-architecture.md §2, wired to real routes as each
- * page ships — `#` entries are placeholders for pages that don't exist yet
- * (dropdown clusters, flat links, active state, sticky behaviour, mobile menu
- * are all already proven).
+ * page ships. Every entry now points at a route that exists — the dropdown
+ * clusters gain their remaining children (Company Brain, Agents, Products,
+ * Security under Platform; Team, Careers, Blog, Contact under Company) as
+ * those pages ship, never as `#` placeholders.
+ *
+ * A cluster's own `href` is unused — `NavDropdown` renders a `<button>`, so the
+ * parent is a menu trigger, not a link.
  */
 const DEFAULT_ITEMS: NavItem[] = [
-  { label: "Platform", href: "#", items: [{ label: "Overview", href: "#" }] },
+  {
+    label: "Platform",
+    href: "/platform",
+    items: [
+      { label: "Overview", href: "/platform" },
+      { label: "Company Brain", href: "/company-brain" },
+      { label: "Products", href: "/products" },
+      { label: "Security", href: "/security" },
+    ],
+  },
   { label: "Vision", href: "/vision" },
   { label: "Investors", href: "/investors" },
-  { label: "Company", href: "#", items: [{ label: "About", href: "#" }] },
+  {
+    label: "Company",
+    href: "/about",
+    items: [
+      { label: "About", href: "/about" },
+      { label: "Careers", href: "/careers" },
+    ],
+  },
 ];
 
 function isActivePath(pathname: string, href: string): boolean {

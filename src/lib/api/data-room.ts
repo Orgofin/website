@@ -52,9 +52,11 @@ export const DATA_ROOM_DOCUMENTS: readonly DataRoomDocument[] = [
     title: "Pitch Deck",
     description:
       "The full investor narrative — problem, market, product, moats, roadmap, and the ask.",
-    // TODO(E11.1.3 content): founder-supplied PDF pending — tracked in the
-    // backlog E11.1.3 status; upload per docs/deployment/data-room-storage.md.
-    storagePath: null,
+    // Live 2026-07-22: founder uploaded the investor-safe deck to the private
+    // `investor-data-room` bucket root and set SUPABASE_SERVICE_ROLE_KEY in
+    // Vercel. Path is the exact, case-sensitive object key (runbook step 5:
+    // docs/deployment/data-room-storage.md).
+    storagePath: "pitch-deck.pptx",
   },
   {
     slug: "one-pager",
