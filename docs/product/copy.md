@@ -125,7 +125,30 @@ This isn't automation. It's a company that runs on intelligence.
 
 ---
 
-## 2. Company Brain (`/company-brain`)
+## 2.0 Platform Overview (`/platform`) _(new page, 2026-07-20 — the Platform nav cluster's hub)_
+
+**SEO title:** Platform Overview — One Brain, Infinite Agents, Every Function | Orgofin
+**Meta description:** How Orgofin fits together: Company Brain as the unified data layer, autonomous AI agents on top of it, and 40+ modules across eight suites — with India-first compliance underneath.
+
+**Hero headline:** One brain. Infinite agents. Every function. _(synthesized — "one brain, infinite agents" is the framing from `CLAUDE.md`'s mission line; "every function" from the one-line vision in [`company.md`](./company.md))_
+**Hero sub-headline:** Company Brain holds everything your company knows. Agents act on it. Forty-plus modules across eight suites are how you use it. Here's how the pieces fit together. _(synthesized; the "40+ modules across 8 functional suites" figure is verbatim from [`company.md`](./company.md)'s Company Snapshot)_
+
+The four body sections deliberately carry **no new copy** — each is the overview cut of a section that already exists in this deck, so the deep-dive pages stay canonical when they ship (IA §7):
+
+| Section (eyebrow)          | Source                                                                                                                                                           |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Layer one — the foundation | §2 hero sub-headline, "What it knows", "Real-time, not batch"                                                                                                    |
+| Layer two — the workforce  | §1 Ch.6 headline/sub-headline + orchestration lead-in, plus the named-agent roster from [`.claude/knowledge/ai-agents.md`](../../.claude/knowledge/ai-agents.md) |
+| Layer three — the surface  | §3 hero + a one-line summary, deep-linking to `/products` (teaser — the eight-suite grid lives canonically on `/products`, not here)                             |
+| Underneath all of it       | §4 hero + a one-line summary, deep-linking to `/security` (teaser — the three pillars live canonically on `/security`, not here)                                 |
+
+**Deliberately omitted:** §2's "Ask a real question" / Decision Intelligence deep-dives, §1 Ch.6's CEO vignette (Home stays canonical for it — repeating it splits the ranking signal), and §4's "Read our Privacy Policy" CTA (`/privacy` doesn't exist yet).
+
+**CTA:** Join the Waitlist
+
+---
+
+## 2. Company Brain (`/company-brain`) _(**built 2026-07-21**)_
 
 **SEO title:** Company Brain — The Unified Intelligence Layer for Your Business | Orgofin
 **Meta description:** Company Brain is Orgofin's real-time knowledge graph connecting every employee, customer, invoice, and decision in your business — the foundation for AI agents that actually understand your company.
@@ -153,30 +176,36 @@ This isn't automation. It's a company that runs on intelligence.
 
 ---
 
-## 3. Products (`/products`)
+## 3. Products (`/products`) _(**built 2026-07-20** · **availability corrected 2026-07-22**)_
 
-**SEO title:** Orgofin Products — HRMS, Finance, CRM, and 40+ Modules Built on One Brain
-**Meta description:** Explore Orgofin's growing suite of modules — from HRMS and Payroll to Finance, CRM, and Compliance — all connected by a single Company Brain, starting with India-first HR.
+> ⚠️ **Correction — 2026-07-22 (founder statement, supersedes the earlier "Available Now" badges).** Orgofin has **no publicly available products**. The first product, **HRMS, is in active development**; every other suite is roadmap/vision. The prior badges below asserted availability that does not exist — a business-fact violation ([`CLAUDE.md`](../../CLAUDE.md) non-negotiable #1) — so the page and this deck now badge **HRMS as _In development_** and **all other suites as _On the roadmap_**. This reverses the "Available Now" outcome of the [`prd.md`](./prd.md) §19.4 MVP-vs-roadmap resolution (annotated there); the resolution's _structure_ (status declared at suite level only) stands, but the _values_ were wrong. The hero was also reframed away from "Every function your company needs / 40+ modules," which read as an availability claim.
 
-**Hero headline:** One subscription. Every function your company needs.
-**Hero sub-headline:** Not 40 separate products. One brain, expressed as 40+ modules — each one smarter because of everything around it.
+**Built with:** hero (pre-launch statement) + the one product in active development shown in depth (HRMS hire-to-retire lifecycle) + the eight suite one-liners below as the future ecosystem (suite-level _In development_/_On the roadmap_ badges). The HRMS lifecycle's seven phases are **not** from this deck — they are the documented module table in [`../../.claude/knowledge/hrms.md`](../../.claude/knowledge/hrms.md). Only HRMS gets a per-module breakdown (it's the one suite with a documented module list); the other seven stay at suite level. **Availability is asserted only at the suite level** — the HRMS lifecycle is framed as designed scope, not per-module live status, because `hrms.md` flags module-level MVP status as unconfirmed pending founder input. The §3 "Request a Demo" CTA is **deferred** until `/contact` exists; the page closes on the shared waitlist CTA.
 
-**Suite one-liners** (badge each **Available Now** or **Roadmap** — resolves the MVP-vs-roadmap conflict in [`prd.md`](./prd.md) §19.4):
+**SEO title:** Products — Building the Company Brain, Starting with India-First HRMS | Orgofin
+**Meta description:** Orgofin is pre-launch. Our first product, an India-first HRMS, is in active development — the wedge for a single Company Brain that later expands into Finance, CRM, and more. Here's what we're building and what's on the roadmap.
 
-- **HR & People — Orgofin HRMS** _(Available Now)_: Hire to retire, fully automated — India compliance from day one.
-- **Finance & Operations — Orgofin Books** _(Available Now)_: GST-native accounting that never needs a manual reconciliation again.
-- **Sales & Revenue — Orgofin CRM** _(Roadmap)_: WhatsApp-native CRM that already knows the customer's billing history.
-- **Support & CX — Orgofin CX** _(Roadmap)_: Support that sees the invoice, the contract, and the ticket — together.
-- **Collaboration — Orgofin Workspace** _(Available Now: Mail, Chat)_: Mail and chat that already understand your business, not just your inbox.
-- **IT & Security — Orgofin IT Ops** _(Roadmap)_: Identity, device, and access management with India data residency.
-- **Data, AI & Automation — Orgofin Intelligence** _(Roadmap)_: Analytics and automation that read the same brain as everything else.
-- **Compliance & Admin — Orgofin Governance** _(Available Now: e-Invoicing/GST Suite, Sign)_: GST e-invoicing, audit trails, and DPDP-ready consent management.
+**Hero headline:** We're not shipping forty products. We're building one brain.
+**Hero sub-headline:** Orgofin is pre-launch. Our first product — an India-first HRMS — is in active development. Everything beyond it is the roadmap that same Company Brain unlocks, not a shelf of things you can buy today.
+
+**Suite one-liners** (badge HRMS **In development**; every other suite **On the roadmap** — per the 2026-07-22 correction above, replacing the earlier Available/Roadmap split):
+
+- **HR & People — Orgofin HRMS** _(In development)_: Hire to retire, fully automated — India compliance from day one.
+- **Finance & Operations — Orgofin Books** _(On the roadmap)_: GST-native accounting that never needs a manual reconciliation again.
+- **Sales & Revenue — Orgofin CRM** _(On the roadmap)_: WhatsApp-native CRM that already knows the customer's billing history.
+- **Support & CX — Orgofin CX** _(On the roadmap)_: Support that sees the invoice, the contract, and the ticket — together.
+- **Collaboration — Orgofin Workspace** _(On the roadmap)_: Mail and chat that already understand your business, not just your inbox.
+- **IT & Security — Orgofin IT Ops** _(On the roadmap)_: Identity, device, and access management with India data residency.
+- **Data, AI & Automation — Orgofin Intelligence** _(On the roadmap)_: Analytics and automation that read the same brain as everything else.
+- **Compliance & Admin — Orgofin Governance** _(On the roadmap)_: GST e-invoicing, audit trails, and DPDP-ready consent management.
 
 **CTA:** Join the Waitlist · Request a Demo
 
 ---
 
-## 4. Security & Compliance (`/security`) _(new page, per Strategy §5)_
+## 4. Security & Compliance (`/security`) _(new page, per Strategy §5; **built 2026-07-20**)_
+
+**Built with:** hero + the three trust pillars below (verbatim), plus a "compliance surface" section whose items are **not** from this deck — they are documented business facts from [`company.md`](./company.md) moat #3 (GST e-invoicing via IRP API, PF/ESI challans, TDS/Form 16 & 24Q, Aadhaar e-KYC, DPDP consent), corroborated by [`../../.claude/knowledge/hrms.md`](../../.claude/knowledge/hrms.md). **No security certifications (SOC 2, ISO 27001) are claimed** — none exist in the source material. The §4 CTAs below ("Read our Privacy Policy", "Talk to our team") are **deferred** until `/privacy` and `/contact` exist; the page closes on the shared waitlist CTA instead.
 
 **SEO title:** Security & Compliance — Data Residency, DPDP, and GDPR-Ready | Orgofin
 **Meta description:** Orgofin is built for India-first compliance — DPDP Act, GST e-invoicing, and data residency in India, UK, and US — with the same rigor we sell, applied to how we handle your data.
@@ -344,16 +373,18 @@ And eventually, Orgofin becomes what every mid-market company runs on, by defaul
 
 ---
 
-## 11. Careers (`/careers`)
+## 11. Careers (`/careers`) _(**built 2026-07-22**)_
 
-**SEO title:** Careers at Orgofin — Coming Soon
-**Meta description:** We're building the team behind the Company Brain. Register your interest to hear about open roles at Orgofin first.
+**Built with:** a premium "not currently hiring" state kept deliberately live for credibility and future growth (founder brief). Three sections — `CareersHero` (the single `<h1>` + a "Not currently hiring" status badge), `CareersManifesto` (three "why it'll be worth joining" pillars, grounded strictly in documented mission facts — no invented perks, headcount, funding, or team claims), and `CareersInvite` (an editorial "who we'll come looking for" statement). The page closes on the shared waitlist `CTABand`, **reframed** as the honest "stay connected" channel and source-tagged `careers-waitlist`. The copy-deck "Register your interest" form below is **deliberately not built as a separate capture**: a talent-network table/API would be inventing backend, and no dedicated careers inbox email exists yet (pending founder fact) — so interested people follow the build via the existing waitlist, segmented by source. Revisit if a first-class talent-network signup is wanted.
 
-**Headline:** We're not hiring yet. We will be soon.
-**Sub-headline:** Orgofin is early — which means the next few people who join will shape more of this company than the next fifty combined.
-**Body:** We're looking for engineers who want to build real infrastructure — not another CRUD app with an AI feature bolted on.
-**Form:** Register your interest — Name · Email · Area of interest (Engineering / Design / Sales / Other)
-**Success message:** You're on the list. We'll reach out when roles open.
+**SEO title:** Careers — We're Not Hiring Yet, But We're Building Something Worth Joining | Orgofin
+**Meta description:** Orgofin isn't hiring right now — we're early, and building the Company Brain deliberately. When roles open, the first people through the door will shape the company. Follow the build and hear it here first.
+
+**Headline (shipped):** We're not hiring today. We're building something worth joining.
+**Sub-headline (shipped):** Every company you admire had a moment before the world was watching. Orgofin is in that moment now — and the people who join first won't inherit a company. They'll shape the one everyone reads about later.
+**Body:** We're looking for engineers, designers, and operators who want to build real infrastructure — not another CRUD app with an AI feature bolted on.
+
+_Original deck copy (retained for reference):_ **Headline:** We're not hiring yet. We will be soon. · **Success message:** You're on the list. We'll reach out when roles open.
 
 ---
 

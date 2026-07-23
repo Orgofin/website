@@ -28,8 +28,21 @@ export type FooterProps = {
  */
 const DEFAULT_COLUMNS: FooterColumn[] = [
   {
+    heading: "Platform",
+    links: [
+      { label: "Overview", href: "/platform" },
+      { label: "Company Brain", href: "/company-brain" },
+      { label: "Products", href: "/products" },
+      { label: "Security", href: "/security" },
+    ],
+  },
+  {
     heading: "Company",
-    links: [{ label: "Vision", href: "/vision" }],
+    links: [
+      { label: "About", href: "/about" },
+      { label: "Vision", href: "/vision" },
+      { label: "Careers", href: "/careers" },
+    ],
   },
   {
     heading: "Investors",
