@@ -709,7 +709,7 @@ Each task: build the chapter `Section` from the matching `docs/product/copy.md` 
 
 ## Feature 11.3 — Legal & Confirmation
 
-**E11.3.1 — `/privacy` + `/terms`** · Depends on: E4.3.4 — trust-building intro framing, not raw boilerplate; legal copy from source or flagged `TODO`.
+**E11.3.1 — `/privacy` + `/terms`** · Depends on: E4.3.4 — trust-building intro framing, not raw boilerplate; legal copy from source or flagged `TODO`. **Shipped 2026-07-24** on a shared `LegalDocument` shell, drafted from [`docs/legal/data-processing-inventory.md`](../legal/data-processing-inventory.md) and **pending counsel review** ([`docs/legal/README.md`](../legal/README.md)). Follow-ups it created: the consent banner, and an expiry job for the 24-month retention window the pages now publish.
 **E11.3.2 — `/waitlist/thank-you`** · Depends on: E8.1.1 — confirmation state after signup; suppressed from primary nav.
 **E11.3.3 — `not-found.tsx`** · Depends on: E4.3.3 — on-brand 404 within the marketing shell.
 

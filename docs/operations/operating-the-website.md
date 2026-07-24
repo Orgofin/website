@@ -103,11 +103,11 @@ See the [launch playbook's DR section](../launch/launch-playbook.md#disaster-rec
 
 ## 17. Compliance, Privacy & Legal Basics
 
-- **Publish a privacy policy** covering lead PII (email/name/firm). Orgofin is India-first → **DPDP Act** applies; be GDPR-aware for UK/EU visitors.
-- **Consent:** GA4 sets cookies — decide your consent posture (a banner may be required for EU/UK traffic; Cloudflare/Vercel privacy analytics avoid cookies if you want to sidestep it).
+- **Privacy policy and terms — published 2026-07-24** at `/privacy` and `/terms`, covering lead PII (email/name/firm) with DPDP framing. Status, decisions and open inputs: [`../legal/README.md`](../legal/README.md). Both are **pending counsel review**.
+- **Consent:** shipped 2026-07-24. GA4 loads only after the visitor accepts, so no Google cookie is set before then. Operationally this means **analytics under-counts by however many visitors decline** — treat GA4 traffic as a floor, not a total, and don't read a drop after launch as lost traffic.
 - **Data minimization:** the forms already collect only what's needed; keep it that way.
-- **Data subject requests:** have a process to delete a lead on request (manual via Supabase dashboard today).
-- **Terms + contact** page present and accurate; no fabricated business facts anywhere (CLAUDE.md non-negotiable #1).
+- **Data subject requests:** requests come to `contact@orgofin.com`. Deletion is **manual via the Supabase dashboard** — the published 24-month retention window has no expiry job behind it yet, so honouring it is an operator responsibility today.
+- **Contact page** does not exist yet; the legal pages route everything to `contact@orgofin.com`. No fabricated business facts anywhere (CLAUDE.md non-negotiable #1).
 
 ## 18. Investor Due Diligence Readiness
 
@@ -146,7 +146,7 @@ See the [launch playbook's DR section](../launch/launch-playbook.md#disaster-rec
 
 ## Current Status
 
-Steady-state operations guide drafted 2026-07-18. Several mitigations (rate limiting, WAF, Sentry, alerting, backup export, privacy policy, DRI assignment) are recommended and not yet implemented — tracked in the launch/security docs.
+Steady-state operations guide drafted 2026-07-18; §17 refreshed 2026-07-24 when `/privacy` and `/terms` shipped. Several mitigations (WAF, Sentry, alerting, backup export, consent banner, retention expiry, DRI assignment) are recommended and not yet implemented — tracked in the launch/security/legal docs.
 
 ## Future Improvements
 
@@ -157,7 +157,8 @@ Revisit when the product platform launches — it changes support, compliance (S
 - [ ] Assign a DRI (operations owner).
 - [ ] Ensure ≥2 owners + 2FA on domain, Vercel, Supabase, GitHub, GA.
 - [ ] Set up the independent lead-table export + monthly restore test.
-- [ ] Publish privacy policy + decide consent posture.
+- [x] Publish privacy policy + decide consent posture — pages live 2026-07-24, posture decided (banner to be built). See [`../legal/README.md`](../legal/README.md).
+- [ ] Implement the published 24-month retention window — no expiry job exists, so honouring it is manual today.
 
 ## References
 

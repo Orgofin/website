@@ -66,5 +66,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    // Legal pages are indexable on purpose — a policy nobody can find is not a
+    // policy — but they rank last: they exist to be referenced, not discovered.
+    {
+      url: absoluteUrl("/privacy"),
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: absoluteUrl("/terms"),
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
   ];
 }

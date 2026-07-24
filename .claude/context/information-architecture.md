@@ -88,7 +88,8 @@ Three pages beyond the founder's original page list and beyond `docs/product/prd
 | **Careers** `/careers`                        | Premium "coming soon" state, culture teaser, register-interest form                                                                                                                                                                              |
 | **Blog** `/blog`                              | Compliance-content SEO engine (PF calculator, TDS calculator, Form 16 generator) — category taxonomy from day one                                                                                                                                |
 | **Contact** `/contact`                        | Demo request (primary), general inquiry, partner inquiry redirect                                                                                                                                                                                |
-| **Privacy / Terms**                           | Framed with a short trust-building intro, not raw legal boilerplate                                                                                                                                                                              |
+| **Privacy** `/privacy`                        | Trust-building intro → numbered clauses with a contents list: who we are, scope, what we collect / deliberately don't, purposes, processors + cross-border, protection, retention, DPDP rights, cookies, children, changes, contact              |
+| **Terms** `/terms`                            | Trust-building intro → the short version, then: scope, acceptable use, forward-looking statements, investor materials (not an offer of securities), waitlist, IP, links, availability, liability, governing law, changes, contact                |
 
 ## 4. Footer
 
@@ -162,7 +163,9 @@ The `variant="teaser"|"full"` reuse pattern (see `frontend.md` §3) exists speci
 
 ## Current Status
 
-Implemented routes: `/` (the full Home narrative spine), `/platform` (Platform overview hub), `/products` (canonical eight-suite grid + HRMS lifecycle), `/security` (canonical Security & Compliance narrative), `/vision` (canonical vision narrative, E11.1.1), `/investors` (full investor thesis, E11.1.2), `/about` (origin story), and `/waitlist/thank-you` (noindex confirmation). **The header nav no longer contains any `#` placeholders** — every visible nav and footer link resolves to a real page (2026-07-20). Everything else in the §1 tree is planned, not built; new nav entries appear only when their page ships.
+Implemented routes: `/` (the full Home narrative spine), `/platform` (Platform overview hub), `/products` (canonical eight-suite grid + HRMS lifecycle), `/security` (canonical Security & Compliance narrative), `/vision` (canonical vision narrative, E11.1.1), `/investors` (full investor thesis, E11.1.2), `/about` (origin story), `/careers`, `/privacy` and `/terms` (2026-07-24), and `/waitlist/thank-you` (noindex confirmation). **The header nav no longer contains any `#` placeholders** — every visible nav and footer link resolves to a real page (2026-07-20). Everything else in the §1 tree is planned, not built; new nav entries appear only when their page ships.
+
+The footer's **Legal** column rendered for the first time on 2026-07-24 under the §4 population rule — it had been withheld while both its targets 404'd.
 
 ## Future Improvements
 
@@ -172,7 +175,7 @@ Once `/products` graduates to per-suite pages, this document's §1 tree and §7 
 
 - [ ] Decide whether `/agents` is a real standalone route or folds into `/company-brain` — currently listed in the tree (§1) but not detailed in §3's page table. Resolve before implementation.
 - [ ] Confirm gating mechanism for `/investors/data-room` (see `docs/product/prd.md` §22.6).
-- [ ] **Wire `/security`'s two deferred §4 CTAs when their targets ship:** "Read our Privacy Policy" → `/privacy`, and "Talk to our team about your compliance requirements" → `/contact`. Both are omitted today (never-link-a-404, §4) and the page closes on the shared waitlist `CTABand` instead.
+- [ ] **Wire `/security`'s remaining deferred §4 CTA when its target ships:** "Talk to our team about your compliance requirements" → `/contact`. Still omitted today (never-link-a-404, §4). The sibling "Read our Privacy Policy" CTA **shipped 2026-07-24** with `/privacy` — rendered as a line between `ComplianceDepth` and the waitlist band rather than inside `CTABand`, which is shared by every non-legal page.
 - [ ] **Wire `/products`'s deferred "Request a Demo" CTA (§3) to `/contact` when it ships** — omitted today; the page closes on the shared waitlist `CTABand`.
 - [ ] **Resolve the HRMS module-level MVP status** (`.claude/knowledge/hrms.md` open question, `docs/product/prd.md` §19.4/§22.4) — until then `/products` asserts Available/Roadmap only at suite level and the HRMS lifecycle is framed as designed scope, not per-module availability.
 - [ ] **`/about` is held short pending founder-supplied business facts.** Three sections ship today (hero, what we're building, where we're starting); nothing is fabricated to fill the gap and no empty section is rendered. Blocked on, and what each unblocks: - Founder bios + photos → the `/team` page, and the copy deck §10's "Meet the Team" CTA on `/about`. - Founding year + registered legal entity name → an origin dateline in `AboutHero`, and the Footer © line (already flagged there). - Any real traction (customers, LOIs, pilots) → an optional "where we are" section; absent from the source PDF entirely (`docs/product/company.md` TODO).
@@ -190,5 +193,5 @@ Once `/products` graduates to per-suite pages, this document's §1 tree and §7 
 
 ---
 
-**Last Updated:** 2026-07-20
+**Last Updated:** 2026-07-24
 **Owner:** Orgofin Product/Engineering (TODO: assign a DRI)

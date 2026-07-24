@@ -142,7 +142,7 @@ The four body sections deliberately carry **no new copy** — each is the overvi
 | Layer three — the surface  | §3 hero + a one-line summary, deep-linking to `/products` (teaser — the eight-suite grid lives canonically on `/products`, not here)                             |
 | Underneath all of it       | §4 hero + a one-line summary, deep-linking to `/security` (teaser — the three pillars live canonically on `/security`, not here)                                 |
 
-**Deliberately omitted:** §2's "Ask a real question" / Decision Intelligence deep-dives, §1 Ch.6's CEO vignette (Home stays canonical for it — repeating it splits the ranking signal), and §4's "Read our Privacy Policy" CTA (`/privacy` doesn't exist yet).
+**Deliberately omitted:** §2's "Ask a real question" / Decision Intelligence deep-dives, and §1 Ch.6's CEO vignette (Home stays canonical for it — repeating it splits the ranking signal). §4's "Read our Privacy Policy" CTA **is now rendered** on `/security` (2026-07-24); its sibling "Talk to our team" stays omitted until `/contact` exists.
 
 **CTA:** Join the Waitlist
 
@@ -420,9 +420,11 @@ _Original deck copy (retained for reference):_ **Headline:** We're not hiring ye
 **Privacy intro line (above the legal text):** We ask you to trust us with sensitive company data. Here's exactly what we do — and don't do — with it.
 **Terms intro line (above the legal text):** Plain language first, legal language second. If anything here is unclear, ask us — that's what [support email] is for.
 
-> ⚠️ Both pages need actual legal text from counsel — this deck only covers the framing line above the boilerplate.
+> **Both pages shipped 2026-07-24 and this deck does not hold their text.** The full text lives with the pages — [`privacy/page.tsx`](<../../src/app/(marketing)/privacy/page.tsx>) and [`terms/page.tsx`](<../../src/app/(marketing)/terms/page.tsx>) — as structured section data, with shared facts in [`lib/legal/constants.ts`](../../src/lib/legal/constants.ts). A second copy here would be a legal document that can silently disagree with the published one (CLAUDE.md non-negotiable #4). The two intro lines above are the deck's whole contribution, and the pages render them verbatim.
 >
-> The factual brief counsel needs (every field collected, where it is stored, which processors hold it, retention and consent gaps) is maintained at [`docs/legal/data-processing-inventory.md`](../legal/data-processing-inventory.md). Note its §1.1 finding: §18's waitlist field list below is **not** what the live form collects — the form takes an email address only.
+> ⚠️ **The pages are drafted by engineering and pending counsel review** — status, decisions taken and open inputs at [`docs/legal/README.md`](../legal/README.md).
+>
+> The factual basis (every field collected, where it is stored, which processors hold it, retention and consent gaps) is maintained at [`docs/legal/data-processing-inventory.md`](../legal/data-processing-inventory.md). Note its §1.1 finding: §18's waitlist field list below is **not** what the live form collects — the form takes an email address only.
 
 ---
 
@@ -461,8 +463,8 @@ _(Kept verbatim from the founder's original handwritten PRD — already on-brand
 - **Waitlist generic error message:** Something went wrong on our end — try again, or email us directly at [support email].
 - **Newsletter (footer) helper text:** Founder updates, not spam. Unsubscribe anytime.
 - **Newsletter field/button:** Email → Subscribe
-- **Cookie consent banner headline:** We use cookies to understand how people experience Orgofin — nothing more.
-- **Cookie consent buttons:** Accept · Only Essential — link: Read our Privacy Policy
+- **Cookie consent banner headline:** We use cookies to understand how people experience Orgofin — nothing more. _(Shipped verbatim 2026-07-24 in `components/consent/ConsentBanner.tsx`.)_
+- **Cookie consent buttons:** Accept · Only Essential — link: Read our Privacy Policy _(Shipped verbatim. Both buttons are deliberately the same size and weight — declining is never made harder than accepting.)_
 - **Home hero scroll prompt:** Scroll to see why.
 - **Generic loading state:** Connecting the dots…
 

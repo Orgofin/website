@@ -82,15 +82,26 @@ Environments are split across **two Supabase projects** — production traffic w
 
 ## 4. Retention and erasure — the honest current state
 
-**There is no retention policy, no expiry job, and no deletion mechanism.** Rows in `waitlist` and `data_room_requests` persist indefinitely. Nothing in the codebase deletes personal data.
+**A retention policy now exists; the mechanism to enforce it does not.** The founders set the window at **24 months from collection** on 2026-07-24, and `/privacy` §8 states it publicly. In the code there is still **no expiry job and no deletion mechanism** — rows in `waitlist` and `data_room_requests` persist indefinitely, and nothing deletes personal data. Deleting a record on request is a manual operation today.
 
-**There is also no channel through which a person could ask.** The site publishes no contact address anywhere (founder input pending, see §6), so a data-principal request for access, correction, or erasure currently has nowhere to go. This is the single most consequential gap in this document: a policy cannot promise rights the site provides no way to exercise.
+That gap is now the sharpest one in this document: we have moved from saying nothing to making a promise we keep by hand. Tracked in [`README.md`](./README.md)'s TODO.
 
-## 5. Consent posture — a real gap
+**The channel gap is closed.** `contact@orgofin.com` (founder-supplied 2026-07-24) is published on both legal pages as the address for access, correction and erasure requests, and is held in one place at [`constants.ts`](../../src/lib/legal/constants.ts). A named grievance-redressal contact under DPDP is still outstanding — the general address is honest, but it is not the same thing.
 
-The site runs GA4 in production, which sets Google's cookies, and **no consent banner or mechanism exists** — a search of `src/` for consent/cookie handling returns only theme-storage code and marketing copy. Consent-banner copy was drafted at [`copy.md`](../product/copy.md) §18 ("Accept · Only Essential") and never built.
+## 5. Consent posture — resolved 2026-07-24
 
-Note the optics: [`/security`](../../src/components/sections/security/ComplianceDepth.tsx) and [`/products`](../../src/components/sections/products/SuiteGrid.tsx) both market **"DPDP consent management"** as an Orgofin product capability, while the marketing site itself has no consent mechanism. Whatever counsel advises, the two should not stay visibly inconsistent at launch.
+**GA4 now loads only after the visitor accepts.** The gap recorded here previously — GA4 running in production with no consent mechanism at all — was closed by the consent banner, built from the copy drafted at [`copy.md`](../product/copy.md) §18 ("Accept · Only Essential").
+
+How it works, and what it guarantees:
+
+- Consent is held in [`lib/consent/store.ts`](../../src/lib/consent/store.ts) (`localStorage` key `orgofin-analytics-consent`), with three states: `unset`, `granted`, `denied`. Only `unset` shows the banner, so a visitor who declines is never asked again.
+- [`GoogleAnalytics`](../../src/components/analytics/GoogleAnalytics.tsx) mounts only on `granted`. This is **prior consent, not opt-out**: with no decision or a declined one, no Google script is requested and **no `_ga` cookie is ever set** — verified in a browser, including that zero requests reach `googletagmanager.com` before acceptance.
+- [`trackEvent`](../../src/lib/analytics/track.ts) independently no-ops unless consent is `granted`, so the guarantee doesn't rest on a component's mount condition.
+- Declining is exactly as easy as accepting (same size, same weight, adjacent), and nothing on the site is gated behind either answer.
+
+The optics problem is also resolved: [`/security`](../../src/components/sections/security/ComplianceDepth.tsx) and [`/products`](../../src/components/sections/products/SuiteGrid.tsx) market **"DPDP consent management"** as a product capability, and the marketing site now has a consent mechanism of its own.
+
+**Still open for counsel:** whether an explicit consent-withdrawal control is needed on `/privacy` itself. Today withdrawal means clearing site data or writing to the contact address — honest, but less direct than a button.
 
 ## Design Decisions
 
@@ -100,7 +111,9 @@ Note the optics: [`/security`](../../src/components/sections/security/Compliance
 
 ## Current Status
 
-Complete and accurate as of 2026-07-23, derived from `main` at the production release `75135f0`. Nothing in it is blocked — it is ready to hand to counsel today. `/privacy` and `/terms` remain unbuilt.
+Complete and accurate as of 2026-07-24, re-verified against the code when `/privacy` and `/terms` were built from it. **Both pages now exist** and state publicly what this document records privately; they are pending counsel review — see [`README.md`](./README.md) for their status and the decisions taken.
+
+One fact was added on 2026-07-24 that this inventory previously lacked: **Vercel executes the site's server-side functions in `iad1` (US East)**, confirmed from the `X-Vercel-Id: bom1::iad1::…` header on a dynamic request. Personal data submitted through either form is therefore processed outside India. The Supabase project region remains unconfirmed.
 
 ## Future Improvements
 
@@ -109,13 +122,15 @@ Complete and accurate as of 2026-07-23, derived from `main` at the production re
 
 ## TODO
 
-- [ ] **Founder:** registered legal entity name and registered address — required on both legal pages.
-- [ ] **Founder:** a working contact address for data-principal requests (access/correction/erasure) and, under DPDP, a named grievance-redressal contact. Blocks §4.
-- [ ] **Founder/infra:** confirm the **region** of both Supabase projects and the Vercel function region — determines whether personal data leaves India and is a question counsel will ask first.
-- [ ] **Founder/counsel:** decide the retention period for waitlist and investor-lead rows; implement expiry once decided (nothing exists today).
-- [ ] **Founder/counsel:** decide the consent posture for GA4 and whether the drafted banner ships (§5).
-- [ ] **Counsel:** draft `/privacy` and `/terms` from this inventory; engineering builds the pages once text exists.
+Resolved 2026-07-24 (see [`README.md`](./README.md) for the decisions and who made them): entity name, data-principal contact address, retention period, consent posture, the Vercel function region, and the pages themselves. What remains:
+
+- [ ] **Founder:** registered office address — deliberately unpublished rather than placeholdered.
+- [ ] **Founder:** a named grievance-redressal contact under DPDP (§4).
+- [ ] **Founder/infra:** confirm the **region** of both Supabase projects — the last unknown in §3, and a question counsel will ask.
+- [ ] **Engineering:** implement the 24-month expiry. The policy is now published; nothing enforces it (§4).
+- [ ] **Engineering:** build the consent banner and gate GA4 on it (§5).
 - [ ] **Engineering:** resolve the §1.1 discrepancy — either build the fuller waitlist form the copy deck specifies or correct the copy deck to match the email-only reality.
+- [ ] **Counsel:** review both pages, `/terms` §4 and §5 first.
 
 ## References
 
@@ -126,10 +141,11 @@ Complete and accurate as of 2026-07-23, derived from `main` at the production re
 
 ## Related Documents
 
+- [`README.md`](./README.md) — review status of the pages built from this inventory
 - [`../security/README.md`](../security/README.md)
 - [`../launch/production-readiness-review.md`](../launch/production-readiness-review.md)
 
 ---
 
-**Last Updated:** 2026-07-23
+**Last Updated:** 2026-07-24
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

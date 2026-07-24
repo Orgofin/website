@@ -55,7 +55,7 @@ src/
 │   ├── sitemap.ts
 │   ├── robots.ts
 │   ├── not-found.tsx
-│   ├── layout.tsx                      # root: fonts, ThemeProvider, analytics boot
+│   ├── layout.tsx                      # root: fonts, ThemeProvider, consent banner, consent-gated analytics boot
 │   └── globals.css
 │
 ├── components/
@@ -77,6 +77,8 @@ src/
 │   ├── supabase/         # client.ts, server.ts, types.ts — the ONLY files that import @supabase/*
 │   ├── api/              # thin internal wrapper (submitWaitlist, submitDemoRequest…) — see §11
 │   ├── analytics/        # GA4 event helpers (typed trackEvent; pageviews are automatic via @next/third-parties)
+│   ├── consent/          # analytics-consent store + config — gates GA4; see §9
+│   ├── legal/            # shared facts rendered by /privacy and /terms (entity, contact, retention)
 │   └── seo/              # metadata builders, structured-data (JSON-LD) builders
 │
 ├── hooks/                 # useReducedMotion, useScrollProgress, useTheme, useInView
@@ -212,6 +214,7 @@ Deliberately minimal — this is a marketing/content site, not an authenticated 
 - **Server-derived data** (live waitlist count for the social-proof counter, blog post listings): fetched directly in Server Components from Supabase at request/build time — no client data-fetching library (no React Query/SWR) since there's no authenticated, frequently-refetched surface yet.
 - **No Redux/Zustand/Jotai.** Explicitly called out as a deliberate omission, not an oversight — introducing a global store now would be solving a problem this site doesn't have. Revisit only if/when a genuine authenticated customer dashboard gets built post-backend-migration.
 - **Analytics:** fire-and-forget calls from `lib/analytics/trackEvent()` — not modeled as state at all.
+- **Analytics consent:** a module-level external store (`lib/consent/store.ts`), persisted via `localStorage` (key `orgofin-analytics-consent`), read in components through `useConsent()` (`useSyncExternalStore`) and directly by `trackEvent`. **Deliberately not context** — a context would force `trackEvent` to become a hook and every call site to thread it through, breaking the "analytics is not state" rule directly above. Cross-tab changes sync via a `storage` listener, like the theme. `GoogleAnalytics` mounts only on `granted`, so no Google script or cookie exists before the visitor accepts. **Implemented** 2026-07-24.
 
 ---
 
