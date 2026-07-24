@@ -463,8 +463,8 @@ _(Kept verbatim from the founder's original handwritten PRD — already on-brand
 - **Waitlist generic error message:** Something went wrong on our end — try again, or email us directly at [support email].
 - **Newsletter (footer) helper text:** Founder updates, not spam. Unsubscribe anytime.
 - **Newsletter field/button:** Email → Subscribe
-- **Cookie consent banner headline:** We use cookies to understand how people experience Orgofin — nothing more.
-- **Cookie consent buttons:** Accept · Only Essential — link: Read our Privacy Policy
+- **Cookie consent banner headline:** We use cookies to understand how people experience Orgofin — nothing more. _(Shipped verbatim 2026-07-24 in `components/consent/ConsentBanner.tsx`.)_
+- **Cookie consent buttons:** Accept · Only Essential — link: Read our Privacy Policy _(Shipped verbatim. Both buttons are deliberately the same size and weight — declining is never made harder than accepting.)_
 - **Home hero scroll prompt:** Scroll to see why.
 - **Generic loading state:** Connecting the dots…
 

@@ -88,11 +88,20 @@ That gap is now the sharpest one in this document: we have moved from saying not
 
 **The channel gap is closed.** `contact@orgofin.com` (founder-supplied 2026-07-24) is published on both legal pages as the address for access, correction and erasure requests, and is held in one place at [`constants.ts`](../../src/lib/legal/constants.ts). A named grievance-redressal contact under DPDP is still outstanding — the general address is honest, but it is not the same thing.
 
-## 5. Consent posture — a real gap
+## 5. Consent posture — resolved 2026-07-24
 
-The site runs GA4 in production, which sets Google's cookies, and **no consent banner or mechanism exists** — a search of `src/` for consent/cookie handling returns only theme-storage code and marketing copy. Consent-banner copy was drafted at [`copy.md`](../product/copy.md) §18 ("Accept · Only Essential") and never built.
+**GA4 now loads only after the visitor accepts.** The gap recorded here previously — GA4 running in production with no consent mechanism at all — was closed by the consent banner, built from the copy drafted at [`copy.md`](../product/copy.md) §18 ("Accept · Only Essential").
 
-Note the optics: [`/security`](../../src/components/sections/security/ComplianceDepth.tsx) and [`/products`](../../src/components/sections/products/SuiteGrid.tsx) both market **"DPDP consent management"** as an Orgofin product capability, while the marketing site itself has no consent mechanism. Whatever counsel advises, the two should not stay visibly inconsistent at launch.
+How it works, and what it guarantees:
+
+- Consent is held in [`lib/consent/store.ts`](../../src/lib/consent/store.ts) (`localStorage` key `orgofin-analytics-consent`), with three states: `unset`, `granted`, `denied`. Only `unset` shows the banner, so a visitor who declines is never asked again.
+- [`GoogleAnalytics`](../../src/components/analytics/GoogleAnalytics.tsx) mounts only on `granted`. This is **prior consent, not opt-out**: with no decision or a declined one, no Google script is requested and **no `_ga` cookie is ever set** — verified in a browser, including that zero requests reach `googletagmanager.com` before acceptance.
+- [`trackEvent`](../../src/lib/analytics/track.ts) independently no-ops unless consent is `granted`, so the guarantee doesn't rest on a component's mount condition.
+- Declining is exactly as easy as accepting (same size, same weight, adjacent), and nothing on the site is gated behind either answer.
+
+The optics problem is also resolved: [`/security`](../../src/components/sections/security/ComplianceDepth.tsx) and [`/products`](../../src/components/sections/products/SuiteGrid.tsx) market **"DPDP consent management"** as a product capability, and the marketing site now has a consent mechanism of its own.
+
+**Still open for counsel:** whether an explicit consent-withdrawal control is needed on `/privacy` itself. Today withdrawal means clearing site data or writing to the contact address — honest, but less direct than a button.
 
 ## Design Decisions
 

@@ -50,7 +50,7 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 ### Legal/compliance
 
 - [x] Privacy policy published (covers lead PII; DPDP-aware, India-first) — `/privacy`, 2026-07-24. **Pending counsel review** ([`../legal/README.md`](../legal/README.md)). [Founder/Eng]
-- [x] Cookie/analytics consent posture decided (GA4) — 2026-07-24: build the banner and gate GA4 on acceptance. **Not yet reflected on site**; the banner is a follow-up PR. [Founder]
+- [x] Cookie/analytics consent posture decided (GA4) **and reflected on site** — banner shipped 2026-07-24; GA4 loads only on acceptance. Note for the launch-day analytics checks: GA4 realtime will only show visitors who accepted. [Founder+Eng]
 - [x] Terms page present — `/terms`, 2026-07-24. A `/contact` page still does not exist; both legal pages route to `contact@orgofin.com`. [Founder/Eng]
 
 ### Go/No-Go
@@ -65,18 +65,18 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 
 Assumes launch at **T-0**. Adjust to your timezone; keep the window during working hours for your team.
 
-| Time    | Action                                                                                                                   | Owner       |
-| ------- | ------------------------------------------------------------------------------------------------------------------------ | ----------- |
-| T-24h   | Freeze non-essential changes. Final CI green on `main`. Re-verify domain/TLS/headers.                                    | Eng         |
-| T-2h    | Deploy the launch build to Production. Smoke test: home, all nav pages, waitlist submit, data-room gate, 404, dark mode. | Eng         |
-| T-1h    | Run the security post-deploy smoke (header check + RLS probe). Confirm monitoring/alerts live.                           | Eng         |
-| T-30m   | Verify GA4 realtime shows your own test traffic. Confirm uptime monitor is green.                                        | Eng         |
-| **T-0** | **Flip public / announce.** Submit sitemap in Search Console. Post launch announcements.                                 | Founder+Eng |
-| T+15m   | Watch GA4 realtime + Sentry + uptime for the first real traffic. Confirm signups land in prod table.                     | Eng         |
-| T+1h    | Check error rate, p95 latency, any 4xx/5xx spikes. Confirm no rate-limit false-positives on real users.                  | Eng         |
-| T+3h    | Review first analytics: traffic sources, top pages, waitlist conversion. Respond to inbound.                             | Founder+Eng |
-| T+6h    | Second smoke test. Check Search Console for crawl activity. Triage any bug reports.                                      | Eng         |
-| EOD     | Retro note: what broke, what surprised you, what to fix tomorrow. Confirm backups ran.                                   | Founder+Eng |
+| Time    | Action                                                                                                                                                 | Owner       |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------- |
+| T-24h   | Freeze non-essential changes. Final CI green on `main`. Re-verify domain/TLS/headers.                                                                  | Eng         |
+| T-2h    | Deploy the launch build to Production. Smoke test: home, all nav pages, waitlist submit, data-room gate, 404, dark mode.                               | Eng         |
+| T-1h    | Run the security post-deploy smoke (header check + RLS probe). Confirm monitoring/alerts live.                                                         | Eng         |
+| T-30m   | Verify GA4 realtime shows your own test traffic — **accept the consent banner first**, or it correctly shows nothing. Confirm uptime monitor is green. | Eng         |
+| **T-0** | **Flip public / announce.** Submit sitemap in Search Console. Post launch announcements.                                                               | Founder+Eng |
+| T+15m   | Watch GA4 realtime + Sentry + uptime for the first real traffic. Confirm signups land in prod table.                                                   | Eng         |
+| T+1h    | Check error rate, p95 latency, any 4xx/5xx spikes. Confirm no rate-limit false-positives on real users.                                                | Eng         |
+| T+3h    | Review first analytics: traffic sources, top pages, waitlist conversion. Respond to inbound.                                                           | Founder+Eng |
+| T+6h    | Second smoke test. Check Search Console for crawl activity. Triage any bug reports.                                                                    | Eng         |
+| EOD     | Retro note: what broke, what surprised you, what to fix tomorrow. Confirm backups ran.                                                                 | Founder+Eng |
 
 **Break-glass during launch:** if error rate spikes or the site is down → **roll back immediately** (Vercel: promote last known-good deployment) before debugging. A rollback buys time; the fix is a follow-up PR.
 

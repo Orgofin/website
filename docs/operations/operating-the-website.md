@@ -104,7 +104,7 @@ See the [launch playbook's DR section](../launch/launch-playbook.md#disaster-rec
 ## 17. Compliance, Privacy & Legal Basics
 
 - **Privacy policy and terms — published 2026-07-24** at `/privacy` and `/terms`, covering lead PII (email/name/firm) with DPDP framing. Status, decisions and open inputs: [`../legal/README.md`](../legal/README.md). Both are **pending counsel review**.
-- **Consent:** GA4 sets cookies and there is still no banner. Posture decided 2026-07-24 — build the banner and gate GA4 on acceptance; not yet implemented.
+- **Consent:** shipped 2026-07-24. GA4 loads only after the visitor accepts, so no Google cookie is set before then. Operationally this means **analytics under-counts by however many visitors decline** — treat GA4 traffic as a floor, not a total, and don't read a drop after launch as lost traffic.
 - **Data minimization:** the forms already collect only what's needed; keep it that way.
 - **Data subject requests:** requests come to `contact@orgofin.com`. Deletion is **manual via the Supabase dashboard** — the published 24-month retention window has no expiry job behind it yet, so honouring it is an operator responsibility today.
 - **Contact page** does not exist yet; the legal pages route everything to `contact@orgofin.com`. No fabricated business facts anywhere (CLAUDE.md non-negotiable #1).

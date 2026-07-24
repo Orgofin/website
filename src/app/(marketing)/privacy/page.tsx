@@ -120,8 +120,9 @@ const sections: LegalDocumentSection[] = [
           separately, under its own terms.
         </LegalParagraph>
         <LegalParagraph>
-          <strong className="text-fg">Analytics.</strong> On the live site we
-          use Google Analytics to understand which pages people read. See{" "}
+          <strong className="text-fg">Analytics, if you allow it.</strong> On
+          the live site we use Google Analytics to understand which pages people
+          read &mdash; and only after you accept it. See{" "}
           <a
             href="#cookies-and-analytics"
             className="text-accent hover:text-accent-hover underline underline-offset-4"
@@ -355,9 +356,18 @@ const sections: LegalDocumentSection[] = [
     body: (
       <>
         <LegalParagraph>
-          We set no cookies of our own. The live site loads Google Analytics,
+          We set no cookies of our own. The live site can load Google Analytics,
           which sets its own cookies and processes your IP address and
           device/browser information under Google&rsquo;s terms.
+        </LegalParagraph>
+        <LegalParagraph>
+          <strong className="text-fg">We ask first.</strong> Analytics does not
+          load until you accept it. On your first visit you&rsquo;ll see a
+          banner with two equally easy choices &mdash; accept, or essential
+          only. Choose essential only and no analytics script runs and no Google
+          cookie is ever set. We remember your choice in your own browser so we
+          don&rsquo;t ask again; clear your site data and we&rsquo;ll ask
+          afresh.
         </LegalParagraph>
         <LegalParagraph>
           What we send to Analytics is a fixed, short list of events — a page
@@ -367,9 +377,10 @@ const sections: LegalDocumentSection[] = [
           personal data does not reach Google through us.
         </LegalParagraph>
         <LegalParagraph>
-          You can block these cookies in your browser settings, or install
-          Google&rsquo;s official opt-out add-on, and the site will work exactly
-          as before.
+          You can also block these cookies in your browser settings, or install
+          Google&rsquo;s official opt-out add-on. Either way &mdash; and
+          whichever way you answer the banner &mdash; the site works exactly as
+          before. Nothing on it is gated behind your answer.
         </LegalParagraph>
       </>
     ),

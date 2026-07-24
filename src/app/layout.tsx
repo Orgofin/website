@@ -2,6 +2,7 @@ import { type Metadata, type Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { GoogleAnalytics } from "@/components/analytics";
+import { ConsentBanner } from "@/components/consent";
 import { LazyMotionProvider } from "@/components/motion/LazyMotionProvider";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { ThemeProvider } from "@/components/theme/ThemeProvider";
@@ -96,6 +97,10 @@ export default function RootLayout({
           <LazyMotionProvider>{children}</LazyMotionProvider>
         </ThemeProvider>
         <StructuredData data={[organizationSchema(), websiteSchema()]} />
+        {/* Last in the DOM so Tab order matches the banner's visual position at
+            the bottom of the viewport. It gates `GoogleAnalytics` below it —
+            nothing loads until the visitor accepts. */}
+        <ConsentBanner />
         <GoogleAnalytics />
       </body>
     </html>
