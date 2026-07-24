@@ -421,6 +421,8 @@ _Original deck copy (retained for reference):_ **Headline:** We're not hiring ye
 **Terms intro line (above the legal text):** Plain language first, legal language second. If anything here is unclear, ask us — that's what [support email] is for.
 
 > ⚠️ Both pages need actual legal text from counsel — this deck only covers the framing line above the boilerplate.
+>
+> The factual brief counsel needs (every field collected, where it is stored, which processors hold it, retention and consent gaps) is maintained at [`docs/legal/data-processing-inventory.md`](../legal/data-processing-inventory.md). Note its §1.1 finding: §18's waitlist field list below is **not** what the live form collects — the form takes an email address only.
 
 ---
 

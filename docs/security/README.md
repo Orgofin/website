@@ -13,7 +13,7 @@ Pre-public-launch security review of the Orgofin website (marketing/waitlist sit
 
 **Headline:** no Critical findings; two High items (security headers/CSP, rate limiting) are the launch blockers. Overall risk MEDIUM pre-remediation → LOW after the High items close. The auth-free, write-only, RLS-protected surface eliminates most vulnerability classes by construction.
 
-**Related:** [`../launch/production-readiness-review.md`](../launch/production-readiness-review.md) · [`../operations/monitoring-and-analytics.md`](../operations/monitoring-and-analytics.md)
+**Related:** [`../launch/production-readiness-review.md`](../launch/production-readiness-review.md) · [`../operations/monitoring-and-analytics.md`](../operations/monitoring-and-analytics.md) · [`../legal/data-processing-inventory.md`](../legal/data-processing-inventory.md) (what personal data the site holds — the privacy/DPDP counterpart to the controls documented here)
 
 ---
 
