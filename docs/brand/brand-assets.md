@@ -97,9 +97,11 @@ Eclipse identity implemented and wired 2026-07-18. Colour is provisional pending
 
 - [ ] Confirm/adjust brand colour against the palette decision, then regenerate.
 - [ ] Replace placeholder wordmark treatment with a finalized kerned wordmark if a bespoke one is commissioned.
+- [ ] An external logo commission is in progress (2026-07-24). Requirements for the delivered files are specified in [`logo-delivery-spec.md`](./logo-delivery-spec.md); on delivery, run its §10 acceptance tests before wiring anything in.
 
 ## References
 
+- [`logo-delivery-spec.md`](./logo-delivery-spec.md) — what to require from an external designer producing a replacement mark (formats, sizes, variants, acceptance tests).
 - [`logo-explorations.md`](./logo-explorations.md) — concept 07 rationale (the selected direction).
 - [`logo-concepts.md`](./logo-concepts.md) — round-one concepts.
 - `src/app/icon.svg`, `src/app/manifest.ts`, `src/components/layout/Logo.tsx`
