@@ -45,7 +45,7 @@ docs/
 ├── adr/                # Architecture Decision Records — dated, point-in-time technical decisions
 ├── deployment/         # human runbooks (environment list, rollback steps, go-live procedures)
 ├── security/           # security audit, architecture, test suite, implemented-control records
-├── legal/              # factual inputs for legal pages (data-processing inventory) — never legal text
+├── legal/              # data-processing inventory + review status of /privacy and /terms — never the legal text itself (that lives with the pages)
 ├── launch/             # production-readiness review and launch playbook
 ├── operations/         # monitoring, analytics, and other run-the-site concerns
 ├── engineering/        # engineering-practice records that aren't standing conventions

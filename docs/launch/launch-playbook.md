@@ -49,9 +49,9 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 
 ### Legal/compliance
 
-- [ ] Privacy policy published (covers lead PII; DPDP-aware, India-first). [Founder]
-- [ ] Cookie/analytics consent posture decided (GA4) and reflected on site if required. [Founder]
-- [ ] Terms / contact page present. [Founder]
+- [x] Privacy policy published (covers lead PII; DPDP-aware, India-first) — `/privacy`, 2026-07-24. **Pending counsel review** ([`../legal/README.md`](../legal/README.md)). [Founder/Eng]
+- [x] Cookie/analytics consent posture decided (GA4) — 2026-07-24: build the banner and gate GA4 on acceptance. **Not yet reflected on site**; the banner is a follow-up PR. [Founder]
+- [x] Terms page present — `/terms`, 2026-07-24. A `/contact` page still does not exist; both legal pages route to `contact@orgofin.com`. [Founder/Eng]
 
 ### Go/No-Go
 

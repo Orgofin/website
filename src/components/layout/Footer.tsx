@@ -51,6 +51,13 @@ const DEFAULT_COLUMNS: FooterColumn[] = [
       { label: "Data Room", href: "/investors/data-room" },
     ],
   },
+  {
+    heading: "Legal",
+    links: [
+      { label: "Privacy", href: "/privacy" },
+      { label: "Terms", href: "/terms" },
+    ],
+  },
 ];
 
 export function Footer({ columns = DEFAULT_COLUMNS, className }: FooterProps) {
@@ -59,8 +66,8 @@ export function Footer({ columns = DEFAULT_COLUMNS, className }: FooterProps) {
   return (
     <footer className={cn("border-border mt-auto border-t", className)}>
       <Container>
-        <div className="grid grid-cols-2 gap-8 py-16 md:grid-cols-3 lg:grid-cols-5">
-          <div className="col-span-2 flex flex-col gap-3 md:col-span-3 lg:col-span-2">
+        <div className="grid grid-cols-2 gap-8 py-16 md:grid-cols-4 lg:grid-cols-6">
+          <div className="col-span-2 flex flex-col gap-3 md:col-span-4 lg:col-span-2">
             <Logo />
             <Text size="body-sm" tone="muted" className="max-w-xs">
               The Operating System for Every Company.

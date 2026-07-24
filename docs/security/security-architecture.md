@@ -90,7 +90,7 @@ There are no application-level roles or permissions because there are no authent
 - **In transit:** all traffic is HTTPS; Vercel provisions and auto-renews Let's Encrypt certificates. HSTS is a recommended addition (audit H-01) to prevent downgrade.
 - **At rest:** Supabase encrypts Postgres data and Storage objects at rest by default.
 - **PII minimization:** the site collects only what the lead forms require (email; plus name/firm/optional check-size for investors). Analytics never receives PII — the typed event vocabulary makes it structurally impossible to send an email or name to GA4.
-- **Data residency / DPDP note:** because Orgofin is India-first and subject to the DPDP Act, the Supabase project region and a privacy policy covering lead data are compliance items tracked in the operations runbook.
+- **Data residency / DPDP note:** because Orgofin is India-first and subject to the DPDP Act, data residency is a live compliance item. A privacy policy covering lead data **shipped 2026-07-24** ([`/privacy`](<../../src/app/(marketing)/privacy/page.tsx>); status and open inputs at [`../legal/README.md`](../legal/README.md)). Residency itself is only partly answered: **Vercel executes this site's functions in `iad1` (US East)** — verified from the `X-Vercel-Id` header — so lead data is processed outside India today, and the Supabase project region is still unconfirmed. Full flow inventory: [`../legal/data-processing-inventory.md`](../legal/data-processing-inventory.md).
 
 ---
 
@@ -187,7 +187,7 @@ When the Orgofin product platform introduces authenticated surfaces, extend this
 ## TODO
 
 - [ ] Implement the recommended edge controls (headers/CSP, rate limiting, WAF) — see audit H-01/H-02/M-04.
-- [ ] Confirm Supabase region for DPDP data-residency and publish a privacy policy.
+- [ ] Confirm Supabase region for DPDP data-residency, and decide whether to move Vercel function execution from `iad1` to `bom1`. (Publishing a privacy policy — done 2026-07-24.)
 - [ ] Assign a security DRI.
 
 ## References
