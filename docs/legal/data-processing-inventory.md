@@ -82,9 +82,13 @@ Environments are split across **two Supabase projects** — production traffic w
 
 ## 4. Retention and erasure — the honest current state
 
-**A retention policy now exists; the mechanism to enforce it does not.** The founders set the window at **24 months from collection** on 2026-07-24, and `/privacy` §8 states it publicly. In the code there is still **no expiry job and no deletion mechanism** — rows in `waitlist` and `data_room_requests` persist indefinitely, and nothing deletes personal data. Deleting a record on request is a manual operation today.
+**A retention policy exists, and the mechanism to enforce it is now written — but not yet applied.** The founders set the window at **24 months from collection** on 2026-07-24, and `/privacy` §8 states it publicly.
 
-That gap is now the sharpest one in this document: we have moved from saying nothing to making a promise we keep by hand. Tracked in [`README.md`](./README.md)'s TODO.
+- **Written:** [`20260724120000_lead_retention_expiry.sql`](../../supabase/migrations/20260724120000_lead_retention_expiry.sql) adds a `purge_expired_leads()` function that deletes rows past the window from both tables, scheduled nightly via pg_cron. It honours a `retained_until` / `retained_reason` exemption pair, which is what makes `/privacy` §8's "unless you have become a customer or an investor" clause real rather than aspirational.
+- **Not yet applied.** The migration needs pg_cron enabled from the Supabase dashboard first, per project, by someone with project access. **Until that happens, rows still persist indefinitely and `/privacy` §8 states a window nothing enforces.** Runbook and verification steps: [`../deployment/data-retention.md`](../deployment/data-retention.md).
+- Erasure on request remains a manual dashboard operation either way — the purge is a schedule, not a request handler.
+
+Note for whoever re-verifies this document: the 24-month value lives in two places that cannot share a constant — `retention_window()` in the migration (what deletes) and `DATA_RETENTION_MONTHS` in [`constants.ts`](../../src/lib/legal/constants.ts) (what `/privacy` renders). A drift between them is a published promise the database does not keep.
 
 **The channel gap is closed.** `contact@orgofin.com` (founder-supplied 2026-07-24) is published on both legal pages as the address for access, correction and erasure requests, and is held in one place at [`constants.ts`](../../src/lib/legal/constants.ts). A named grievance-redressal contact under DPDP is still outstanding — the general address is honest, but it is not the same thing.
 
