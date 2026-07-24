@@ -136,7 +136,9 @@ Configure and **test-fire** before launch:
 
 ## Current Status
 
-GA4 integrated (production-only, PII-safe). Vercel hosting in place. Sentry, Vercel Analytics/Speed Insights, uptime monitoring, and Cloudflare analytics are recommended additions not yet wired. No alerting configured yet.
+GA4 integrated (production-only, PII-safe, and **consent-gated since 2026-07-24** — it loads only after a visitor accepts the banner). Vercel hosting in place. Sentry, Vercel Analytics/Speed Insights, uptime monitoring, and Cloudflare analytics are recommended additions not yet wired. No alerting configured yet.
+
+**Read GA4 numbers as a floor, not a total.** Every figure it reports now excludes visitors who declined analytics, so a post-launch "drop" may be consent rates rather than lost traffic. This raises the value of the two cookieless options in §2 (Vercel Analytics for real Core Web Vitals field data, Cloudflare Web Analytics as a traffic truth-source) — neither needs consent, so together with GA4 they give a corrected denominator.
 
 ## Future Improvements
 

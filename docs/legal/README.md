@@ -46,7 +46,7 @@ Ship-blocking judgement call, recorded rather than hidden: publishing these befo
 | Entity name shown on pages | "Orgofin" (trading name; registration may differ)          | 2026-07-24 | Founder |
 | Data-principal contact     | `contact@orgofin.com`                                      | 2026-07-24 | Founder |
 | Retention window           | 24 months from collection                                  | 2026-07-24 | Founder |
-| Consent posture            | Build the banner; GA4 to be gated on acceptance            | 2026-07-24 | Founder |
+| Consent posture            | Build the banner; GA4 gated on acceptance — **shipped**    | 2026-07-24 | Founder |
 | Registered address         | Not settled — pages publish none rather than a placeholder | 2026-07-24 | Founder |
 
 ## Verified infrastructure facts
@@ -58,7 +58,11 @@ Both confirmed 2026-07-24, and both matter to what the policy may claim:
 
 ## Current Status
 
-`/privacy` and `/terms` are live in the codebase as of 2026-07-24, linked from the footer's Legal column and from `/security`. Both are indexed, prioritised 0.3 in the sitemap. Counsel review outstanding; the consent banner is a separate follow-up.
+`/privacy` and `/terms` are live in the codebase as of 2026-07-24, linked from the footer's Legal column and from `/security`. Both are indexed, prioritised 0.3 in the sitemap. Counsel review outstanding.
+
+**The consent banner shipped the same day.** GA4 now loads only after the visitor accepts — prior consent, not opt-out, verified in a browser (no `googletagmanager.com` request and no `_ga` cookie before acceptance). Mechanism and guarantees: [`data-processing-inventory.md`](./data-processing-inventory.md) §5. `/privacy` §10 describes it.
+
+**One promise on the pages still has no mechanism behind it:** the 24-month retention window. Nothing expires those rows; honouring it is manual. That is now the single largest gap between what we publish and what the system does.
 
 ## Future Improvements
 
@@ -72,8 +76,9 @@ Both confirmed 2026-07-24, and both matter to what the policy may claim:
 - [ ] **Founder:** confirm whether "Orgofin" is the registered entity name or a trading name over a different registered entity.
 - [ ] **Founder/counsel:** appoint and name a grievance-redressal contact under DPDP. `/privacy` §9 currently routes everything to the general contact address, which is honest but not the same thing.
 - [ ] **Founder/infra:** read both Supabase project regions off the dashboard; decide whether to move Vercel function execution to `bom1`.
-- [ ] **Engineering:** implement the 24-month expiry. The pages now state it as policy and **no mechanism enforces it** — this is the largest gap between what we say and what we do.
-- [ ] **Engineering:** build the consent banner (`copy.md` §18 has the copy) and gate GA4 on it; update `/privacy` §10 in that PR.
+- [ ] **Engineering:** implement the 24-month expiry. The pages state it as policy and **no mechanism enforces it** — the largest remaining gap between what we say and what we do.
+- [x] ~~**Engineering:** build the consent banner and gate GA4 on it~~ — done 2026-07-24. See the inventory §5.
+- [ ] **Counsel:** advise whether `/privacy` needs an explicit consent-withdrawal control. Today withdrawal means clearing site data or writing to us — honest, but less direct than a button.
 - [ ] **Engineering:** resolve the inventory §1.1 discrepancy — the copy deck specifies a fuller waitlist form than the email-only one that ships.
 
 ## References
