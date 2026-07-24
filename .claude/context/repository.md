@@ -40,10 +40,17 @@ This is the single most important organizing principle in the repository, and th
 
 ```
 docs/
-├── product/           # PRD, business vision, website strategy, copy, source PDF
+├── product/            # PRD, business vision, website strategy, copy, source PDF
 ├── architecture/       # long-term full-platform architecture (not this repo's implementation)
 ├── adr/                # Architecture Decision Records — dated, point-in-time technical decisions
-└── deployment/         # human runbooks (environment list, rollback steps) — TODO-heavy until launch
+├── deployment/         # human runbooks (environment list, rollback steps, go-live procedures)
+├── security/           # security audit, architecture, test suite, implemented-control records
+├── legal/              # factual inputs for legal pages (data-processing inventory) — never legal text
+├── launch/             # production-readiness review and launch playbook
+├── operations/         # monitoring, analytics, and other run-the-site concerns
+├── engineering/        # engineering-practice records that aren't standing conventions
+├── brand/              # logo exploration rounds and brand asset records
+└── internal/           # internal-only working artifacts
 ```
 
 ## `.claude/` Structure
