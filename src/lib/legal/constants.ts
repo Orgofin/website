@@ -40,9 +40,12 @@ export const LEGAL_REGISTERED_ADDRESS: string | null = null;
  * relationship through a raise; short enough to defend as "no longer than
  * necessary".
  *
- * ⚠️ Not yet enforced in code — no expiry job exists (inventory §4). The pages
- * state this as our policy, which it is; the mechanism that honours it
- * automatically is tracked in that document's TODO.
+ * ⚠️ **This value is duplicated in SQL.** `retention_window()` in
+ * `supabase/migrations/20260724120000_lead_retention_expiry.sql` is what
+ * actually deletes rows; this constant is what `/privacy` §8 renders to the
+ * visitor. There is no way to share a value between TypeScript and Postgres
+ * here, so both sides carry a pointer to the other — change one, change both.
+ * A mismatch means the site publishes a promise the database doesn't keep.
  */
 export const DATA_RETENTION_MONTHS = 24;
 

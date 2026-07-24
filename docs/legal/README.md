@@ -62,7 +62,7 @@ Both confirmed 2026-07-24, and both matter to what the policy may claim:
 
 **The consent banner shipped the same day.** GA4 now loads only after the visitor accepts — prior consent, not opt-out, verified in a browser (no `googletagmanager.com` request and no `_ga` cookie before acceptance). Mechanism and guarantees: [`data-processing-inventory.md`](./data-processing-inventory.md) §5. `/privacy` §10 describes it.
 
-**One promise on the pages still has no mechanism behind it:** the 24-month retention window. Nothing expires those rows; honouring it is manual. That is now the single largest gap between what we publish and what the system does.
+**The 24-month retention window now has a mechanism written, but it is not yet live.** A nightly pg_cron purge with an exemption column ships in [`20260724120000_lead_retention_expiry.sql`](../../supabase/migrations/20260724120000_lead_retention_expiry.sql); applying it needs the pg_cron dashboard toggle and someone with Supabase project access. **Until it is applied, `/privacy` §8 still states a window nothing enforces** — runbook at [`../deployment/data-retention.md`](../deployment/data-retention.md).
 
 ## Future Improvements
 
@@ -76,7 +76,8 @@ Both confirmed 2026-07-24, and both matter to what the policy may claim:
 - [ ] **Founder:** confirm whether "Orgofin" is the registered entity name or a trading name over a different registered entity.
 - [ ] **Founder/counsel:** appoint and name a grievance-redressal contact under DPDP. `/privacy` §9 currently routes everything to the general contact address, which is honest but not the same thing.
 - [ ] **Founder/infra:** read both Supabase project regions off the dashboard; decide whether to move Vercel function execution to `bom1`.
-- [ ] **Engineering:** implement the 24-month expiry. The pages state it as policy and **no mechanism enforces it** — the largest remaining gap between what we say and what we do.
+- [x] ~~**Engineering:** implement the 24-month expiry~~ — migration written 2026-07-24.
+- [ ] **Founder/infra:** **apply** the retention migration to both Supabase projects (needs the pg_cron dashboard toggle first). This is the last thing standing between `/privacy` §8 and being true; steps at [`../deployment/data-retention.md`](../deployment/data-retention.md).
 - [x] ~~**Engineering:** build the consent banner and gate GA4 on it~~ — done 2026-07-24. See the inventory §5.
 - [ ] **Counsel:** advise whether `/privacy` needs an explicit consent-withdrawal control. Today withdrawal means clearing site data or writing to us — honest, but less direct than a button.
 - [ ] **Engineering:** resolve the inventory §1.1 discrepancy — the copy deck specifies a fuller waitlist form than the email-only one that ships.
