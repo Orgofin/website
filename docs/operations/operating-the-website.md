@@ -106,7 +106,8 @@ See the [launch playbook's DR section](../launch/launch-playbook.md#disaster-rec
 - **Privacy policy and terms — published 2026-07-24** at `/privacy` and `/terms`, covering lead PII (email/name/firm) with DPDP framing. Status, decisions and open inputs: [`../legal/README.md`](../legal/README.md). Both are **pending counsel review**.
 - **Consent:** shipped 2026-07-24. GA4 loads only after the visitor accepts, so no Google cookie is set before then. Operationally this means **analytics under-counts by however many visitors decline** — treat GA4 traffic as a floor, not a total, and don't read a drop after launch as lost traffic.
 - **Data minimization:** the forms already collect only what's needed; keep it that way.
-- **Data subject requests:** requests come to `contact@orgofin.com`. Deletion is **manual via the Supabase dashboard** — the published 24-month retention window has no expiry job behind it yet, so honouring it is an operator responsibility today.
+- **Data subject requests:** requests come to `contact@orgofin.com`. Erasure on request is **manual via the Supabase dashboard** and always will be — the purge is a schedule, not a request handler.
+- **Retention:** a nightly purge enforcing the published 24-month window is written but **not yet applied** (needs the pg_cron toggle per project). Until it is, honouring the window is an operator responsibility. Applying it, verifying it, and exempting a record that must be kept longer: [`../deployment/data-retention.md`](../deployment/data-retention.md).
 - **Contact page** does not exist yet; the legal pages route everything to `contact@orgofin.com`. No fabricated business facts anywhere (CLAUDE.md non-negotiable #1).
 
 ## 18. Investor Due Diligence Readiness
@@ -158,7 +159,7 @@ Revisit when the product platform launches — it changes support, compliance (S
 - [ ] Ensure ≥2 owners + 2FA on domain, Vercel, Supabase, GitHub, GA.
 - [ ] Set up the independent lead-table export + monthly restore test.
 - [x] Publish privacy policy + decide consent posture — pages live 2026-07-24, posture decided (banner to be built). See [`../legal/README.md`](../legal/README.md).
-- [ ] Implement the published 24-month retention window — no expiry job exists, so honouring it is manual today.
+- [ ] **Apply** the retention purge to both Supabase projects (migration written 2026-07-24; needs pg_cron enabled first). Until then the published 24-month window is honoured by hand. See [`../deployment/data-retention.md`](../deployment/data-retention.md).
 
 ## References
 

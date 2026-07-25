@@ -74,6 +74,12 @@ create policy "waitlist_insert_public"
 
 The identical pattern applies to `data_room_requests`. The consequence is that **even with the anon key (which is public and ships in every browser), an attacker cannot enumerate, read, modify, or delete a single stored record.** The key's entire power is "append a row."
 
+**One deliberate exception to the "no DELETE anywhere" rule** (added 2026-07-24): `public.purge_expired_leads()` is a `SECURITY DEFINER` function that deletes rows past the published 24-month retention window ([`../deployment/data-retention.md`](../deployment/data-retention.md)). It has to bypass RLS — the tables have no DELETE policy at all, which is exactly the property that keeps the anon key harmless. Three controls keep the exception narrow:
+
+- `search_path` is pinned on the function (an unpinned `search_path` on a `SECURITY DEFINER` function lets a caller shadow `public` and run their own code with the owner's rights).
+- `EXECUTE` is revoked from `public`, `anon` and `authenticated`. This matters more than it looks: PostgREST exposes public functions as RPC endpoints, so without the revokes an anonymous visitor could `POST /rest/v1/rpc/purge_expired_leads` and wipe both lead tables — the precise capability the INSERT-only policies exist to deny.
+- It deletes by age only, and cannot be parameterised to target a row.
+
 There are no application-level roles or permissions because there are no authenticated users to assign them to. The "authorization" a visitor experiences at the data-room gate is a **business-logic lead gate** (self-asserted identity → instant unlock), not an access-control boundary — this distinction is important and is documented as such in the audit (finding M-01).
 
 ---
