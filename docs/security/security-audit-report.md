@@ -254,6 +254,10 @@ const securityHeaders = [
 
 **Resolution (2026-07-19).** ✅ Implemented. `npm audit --audit-level=high` is a merge-blocking step in `ci.yml`; CodeQL SAST runs via `.github/workflows/codeql.yml` (`javascript-typescript`, `security-extended`); GitHub-native **secret scanning + push protection** were enabled in repo settings (free — public repo), chosen over a Gitleaks CI job for zero maintenance; Dependabot **security** updates enabled + `.github/dependabot.yml` adds weekly version updates. Semgrep deferred (CodeQL covers SAST for a site this size). See [`.claude/context/deployment.md`](../../.claude/context/deployment.md) → CI Pipeline → Security scanning.
 
+**Amendment (2026-07-25) — the audit gate was re-scoped, and the reasoning matters.** GHSA-mh99-v99m-4gvg (`brace-expansion`, high, DoS) is fixed only in `5.0.8`, whose named-export change breaks `minimatch@3` — and ESLint 9 bundles `minimatch@3` unpatchably. A single blocking full-tree audit therefore became a gate no release could ever pass, for a vulnerability reachable only by lint tooling running on trusted local input. The gate is now **two steps**: `npm audit --omit=dev --audit-level=high` blocks the merge, and the full-tree audit runs `continue-on-error` so dev advisories stay visible rather than hidden. In the same change `shadcn` moved to `devDependencies` (a scaffolding CLI, never imported from `src/`, previously dragging `@hono/node-server` and `ts-morph` into the shipped tree).
+
+Net effect on posture: **the production dependency tree now audits clean at every severity, which it did not before** — the previous single gate passed while a moderate advisory sat in the shipped tree, because `--audit-level=high` hid it. The residual accepted risk is dev-tooling-only and tracked as the ESLint 10 migration in `deployment.md`'s TODO. A future dev-tree advisory that is genuinely exploitable in CI (a compromised build dependency, say) would not block automatically — it surfaces in the log and needs a human to act, so the full-tree step is worth actually reading.
+
 ---
 
 ### M-04 — No WAF / edge protection (Cloudflare not yet attached) · Medium
@@ -338,18 +342,18 @@ Covered structurally by H-01's header baseline. Listed separately so it isn't lo
 
 ### OWASP Top 10 (2021)
 
-| Category                             | Status     | Notes                                                                                                      |
-| ------------------------------------ | ---------- | ---------------------------------------------------------------------------------------------------------- |
-| A01 Broken Access Control            | ⚠️ Partial | No auth to break; data-room gate is self-asserted by design (M-01). RLS insert-only strong.                |
-| A02 Cryptographic Failures           | ✅ Pass    | HTTPS everywhere (Vercel TLS); no custom crypto; secrets segregated. Add HSTS (H-01).                      |
-| A03 Injection                        | ✅ Pass    | Parameterized Supabase client + Zod validation + RLS. No raw SQL, no `eval`.                               |
-| A04 Insecure Design                  | ⚠️ Partial | Deliberate minimal design; data-room gate strength is intentional (M-01). Add rate limits.                 |
-| A05 Security Misconfiguration        | ❌ Gap     | Missing security headers/CSP (H-01); no WAF (M-04). Primary remediation area.                              |
-| A06 Vulnerable/Outdated Components   | ✅ Pass    | `npm audit` = 0; lockfile pinned; postcss override for GHSA; CI `npm audit` gate + Dependabot (M-03 done). |
-| A07 Identification/Auth Failures     | ✅ N/A     | No authentication system exists.                                                                           |
-| A08 Software/Data Integrity Failures | ✅ Pass    | Lockfile + `npm ci`; CodeQL SAST + native secret scanning + Dependabot now in CI (M-03 done).              |
-| A09 Logging/Monitoring Failures      | ❌ Gap     | Only `console.error`; no error tracking/alerting yet (see monitoring doc). PII risk L-03.                  |
-| A10 SSRF                             | ✅ Pass    | No server-side fetch of user-supplied URLs anywhere.                                                       |
+| Category                             | Status     | Notes                                                                                                                                                                                                                                                              |
+| ------------------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| A01 Broken Access Control            | ⚠️ Partial | No auth to break; data-room gate is self-asserted by design (M-01). RLS insert-only strong.                                                                                                                                                                        |
+| A02 Cryptographic Failures           | ✅ Pass    | HTTPS everywhere (Vercel TLS); no custom crypto; secrets segregated. Add HSTS (H-01).                                                                                                                                                                              |
+| A03 Injection                        | ✅ Pass    | Parameterized Supabase client + Zod validation + RLS. No raw SQL, no `eval`.                                                                                                                                                                                       |
+| A04 Insecure Design                  | ⚠️ Partial | Deliberate minimal design; data-room gate strength is intentional (M-01). Add rate limits.                                                                                                                                                                         |
+| A05 Security Misconfiguration        | ❌ Gap     | Missing security headers/CSP (H-01); no WAF (M-04). Primary remediation area.                                                                                                                                                                                      |
+| A06 Vulnerable/Outdated Components   | ✅ Pass    | Production tree audits clean at every severity (2026-07-25); lockfile pinned; documented `overrides`; blocking CI audit on the prod tree + advisory full-tree audit + Dependabot (M-03). Residual: dev-only `brace-expansion` advisory, unfixable until ESLint 10. |
+| A07 Identification/Auth Failures     | ✅ N/A     | No authentication system exists.                                                                                                                                                                                                                                   |
+| A08 Software/Data Integrity Failures | ✅ Pass    | Lockfile + `npm ci`; CodeQL SAST + native secret scanning + Dependabot now in CI (M-03 done).                                                                                                                                                                      |
+| A09 Logging/Monitoring Failures      | ❌ Gap     | Only `console.error`; no error tracking/alerting yet (see monitoring doc). PII risk L-03.                                                                                                                                                                          |
+| A10 SSRF                             | ✅ Pass    | No server-side fetch of user-supplied URLs anywhere.                                                                                                                                                                                                               |
 
 ### OWASP API Security Top 10 (2023)
 
@@ -368,23 +372,23 @@ Covered structurally by H-01's header baseline. Listed separately so it isn't lo
 
 ### Other requested categories
 
-| Topic                              | Status      | Notes                                                                                                                      |
-| ---------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------- |
-| XSS                                | ✅ Strong   | No user content rendered to others; JSON-LD escapes `<`; theme script is a static const. CSP (H-01) adds defense-in-depth. |
-| CSRF                               | ✅ Low-risk | No cookie/session auth → no ambient credential to forge. Optional Origin check (L-05).                                     |
-| SSRF                               | ✅ Pass     | No user-controlled outbound requests.                                                                                      |
-| RCE                                | ✅ Pass     | No `eval`/`new Function`/`child_process`; no deserialization of untrusted data.                                            |
-| IDOR                               | ✅ Pass     | No read-by-ID surface; RLS blocks reads entirely.                                                                          |
-| Clickjacking                       | ❌ Gap      | No `frame-ancestors`/`X-Frame-Options` (H-01).                                                                             |
-| File uploads                       | ✅ N/A      | No user upload surface; only founder-uploaded PDFs via Supabase dashboard.                                                 |
-| Secrets management                 | ✅ Strong   | Service key server-only, gitignored env, not in client bundle.                                                             |
-| Encryption / data storage          | ✅ Pass     | TLS in transit; Supabase encryption at rest; no sensitive data beyond PII leads.                                           |
-| Rate limiting / brute force / DDoS | ❌ Gap      | H-02 + M-04.                                                                                                               |
-| Dependency / supply chain          | ✅ Good     | Clean audit + lockfile; CI `npm audit` gate + CodeQL + Dependabot wired (M-03 done).                                       |
-| Webhook security                   | ✅ N/A      | No webhooks implemented.                                                                                                   |
-| Cloud / Vercel security            | ⚠️ Partial  | Good defaults; add headers (H-01), and verify env-var scoping + team access controls.                                      |
-| Cloudflare configuration           | ❌ Pending  | Not yet attached (M-04).                                                                                                   |
-| Backup strategy                    | ❌ Gap      | L-06.                                                                                                                      |
+| Topic                              | Status      | Notes                                                                                                                        |
+| ---------------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| XSS                                | ✅ Strong   | No user content rendered to others; JSON-LD escapes `<`; theme script is a static const. CSP (H-01) adds defense-in-depth.   |
+| CSRF                               | ✅ Low-risk | No cookie/session auth → no ambient credential to forge. Optional Origin check (L-05).                                       |
+| SSRF                               | ✅ Pass     | No user-controlled outbound requests.                                                                                        |
+| RCE                                | ✅ Pass     | No `eval`/`new Function`/`child_process`; no deserialization of untrusted data.                                              |
+| IDOR                               | ✅ Pass     | No read-by-ID surface; RLS blocks reads entirely.                                                                            |
+| Clickjacking                       | ❌ Gap      | No `frame-ancestors`/`X-Frame-Options` (H-01).                                                                               |
+| File uploads                       | ✅ N/A      | No user upload surface; only founder-uploaded PDFs via Supabase dashboard.                                                   |
+| Secrets management                 | ✅ Strong   | Service key server-only, gitignored env, not in client bundle.                                                               |
+| Encryption / data storage          | ✅ Pass     | TLS in transit; Supabase encryption at rest; no sensitive data beyond PII leads.                                             |
+| Rate limiting / brute force / DDoS | ❌ Gap      | H-02 + M-04.                                                                                                                 |
+| Dependency / supply chain          | ✅ Good     | Prod tree clean at every severity + lockfile; blocking prod-tree audit, advisory full-tree audit, CodeQL, Dependabot (M-03). |
+| Webhook security                   | ✅ N/A      | No webhooks implemented.                                                                                                     |
+| Cloud / Vercel security            | ⚠️ Partial  | Good defaults; add headers (H-01), and verify env-var scoping + team access controls.                                        |
+| Cloudflare configuration           | ❌ Pending  | Not yet attached (M-04).                                                                                                     |
+| Backup strategy                    | ❌ Gap      | L-06.                                                                                                                        |
 
 ---
 
