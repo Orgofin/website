@@ -80,13 +80,14 @@ Both tables are protected by row-level security with an **INSERT-only policy** f
 
 Environments are split across **two Supabase projects** — production traffic writes to the prod project, preview/development to the non-prod one ([`../deployment/environment-variables.md`](../deployment/environment-variables.md)) — so test submissions never mix with real ones.
 
-## 4. Retention and erasure — the honest current state
+## 4. Retention and erasure
 
-**A retention policy exists, and the mechanism to enforce it is now written — but not yet applied.** The founders set the window at **24 months from collection** on 2026-07-24, and `/privacy` §8 states it publicly.
+**The 24-month window is enforced, not merely published.** The founders set it at **24 months from collection** on 2026-07-24; `/privacy` §8 states it publicly, and since **2026-07-25** a scheduled job actually deletes against it.
 
-- **Written:** [`20260724120000_lead_retention_expiry.sql`](../../supabase/migrations/20260724120000_lead_retention_expiry.sql) adds a `purge_expired_leads()` function that deletes rows past the window from both tables, scheduled nightly via pg_cron. It honours a `retained_until` / `retained_reason` exemption pair, which is what makes `/privacy` §8's "unless you have become a customer or an investor" clause real rather than aspirational.
-- **Not yet applied.** The migration needs pg_cron enabled from the Supabase dashboard first, per project, by someone with project access. **Until that happens, rows still persist indefinitely and `/privacy` §8 states a window nothing enforces.** Runbook and verification steps: [`../deployment/data-retention.md`](../deployment/data-retention.md).
-- Erasure on request remains a manual dashboard operation either way — the purge is a schedule, not a request handler.
+- **Applied:** [`20260724120000_lead_retention_expiry.sql`](../../supabase/migrations/20260724120000_lead_retention_expiry.sql) installs `purge_expired_leads()`, which deletes rows past the window from both lead tables, scheduled nightly at 03:15 UTC via pg_cron. It honours a `retained_until` / `retained_reason` exemption pair — what makes `/privacy` §8's "unless you have become a customer or an investor" clause real rather than aspirational.
+- **Confirmed live on both projects (prod and non-prod), 2026-07-25.** `cron.job` reports the `purge-expired-leads` job present, `15 3 * * *`, `active = true` on each. Both were checked because applying to prod alone would let preview environments keep rows forever and silently diverge the two.
+- **The confirmation matters more than the migration succeeding.** The migration applies cleanly and raises only a notice when pg_cron is off, installing the function but scheduling nothing — a failure mode indistinguishable from success. The `cron.job` readout is the evidence; re-run it after any migration replay. Runbook: [`../deployment/data-retention.md`](../deployment/data-retention.md).
+- Erasure on request remains a manual dashboard operation — the purge is a schedule, not a request handler.
 
 Note for whoever re-verifies this document: the 24-month value lives in two places that cannot share a constant — `retention_window()` in the migration (what deletes) and `DATA_RETENTION_MONTHS` in [`constants.ts`](../../src/lib/legal/constants.ts) (what `/privacy` renders). A drift between them is a published promise the database does not keep.
 
@@ -131,7 +132,7 @@ Resolved 2026-07-24 (see [`README.md`](./README.md) for the decisions and who ma
 - [ ] **Founder:** registered office address — deliberately unpublished rather than placeholdered.
 - [ ] **Founder:** a named grievance-redressal contact under DPDP (§4).
 - [ ] **Founder/infra:** confirm the **region** of both Supabase projects — the last unknown in §3, and a question counsel will ask.
-- [ ] **Engineering:** implement the 24-month expiry. The policy is now published; nothing enforces it (§4).
+- [x] ~~**Engineering:** implement the 24-month expiry~~ — written 2026-07-24, applied and scheduled on both projects 2026-07-25 (§4).
 - [ ] **Engineering:** build the consent banner and gate GA4 on it (§5).
 - [ ] **Engineering:** resolve the §1.1 discrepancy — either build the fuller waitlist form the copy deck specifies or correct the copy deck to match the email-only reality.
 - [ ] **Counsel:** review both pages, `/terms` §4 and §5 first.
