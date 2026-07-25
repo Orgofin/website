@@ -74,6 +74,12 @@ create policy "waitlist_insert_public"
 
 The identical pattern applies to `data_room_requests`. The consequence is that **even with the anon key (which is public and ships in every browser), an attacker cannot enumerate, read, modify, or delete a single stored record.** The key's entire power is "append a row."
 
+**One deliberate exception to the "no DELETE anywhere" rule** (added 2026-07-24): `public.purge_expired_leads()` is a `SECURITY DEFINER` function that deletes rows past the published 24-month retention window ([`../deployment/data-retention.md`](../deployment/data-retention.md)). It has to bypass RLS — the tables have no DELETE policy at all, which is exactly the property that keeps the anon key harmless. Three controls keep the exception narrow:
+
+- `search_path` is pinned on the function (an unpinned `search_path` on a `SECURITY DEFINER` function lets a caller shadow `public` and run their own code with the owner's rights).
+- `EXECUTE` is revoked from `public`, `anon` and `authenticated`. This matters more than it looks: PostgREST exposes public functions as RPC endpoints, so without the revokes an anonymous visitor could `POST /rest/v1/rpc/purge_expired_leads` and wipe both lead tables — the precise capability the INSERT-only policies exist to deny.
+- It deletes by age only, and cannot be parameterised to target a row.
+
 There are no application-level roles or permissions because there are no authenticated users to assign them to. The "authorization" a visitor experiences at the data-room gate is a **business-logic lead gate** (self-asserted identity → instant unlock), not an access-control boundary — this distinction is important and is documented as such in the audit (finding M-01).
 
 ---
@@ -90,7 +96,7 @@ There are no application-level roles or permissions because there are no authent
 - **In transit:** all traffic is HTTPS; Vercel provisions and auto-renews Let's Encrypt certificates. HSTS is a recommended addition (audit H-01) to prevent downgrade.
 - **At rest:** Supabase encrypts Postgres data and Storage objects at rest by default.
 - **PII minimization:** the site collects only what the lead forms require (email; plus name/firm/optional check-size for investors). Analytics never receives PII — the typed event vocabulary makes it structurally impossible to send an email or name to GA4.
-- **Data residency / DPDP note:** because Orgofin is India-first and subject to the DPDP Act, the Supabase project region and a privacy policy covering lead data are compliance items tracked in the operations runbook.
+- **Data residency / DPDP note:** because Orgofin is India-first and subject to the DPDP Act, data residency is a live compliance item. A privacy policy covering lead data **shipped 2026-07-24** ([`/privacy`](<../../src/app/(marketing)/privacy/page.tsx>); status and open inputs at [`../legal/README.md`](../legal/README.md)). Residency itself is only partly answered: **Vercel executes this site's functions in `iad1` (US East)** — verified from the `X-Vercel-Id` header — so lead data is processed outside India today, and the Supabase project region is still unconfirmed. Full flow inventory: [`../legal/data-processing-inventory.md`](../legal/data-processing-inventory.md).
 
 ---
 
@@ -187,7 +193,7 @@ When the Orgofin product platform introduces authenticated surfaces, extend this
 ## TODO
 
 - [ ] Implement the recommended edge controls (headers/CSP, rate limiting, WAF) — see audit H-01/H-02/M-04.
-- [ ] Confirm Supabase region for DPDP data-residency and publish a privacy policy.
+- [ ] Confirm Supabase region for DPDP data-residency, and decide whether to move Vercel function execution from `iad1` to `bom1`. (Publishing a privacy policy — done 2026-07-24.)
 - [ ] Assign a security DRI.
 
 ## References

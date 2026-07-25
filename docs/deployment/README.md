@@ -56,6 +56,9 @@ Fill in every TODO above at the moment of first production deployment — do not
 ## Related Documents
 
 - [`environment-variables.md`](./environment-variables.md)
+- [`vercel-setup.md`](./vercel-setup.md), [`custom-domain-setup.md`](./custom-domain-setup.md)
+- [`data-room-storage.md`](./data-room-storage.md) — private bucket + signed-URL go-live
+- [`data-retention.md`](./data-retention.md) — the 24-month lead purge, its pg_cron step, and how to exempt a record
 - [`../adr/0001-frontend-first-no-backend-yet.md`](../adr/0001-frontend-first-no-backend-yet.md)
 
 ---
