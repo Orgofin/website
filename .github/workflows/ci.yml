@@ -62,11 +62,18 @@ jobs:
       - name: Unit + component tests (Vitest)
         run: npm run test
 
-      # Fail the build on a high/critical advisory in the dependency tree.
-      # No-fix advisories are handled the same way the postcss GHSA was: a
-      # documented `overrides` pin in package.json (see deployment.md), not by
-      # relaxing this gate.
-      - name: Dependency audit (fail on high/critical)
+      # Two audits, deliberately split (see deployment.md → Dependency audit).
+      #
+      # Blocking: anything that reaches a visitor. Advisories are fixed by a
+      # documented `overrides` pin in package.json, never by relaxing this.
+      - name: Dependency audit — production tree (fail on high/critical)
+        run: npm audit --omit=dev --audit-level=high
+
+      # Non-blocking: build/lint tooling, which never ships. Kept visible so a
+      # dev-tree advisory is surfaced rather than hidden, but not able to block
+      # a release on a vulnerability no visitor can reach.
+      - name: Dependency audit — full tree (advisory only)
+        continue-on-error: true
         run: npm audit --audit-level=high
 
       - name: Build (next build)
