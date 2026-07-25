@@ -164,16 +164,20 @@
   /* Semantic color tokens — LIGHT. Surfaces/foregrounds run a touch cooler and
      deeper than the raw neutral scale — the Cobalt Prime identity as it settled
      through application (design-system.md §2). Off-scale hex on purpose (as in
-     the dark block); all pairs clear WCAG AA (fg-muted nudged #6b7284→#686f81
-     to hold ≥4.5:1 on --surface). */
+     the dark block).
+
+     ⚠️ Every foreground here is verified against the DARKEST light surface
+     (--surface #f1f4f9), which is the binding case — not against --page. Ratios
+     there: fg 11.75:1, fg-muted 5.68:1, fg-subtle 4.50:1. Re-verify on that
+     background if you change any of them (design-system.md §2, accessibility.md). */
   --page: var(--neutral-0);
   --surface: #f1f4f9;
   --surface-raised: #ffffff;
   --border: #e3e7ef;
   --border-strong: var(--neutral-300);
   --fg: #2c3140;
-  --fg-muted: #686f81;
-  --fg-subtle: var(--neutral-300);
+  --fg-muted: #5a6072;
+  --fg-subtle: #687082;
   --accent: var(--blue-600);
   --accent-hover: var(--blue-700);
   --accent-subtle: var(--blue-50);
@@ -223,7 +227,9 @@
   --border-strong: rgba(255, 255, 255, 0.16);
   --fg: #e8eaf0;
   --fg-muted: #98a0b4;
-  --fg-subtle: #5c6478;
+  /* Verified against --surface-raised #141826, the lightest dark surface and
+     therefore the binding case: 4.52:1. Was #5c6478 (2.99:1, failed AA). */
+  --fg-subtle: #7a8191;
   --accent: var(--blue-500);
   --accent-hover: var(--blue-300);
   --accent-subtle: rgba(30, 99, 240, 0.12);

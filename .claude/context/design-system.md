@@ -69,16 +69,16 @@ Not a generic SaaS blue (`#2563EB`/Tailwind `blue-600` territory is explicitly b
 
 ### Neutrals — warm-cool balanced, never pure black/white
 
-| Token                   | HSL          | Hex (approx.) | Usage                                                        |
-| ----------------------- | ------------ | ------------- | ------------------------------------------------------------ |
-| `neutral-0` (light bg)  | 220° 30% 99% | #FAFBFD       | Light-mode page background — _not_ `#FFFFFF`                 |
-| `neutral-50`            | 220° 25% 97% | #F3F5F9       | Light-mode raised surface                                    |
-| `neutral-100`           | 218° 20% 93% | #E6E9F0       | Borders, dividers (light)                                    |
-| `neutral-300`           | 218° 12% 75% | #B4BAC8       | Disabled text, placeholders                                  |
-| `neutral-500`           | 220° 10% 50% | #7B8194       | Secondary text                                               |
-| `neutral-700`           | 222° 15% 30% | #3B4152       | Primary text (light mode)                                    |
-| `neutral-900`           | 224° 25% 10% | #12151F       | Primary text (dark mode) / near-black, not `#000000`         |
-| `neutral-950` (dark bg) | 226° 30% 6%  | #080A11       | Dark-mode page background — deep navy-black, _not_ `#000000` |
+| Token                   | HSL          | Hex (approx.) | Usage                                                                                                                            |
+| ----------------------- | ------------ | ------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `neutral-0` (light bg)  | 220° 30% 99% | #FAFBFD       | Light-mode page background — _not_ `#FFFFFF`                                                                                     |
+| `neutral-50`            | 220° 25% 97% | #F3F5F9       | Light-mode raised surface                                                                                                        |
+| `neutral-100`           | 218° 20% 93% | #E6E9F0       | Borders, dividers (light)                                                                                                        |
+| `neutral-300`           | 218° 12% 75% | #B4BAC8       | Borders (`border-strong`, light). **Not text** — it fails AA at 1.87:1; placeholders and tertiary text use `color-text-tertiary` |
+| `neutral-500`           | 220° 10% 50% | #7B8194       | Secondary text                                                                                                                   |
+| `neutral-700`           | 222° 15% 30% | #3B4152       | Primary text (light mode)                                                                                                        |
+| `neutral-900`           | 224° 25% 10% | #12151F       | Primary text (dark mode) / near-black, not `#000000`                                                                             |
+| `neutral-950` (dark bg) | 226° 30% 6%  | #080A11       | Dark-mode page background — deep navy-black, _not_ `#000000`                                                                     |
 
 ### Semantic tokens
 
@@ -92,8 +92,8 @@ These are what components should ever reference — never a raw scale value dire
 | `color-border-default`    | `#E3E7EF`     | `rgba(255,255,255,0.08)`                                |
 | `color-border-strong`     | `neutral-300` | `rgba(255,255,255,0.16)`                                |
 | `color-text-primary`      | `#2C3140`     | `neutral-100`-equivalent (`#E8EAF0`)                    |
-| `color-text-secondary`    | `#686F81`     | `#98A0B4`                                               |
-| `color-text-tertiary`     | `neutral-300` | `#5C6478`                                               |
+| `color-text-secondary`    | `#5A6072`     | `#98A0B4`                                               |
+| `color-text-tertiary`     | `#687082`     | `#7A8191`                                               |
 | `color-accent`            | `blue-600`    | `blue-500` _(lightened for legibility against dark bg)_ |
 | `color-accent-hover`      | `blue-700`    | `blue-300`                                              |
 | `color-accent-subtle-bg`  | `blue-50`     | `rgba(30,99,240,0.12)`                                  |
@@ -103,6 +103,20 @@ These are what components should ever reference — never a raw scale value dire
 | `color-info`              | `blue-500`    | `blue-300`                                              |
 
 The light-mode `surface`, `border`, and `text` values above are off-scale hex rather than raw `neutral-*` primitives — the **Cobalt Prime** identity as it settled through application (2026-07-18): surfaces a touch cooler and deeper, foregrounds slightly darker for a crisper read. This is deliberate and mirrors how the dark block has always used bespoke hex. `text-secondary` light is `#686F81` (nudged from the design draft's `#6B7284`) so it clears **WCAG AA ≥4.5:1** on `surface` (`#F1F4F9`), not just on `page`. The dark block's `surface`/`text-secondary` were likewise deepened to `#10141F`/`#98A0B4`. All pairs re-verified against the §8 contrast matrix.
+
+**Correction, 2026-07-25 — `text-tertiary` never cleared AA, in either theme.** An axe sweep of all 13 live routes (light + dark) found `--fg-subtle` at **1.87:1** in light (`neutral-300 #B4BAC8`) and **3.34:1** in dark (`#5C6478`) against a 4.5:1 requirement — the 2026-07-18 verification above had checked `text-secondary` and stopped there. It was reaching real body text: form placeholders, `StatCallout` captions, the `/privacy` and `/terms` section numbers, and `Text`'s `subtle` tone.
+
+Fixing it exposed a structural problem: light-mode `text-secondary` sat at **4.56:1**, barely over the line, leaving no room for a third tier beneath it. Any AA-passing tertiary landed within 1.01:1 of secondary — visually identical, collapsing the three-tier hierarchy to two.
+
+The resolution (founder decision, 2026-07-25) darkens **both** light tiers to reopen the gap, keeping three real tiers in both themes:
+
+| Tier             | Light                       | Ratio on `surface` | Dark                        | Ratio on `surface-raised` |
+| ---------------- | --------------------------- | ------------------ | --------------------------- | ------------------------- |
+| `text-primary`   | `#2C3140`                   | 11.75:1            | `#E8EAF0`                   | 14.69:1                   |
+| `text-secondary` | `#5A6072` _(was `#686F81`)_ | 5.68:1             | `#98A0B4`                   | 6.75:1                    |
+| `text-tertiary`  | `#687082` _(was `#B4BAC8`)_ | 4.50:1             | `#7A8191` _(was `#5C6478`)_ | 4.52:1                    |
+
+Separation between secondary and tertiary is 1.26:1 (light) and 1.49:1 (dark) — modest, but a genuine step rather than two names for one colour. **The binding background is the _darkest_ light surface and the _lightest_ dark surface**, not `page` in either case; that asymmetry is what the original check missed, and it is now stated in `globals.css` next to the tokens themselves.
 
 ### Gradients & glow (the identity signature)
 
@@ -229,7 +243,7 @@ Premium products avoid heavy drop-shadows (they read as Material Design/dated). 
 
 Ties directly to [`docs/product/prd.md`](../../docs/product/prd.md) §13 (WCAG AA target) — stated here as concrete, checkable rules rather than a goal.
 
-- **Contrast:** body text ≥ 4.5:1 against its background at all times in both themes (verify `color-text-secondary` against `color-bg-surface`, not just against page background — secondary text on a raised card is the usual failure point). Large text/UI components (≥ 24px or bold ≥ 19px) ≥ 3:1.
+- **Contrast:** body text ≥ 4.5:1 against its background at all times in both themes. Verify **every** foreground tier — including `color-text-tertiary`, which failed unnoticed until 2026-07-25 precisely because only `secondary` was being checked (see §2). Verify against the **worst-case** surface, which is the _darkest_ background in light mode and the _lightest_ in dark mode — not `page` in either case. Large text/UI components (≥ 24px or bold ≥ 19px) ≥ 3:1. Placeholders are text and are covered by this rule.
 - **Focus states:** every interactive element gets a visible 2px focus ring in `color-accent`, offset 2px from the element edge. Never `outline: none` without an equivalent replacement — this is non-negotiable regardless of how it looks in a hover-only mockup.
 - **Touch targets:** minimum 44×44px hit area, even where the visible icon/label is smaller (pad invisibly, don't enlarge the icon itself).
 - **Motion:** see Motion §5 principle 4 — `prefers-reduced-motion` is a first-class rendering path, not an afterthought toggle.

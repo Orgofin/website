@@ -6,7 +6,10 @@ import {
   LegalParagraph,
   type LegalDocumentSection,
 } from "@/components/sections/legal";
-import { LEGAL_CONTACT_EMAIL, LEGAL_ENTITY_NAME } from "@/lib/legal/constants";
+import {
+  LEGAL_CONTACT_EMAIL,
+  LEGAL_ENTITY_DEFINED,
+} from "@/lib/legal/constants";
 import { createMetadata } from "@/lib/seo/metadata";
 
 export const metadata = createMetadata({
@@ -64,9 +67,8 @@ const sections: LegalDocumentSection[] = [
     body: (
       <>
         <LegalParagraph>
-          These terms are an agreement between you and {LEGAL_ENTITY_NAME} (
-          &ldquo;we&rdquo;, &ldquo;us&rdquo;, &ldquo;our&rdquo;), covering your
-          use of orgofin.com and everything on it.
+          These terms are an agreement between you and {LEGAL_ENTITY_DEFINED},
+          covering your use of orgofin.com and everything on it.
         </LegalParagraph>
         <LegalParagraph>
           By using the site you accept them. If you do not, please stop using

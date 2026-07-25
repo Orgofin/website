@@ -9,7 +9,7 @@ import {
 import {
   DATA_RETENTION_MONTHS,
   LEGAL_CONTACT_EMAIL,
-  LEGAL_ENTITY_NAME,
+  LEGAL_ENTITY_DEFINED,
   LEGAL_REGISTERED_ADDRESS,
 } from "@/lib/legal/constants";
 import { createMetadata } from "@/lib/seo/metadata";
@@ -49,11 +49,10 @@ const sections: LegalDocumentSection[] = [
     body: (
       <>
         <LegalParagraph>
-          This website is operated by {LEGAL_ENTITY_NAME} (&ldquo;we&rdquo;,
-          &ldquo;us&rdquo;, &ldquo;our&rdquo;). For the personal data described
-          here, we decide why and how it is processed — under India&rsquo;s
-          Digital Personal Data Protection Act, 2023, that makes us the data
-          fiduciary.
+          This website is operated by {LEGAL_ENTITY_DEFINED}. For the personal
+          data described here, we decide why and how it is processed — under
+          India&rsquo;s Digital Personal Data Protection Act, 2023, that makes
+          us the data fiduciary.
         </LegalParagraph>
         <LegalParagraph>
           {LEGAL_REGISTERED_ADDRESS ??
