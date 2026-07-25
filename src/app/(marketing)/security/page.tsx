@@ -26,11 +26,11 @@ export const metadata = createMetadata({
  * `<h1>` lives in `SecurityHero`; the page closes on the shared waitlist
  * `CTABand`.
  *
- * The copy deck's §4 CTAs — "Read our Privacy Policy" and "Talk to our team".
- * The first is now live (`/privacy` shipped); the second stays unrendered
- * because `/contact` still doesn't exist and the never-link-a-404 rule (IA §4)
- * applies to body links too. It wires up when that page ships; tracked in
- * information-architecture.md's TODO.
+ * Both of the copy deck's §4 CTAs are now live: "Read our Privacy Policy"
+ * (shipped with `/privacy`, 2026-07-24) and "Talk to our team about your
+ * compliance requirements" (wired 2026-07-25 when `/contact` shipped). Neither
+ * was rendered until its target existed — the never-link-a-404 rule (IA §4)
+ * applies to body links, not just navigation.
  *
  * The privacy line sits between the compliance surface and the waitlist band
  * rather than inside `CTABand`: that component is shared by every non-legal
@@ -53,6 +53,13 @@ export default function SecurityPage() {
               className="text-accent hover:text-accent-hover underline underline-offset-4"
             >
               Privacy Policy
+            </Link>
+            . Got compliance requirements of your own?{" "}
+            <Link
+              href="/contact"
+              className="text-accent hover:text-accent-hover underline underline-offset-4"
+            >
+              Talk to our team
             </Link>
             .
           </Text>

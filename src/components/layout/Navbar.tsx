@@ -61,6 +61,7 @@ const DEFAULT_ITEMS: NavItem[] = [
     items: [
       { label: "About", href: "/about" },
       { label: "Careers", href: "/careers" },
+      { label: "Contact", href: "/contact" },
     ],
   },
 ];

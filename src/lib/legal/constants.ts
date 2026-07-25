@@ -11,6 +11,8 @@
  * or third-party script changes.
  */
 
+import { CONTACT_EMAIL } from "@/lib/site/contact";
+
 /**
  * Founder-supplied 2026-07-24. This is the trading name; the *registered* legal
  * entity name may differ once incorporation completes.
@@ -19,10 +21,14 @@
 export const LEGAL_ENTITY_NAME = "Orgofin";
 
 /**
- * Founder-supplied 2026-07-24 — the channel for data-principal requests
- * (access, correction, erasure) and general legal contact.
+ * The channel for data-principal requests (access, correction, erasure) and
+ * general legal contact. Founder-supplied 2026-07-24.
+ *
+ * Re-exported from `lib/site/contact.ts` rather than repeated: `/contact`
+ * publishes the same address, and a legal page naming a different one than the
+ * contact page is exactly the kind of drift that makes a policy unenforceable.
  */
-export const LEGAL_CONTACT_EMAIL = "contact@orgofin.com";
+export const LEGAL_CONTACT_EMAIL = CONTACT_EMAIL;
 
 /**
  * Registered address — deliberately `null`, not a placeholder string. The

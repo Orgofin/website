@@ -413,6 +413,14 @@ _Original deck copy (retained for reference):_ **Headline:** We're not hiring ye
 **Success message:** Thanks — we read every one of these ourselves. Expect a reply within 1–2 business days.
 **Secondary line:** Looking to partner instead? Visit our Partners page →
 
+> **Shipped 2026-07-25, and it deviates from the three lines above — deliberately.** Read `.claude/context/information-architecture.md` → Design Decisions for the full reasoning; in brief:
+>
+> - **No form.** A third PII collection point (table, migration, API route, rate limiting, `/privacy` + inventory updates) that would have sat broken in production until the migration was applied. Six cards with pre-filled `mailto:` subjects route enquiries the same way and store nothing new. The field list above stands as the spec for when volume justifies building it.
+> - **No "Request a Demo."** There is nothing to demo — no product is publicly available (founder statement 2026-07-22, §3's own accuracy note). The page offers a conversation instead.
+> - **No "Visit our Partners page."** `/partners` is unbuilt, and the CA/CS commission structure is a founder fact we don't have. Partnership enquiries route by email rather than link a 404.
+>
+> **What did ship verbatim:** the headline, and the response promise inside the success message ("we read every one of these ourselves… a reply within 1–2 business days"), which now sits on the page itself rather than behind a submit. It is a promise the founders have to keep — it matches the first-week commitment in `docs/launch/launch-playbook.md`.
+
 ---
 
 ## 14. Privacy Policy & Terms
