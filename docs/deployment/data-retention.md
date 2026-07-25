@@ -119,7 +119,9 @@ select email, created_at, retained_until, retained_reason
 
 ## Current Status
 
-Migration written 2026-07-24 and **not yet applied to either project** — it needs the pg_cron dashboard step first, which only someone with project access can do. Until it is applied, `/privacy` §8 states a window that nothing enforces and deletion remains manual.
+**Applied and running on both projects (prod and non-prod) as of 2026-07-25.** pg_cron was enabled and the migration run on each; `cron.job` reports `purge-expired-leads`, `15 3 * * *`, `active = true` on both. `/privacy` §8's 24-month window is now enforced by a mechanism rather than by intention.
+
+The schedule confirmation — not the migration exit status — is the evidence, for the reason in the "Apply it" section above: with pg_cron off, the migration still succeeds and schedules nothing. Re-run the `cron.job` query after any replay, restore, or project migration.
 
 ## Future Improvements
 
@@ -129,8 +131,9 @@ Migration written 2026-07-24 and **not yet applied to either project** — it ne
 
 ## TODO
 
-- [ ] **Founder/infra:** enable pg_cron and apply the migration to **both** Supabase projects, then run the §"Verify it works" checks.
-- [ ] **Engineering:** once applied, update the Current Status here, [`../legal/README.md`](../legal/README.md) and [`../legal/data-processing-inventory.md`](../legal/data-processing-inventory.md) §4 to say enforced rather than promised.
+- [x] ~~**Founder/infra:** enable pg_cron and apply the migration to **both** Supabase projects~~ — done 2026-07-25, schedule confirmed active on each.
+- [x] ~~**Engineering:** once applied, update the Current Status here, [`../legal/README.md`](../legal/README.md) and [`../legal/data-processing-inventory.md`](../legal/data-processing-inventory.md) §4 to say enforced rather than promised~~ — done 2026-07-25.
+- [ ] **Engineering:** the purge is still silent — a failed run stays invisible until someone reads `cron.job_run_details`. Add alerting, or fold a periodic check into the launch-playbook review cadence.
 
 ## References
 
