@@ -21,6 +21,19 @@ import { CONTACT_EMAIL } from "@/lib/site/contact";
 export const LEGAL_ENTITY_NAME = "Orgofin";
 
 /**
+ * The defined-terms phrase both policies open with, as ONE string.
+ *
+ * Not assembled in JSX. Written as `{LEGAL_ENTITY_NAME} (&ldquo;we&rdquo;…)`,
+ * the space before the parenthesis was silently dropped in the rendered output
+ * — both pages shipped to production on 2026-07-24 reading `Orgofin(“we”, “us”,
+ * “our”)`. An explicit `{" "}` fixes it but Prettier removes that again the
+ * moment the line fits, so the fix does not survive a reformat. Keeping the
+ * whole phrase in one string puts it beyond JSX whitespace handling entirely,
+ * which also matches what it is: a single legal definition, not three tokens.
+ */
+export const LEGAL_ENTITY_DEFINED = `${LEGAL_ENTITY_NAME} (“we”, “us”, “our”)`;
+
+/**
  * The channel for data-principal requests (access, correction, erasure) and
  * general legal contact. Founder-supplied 2026-07-24.
  *
