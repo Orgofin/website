@@ -1,25 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Orgofin">
-  <!-- Concept 07 "Eclipse": solid disc with a sharp geometric F in negative
-       space. Inverts with the OS/browser colour scheme:
-       light = indigo→violet disc + white F, dark = white disc + dark F. -->
-  <defs>
-    <linearGradient id="orgofinGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#3d7fff"/>
-      <stop offset="1" stop-color="#1a4fc4"/>
-    </linearGradient>
-  </defs>
+  <!-- The Orgofin mark: a brain split into biological and circuit halves — the
+       Company Brain, literally. Simplified from the founders' artwork
+       (docs/brand/logo/Anna-05.svg) for small sizes: that drawing's strokes are
+       ~0.7% of its width, which cannot render at 16px. Detail density is
+       reduced; silhouette and proportion are not. The full-detail original is
+       public/logo.svg — see docs/brand/brand-assets.md.
+
+       Colour follows the OS scheme, matching --accent in each theme. -->
   <style>
-    .disc { fill: url(#orgofinGrad); }
-    .fmark { fill: #ffffff; }
+    .mark { stroke: #1e63f0; }
+    .node { fill: #1e63f0; }
     @media (prefers-color-scheme: dark) {
-      .disc { fill: #ffffff; }
-      .fmark { fill: #0b1020; }
+      .mark { stroke: #3d7fff; }
+      .node { fill: #3d7fff; }
     }
   </style>
-  <circle class="disc" cx="32" cy="32" r="31"/>
-  <g class="fmark">
-    <rect x="23" y="16.5" width="6" height="31"/>
-    <rect x="29" y="16.5" width="15" height="6"/>
-    <rect x="29" y="30" width="9" height="6"/>
+  <g class="mark" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M32 10c-4.6-.6-7.6 1-9 3.8-4.3-1-7.6 1.6-7.6 5.6-3.9.8-6 4-4.6 7.7-3.2 2.3-3.2 6.2 0 8.5-1.4 3.7.7 6.9 4.6 7.7 0 4 3.3 6.6 7.6 5.6 1.4 2.8 4.4 4.4 9 3.8"/>
+    <path d="M32 22c-4.4-.4-7 1.6-6.4 5"/>
+    <path d="M32 37c-4.4-.4-7 1.6-6.4 5"/>
+    <path d="M32 10v42"/>
+    <path d="M32 19h9l4-4h4"/>
+    <path d="M32 31h14"/>
+    <path d="M32 43h9l4 4h4"/>
+  </g>
+  <g class="node">
+    <circle cx="52" cy="15" r="3.2"/>
+    <circle cx="49.5" cy="31" r="3.2"/>
+    <circle cx="52" cy="47" r="3.2"/>
   </g>
 </svg>

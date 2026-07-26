@@ -5,9 +5,12 @@ import { siteConfig } from "@/lib/seo/site";
 /**
  * Web app manifest (served at /manifest.webmanifest, auto-linked by Next).
  * Enables install-to-home-screen and provides the maskable app icons. Icons
- * live in `public/` and are generated from the Eclipse mark (see
- * docs/brand/brand-assets.md). `theme_color` is the Cobalt Prime accent; keep
- * it in sync with the brand colour if it changes.
+ * live in `public/` and are generated from the brain mark on a Cobalt gradient
+ * tile (see docs/brand/brand-assets.md). The tile is deliberate: a transparent
+ * mark on an unknown home-screen wallpaper is unreadable, and `maskable` means
+ * Android may crop to a circle — the mark sits inside the central 62% to stay
+ * clear of that. `theme_color` is the Cobalt Prime accent; keep it in sync with
+ * the brand colour if it changes.
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
