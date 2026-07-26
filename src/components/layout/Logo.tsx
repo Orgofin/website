@@ -1,72 +1,54 @@
-"use client";
-
-import { useId } from "react";
-
 import { cn } from "@/lib/utils";
 
 export type LogoProps = {
   /** Show the "Orgofin" wordmark next to the mark. Default true. */
   withWordmark?: boolean;
-  /** Mark size in px (square). Default 28. */
+  /**
+   * Mark size in px (square). Default 36 — not 28, which is the size the
+   * previous geometric mark used. This artwork carries real interior detail, and
+   * side-by-side renders in the navbar show it only resolving from about 36px;
+   * below that the tile reads as a plain dark square. Raising the size is the
+   * one legibility lever available without editing the artwork, which is
+   * off-limits (docs/brand/brand-assets.md).
+   */
   size?: number;
   className?: string;
 };
 
 /**
- * The Orgofin brand lockup — the "Eclipse" mark plus the wordmark.
+ * The Orgofin brand lockup — the founders' mark plus the wordmark.
  *
- * The mark is exactly concept 07 (docs/brand/preview.html): a solid disc with a
- * clean, sharp-cornered geometric "F" in negative space. It inverts with the
- * theme (matching the reference):
- *   - Light: Cobalt Prime gradient disc, white F.
- *   - Dark:  white disc, dark F.
- * The disc gradient reads the `--logo-grad-from` / `--logo-grad-to` tokens
- * (globals.css), so re-theming the live logo is a two-line token change. The
- * inversion uses the `dark:` variant (wired to the `.dark` class). Keep the F
- * geometry in sync with `src/app/icon.svg` / `public/logo.svg`.
+ * The mark is the designers' delivered artwork, used **unmodified**:
+ * `docs/brand/logo/LOGO-5-518.svg`, copied byte-identical to
+ * `public/brand/orgofin-mark.svg`. Nothing here redraws, recolours or
+ * simplifies it — an earlier attempt at a simplified redraw was rejected by the
+ * founders, and the delivered file is the design of record.
+ *
+ * LOGO-5 was chosen from the five delivered designs because it is the only
+ * family that stays legible at icon sizes: it is self-contained — a rounded
+ * black tile carrying the white brain and blue circuit traces — so it needs no
+ * light/dark variant and cannot vanish on either background. The untiled
+ * designs are flat single-colour artwork that disappears against the dark page.
+ * Full comparison and the evidence behind the choice: `docs/brand/brand-assets.md`.
+ *
+ * Served as an `<img>` rather than inlined: the file is 33KB of path data, and
+ * inlining would put that in the navbar *and* footer of every page instead of
+ * fetching it once and caching it.
  */
-
-/** Concept-07 F, as non-overlapping blocks on a 64-grid (x, y, w, h). */
-const F_PARTS: ReadonlyArray<readonly [number, number, number, number]> = [
-  [23, 16.5, 6, 31], // stem
-  [29, 16.5, 15, 6], // top arm
-  [29, 30, 9, 6], // mid arm
-];
-
-export function Logo({ withWordmark = true, size = 28, className }: LogoProps) {
-  const gradientId = useId();
-
+export function Logo({ withWordmark = true, size = 36, className }: LogoProps) {
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
-      <svg
+      {/* eslint-disable-next-line @next/next/no-img-element -- next/image adds
+          no value for a vector (nothing to resize or re-encode) and would need
+          `dangerouslyAllowSVG` enabled project-wide to pass an SVG through. */}
+      <img
+        src="/brand/orgofin-mark.svg"
+        alt={withWordmark ? "" : "Orgofin home"}
+        aria-hidden={withWordmark ? true : undefined}
         width={size}
         height={size}
-        viewBox="0 0 64 64"
-        role="img"
-        aria-label={withWordmark ? "Orgofin" : "Orgofin home"}
         className="shrink-0"
-      >
-        <defs>
-          <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="var(--logo-grad-from)" />
-            <stop offset="1" stopColor="var(--logo-grad-to)" />
-          </linearGradient>
-        </defs>
-        {/* Disc: gradient in light, white in dark. */}
-        <circle
-          cx="32"
-          cy="32"
-          r="31"
-          fill={`url(#${gradientId})`}
-          className="dark:fill-white"
-        />
-        {/* F in negative space: white in light, dark in dark. */}
-        <g fill="#ffffff" className="dark:fill-[#0b1020]">
-          {F_PARTS.map(([x, y, w, h]) => (
-            <rect key={`${x}-${y}`} x={x} y={y} width={w} height={h} />
-          ))}
-        </g>
-      </svg>
+      />
       {withWordmark && (
         <span className="text-heading-md text-fg font-semibold tracking-tight">
           Orgofin
