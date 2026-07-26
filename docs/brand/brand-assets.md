@@ -32,15 +32,16 @@ Five designs (LOGO-1 … LOGO-5), each exported at 16/24/32/64/128/256/518 in SV
 
 Because there is no inverted variant, **no single file serves both themes**. The pair that works, both used as delivered:
 
-| Theme     | File             | Why                                                                                                                      |
-| --------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| **Light** | `LOGO-4-518.svg` | Untiled, single-colour blue, transparent — sits directly on the page, nothing to blend away                              |
-| **Dark**  | `LOGO-5-518.svg` | White brain + blue traces on a pure-`#000` tile — the only form that shows the _complete_ mark against a dark background |
+| Theme     | File             | Why                                                                                                                       |
+| --------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| **Light** | `LOGO-4-518.svg` | Untiled, single-colour blue, transparent. **Used byte-identical — do not touch it**, it is signed off as-is               |
+| **Dark**  | `LOGO-5-518.svg` | White brain + blue traces — the only form showing the _complete_ mark on dark. Its background plate is removed; see below |
 
-The two CSS properties that make the dark file blend are both required, and neither touches the artwork:
+**The dark file's background plate is removed** (founder request, 2026-07-26). `LOGO-5-518.svg` ships with a black rounded rect behind the mark; against the translucent `glass-surface` navbar it reappeared as a visible black box on scroll.
 
-- **`rounded-full`** clips the tile to a circle. Unclipped, its straight edge is visible against the page.
-- **`mix-blend-screen`**, on the dark file only. The tile is pure black and `screen` maps black to "leave the backdrop alone", so the disc disappears _exactly_ rather than almost. Without it the disc is faintly visible on the page and **obviously** visible on a raised surface (`#10141F`), where the two blacks no longer nearly match. It must never be applied to the light file — screen against a light backdrop erases dark artwork entirely.
+This is **the one edit made to any delivered file**, and it is deliberately surgical: the plate is the single `<rect>` in the file carrying no `class` (every other rect has a `cls-*` and is part of the artwork). The generator asserts both that the plate is present and that exactly one unclassed rect exists before touching anything, then diffs the result against the original to prove the mark is otherwise byte-identical. Regenerate with `scratchpad/make-dark-transparent.mjs`.
+
+Two earlier workarounds are gone with it — `rounded-full` to clip the plate into a circle, and `mix-blend-screen` to map its black to "leave the backdrop alone". Both only held while the backdrop was flat, which is precisely why the plate resurfaced over the glass navbar. **Do not reintroduce `mix-blend-screen`**; with transparent files it alters the artwork's own colours for nothing.
 
 **Mark size is 48px.** This artwork carries real interior detail; side-by-side renders show it only resolving from about 36px, and 48px is where the brain is unambiguous. Raising the size is the only legibility lever available while editing is off the table.
 
@@ -56,25 +57,32 @@ The mark keeps its **delivered colour** — the designers' blue, untouched. This
 
 Every SVG below is a **byte-identical copy** of a delivered file — verified with `cmp`, not by eye.
 
-| Asset               | Path                                  | Source                         | Purpose                                            |
-| ------------------- | ------------------------------------- | ------------------------------ | -------------------------------------------------- |
-| Site mark (light)   | `public/brand/orgofin-mark-light.svg` | `LOGO-4-518.svg`               | Shown in light theme by `Logo.tsx`                 |
-| Site mark (dark)    | `public/brand/orgofin-mark-dark.svg`  | `LOGO-5-518.svg`               | Shown in dark theme, circular + `mix-blend-screen` |
-| Legacy favicon      | `src/app/favicon.ico`                 | rendered from `LOGO-5-518.svg` | 16/32/48, **circular** with transparent corners    |
-| Apple touch icon    | `src/app/apple-icon.png`              | rendered                       | 180×180, **full-bleed square** — see below         |
-| PWA icon (small)    | `public/icon-192.png`                 | rendered                       | 192×192, full-bleed square                         |
-| PWA icon (maskable) | `public/icon-512.png`                 | rendered                       | 512×512, full-bleed square                         |
-| Web manifest        | `src/app/manifest.ts`                 | —                              | Generates `/manifest.webmanifest`                  |
-| Logo (SVG)          | `public/logo.svg`                     | `LOGO-4-518.svg`               | General-purpose, untiled                           |
-| Logo (alt)          | `public/logo-mono.svg`                | `LOGO-5-518.svg`               | Tiled variant, for uncontrolled backgrounds        |
-| Logo (PNG)          | `public/logo.png`                     | rendered                       | 512×512 circular — schema.org `Organization.logo`  |
-| Social share image  | `public/og/default.png`               | rendered                       | 1200×630 OG/Twitter card                           |
-| `Logo` component    | `src/components/layout/Logo.tsx`      | —                              | Theme-paired `<img>` lockup                        |
-| Delivered originals | `docs/brand/logo/`                    | —                              | All 122 files as received. Provenance.             |
+| Asset               | Path                                  | Source                           | Purpose                                           |
+| ------------------- | ------------------------------------- | -------------------------------- | ------------------------------------------------- |
+| Site mark (light)   | `public/brand/orgofin-mark-light.svg` | `LOGO-4-518.svg`                 | Light theme. Byte-identical to delivered          |
+| Site mark (dark)    | `public/brand/orgofin-mark-dark.svg`  | `LOGO-5-518.svg`                 | Dark theme, background plate removed              |
+| SVG/PNG favicon     | `src/app/icon.png`                    | `fav icons/ai-brain-favicon.png` | **Primary favicon.** Byte-identical copy          |
+| Legacy favicon      | `src/app/favicon.ico`                 | rendered from the same           | 16/32/48 fallback, transparent                    |
+| Apple touch icon    | `src/app/apple-icon.png`              | rendered from the same           | 180×180 on an opaque dark plate — see below       |
+| PWA icon (small)    | `public/icon-192.png`                 | rendered from the same           | 192×192, opaque plate                             |
+| PWA icon (maskable) | `public/icon-512.png`                 | rendered from the same           | 512×512, opaque plate                             |
+| Web manifest        | `src/app/manifest.ts`                 | —                                | Generates `/manifest.webmanifest`                 |
+| Logo (SVG)          | `public/logo.svg`                     | `LOGO-4-518.svg`                 | General-purpose, untiled                          |
+| Logo (alt)          | `public/logo-mono.svg`                | `LOGO-5-518.svg`                 | Tiled variant, for uncontrolled backgrounds       |
+| Logo (PNG)          | `public/logo.png`                     | rendered                         | 512×512 circular — schema.org `Organization.logo` |
+| Social share image  | `public/og/default.png`               | rendered                         | 1200×630 OG/Twitter card                          |
+| `Logo` component    | `src/components/layout/Logo.tsx`      | —                                | Theme-paired `<img>` lockup                       |
+| Delivered originals | `docs/brand/logo/`                    | —                                | All 122 files as received. Provenance.            |
 
-**`src/app/icon.svg` is deliberately absent.** A vector favicon would take precedence over `favicon.ico` in modern browsers, and the delivered SVG cannot be clipped to a circle without editing it — so it would have shipped a square tab icon while the site logo was circular. Dropping it lets the circular `.ico` serve every browser. Restoring an SVG favicon requires a circular export from the designer.
+### The favicon is a different mark, on purpose
 
-**Home-screen icons stay full-bleed square on purpose.** The OS applies its own mask (iOS rounds; Android may crop to a circle). Handing it transparent corners makes it composite them against white or black, which looks broken. Only the browser-tab icon is circular, because there the transparent corners land on the tab background.
+The tab icon is **not** the site logo. It comes from [`fav icons/ai-brain-favicon.png`](<./fav icons/ai-brain-favicon.png>), founder-supplied 2026-07-26, and is used byte-identical.
+
+The reason is measurable. Earlier favicons cut from the site mark were **invisible on dark browser chrome** — a dark mark on a `#1f1f1f` tab is nothing at all, which is what "the favicon isn't showing up" looked like. Rendered across light tab (`#e8eaed`), dark tab (`#1f1f1f`), white and the site's own dark page, the chosen file is the only candidate legible on **all four**, because its pink→cyan gradient sits mid-tone against both extremes. The alternative supplied alongside it (`brain-favicon - 2.png`, black line art) failed on dark chrome exactly as the previous ones did.
+
+`src/app/icon.png` is the primary favicon (Next prefers it); `favicon.ico` carries 16/32/48 as the legacy fallback. Both come from that one source.
+
+**Home-screen icons sit on an opaque dark plate.** The OS applies its own mask (iOS rounds; Android may crop to a circle), and transparent corners get composited against white or black, which looks broken. Only the tab icon is transparent, because there the corners land on tab chrome.
 
 `Logo.tsx` serves the marks as `<img>` rather than inlining them: each file is ~33KB of path data, and inlining would put that in the navbar **and** footer of every page instead of being fetched once and cached.
 
@@ -114,8 +122,11 @@ PNGs and the `.ico` are rendered from the delivered SVG with headless Chromium �
 | Simplified redraw | **Rejected** — lost the design's character                        | 2026-07-26 | Founder |
 | Files             | Use as delivered, unmodified                                      | 2026-07-26 | Founder |
 | Theme handling    | Separate light and dark files (LOGO-4 / LOGO-5)                   | 2026-07-26 | Founder |
-| Shape             | Circular, blended into the page background                        | 2026-07-26 | Founder |
+| Light mark        | Signed off as-is — **do not change it**                           | 2026-07-26 | Founder |
+| Dark mark         | Background plate removed; fully transparent                       | 2026-07-26 | Founder |
+| Favicon           | Separate supplied artwork, not the site mark                      | 2026-07-26 | Founder |
 | Mark size         | 48px                                                              | 2026-07-26 | Founder |
+| Lockup spacing    | Tightened to `gap-1`                                              | 2026-07-26 | Founder |
 | Colour            | Keep the delivered blue; accept the mismatch with the site accent | 2026-07-26 | Founder |
 
 **Why a single file was tried first, and why it failed.** LOGO-5's tile is self-contained, so one file appeared to serve both themes. It does _render_ on both — but on the light page it is a heavy black disc, which is the opposite of blending. Once the requirement was "blend with the background", the untiled design became necessary for light, and that forced a pair.
@@ -126,20 +137,22 @@ PNGs and the `.ico` are rendered from the delivered SVG with headless Chromium �
 
 ## Current Status
 
-Shipped 2026-07-26, replacing the Eclipse identity. Theme-paired delivered files, circular and blended, 48px. Full raster set and OG card regenerated.
+Shipped 2026-07-26, replacing the Eclipse identity. Theme-paired files at 48px, both transparent, tight lockup. Favicon from separate supplied artwork. Full raster set and OG card regenerated.
 
 ## Future Improvements
 
-- **Ask the designer for two exports that would each remove a compromise:** a genuine light-ink (inverted) version of the untiled design, which would let the dark theme drop the tile and the blend trick entirely; and a purpose-drawn reduced-detail version for 16–32px.
+- **Ask the designer for a genuine light-ink (inverted) version of the untiled design.** It would let the dark theme use the same drawing as the light one instead of a plate-stripped variant, removing the only edit in this repo.
+- **A purpose-drawn reduced-detail version for 16–32px**, if the site mark is ever wanted as the favicon again.
 - Optional animated mark (circuit traces drawing in) for the hero/loader, respecting reduced-motion.
 - Dynamic per-page OG image route to replace the single static card.
 - Full brand-guidelines doc (misuse, co-branding, motion) as the company scales.
 
 ## TODO
 
-- [ ] **Founder:** check the favicon at 16px in a real browser tab on your own display, and the app icon on an iOS/Android home screen. A screenshot at 5× is not that test.
+- [ ] **Founder:** confirm the favicon now appears in a real tab — hard-refresh first, browsers cache favicons aggressively and a stale one will look like nothing changed. Also check the app icon on an iOS/Android home screen.
+- [ ] **Founder:** the favicon's pink→cyan gradient is a different palette from both the site mark and the site accent. It was chosen for legibility on dark chrome; worth deciding whether that difference is acceptable long-term or whether the designer should supply a favicon in the brand palette.
 - [ ] **Founder:** decide whether the mark's blue and the site accent should converge. They currently differ; the site accent is the cheaper side to move.
-- [ ] **Founder/designer:** request the two exports named under Future Improvements — an inverted untiled variant, and a reduced-detail small-size variant. Both are small jobs for whoever drew this, and each removes a workaround.
+- [ ] **Founder/designer:** request an inverted (light-ink) untiled export — it would remove the only edit made to any delivered file.
 - [ ] **Founder/designer:** the delivery contains no wordmark lockup — the wordmark is Geist Semibold set alongside the mark. Commission a kerned wordmark if one is wanted; requirements are in [`logo-delivery-spec.md`](./logo-delivery-spec.md).
 - [ ] **Engineering:** verify the OG card in the Twitter/LinkedIn card debuggers once caching settles (launch-readiness P-02).
 

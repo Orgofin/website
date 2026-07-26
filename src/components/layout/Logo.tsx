@@ -32,19 +32,13 @@ export type LogoProps = {
  *   indistinguishable, so clipped to a circle it blends into the background and
  *   the mark reads as free-standing.
  *
- * Two CSS properties do the blending, and both are needed:
- *
- * - `rounded-full` clips the dark file's square tile to a circle; unclipped, its
- *   straight edge is visible against the page. A no-op for the light file, which
- *   has no tile, but applied to both so the themes share one footprint.
- * - `mix-blend-screen` on the dark file only. The tile is pure `#000`, and
- *   `screen` maps black to "leave the backdrop alone", so the disc disappears
- *   exactly instead of almost. Without it the disc is faintly visible on the
- *   page and **obviously** visible on a raised surface (`#10141f`), where the
- *   two blacks no longer nearly match. It must not go on the light file — screen
- *   against a light backdrop would erase dark artwork entirely.
- *
- * Neither touches the artwork; both are presentation.
+ * Both files are transparent, so neither needs a clip or a blend mode. That was
+ * not always true: the dark file originally carried a black background plate,
+ * which was hidden with `rounded-full` + `mix-blend-screen`. Both were
+ * workarounds and both are gone — `screen` in particular held only while the
+ * backdrop stayed flat, and the plate reappeared over the translucent
+ * `glass-surface` navbar on scroll. The plate is now removed from the file
+ * itself (founder request, 2026-07-26); see `docs/brand/brand-assets.md`.
  *
  * ## Size
  *
@@ -53,14 +47,15 @@ export type LogoProps = {
  * unambiguous. Raising the size is the only legibility lever available while
  * editing the artwork is off the table.
  */
-const MARK_CLASSES = "shrink-0 rounded-full";
+const MARK_CLASSES = "shrink-0";
 
 /**
  * Both files are near-square but not exactly (light 0.984, dark 1.009), and
  * Tailwind Preflight sets `img { height: auto }` — which overrides the `height`
- * attribute and would render a 48×49 ellipse instead of a circle. An inline
- * style beats Preflight, forcing a true square; the ≤1.6% distortion that costs
- * is imperceptible and is the price of a real circle.
+ * attribute and would render them at slightly different heights. An inline
+ * style beats Preflight, forcing a true square so the two themes occupy an
+ * identical footprint and the wordmark never shifts when the theme changes. The
+ * ≤1.6% distortion that costs is imperceptible.
  */
 const squareStyle = (size: number) => ({ width: size, height: size });
 
@@ -68,8 +63,11 @@ export function Logo({ withWordmark = true, size = 48, className }: LogoProps) {
   const alt = withWordmark ? "" : "Orgofin home";
   const ariaHidden = withWordmark ? true : undefined;
 
+  // gap-1 rather than the usual 2–2.5: this mark carries its own generous
+  // internal padding, so a standard gap reads as a gap-plus-margin and the
+  // lockup drifts apart. Tightened at the founders' request, 2026-07-26.
   return (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
+    <span className={cn("inline-flex items-center gap-1", className)}>
       {/* Two files, swapped by theme — see the component doc for why one cannot
           serve both. `dark:` is bound to the `.dark` class, so this follows the
           site's theme toggle rather than the OS setting.
@@ -95,7 +93,7 @@ export function Logo({ withWordmark = true, size = 48, className }: LogoProps) {
         width={size}
         height={size}
         style={squareStyle(size)}
-        className={cn(MARK_CLASSES, "hidden dark:block", "mix-blend-screen")}
+        className={cn(MARK_CLASSES, "hidden dark:block")}
       />
       {withWordmark && (
         <span className="text-heading-md text-fg font-semibold tracking-tight">
