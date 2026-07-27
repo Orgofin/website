@@ -35,8 +35,8 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 ### Quality
 
 - [ ] CI green on `main`; `npm audit` clean. [Eng]
-- [ ] Manual Lighthouse baseline (Perf 95+, A11y/SEO/Best-Practices 100 targets) recorded. [Eng]
-- [ ] Manual axe pass on home/vision/investors/data-room. [Eng]
+- [x] ~~Manual Lighthouse baseline recorded~~ — **done 2026-07-27** against production: [`lighthouse-baseline.md`](./lighthouse-baseline.md). A11y **100** and SEO **100** on every route; desktop perf **100**. Two gaps: mobile perf 91–93 on four routes, and Best Practices capped at **96** by the deliberate `unsafe-inline` CSP — a target that currently conflicts with the static-rendering performance target and needs a founder call. [Eng]
+- [x] ~~Manual axe pass~~ — **done 2026-07-27**: axe WCAG 2.0/2.1 A+AA across **13 routes × both themes, 0 violations**, corroborating Lighthouse a11y 100. Still run by hand; the CI step (E1.2.3) is unbuilt. [Eng]
 - [ ] Browser matrix pass: iOS Safari, Android Chrome, desktop Chrome/Firefox/Safari/Edge, 320px width. [Eng]
 - [ ] All copy proofread; no `TODO`/placeholder/fabricated business facts visible (founder names, traction, pricing). [Founder]
 
