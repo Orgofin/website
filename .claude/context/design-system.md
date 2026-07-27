@@ -114,9 +114,15 @@ The resolution (founder decision, 2026-07-25) darkens **both** light tiers to re
 | ---------------- | --------------------------- | ------------------ | --------------------------- | ------------------------- |
 | `text-primary`   | `#2C3140`                   | 11.75:1            | `#E8EAF0`                   | 14.69:1                   |
 | `text-secondary` | `#5A6072` _(was `#686F81`)_ | 5.68:1             | `#98A0B4`                   | 6.75:1                    |
-| `text-tertiary`  | `#687082` _(was `#B4BAC8`)_ | 4.50:1             | `#7A8191` _(was `#5C6478`)_ | 4.52:1                    |
+| `text-tertiary`  | `#666E80` _(was `#687082`)_ | 4.64:1             | `#7A8191` _(was `#5C6478`)_ | 4.52:1                    |
 
-Separation between secondary and tertiary is 1.26:1 (light) and 1.49:1 (dark) — modest, but a genuine step rather than two names for one colour. **The binding background is the _darkest_ light surface and the _lightest_ dark surface**, not `page` in either case; that asymmetry is what the original check missed, and it is now stated in `globals.css` next to the tokens themselves.
+Separation between secondary and tertiary is 1.22:1 (light) and 1.49:1 (dark) — modest, but a genuine step rather than two names for one colour. **The binding background is the _darkest_ light surface and the _lightest_ dark surface**, not `page` in either case; that asymmetry is what the original check missed, and it is now stated in `globals.css` next to the tokens themselves.
+
+**Follow-up, 2026-07-27 — light `text-tertiary` landed exactly ON 4.50:1, which is not a pass worth having.** The 2026-07-25 fix took it from genuinely failing to precisely at the threshold, with zero margin. Nothing was failing, but nothing could be added either: the moment anything sat behind that text — a backdrop, a tinted section, an antialiased edge — it went under, and a rounding difference between checkers could decide it either way. It surfaced when a background experiment measured 4.39:1 against it.
+
+`#666E80` is 2/255 per channel darker: imperceptible, and it buys 4.64:1 on `surface` / 4.94:1 on `page`. Verified by axe across 13 routes × both themes, 0 violations.
+
+**Treat a token that computes to exactly 4.50:1 as failing.** A threshold value leaves the design no room to do anything behind that text later, and this palette has now been corrected twice for the same underlying reason — a ratio verified once, against one background, and assumed to hold.
 
 ### Gradients & glow (the identity signature)
 
@@ -368,5 +374,5 @@ Implemented. All token categories in this document exist in `globals.css` for bo
 
 ---
 
-**Last Updated:** 2026-07-18 (Cobalt Prime palette graduated; brand experiment torn down)
+**Last Updated:** 2026-07-27
 **Owner:** Orgofin Design/Engineering (TODO: assign a DRI)
