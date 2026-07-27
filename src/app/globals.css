@@ -168,8 +168,10 @@
 
      ⚠️ Every foreground here is verified against the DARKEST light surface
      (--surface #f1f4f9), which is the binding case — not against --page. Ratios
-     there: fg 11.75:1, fg-muted 5.68:1, fg-subtle 4.50:1. Re-verify on that
-     background if you change any of them (design-system.md §2, accessibility.md). */
+     there: fg 11.75:1, fg-muted 5.68:1, fg-subtle 4.64:1. Re-verify on that
+     background if you change any of them (design-system.md §2, accessibility.md).
+     Treat a value that lands ON 4.50 as failing, not passing: it leaves nothing
+     for a backdrop, an antialiased edge, or a rounding difference. */
   --page: var(--neutral-0);
   --surface: #f1f4f9;
   --surface-raised: #ffffff;
@@ -177,7 +179,13 @@
   --border-strong: var(--neutral-300);
   --fg: #2c3140;
   --fg-muted: #5a6072;
-  --fg-subtle: #687082;
+  /* Darkened from #687082 (2026-07-27). That value cleared AA against
+     --surface at exactly 4.50:1 — the threshold itself, zero margin, and the
+     tightest token in the system. Anything that darkened the backdrop even
+     slightly pushed it under, and rounding alone could decide it. #666e80 is
+     2/255 per channel away (not perceptible) and restores real headroom:
+     4.64:1 on --surface, 4.94:1 on --page. */
+  --fg-subtle: #666e80;
   --accent: var(--blue-600);
   --accent-hover: var(--blue-700);
   --accent-subtle: var(--blue-50);
