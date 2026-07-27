@@ -40,15 +40,15 @@ This is a **frontend marketing site with two write endpoints** — not a product
 
 **Right-sized for a pre-seed frontend site, mostly free tiers:**
 
-| Layer                          | Tool                                                                                       | Why                                                                        |
-| ------------------------------ | ------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
-| User analytics                 | **GA4** (already integrated)                                                               | Audiences, sources, conversions; PII-safe event union already in code      |
-| Product analytics (conversion) | **GA4 events** (`waitlist_submit`, `cta_click`, `data_room_request`, `data_room_download`) | Already typed and firing; extend the union, never ad-hoc                   |
-| Performance (real CWV)         | **Vercel Speed Insights + Analytics**                                                      | Field CWV that Lighthouse can't give you; zero-config                      |
-| Error tracking                 | **Sentry** (Next.js SDK)                                                                   | The current gap; client + server errors, releases, alerting, PII scrubbing |
-| Uptime + status page           | **Better Stack** (or UptimeRobot for simplest)                                             | Watch `/` and `/api/waitlist`; alert on downtime; public status page       |
-| API/security/edge              | **Cloudflare Analytics + WAF events** (at domain cutover)                                  | Bot/threat/rate-limit visibility                                           |
-| Logs                           | **Vercel logs** (native) + Sentry breadcrumbs                                              | Sufficient at this scale; add Better Stack log ingestion only if needed    |
+| Layer                          | Tool                                                                                       | Why                                                                                            |
+| ------------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
+| User analytics                 | **GA4** (already integrated)                                                               | Audiences, sources, conversions; PII-safe event union already in code                          |
+| Product analytics (conversion) | **GA4 events** (`waitlist_submit`, `cta_click`, `data_room_request`, `data_room_download`) | Already typed and firing; extend the union, never ad-hoc                                       |
+| Performance (real CWV)         | **Vercel Speed Insights + Analytics**                                                      | Field CWV that Lighthouse can't give you; zero-config                                          |
+| Error tracking                 | **Sentry** (Next.js SDK)                                                                   | The current gap; client + server errors, releases, alerting, PII scrubbing                     |
+| Uptime + status page           | **Better Stack** (or UptimeRobot for simplest)                                             | Watch `/`, `/api/waitlist`, and `/api/health/retention`; alert on downtime; public status page |
+| API/security/edge              | **Cloudflare Analytics + WAF events** (at domain cutover)                                  | Bot/threat/rate-limit visibility                                                               |
+| Logs                           | **Vercel logs** (native) + Sentry breadcrumbs                                              | Sufficient at this scale; add Better Stack log ingestion only if needed                        |
 
 **Defer** PostHog, Grafana, OpenTelemetry, dedicated log platforms until the product platform exists.
 
@@ -98,6 +98,7 @@ flowchart TB
 Configure and **test-fire** before launch:
 
 - **Uptime:** alert if `/` or `/api/waitlist` is down > 2 consecutive checks.
+- **Retention purge:** point a monitor at `/api/health/retention` (hourly is ample — the purge runs daily). It answers **200 healthy / 503 someone needs to look**, so the ordinary uptime alert is the mechanism; nothing extra to configure. This is the only alert here about a _compliance_ control rather than availability: a stalled purge means `/privacy` §8 keeps promising 24-month deletion while nothing deletes, and the site stays perfectly "up" throughout. Runbook: [`../deployment/data-retention.md`](../deployment/data-retention.md).
 - **Error rate:** Sentry alert on a spike (e.g. >10 errors in 5 min, or any new issue type in production).
 - **Latency:** alert if p95 route latency crosses a threshold (Vercel).
 - **Abuse:** alert on a surge of 429s (rate-limit hits) or WAF blocks (Cloudflare) — could be an attack _or_ a false-positive blocking real users.
@@ -149,7 +150,7 @@ GA4 integrated (production-only, PII-safe, and **consent-gated since 2026-07-24*
 
 - [ ] Wire Sentry with PII scrubbing (`beforeSend`).
 - [ ] Enable Vercel Analytics + Speed Insights.
-- [ ] Set up Better Stack/UptimeRobot uptime + status page and alert routing.
+- [ ] Set up Better Stack/UptimeRobot uptime + status page and alert routing — include `/api/health/retention` in the monitor set (the endpoint exists; nothing polls it yet, so the purge is still effectively unmonitored until this is done).
 - [ ] Enable Cloudflare analytics at domain cutover.
 
 ## References
