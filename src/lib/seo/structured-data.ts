@@ -11,7 +11,7 @@ export function organizationSchema(): JsonLd {
     name: siteConfig.name,
     url: siteConfig.url,
     description: siteConfig.description,
-    logo: absoluteUrl("/logo.png"),
+    logo: absoluteUrl("/brand/logo.png"),
   };
 }
 
