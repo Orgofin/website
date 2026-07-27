@@ -38,6 +38,22 @@ It was `20` until this change, and **Node 20 reached EOL on 2026-04-30** — so 
 
 The floor is `>=24.15.0` rather than `>=24` because that is what jsdom 30 requires; anything lower reintroduces the same failure. **Vercel's runtime Node is configured in project settings, not in this repo** — it is a separate dial and does not follow `engines` automatically. Check it when changing this.
 
+### Branch protection (repository rulesets)
+
+Enforced server-side by GitHub **rulesets**, not the older "branch protection" API — note that `gh api repos/Orgofin/website/branches/<b>/protection` returns **404 Branch not protected** even for fully protected branches. Read them with `gh api repos/Orgofin/website/rules/branches/<b>`.
+
+| Branch | PR required | Approvals | CI gate required | Strict |
+| ------ | ----------- | --------- | ---------------- | ------ |
+| `main` | yes         | **1**     | ⚠️ no            | —      |
+| `uat`  | yes         | 0         | yes              | yes    |
+| `dev`  | yes         | 0         | yes              | yes    |
+
+All three also block deletion and non-fast-forward pushes. The required check is the `ci.yml` job **`Lint, format, typecheck, test, build`**; CodeQL stays advisory by design (see the security section above), and the Vercel checks are deployment signal rather than a quality gate, so neither is required.
+
+**Why `strict` is on (2026-07-27).** Strict means a PR must be up to date with its base before merging, so its checks are re-run against what will actually land. Without it a check result can be stale: #123 (jsdom 30) was merged into `dev` carrying a **failing** run from before the Node 24 bump — the result was accurate when produced and meaningless by the time it merged. `dev` also had no `pull_request` rule at all until this change, so direct pushes bypassed CI entirely.
+
+**`main` still has no required status check.** Production merges are gated by one human approval and nothing else, so a red build can reach `main` if the reviewer does not look. That is the remaining gap in this table — deliberately left rather than changed quietly, since production protection is a founder decision.
+
 Local pre-commit/pre-push (Husky): [`.husky/pre-commit`](../../.husky/pre-commit) runs `lint-staged` (ESLint + Prettier on staged files) at commit; [`.husky/pre-push`](../../.husky/pre-push) runs `npm run typecheck` at push — catching most issues before they reach CI at all.
 
 ## Environment Variables — Convention
