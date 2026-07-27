@@ -150,7 +150,9 @@ GA4 integrated (production-only, PII-safe, and **consent-gated since 2026-07-24*
 
 - [ ] Wire Sentry with PII scrubbing (`beforeSend`).
 - [ ] Enable Vercel Analytics + Speed Insights.
-- [ ] Set up Better Stack/UptimeRobot uptime + status page and alert routing — include `/api/health/retention` in the monitor set (the endpoint exists; nothing polls it yet, so the purge is still effectively unmonitored until this is done).
+- [x] ~~Set up Better Stack/UptimeRobot uptime monitoring~~ — **live 2026-07-27** on `/` and `/api/health/retention`. The retention purge is now genuinely monitored rather than merely observable.
+- [ ] **Test-fire the alert.** A monitor that has never actually delivered a notification is an untested control — the endpoint returning 503 is only half the chain. Pause the monitor's URL (or point a scratch monitor at a deliberately-404 path) and confirm the mail/Slack actually arrives, at the address someone reads.
+- [ ] Status page (Better Stack) — not set up; optional until there are external users to communicate to.
 - [ ] Enable Cloudflare analytics at domain cutover.
 
 ## References
@@ -165,5 +167,5 @@ GA4 integrated (production-only, PII-safe, and **consent-gated since 2026-07-24*
 
 ---
 
-**Last Updated:** 2026-07-18
+**Last Updated:** 2026-07-27
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

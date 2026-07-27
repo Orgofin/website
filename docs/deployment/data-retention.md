@@ -190,7 +190,8 @@ The schedule confirmation — not the migration exit status — is the evidence,
 - [x] ~~**Engineering:** the purge is still silent — a failed run stays invisible until someone reads `cron.job_run_details`. Add alerting~~ — done 2026-07-27: every attempt is recorded, `retention_purge_health()` renders a verdict, and `/api/health/retention` exposes it as 200/503 for the uptime monitor.
 - [ ] **Founder/infra:** apply `20260727120000_retention_purge_observability.sql` to **both** Supabase projects (prod + non-prod). Same steps as the first migration; pg_cron is already enabled on both, so no dashboard step this time.
 - [ ] **Engineering:** after applying, verify in production — `curl -i https://orgofin.com/api/health/retention` should return `200` with `"status":"healthy"`. A `503 unavailable` means `SUPABASE_SERVICE_ROLE_KEY` is not reaching the function.
-- [ ] **Engineering:** add `/api/health/retention` to the uptime monitor when that gate is done ([`../launch/launch-playbook.md`](../launch/launch-playbook.md)). **The endpoint is not alerting until this exists** — it only answers when asked.
+- [x] ~~**Engineering:** add `/api/health/retention` to the uptime monitor~~ — **done 2026-07-27.** The endpoint is polled from outside the infrastructure, so a 503 now reaches a human instead of waiting to be noticed.
+- [ ] **Engineering:** confirm the pg_cron **schedule** fires. The 2026-07-27 verification was a manual `select public.purge_expired_leads()`, which proves the function, not the job. After any 03:15 UTC, a `ran_at` nobody triggered by hand is the proof; `select jobname, schedule, active from cron.job where jobname = 'purge-expired-leads';` is the direct check.
 
 ## References
 
