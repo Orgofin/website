@@ -32,6 +32,12 @@ The workflow implementing this pipeline is [`.github/workflows/ci.yml`](../../.g
 
 **Why the audit is split, and what `package.json`'s `overrides` are doing (2026-07-25).** GHSA-mh99-v99m-4gvg (`brace-expansion`, DoS) is fixed **only** in `5.0.8` — the 1.x/2.x/3.x maintenance lines were never patched. But 5.x moved to a named export, which breaks `minimatch@3`'s `require()` call, so a blanket pin takes ESLint down entirely (`TypeError: expand is not a function`). The overrides therefore pin `brace-expansion` to `^5.0.8` and carve `minimatch@3` back to `^1.1.16`: that patches the `ts-morph` and `typescript-eslint` paths and leaves only ESLint 9's own bundled `minimatch@3`, which cannot be patched at all — **ESLint 9 is the last major to ship `minimatch@3`**. The real fix is the deferred ESLint 10 migration (TODO below); until then a permanently-unfixable dev-only advisory would block every release, which is why the blocking gate is scoped to the production tree. `shadcn` moved to `devDependencies` in the same change — it is a scaffolding CLI, never imported from `src/`, and keeping it in `dependencies` put `@hono/node-server` and `ts-morph` in the shipped tree. The production tree now audits clean at every severity.
 
+**Node version (2026-07-27).** CI runs **Node 24**, the current Active LTS (maintenance from Oct 2026, EOL Apr 2028 per the [Node release schedule](https://github.com/nodejs/Release)). Pinned in three places that must agree: [`ci.yml`](../../.github/workflows/ci.yml)'s `node-version`, `package.json` `engines` (`>=24.15.0`), and [`.nvmrc`](../../.nvmrc) for local dev.
+
+It was `20` until this change, and **Node 20 reached EOL on 2026-04-30** — so CI spent roughly three months building on a runtime receiving no security patches, on a repo that otherwise gates hard on dependency advisories. Nothing flagged it: `npm audit` scans dependencies, not the interpreter, and CodeQL does not check runtime lifecycle either. What surfaced it was an unrelated Dependabot PR (jsdom 30, whose `engines` excludes Node 20) failing with `webidl.util.markAsUncloneable is not a function` — a message that names neither Node nor the version.
+
+The floor is `>=24.15.0` rather than `>=24` because that is what jsdom 30 requires; anything lower reintroduces the same failure. **Vercel's runtime Node is configured in project settings, not in this repo** — it is a separate dial and does not follow `engines` automatically. Check it when changing this.
+
 Local pre-commit/pre-push (Husky): [`.husky/pre-commit`](../../.husky/pre-commit) runs `lint-staged` (ESLint + Prettier on staged files) at commit; [`.husky/pre-push`](../../.husky/pre-push) runs `npm run typecheck` at push — catching most issues before they reach CI at all.
 
 ## Environment Variables — Convention
@@ -80,5 +86,5 @@ Wire the remaining pipeline steps (Playwright/axe, Lighthouse gate) into `ci.yml
 
 ---
 
-**Last Updated:** 2026-07-07
+**Last Updated:** 2026-07-27
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
