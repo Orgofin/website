@@ -27,6 +27,8 @@ Owns testing scope and philosophy. Does not own the CI pipeline that runs tests 
 
 The unit/component runner is **Vitest** (over Jest): it reuses Vite's transform pipeline, needs no separate Babel config, and runs TS/JSX out of the box — the lowest-friction fit for this toolchain. It runs with React Testing Library + `@testing-library/jest-dom`, jsdom environment, and the SWC React plugin (mirroring Next's compiler, and sidestepping a Babel peer-dependency conflict). Config: [`vitest.config.ts`](../../vitest.config.ts); shared setup: [`vitest.setup.ts`](../../vitest.setup.ts). Run with `npm run test` (CI) or `npm run test:watch`.
 
+**`testTimeout` is 15s, not the 5s default.** Suites that call `vi.resetModules()` and re-`import()` a module graph pay Vite's transform cost _inside_ the timed window, and parallel workers share that cost — an assertion that measures ~2ms in isolation can approach 5s on a loaded runner. The failure was also misleading: a timed-out test left its mock behind and the next test failed on it, so one slow machine reported two failures. Treat a timeout at 15s as a real bug, not a reason to raise it again — the module-graph reload is the slow part, not the code under test.
+
 ## Current Status
 
 Vitest is configured and running in CI (the `test` step in [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml)). Seed coverage exists: a `lib/` unit test ([`src/lib/utils.test.ts`](../../src/lib/utils.test.ts)) and a primitive component test ([`src/components/ui/Button.test.tsx`](../../src/components/ui/Button.test.tsx)). Playwright/E2E, axe, and Lighthouse are still not set up.
@@ -55,5 +57,5 @@ Broaden component coverage as primitives/molecules land (each ships with its tes
 
 ---
 
-**Last Updated:** 2026-07-04
+**Last Updated:** 2026-07-27
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
