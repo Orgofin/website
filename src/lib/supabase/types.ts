@@ -54,6 +54,32 @@ export type DataRoomRequestInsert = {
   check_size?: string | null;
 };
 
+/**
+ * Verdict row returned by the `retention_purge_health()` RPC. Mirrors
+ * `supabase/migrations/20260727120000_retention_purge_observability.sql`.
+ *
+ * `stale_after_hours` is returned by the function rather than defined here on
+ * purpose — the threshold has one home, in SQL, so it cannot drift from what
+ * actually decides the verdict.
+ */
+export type RetentionPurgeHealthRow = {
+  status: "healthy" | "failing" | "stale" | "unknown";
+  last_run_at: string | null;
+  last_run_status: string | null;
+  last_success_at: string | null;
+  hours_since_success: number | null;
+  stale_after_hours: number;
+  /** Raw database error text. Never forwarded to an HTTP response. */
+  last_error: string | null;
+};
+
+/**
+ * `public.retention_purge_runs` is deliberately absent from `Tables` below.
+ * Nothing in the application reads it directly — the only access is through the
+ * `retention_purge_health()` RPC above — and it is revoked from both `anon` and
+ * `authenticated`, so a typed table entry would advertise a surface no client
+ * here can use.
+ */
 export type Database = {
   public: {
     Tables: {
@@ -71,7 +97,12 @@ export type Database = {
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      retention_purge_health: {
+        Args: Record<string, never>;
+        Returns: RetentionPurgeHealthRow[];
+      };
+    };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;
   };
