@@ -88,7 +88,7 @@ The reason is measurable. Earlier favicons cut from the site mark were **invisib
 
 Every brand asset that is fetched by URL lives in **`public/brand/`** — one folder, so "where is the logo" has one answer. The exception is `public/og/default.png`: `/og/` is a conventional, externally-linked path that appears in scraped social cards, and is left alone.
 
-**`src/app/icon.png`, `src/app/apple-icon.png` and `src/app/favicon.ico` are not free to move or rename.** They are Next.js App Router *file conventions* — the framework discovers them by exact filename in that exact directory and generates the `<link rel>` tags from them. Renaming `icon.png` to something more descriptive, or relocating it into `public/brand/`, silently removes the favicon. They are already at their standard names; leave them.
+**`src/app/icon.png`, `src/app/apple-icon.png` and `src/app/favicon.ico` are not free to move or rename.** They are Next.js App Router _file conventions_ — the framework discovers them by exact filename in that exact directory and generates the `<link rel>` tags from them. Renaming `icon.png` to something more descriptive, or relocating it into `public/brand/`, silently removes the favicon. They are already at their standard names; leave them.
 
 Two files were removed in the 2026-07-27 cleanup: `public/logo.svg` (a byte-identical duplicate of `orgofin-mark-light.svg`) and `public/logo-mono.svg` (the untouched delivered `LOGO-5-518.svg`, superseded by the plate-removed dark mark). Neither was referenced by any code. Both remain in `docs/brand/logo/` as delivered, so nothing is lost.
 
