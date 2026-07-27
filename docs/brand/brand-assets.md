@@ -64,12 +64,10 @@ Every SVG below is a **byte-identical copy** of a delivered file — verified wi
 | SVG/PNG favicon     | `src/app/icon.png`                    | `fav icons/ai-brain-favicon.png` | **Primary favicon.** Byte-identical copy          |
 | Legacy favicon      | `src/app/favicon.ico`                 | rendered from the same           | 16/32/48 fallback, transparent                    |
 | Apple touch icon    | `src/app/apple-icon.png`              | rendered from the same           | 180×180 on an opaque dark plate — see below       |
-| PWA icon (small)    | `public/icon-192.png`                 | rendered from the same           | 192×192, opaque plate                             |
-| PWA icon (maskable) | `public/icon-512.png`                 | rendered from the same           | 512×512, opaque plate                             |
+| PWA icon (small)    | `public/brand/icon-192.png`           | rendered from the same           | 192×192, opaque plate                             |
+| PWA icon (maskable) | `public/brand/icon-512.png`           | rendered from the same           | 512×512, opaque plate                             |
 | Web manifest        | `src/app/manifest.ts`                 | —                                | Generates `/manifest.webmanifest`                 |
-| Logo (SVG)          | `public/logo.svg`                     | `LOGO-4-518.svg`                 | General-purpose, untiled                          |
-| Logo (alt)          | `public/logo-mono.svg`                | `LOGO-5-518.svg`                 | Tiled variant, for uncontrolled backgrounds       |
-| Logo (PNG)          | `public/logo.png`                     | rendered                         | 512×512 circular — schema.org `Organization.logo` |
+| Logo (PNG)          | `public/brand/logo.png`               | rendered                         | 512×512 circular — schema.org `Organization.logo` |
 | Social share image  | `public/og/default.png`               | rendered                         | 1200×630 OG/Twitter card                          |
 | `Logo` component    | `src/components/layout/Logo.tsx`      | —                                | Theme-paired `<img>` lockup                       |
 | Delivered originals | `docs/brand/logo/`                    | —                                | All 122 files as received. Provenance.            |
@@ -85,6 +83,14 @@ The reason is measurable. Earlier favicons cut from the site mark were **invisib
 **Home-screen icons sit on an opaque dark plate.** The OS applies its own mask (iOS rounds; Android may crop to a circle), and transparent corners get composited against white or black, which looks broken. Only the tab icon is transparent, because there the corners land on tab chrome.
 
 `Logo.tsx` serves the marks as `<img>` rather than inlining them: each file is ~33KB of path data, and inlining would put that in the navbar **and** footer of every page instead of being fetched once and cached.
+
+### Where the files live, and why some cannot move
+
+Every brand asset that is fetched by URL lives in **`public/brand/`** — one folder, so "where is the logo" has one answer. The exception is `public/og/default.png`: `/og/` is a conventional, externally-linked path that appears in scraped social cards, and is left alone.
+
+**`src/app/icon.png`, `src/app/apple-icon.png` and `src/app/favicon.ico` are not free to move or rename.** They are Next.js App Router *file conventions* — the framework discovers them by exact filename in that exact directory and generates the `<link rel>` tags from them. Renaming `icon.png` to something more descriptive, or relocating it into `public/brand/`, silently removes the favicon. They are already at their standard names; leave them.
+
+Two files were removed in the 2026-07-27 cleanup: `public/logo.svg` (a byte-identical duplicate of `orgofin-mark-light.svg`) and `public/logo-mono.svg` (the untouched delivered `LOGO-5-518.svg`, superseded by the plate-removed dark mark). Neither was referenced by any code. Both remain in `docs/brand/logo/` as delivered, so nothing is lost.
 
 ---
 
