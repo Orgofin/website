@@ -44,7 +44,7 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 
 - [ ] GA4 property live; waitlist/data-room events firing in prod. [Eng]
 - [ ] Error tracking (Sentry) wired with PII scrubbing. [Eng]
-- [ ] Uptime monitor (Better Stack/UptimeRobot) watching `/` and `/api/waitlist`. [Eng]
+- [ ] Uptime monitor (Better Stack/UptimeRobot) watching `/`, `/api/waitlist`, and `/api/health/retention` (the last returns 503 when the 24-month purge has stalled — see [`../deployment/data-retention.md`](../deployment/data-retention.md)). [Eng]
 - [ ] Alert routing (email/Slack) configured and test-fired. [Eng]
 
 ### Legal/compliance

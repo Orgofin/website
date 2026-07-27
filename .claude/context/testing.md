@@ -13,6 +13,7 @@ Owns testing scope and philosophy. Does not own the CI pipeline that runs tests 
 
 - **Unit tests:** pure functions in `lib/` (form validation schemas, analytics event formatting, SEO metadata builders) — anything with real logic and no rendering.
 - **Component tests:** primitives and molecules in `components/ui/` and form components — rendering, prop variants, basic interaction (does the button call its handler, does the form show a validation error).
+- **Route handlers:** only where the HTTP response itself is the contract — a status code something external depends on, or a field that must never appear in the body. The business logic belongs in `lib/api/*` and is unit-tested there; do not re-test it through the route. `/api/health/retention` is the reference case: an uptime monitor reads 200-vs-503 as up-vs-down, so that mapping is worth a test even though the verdict behind it already has one.
 - **E2E tests (Playwright):** the critical user paths — waitlist signup end-to-end, demo request submission, theme toggle persistence, the <320px lockout screen actually appearing. Not every page, the paths that matter per `docs/product/website-strategy.md`'s CTA hierarchy.
 - **Accessibility tests:** axe integrated into the Playwright E2E run — see `accessibility.md`.
 - **Visual/Lighthouse:** performance, accessibility, SEO, best-practices scores gated in CI — see `deployment.md`.
