@@ -88,6 +88,8 @@ Environments are split across **two Supabase projects** — production traffic w
 - **Confirmed live on both projects (prod and non-prod), 2026-07-25.** `cron.job` reports the `purge-expired-leads` job present, `15 3 * * *`, `active = true` on each. Both were checked because applying to prod alone would let preview environments keep rows forever and silently diverge the two.
 - **The confirmation matters more than the migration succeeding.** The migration applies cleanly and raises only a notice when pg_cron is off, installing the function but scheduling nothing — a failure mode indistinguishable from success. The `cron.job` readout is the evidence; re-run it after any migration replay. Runbook: [`../deployment/data-retention.md`](../deployment/data-retention.md).
 - Erasure on request remains a manual dashboard operation — the purge is a schedule, not a request handler.
+- **Enforcement is now monitored, not just installed** ([`20260727120000_retention_purge_observability.sql`](../../supabase/migrations/20260727120000_retention_purge_observability.sql), pending application to both projects). Every attempt is recorded in `retention_purge_runs`, and `/api/health/retention` reports 503 once no run has succeeded for 48 hours, so a purge that stops running raises an alert rather than waiting to be noticed. Before this, an enforced-but-stalled purge and a working one were indistinguishable from the outside.
+- **`retention_purge_runs` is not expected to hold personal data**, and is listed here only because one field could in principle. It stores deleted-row counts, timings and — on failure — the Postgres error text, which for a constraint violation can echo a column value. There are no constraints on the lead tables that would do so today. The table has RLS enabled with no policy and is revoked from `anon` and `authenticated`; the error field is deliberately dropped before anything is returned over HTTP, so it never leaves the database. It is purged by nothing, being operational metadata rather than lead data — see the TODO below.
 
 Note for whoever re-verifies this document: the 24-month value lives in two places that cannot share a constant — `retention_window()` in the migration (what deletes) and `DATA_RETENTION_MONTHS` in [`constants.ts`](../../src/lib/legal/constants.ts) (what `/privacy` renders). A drift between them is a published promise the database does not keep.
 
@@ -133,7 +135,9 @@ Resolved 2026-07-24 (see [`README.md`](./README.md) for the decisions and who ma
 - [ ] **Founder:** a named grievance-redressal contact under DPDP (§4).
 - [ ] **Founder/infra:** confirm the **region** of both Supabase projects — the last unknown in §3, and a question counsel will ask.
 - [x] ~~**Engineering:** implement the 24-month expiry~~ — written 2026-07-24, applied and scheduled on both projects 2026-07-25 (§4).
-- [ ] **Engineering:** build the consent banner and gate GA4 on it (§5).
+- [x] ~~**Engineering:** build the consent banner and gate GA4 on it (§5)~~ — shipped 2026-07-24; this entry was left stale after the fact, §5 has been correct since.
+- [ ] **Founder/infra:** apply `20260727120000_retention_purge_observability.sql` to both projects, then point the uptime monitor at `/api/health/retention` — until then enforcement is installed but still unmonitored (§4).
+- [ ] **Engineering:** decide a retention period for `retention_purge_runs` itself (§4). It grows one row per day forever and nothing prunes it. Not urgent — ~365 rows a year of operational metadata — but a table this document had to reason about should not be the one table with no retention answer.
 - [ ] **Engineering:** resolve the §1.1 discrepancy — either build the fuller waitlist form the copy deck specifies or correct the copy deck to match the email-only reality.
 - [ ] **Counsel:** review both pages, `/terms` §4 and §5 first.
 
@@ -152,5 +156,5 @@ Resolved 2026-07-24 (see [`README.md`](./README.md) for the decisions and who ma
 
 ---
 
-**Last Updated:** 2026-07-24
+**Last Updated:** 2026-07-27
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

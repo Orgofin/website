@@ -13,6 +13,7 @@ Owns testing scope and philosophy. Does not own the CI pipeline that runs tests 
 
 - **Unit tests:** pure functions in `lib/` (form validation schemas, analytics event formatting, SEO metadata builders) — anything with real logic and no rendering.
 - **Component tests:** primitives and molecules in `components/ui/` and form components — rendering, prop variants, basic interaction (does the button call its handler, does the form show a validation error).
+- **Route handlers:** only where the HTTP response itself is the contract — a status code something external depends on, or a field that must never appear in the body. The business logic belongs in `lib/api/*` and is unit-tested there; do not re-test it through the route. `/api/health/retention` is the reference case: an uptime monitor reads 200-vs-503 as up-vs-down, so that mapping is worth a test even though the verdict behind it already has one.
 - **E2E tests (Playwright):** the critical user paths — waitlist signup end-to-end, demo request submission, theme toggle persistence, the <320px lockout screen actually appearing. Not every page, the paths that matter per `docs/product/website-strategy.md`'s CTA hierarchy.
 - **Accessibility tests:** axe integrated into the Playwright E2E run — see `accessibility.md`.
 - **Visual/Lighthouse:** performance, accessibility, SEO, best-practices scores gated in CI — see `deployment.md`.
@@ -26,6 +27,8 @@ Owns testing scope and philosophy. Does not own the CI pipeline that runs tests 
 ## Decision: Vitest (E15.1.1)
 
 The unit/component runner is **Vitest** (over Jest): it reuses Vite's transform pipeline, needs no separate Babel config, and runs TS/JSX out of the box — the lowest-friction fit for this toolchain. It runs with React Testing Library + `@testing-library/jest-dom`, jsdom environment, and the SWC React plugin (mirroring Next's compiler, and sidestepping a Babel peer-dependency conflict). Config: [`vitest.config.ts`](../../vitest.config.ts); shared setup: [`vitest.setup.ts`](../../vitest.setup.ts). Run with `npm run test` (CI) or `npm run test:watch`.
+
+**`testTimeout` is 15s, not the 5s default.** Suites that call `vi.resetModules()` and re-`import()` a module graph pay Vite's transform cost _inside_ the timed window, and parallel workers share that cost — an assertion that measures ~2ms in isolation can approach 5s on a loaded runner. The failure was also misleading: a timed-out test left its mock behind and the next test failed on it, so one slow machine reported two failures. Treat a timeout at 15s as a real bug, not a reason to raise it again — the module-graph reload is the slow part, not the code under test.
 
 ## Current Status
 
@@ -55,5 +58,5 @@ Broaden component coverage as primitives/molecules land (each ships with its tes
 
 ---
 
-**Last Updated:** 2026-07-04
+**Last Updated:** 2026-07-27
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

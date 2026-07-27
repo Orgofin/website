@@ -107,7 +107,7 @@ See the [launch playbook's DR section](../launch/launch-playbook.md#disaster-rec
 - **Consent:** shipped 2026-07-24. GA4 loads only after the visitor accepts, so no Google cookie is set before then. Operationally this means **analytics under-counts by however many visitors decline** — treat GA4 traffic as a floor, not a total, and don't read a drop after launch as lost traffic.
 - **Data minimization:** the forms already collect only what's needed; keep it that way.
 - **Data subject requests:** requests come to `contact@orgofin.com`. Erasure on request is **manual via the Supabase dashboard** and always will be — the purge is a schedule, not a request handler.
-- **Retention:** a nightly pg_cron purge enforces the published 24-month window, **applied and scheduled on both projects since 2026-07-25** (03:15 UTC). Honouring the window is no longer an operator responsibility, but two things still are: the purge is **silent** — a failed run only shows up in `cron.job_run_details` — and any record that must be kept longer needs an explicit `retained_until` + `retained_reason`. Both, plus the schedule check: [`../deployment/data-retention.md`](../deployment/data-retention.md).
+- **Retention:** a nightly pg_cron purge enforces the published 24-month window, **applied and scheduled on both projects since 2026-07-25** (03:15 UTC). Honouring the window is no longer an operator responsibility, and since 2026-07-27 neither is noticing a failure: every attempt is recorded, and [`/api/health/retention`](../../src/app/api/health/retention/route.ts) returns 503 once no run has succeeded for 48 hours, so the uptime monitor raises it. What remains an operator responsibility is that any record which must be kept longer needs an explicit `retained_until` + `retained_reason`. Both, plus the schedule check: [`../deployment/data-retention.md`](../deployment/data-retention.md).
 - **Contact page** does not exist yet; the legal pages route everything to `contact@orgofin.com`. No fabricated business facts anywhere (CLAUDE.md non-negotiable #1).
 
 ## 18. Investor Due Diligence Readiness
@@ -159,7 +159,8 @@ Revisit when the product platform launches — it changes support, compliance (S
 - [ ] Ensure ≥2 owners + 2FA on domain, Vercel, Supabase, GitHub, GA.
 - [ ] Set up the independent lead-table export + monthly restore test.
 - [x] Publish privacy policy + decide consent posture — pages live 2026-07-24, posture decided (banner to be built). See [`../legal/README.md`](../legal/README.md).
-- [ ] **Apply** the retention purge to both Supabase projects (migration written 2026-07-24; needs pg_cron enabled first). Until then the published 24-month window is honoured by hand. See [`../deployment/data-retention.md`](../deployment/data-retention.md).
+- [x] ~~**Apply** the retention purge to both Supabase projects~~ — done 2026-07-25, schedule confirmed active on each (this entry was left stale after the fact; the Data & Privacy section above has been correct since).
+- [ ] **Apply** the purge-observability migration (`20260727120000`) to both Supabase projects, then point the uptime monitor at `/api/health/retention`. Until the monitor exists the endpoint answers correctly but nobody is listening. See [`../deployment/data-retention.md`](../deployment/data-retention.md).
 
 ## References
 
