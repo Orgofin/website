@@ -192,9 +192,15 @@ Frontend-first architecture. **Do not build a dedicated backend yet.** Architect
 
 ## 6. Performance
 
-Lighthouse targets: Performance 95+, Accessibility 100, SEO 100, Best Practices 100.
+Lighthouse targets: Performance 95+, Accessibility 100, SEO 100, Best Practices **96+**.
 
 Requirements: lazy loading, image optimization, code splitting, SSR where appropriate, font optimization, minimal JS, edge deployment, fast first paint.
+
+> **[AMENDED 2026-07-28 — Best Practices 100 → 96+]** The original target was 100. The first production measurement ([`../launch/lighthouse-baseline.md`](../launch/lighthouse-baseline.md)) showed every content route capped at exactly **96**, losing four points to a single `inspector-issues` item: `Content security policy`. The cause is `script-src 'unsafe-inline'`, adopted deliberately so the site stays statically generated — and that static generation is what underwrites the Performance 95+ target above. **The two targets were therefore in direct conflict, and 100 was unreachable without giving up the other.**
+>
+> Founder decision, 2026-07-28: **keep static rendering and accept 96.** The four points buy a lab-score checkbox, not a user-facing improvement; a nonce CSP would force dynamic rendering on every page and cost real TTFB. The CSP trade-off itself is unchanged and still recorded in [`../security/security-headers-and-csp.md`](../security/security-headers-and-csp.md).
+>
+> This is a target change, not a licence to regress: **96 is now a floor.** Hash-based CSP remains the documented path to 100 without sacrificing static rendering — unscoped, and no longer urgent.
 
 > **[CONFLICT — see Section 19.2]** Heavy Framer Motion + 3D transforms + parallax + an interactive animated knowledge graph (Chapter 5) are inherently JS- and GPU-heavy. "Minimal JavaScript" and "Performance 95+" are in direct tension with "3D transforms, scroll storytelling, animated graph visualization." Both can't be maximized simultaneously — needs an explicit tradeoff decision (e.g., defer/lazy-load the heaviest chapter, provide a reduced-motion/lite path) rather than treating both as unconditional requirements.
 
