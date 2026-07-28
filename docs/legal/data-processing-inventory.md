@@ -60,7 +60,17 @@ The event vocabulary is a **closed TypeScript union** ([`track.ts:14-25`](../../
 
 Google Analytics itself sets its standard `_ga*` cookies and processes IP and device/browser data under Google's own terms — that is Google's processing, not ours, and the policy must disclose it.
 
-### 1.5 Browser storage — one functional key
+### 1.5 Performance measurement — Vercel Speed Insights, consent-gated
+
+Added 2026-07-27 ([`SpeedInsights.tsx`](../../src/components/analytics/SpeedInsights.tsx)). Reports Core Web Vitals (LCP, CLS, INP and similar timings) plus the page path, so real-device performance can be measured instead of inferred from a Lighthouse lab score.
+
+**It sets no cookies and collects no personal data**, and Vercel documents it as requiring no consent banner. It is gated on the analytics banner anyway — `/privacy` promises that choosing essential-only means _"no analytics script runs"_, and loading this for a decliner would make that published line false. Verified in a browser: with consent `unset` or `denied`, **zero** requests are made; only on `granted` does `/_vercel/speed-insights/script.js` load.
+
+Both the script and its beacon (`/_vercel/speed-insights/vitals`) are served **same-origin** by the Vercel platform, so nothing new leaves for a third-party origin that §3 does not already list — Vercel is already a processor. No CSP change was needed.
+
+Consequence for whoever reads the data: CWV are sampled only from visitors who accepted analytics, the same population GA4 sees. Directional, not a census.
+
+### 1.6 Browser storage — one functional key
 
 `localStorage` holds the theme preference only ([`ThemeProvider.tsx:38,99`](../../src/components/theme/ThemeProvider.tsx)). No personal data, no tracking identifier. **The site sets no first-party cookies of its own.**
 
@@ -70,11 +80,11 @@ Worth stating explicitly, because it is unusually little and it is a selling poi
 
 ## 3. Processors and data flow
 
-| Processor    | Role                                                          | Data it holds                                                   |
-| ------------ | ------------------------------------------------------------- | --------------------------------------------------------------- |
-| **Supabase** | Postgres database + private Storage bucket                    | Both tables in full; the investor documents                     |
-| **Vercel**   | Hosting, serverless function execution, platform request logs | Request metadata including **client IP**, independently of §1.3 |
-| **Google**   | Analytics (production only)                                   | Cookie ID, IP, device/browser, the §1.4 events                  |
+| Processor    | Role                                                                              | Data it holds                                                                                      |
+| ------------ | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| **Supabase** | Postgres database + private Storage bucket                                        | Both tables in full; the investor documents                                                        |
+| **Vercel**   | Hosting, serverless function execution, platform request logs, **Speed Insights** | Request metadata including **client IP**, independently of §1.3; plus the §1.5 performance timings |
+| **Google**   | Analytics (production only)                                                       | Cookie ID, IP, device/browser, the §1.4 events                                                     |
 
 Both tables are protected by row-level security with an **INSERT-only policy** for the public anon key and **no SELECT/UPDATE/DELETE policy at all**, so the key shipped to browsers cannot read either list back. Investor documents are served exclusively as 15-minute signed URLs minted server-side with the service-role key; the bucket is private and the service-role key never reaches the browser. Full rationale: [`../deployment/data-room-storage.md`](../deployment/data-room-storage.md).
 
