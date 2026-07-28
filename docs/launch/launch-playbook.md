@@ -43,7 +43,8 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 ### Analytics & monitoring (see monitoring doc)
 
 - [ ] GA4 property live; waitlist/data-room events firing in prod. [Eng]
-- [ ] Error tracking (Sentry) wired with PII scrubbing. [Eng]
+- [x] Error tracking (Sentry) wired with PII scrubbing. [Eng] — done 2026-07-28, **server-side only** and inert until `SENTRY_DSN` is set. Scope, the PII guarantee, and why there is no browser SDK: [`../operations/error-monitoring.md`](../operations/error-monitoring.md).
+- [ ] Create the Sentry project and set `SENTRY_DSN` in Vercel. [Founder] — nothing is collected until this is done.
 - [x] ~~Uptime monitor (Better Stack/UptimeRobot)~~ — **live 2026-07-27**, watching `/` and `/api/health/retention`. The second is the retention alarm: it returns 503 once no purge has succeeded for 48 hours, so an ordinary uptime alert is the mechanism and nothing extra needed configuring ([`../deployment/data-retention.md`](../deployment/data-retention.md)). [Eng]
   > **`/api/waitlist` is deliberately NOT monitored.** This line used to list it; a GET returns **405** (the route is POST-only), so a standard monitor reads it as permanently down and the alert trains you to ignore it. Nothing is lost — `/api/health/retention` exercises a strictly longer path: Next runtime → env vars → Supabase → RPC. If you do want it watched, configure the monitor to expect 405 rather than 2xx.
 - [ ] Alert routing (email/Slack) configured and test-fired. [Eng]
