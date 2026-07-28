@@ -32,7 +32,7 @@ Lighthouse CLI against **`https://orgofin.com`** (real production, not a local b
 | `/company-brain` | 98     | 100     | **96**         | 100     | 2.4 s | 80 ms  |
 | `/investors`     | **93** | 100     | **96**         | 100     | 3.2 s | 80 ms  |
 | `/privacy`       | 98     | 100     | 100            | 100     | 2.4 s | 40 ms  |
-| **Target**       | **95** | **100** | **100**        | **100** | —     | —      |
+| **Target**       | **95** | **100** | **96**         | **100** | —     | —      |
 
 ### Desktop
 
@@ -52,9 +52,11 @@ Every content route loses exactly 4 points to a single audit, `inspector-issues`
 
 The cause is `script-src 'unsafe-inline'` in [`next.config.ts`](../../next.config.ts). That is not an oversight — it is the recorded decision in [`../security/security-headers-and-csp.md`](../security/security-headers-and-csp.md): a nonce-based CSP forces dynamic rendering, which would cost the static generation the performance target depends on. The app ships two inline scripts it controls (the pre-paint `ThemeScript` and the escaped JSON-LD blob) plus GA4's bootstrap.
 
-**So two PRD targets are in direct conflict:** Best Practices 100 requires removing `'unsafe-inline'`; Performance 95+ is currently underwritten by the static rendering that keeping it allows. **Best Practices 100 is unreachable until that trade is revisited** — which is a founder-level decision about which target matters more, not something to quietly fix.
+**So two PRD targets were in direct conflict:** Best Practices 100 requires removing `'unsafe-inline'`; Performance 95+ is currently underwritten by the static rendering that keeping it allows.
 
-The documented path out is hash-based CSP: hashes (unlike nonces) do not force dynamic rendering, so in principle both targets can be met. That work is unscoped.
+> **Resolved 2026-07-28 (founder decision):** keep static rendering, **accept 96**, and amend the PRD target to match. The PRD now reads Best Practices **96+** ([`../product/prd.md`](../product/prd.md) §6, with the reasoning recorded inline). The four points were a lab-score checkbox, not a user-facing win. **96 is now a floor, not a ceiling to relax further.**
+
+The documented path out is hash-based CSP: hashes (unlike nonces) do not force dynamic rendering, so in principle both targets can be met. That work is unscoped and, after this decision, no longer urgent.
 
 > **Unexplained:** `/privacy` scores 100 while every other route scores 96, though the CSP header is identical site-wide and both `ThemeScript` and the JSON-LD blob are in the root layout. Consistent across mobile and desktop runs, so it is structural rather than flaky. Worth understanding before anyone tries to fix the 96 — whatever `/privacy` does differently is the answer.
 
@@ -74,7 +76,7 @@ LCP is the binding metric: **3.1–3.4 s on the failing routes vs 2.4 s on the t
 
 ## Current Status
 
-**Measured for the first time 2026-07-27, against production.** Two of four targets (Accessibility, SEO) are met on every route. Best Practices is capped at 96 by a documented CSP decision. Mobile performance is 91–98, short of 95 on four of six routes; desktop is 100 throughout.
+**Measured for the first time 2026-07-27, against production.** Three of four targets (Accessibility, SEO, and — after the 2026-07-28 amendment — Best Practices) are now met on every route. Mobile performance is 91–98, short of 95 on four of six routes; desktop is 100 throughout. **Mobile performance is the one remaining gap against the PRD.**
 
 Nothing here is a regression — it is the first baseline, so it is the number everything later is compared against.
 
@@ -85,8 +87,8 @@ Nothing here is a regression — it is the first baseline, so it is the number e
 
 ## TODO
 
-- [ ] **Founder:** decide whether Best Practices 100 or static-rendering performance wins, given they currently conflict (§1). No action is a valid answer — it means accepting 96 and updating the PRD target to match reality.
-- [ ] **Engineering:** explain why `/privacy` scores 100 on Best Practices when every other route scores 96.
+- [x] **Founder:** decide whether Best Practices 100 or static-rendering performance wins, given they currently conflict (§1). **Done 2026-07-28 — static rendering wins, 96 accepted, PRD §6 amended.**
+- [ ] **Engineering:** explain why `/privacy` scores 100 on Best Practices when every other route scores 96. Still worth knowing — it is the cheapest lead on reaching 100 without touching the CSP — but no longer blocks a target.
 - [ ] **Engineering:** close the mobile performance gap on `/`, `/platform`, `/products`, `/investors` — start with the ~43 KiB of unused JavaScript and the legacy-JS transpilation, both of which are build-configuration rather than code changes.
 - [ ] **Engineering:** re-run and update this table after any of the above, and after the CI gate exists.
 
@@ -103,5 +105,5 @@ Nothing here is a regression — it is the first baseline, so it is the number e
 
 ---
 
-**Last Updated:** 2026-07-27
+**Last Updated:** 2026-07-28
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
