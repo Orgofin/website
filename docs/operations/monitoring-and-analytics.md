@@ -40,15 +40,15 @@ This is a **frontend marketing site with two write endpoints** — not a product
 
 **Right-sized for a pre-seed frontend site, mostly free tiers:**
 
-| Layer                          | Tool                                                                                       | Why                                                                                            |
-| ------------------------------ | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| User analytics                 | **GA4** (already integrated)                                                               | Audiences, sources, conversions; PII-safe event union already in code                          |
-| Product analytics (conversion) | **GA4 events** (`waitlist_submit`, `cta_click`, `data_room_request`, `data_room_download`) | Already typed and firing; extend the union, never ad-hoc                                       |
-| Performance (real CWV)         | **Vercel Speed Insights + Analytics**                                                      | Field CWV that Lighthouse can't give you; zero-config                                          |
-| Error tracking                 | **Sentry** (Next.js SDK)                                                                   | The current gap; client + server errors, releases, alerting, PII scrubbing                     |
-| Uptime + status page           | **Better Stack** (or UptimeRobot for simplest)                                             | Watch `/`, `/api/waitlist`, and `/api/health/retention`; alert on downtime; public status page |
-| API/security/edge              | **Cloudflare Analytics + WAF events** (at domain cutover)                                  | Bot/threat/rate-limit visibility                                                               |
-| Logs                           | **Vercel logs** (native) + Sentry breadcrumbs                                              | Sufficient at this scale; add Better Stack log ingestion only if needed                        |
+| Layer                          | Tool                                                                                       | Why                                                                                                             |
+| ------------------------------ | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| User analytics                 | **GA4** (already integrated)                                                               | Audiences, sources, conversions; PII-safe event union already in code                                           |
+| Product analytics (conversion) | **GA4 events** (`waitlist_submit`, `cta_click`, `data_room_request`, `data_room_download`) | Already typed and firing; extend the union, never ad-hoc                                                        |
+| Performance (real CWV)         | **Vercel Speed Insights** — wired 2026-07-27                                               | Field CWV that Lighthouse can't give you. **Consent-gated here** despite needing no consent legally — see below |
+| Error tracking                 | **Sentry** (Next.js SDK)                                                                   | The current gap; client + server errors, releases, alerting, PII scrubbing                                      |
+| Uptime + status page           | **Better Stack** (or UptimeRobot for simplest)                                             | Watch `/`, `/api/waitlist`, and `/api/health/retention`; alert on downtime; public status page                  |
+| API/security/edge              | **Cloudflare Analytics + WAF events** (at domain cutover)                                  | Bot/threat/rate-limit visibility                                                                                |
+| Logs                           | **Vercel logs** (native) + Sentry breadcrumbs                                              | Sufficient at this scale; add Better Stack log ingestion only if needed                                         |
 
 **Defer** PostHog, Grafana, OpenTelemetry, dedicated log platforms until the product platform exists.
 
@@ -92,6 +92,14 @@ flowchart TB
 - **User analytics** → GA4. **Product analytics** → GA4 typed events. **Performance monitoring** → Vercel Speed Insights (field) + Lighthouse (lab). **Error tracking** → Sentry. **Uptime** → Better Stack/UptimeRobot. **Server monitoring** → Vercel function metrics + logs (no servers you run). **API monitoring** → uptime probe on `/api/waitlist` + Sentry on route errors + Cloudflare rate-limit stats. **Security monitoring** → Cloudflare WAF/bot analytics + Sentry + rate-limit 429 rates. **Logs** → Vercel logs + Sentry breadcrumbs. **Alerts** → Sentry + Better Stack → email/Slack. **Dashboards** → GA4 + Vercel + Sentry + Cloudflare (four panes; no custom dashboard needed at this scale).
 
 ---
+
+### Speed Insights is consent-gated, and that is a deliberate departure
+
+The table above used to say Speed Insights needs no cookie banner. That is legally true — it sets no cookies and collects no personal data — but it is gated on the analytics banner anyway, because [`/privacy`](<../../src/app/(marketing)/privacy/page.tsx>) promises that choosing essential-only means _"no analytics script runs"_. Shipping it ungated would make a published, counsel-pending legal page false. Keeping the promise was the better trade than narrowing the promise.
+
+**Read the resulting data accordingly:** Core Web Vitals are sampled only from visitors who accepted analytics — the same population GA4 sees, and the same under-count. Directional, not a census.
+
+**Why it was wired at all (2026-07-27):** the [Lighthouse baseline](../launch/lighthouse-baseline.md) put mobile performance at 91–93 against a 95 target, and every lever to close that gap proved either ineffective (a modern `browserslist` made the bundle _larger_ under Next 16/Turbopack) or costly (dropping Safari 12–15.3 support). Lighthouse is a simulated mid-tier phone on simulated slow 4G — deliberately pessimistic, and not this audience. Field data is what should settle whether a real problem exists. **Treat the lab score as a floor and Speed Insights as the truth.**
 
 ## 5. Alerting
 
@@ -150,7 +158,9 @@ GA4 integrated (production-only, PII-safe, and **consent-gated since 2026-07-24*
 
 - [ ] Wire Sentry with PII scrubbing (`beforeSend`).
 - [ ] Enable Vercel Analytics + Speed Insights.
-- [ ] Set up Better Stack/UptimeRobot uptime + status page and alert routing — include `/api/health/retention` in the monitor set (the endpoint exists; nothing polls it yet, so the purge is still effectively unmonitored until this is done).
+- [x] ~~Set up Better Stack/UptimeRobot uptime monitoring~~ — **live 2026-07-27** on `/` and `/api/health/retention`. The retention purge is now genuinely monitored rather than merely observable.
+- [ ] **Test-fire the alert.** A monitor that has never actually delivered a notification is an untested control — the endpoint returning 503 is only half the chain. Pause the monitor's URL (or point a scratch monitor at a deliberately-404 path) and confirm the mail/Slack actually arrives, at the address someone reads.
+- [ ] Status page (Better Stack) — not set up; optional until there are external users to communicate to.
 - [ ] Enable Cloudflare analytics at domain cutover.
 
 ## References
@@ -165,5 +175,5 @@ GA4 integrated (production-only, PII-safe, and **consent-gated since 2026-07-24*
 
 ---
 
-**Last Updated:** 2026-07-18
+**Last Updated:** 2026-07-27
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
