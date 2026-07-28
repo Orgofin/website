@@ -22,6 +22,12 @@ import { z } from "zod";
 export const env = createEnv({
   server: {
     SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
+    // Sentry error monitoring. Server-side only and deliberately NOT
+    // `NEXT_PUBLIC_` — see src/instrumentation.ts for why there is no browser
+    // SDK. `.optional()` for the same reason as everything else here: CI and
+    // local builds have no Sentry project, and `instrumentation.ts` no-ops
+    // without a DSN, so the whole integration is inert until this is set.
+    SENTRY_DSN: z.string().url().optional(),
   },
   client: {
     NEXT_PUBLIC_SUPABASE_URL: z.string().url().optional(),
@@ -33,6 +39,7 @@ export const env = createEnv({
   },
   runtimeEnv: {
     SUPABASE_SERVICE_ROLE_KEY: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    SENTRY_DSN: process.env.SENTRY_DSN,
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     NEXT_PUBLIC_GA_MEASUREMENT_ID: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,

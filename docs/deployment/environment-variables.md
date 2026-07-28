@@ -45,6 +45,7 @@ Add each real variable name to this table the moment it's provisioned — this f
 - [x] Create the GA4 property and populate `NEXT_PUBLIC_GA_MEASUREMENT_ID` in Vercel **Production** scope — done 2026-07-08; `trackEvent` conversion/theme events shipped and verified live 2026-07-15.
 - [x] Set `SUPABASE_SERVICE_ROLE_KEY` in Vercel **Production** at data-room go-live — done 2026-07-22 (see [`data-room-storage.md`](./data-room-storage.md)).
 - [ ] Set `SUPABASE_SERVICE_ROLE_KEY` (non-prod project's key) in Vercel **Preview** scope, so the data room can be verified on a preview deploy before it reaches Production.
+- [ ] Set `SENTRY_DSN` (server scope, **not** `NEXT_PUBLIC_`) once the Sentry project exists — added 2026-07-28. Server-side error monitoring is wired and inert until then; scope, PII scrubbing and the reason there is no browser SDK are in [`../operations/error-monitoring.md`](../operations/error-monitoring.md).
 - [ ] Adopt `supabase gen types typescript` against the projects so `src/lib/supabase/types.ts` is generated rather than hand-mirrored (backlog E7.1.2).
 
 ## References
