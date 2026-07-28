@@ -5,6 +5,7 @@ import { Logo } from "@/components/layout/Logo";
 import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { Caption } from "@/components/ui/Caption";
 import { Text } from "@/components/ui/Text";
+import { LEGAL_ENTITY_NAME } from "@/lib/legal/constants";
 import { cn } from "@/lib/utils";
 
 export type FooterColumn = {
@@ -22,9 +23,10 @@ export type FooterProps = {
  * §19 / `information-architecture.md` §4, filtered to routes that actually
  * exist — a column gains links as its pages ship (Platform/Legal render once
  * their first page does), so the footer never links a 404. Still pending
- * business facts from the founders (tracked in the backlog): legal entity
- * name for the © line, social profile URLs, public contact email, and the
- * newsletter block.
+ * business facts from the founders (tracked in the backlog): social profile
+ * URLs and the newsletter block. The © line's entity name is no longer one of
+ * them structurally — it reads `LEGAL_ENTITY_NAME`, so confirming the
+ * registered entity is a one-line change in `lib/legal/constants.ts`.
  */
 const DEFAULT_COLUMNS: FooterColumn[] = [
   {
@@ -64,6 +66,16 @@ const DEFAULT_COLUMNS: FooterColumn[] = [
 export function Footer({ columns = DEFAULT_COLUMNS, className }: FooterProps) {
   const year = new Date().getFullYear();
 
+  /**
+   * Assembled as ONE string rather than interpolated across JSX text, for the
+   * same reason `LEGAL_ENTITY_DEFINED` is (see `lib/legal/constants.ts`): the
+   * space between `{year}` and the entity name is JSX whitespace, and a
+   * reformat that reflows this line can drop it silently — which is exactly
+   * how both legal pages shipped reading `Orgofin(“we”…)` on 2026-07-24. A
+   * template literal puts it beyond JSX whitespace handling entirely.
+   */
+  const copyright = `© ${year} ${LEGAL_ENTITY_NAME}. All rights reserved. · India → UK → USA`;
+
   return (
     <footer className={cn("border-border mt-auto border-t", className)}>
       <Container>
@@ -101,11 +113,11 @@ export function Footer({ columns = DEFAULT_COLUMNS, className }: FooterProps) {
         </div>
 
         <div className="border-border flex flex-col items-center justify-between gap-4 border-t py-6 sm:flex-row">
-          {/* "Orgofin" pending the registered legal entity name (business
-              fact, founders to confirm — backlog Business-Fact Placeholders). */}
-          <Caption>
-            © {year} Orgofin. All rights reserved. · India → UK → USA
-          </Caption>
+          {/* Renders the trading name until the registered entity name is
+              confirmed (business fact, founders to confirm — backlog
+              Business-Fact Placeholders); it changes here by changing
+              `LEGAL_ENTITY_NAME`, which the legal pages read too. */}
+          <Caption>{copyright}</Caption>
           <ThemeToggle />
         </div>
       </Container>

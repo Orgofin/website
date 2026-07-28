@@ -20,19 +20,19 @@ This is a **frontend marketing site with two write endpoints** — not a product
 
 ## 2. Tool-by-Tool Evaluation
 
-| Tool                             | Purpose                                          | Strengths                                                                                             | Weaknesses                                                                                | Pricing                         | Fit for this site                                             |
-| -------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------- | ------------------------------------------------------------- |
-| **Google Analytics 4**           | User + product analytics                         | Free, ubiquitous, already integrated, funnels/events, audience data                                   | PII/consent complexity (esp. DPDP/GDPR), sampling, unfriendly UI, not real-time debugging | Free                            | ✅ **Keep** — already wired, PII-safe event vocabulary        |
-| **Vercel Analytics**             | Web analytics + Speed Insights (real CWV)        | Zero-config on Vercel, privacy-friendly, **real Core Web Vitals field data**, no cookie banner needed | Paid beyond hobby limits; less deep than GA4 for funnels                                  | Free tier; paid past event caps | ✅ **Add** — best source of real CWV; complements GA4         |
-| **Cloudflare Web Analytics**     | Privacy-first web analytics                      | Free, no cookies, server-side (ad-blocker resistant), no consent banner                               | Basic (pageviews/referrers), no deep funnels                                              | Free                            | ⚠️ Optional — nice free traffic truth-source if on Cloudflare |
-| **Cloudflare Analytics**         | Edge/WAF/traffic + security analytics            | Comes with Cloudflare proxy; bot/threat/rate-limit visibility                                         | Only meaningful once domain is proxied through CF                                         | Included                        | ✅ **Add at domain cutover** — your security signal           |
-| **PostHog**                      | Product analytics + session replay + flags       | Powerful funnels, replay, feature flags, self-host option, generous free tier                         | Heavier client script; overkill for a 4-page marketing site today                         | Free 1M events/mo; paid after   | ⚠️ Later — great when the product exists; premature now       |
-| **Sentry**                       | Error + performance tracking                     | Best-in-class error grouping, source maps, releases, Next.js SDK, alerting                            | Client bundle weight; quota management; PII scrubbing needed                              | Free 5k errors/mo; paid after   | ✅ **Add** — the one true gap in current observability        |
-| **Better Stack** (Logs + Uptime) | Uptime monitoring + log management + status page | Clean UX, uptime + on-call + status page in one, good free tier                                       | Log ingestion costs scale; overlaps others                                                | Free tier; paid after           | ✅ **Add** — uptime + status page in one                      |
-| **Logtail**                      | Log management                                   | (Now part of Better Stack) structured logs, SQL-ish search                                            | Cost at volume; not needed for a static site's thin logs                                  | Free tier                       | ⚠️ Optional — Vercel logs suffice initially                   |
-| **UptimeRobot**                  | Uptime monitoring                                | Dead-simple, generous free tier (50 monitors)                                                         | Basic; 5-min interval on free; no integrated status page polish                           | Free; paid for 1-min            | ✅ Alt to Better Stack if you want the simplest thing         |
-| **Grafana**                      | Dashboards over metrics                          | Powerful, flexible, open-source                                                                       | Needs a metrics backend + ops effort; overkill here                                       | Free OSS; Cloud paid            | ❌ Not now — no infra to visualize                            |
-| **OpenTelemetry**                | Vendor-neutral instrumentation                   | Standard, future-proof, avoids lock-in                                                                | Real setup cost; value appears with distributed services                                  | Free (spec)                     | ❌ Not now — adopt with the product backend                   |
+| Tool                             | Purpose                                          | Strengths                                                                                             | Weaknesses                                                                                | Pricing                         | Fit for this site                                                                                                                             |
+| -------------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Google Analytics 4**           | User + product analytics                         | Free, ubiquitous, already integrated, funnels/events, audience data                                   | PII/consent complexity (esp. DPDP/GDPR), sampling, unfriendly UI, not real-time debugging | Free                            | ✅ **Keep** — already wired, PII-safe event vocabulary                                                                                        |
+| **Vercel Analytics**             | Web analytics + Speed Insights (real CWV)        | Zero-config on Vercel, privacy-friendly, **real Core Web Vitals field data**, no cookie banner needed | Paid beyond hobby limits; less deep than GA4 for funnels                                  | Free tier; paid past event caps | ✅ **Add** — best source of real CWV; complements GA4                                                                                         |
+| **Cloudflare Web Analytics**     | Privacy-first web analytics                      | Free, no cookies, server-side (ad-blocker resistant), no consent banner                               | Basic (pageviews/referrers), no deep funnels                                              | Free                            | ⚠️ Optional — nice free traffic truth-source if on Cloudflare                                                                                 |
+| **Cloudflare Analytics**         | Edge/WAF/traffic + security analytics            | Comes with Cloudflare proxy; bot/threat/rate-limit visibility                                         | Only meaningful once domain is proxied through CF                                         | Included                        | ✅ **Add at domain cutover** — your security signal                                                                                           |
+| **PostHog**                      | Product analytics + session replay + flags       | Powerful funnels, replay, feature flags, self-host option, generous free tier                         | Heavier client script; overkill for a 4-page marketing site today                         | Free 1M events/mo; paid after   | ⚠️ Later — great when the product exists; premature now                                                                                       |
+| **Sentry**                       | Error + performance tracking                     | Best-in-class error grouping, source maps, releases, Next.js SDK, alerting                            | Client bundle weight; quota management; PII scrubbing needed                              | Free 5k errors/mo; paid after   | ✅ **Added 2026-07-28 — server-side only.** The "client bundle weight" con is exactly why; see [`error-monitoring.md`](./error-monitoring.md) |
+| **Better Stack** (Logs + Uptime) | Uptime monitoring + log management + status page | Clean UX, uptime + on-call + status page in one, good free tier                                       | Log ingestion costs scale; overlaps others                                                | Free tier; paid after           | ✅ **Add** — uptime + status page in one                                                                                                      |
+| **Logtail**                      | Log management                                   | (Now part of Better Stack) structured logs, SQL-ish search                                            | Cost at volume; not needed for a static site's thin logs                                  | Free tier                       | ⚠️ Optional — Vercel logs suffice initially                                                                                                   |
+| **UptimeRobot**                  | Uptime monitoring                                | Dead-simple, generous free tier (50 monitors)                                                         | Basic; 5-min interval on free; no integrated status page polish                           | Free; paid for 1-min            | ✅ Alt to Better Stack if you want the simplest thing                                                                                         |
+| **Grafana**                      | Dashboards over metrics                          | Powerful, flexible, open-source                                                                       | Needs a metrics backend + ops effort; overkill here                                       | Free OSS; Cloud paid            | ❌ Not now — no infra to visualize                                                                                                            |
+| **OpenTelemetry**                | Vendor-neutral instrumentation                   | Standard, future-proof, avoids lock-in                                                                | Real setup cost; value appears with distributed services                                  | Free (spec)                     | ❌ Not now — adopt with the product backend                                                                                                   |
 
 ---
 
@@ -40,15 +40,15 @@ This is a **frontend marketing site with two write endpoints** — not a product
 
 **Right-sized for a pre-seed frontend site, mostly free tiers:**
 
-| Layer                          | Tool                                                                                       | Why                                                                                                             |
-| ------------------------------ | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
-| User analytics                 | **GA4** (already integrated)                                                               | Audiences, sources, conversions; PII-safe event union already in code                                           |
-| Product analytics (conversion) | **GA4 events** (`waitlist_submit`, `cta_click`, `data_room_request`, `data_room_download`) | Already typed and firing; extend the union, never ad-hoc                                                        |
-| Performance (real CWV)         | **Vercel Speed Insights** — wired 2026-07-27                                               | Field CWV that Lighthouse can't give you. **Consent-gated here** despite needing no consent legally — see below |
-| Error tracking                 | **Sentry** (Next.js SDK)                                                                   | The current gap; client + server errors, releases, alerting, PII scrubbing                                      |
-| Uptime + status page           | **Better Stack** (or UptimeRobot for simplest)                                             | Watch `/`, `/api/waitlist`, and `/api/health/retention`; alert on downtime; public status page                  |
-| API/security/edge              | **Cloudflare Analytics + WAF events** (at domain cutover)                                  | Bot/threat/rate-limit visibility                                                                                |
-| Logs                           | **Vercel logs** (native) + Sentry breadcrumbs                                              | Sufficient at this scale; add Better Stack log ingestion only if needed                                         |
+| Layer                          | Tool                                                                                       | Why                                                                                                                                                                                                          |
+| ------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| User analytics                 | **GA4** (already integrated)                                                               | Audiences, sources, conversions; PII-safe event union already in code                                                                                                                                        |
+| Product analytics (conversion) | **GA4 events** (`waitlist_submit`, `cta_click`, `data_room_request`, `data_room_download`) | Already typed and firing; extend the union, never ad-hoc                                                                                                                                                     |
+| Performance (real CWV)         | **Vercel Speed Insights** — wired 2026-07-27                                               | Field CWV that Lighthouse can't give you. **Consent-gated here** despite needing no consent legally — see below                                                                                              |
+| Error tracking                 | **Sentry** (Next.js SDK) — wired 2026-07-28, **server-side only**                          | Server errors, alerting, PII scrubbing. **No browser SDK** — the ~40 KB client cost was refused while mobile performance was the last failing PRD target. See [`error-monitoring.md`](./error-monitoring.md) |
+| Uptime + status page           | **Better Stack** (or UptimeRobot for simplest)                                             | Watch `/` and `/api/health/retention`; alert on downtime; public status page. **Never `/api/waitlist`** — it is POST-only and answers a GET probe with 405                                                   |
+| API/security/edge              | **Cloudflare Analytics + WAF events** (at domain cutover)                                  | Bot/threat/rate-limit visibility                                                                                                                                                                             |
+| Logs                           | **Vercel logs** (native) + Sentry breadcrumbs                                              | Sufficient at this scale; add Better Stack log ingestion only if needed                                                                                                                                      |
 
 **Defer** PostHog, Grafana, OpenTelemetry, dedicated log platforms until the product platform exists.
 
@@ -63,7 +63,6 @@ flowchart TB
   subgraph Client["Browser"]
     GA[GA4 events<br/>PII-free vocabulary]
     VI[Vercel Speed Insights<br/>real CWV]
-    SE[Sentry SDK<br/>client errors]
   end
   subgraph Edge["Cloudflare (post-cutover)"]
     CFA[Traffic + WAF + bot analytics]
@@ -71,25 +70,24 @@ flowchart TB
   subgraph Vercel
     FN[API routes]
     VL[Vercel logs + Analytics]
-    SES[Sentry server errors]
+    SES[Sentry server errors<br/>PII scrubbed at beforeSend]
   end
   subgraph External
     UP[Better Stack uptime<br/>+ status page]
   end
   GA --> GA4[(GA4)]
   VI --> VD[(Vercel dashboard)]
-  SE --> SEN[(Sentry)]
-  SES --> SEN
+  SES --> SEN[(Sentry)]
   FN --> VL
   CFA --> CFD[(Cloudflare dashboard)]
-  UP -->|probes / , /api/waitlist| Vercel
+  UP -->|probes / , /api/health/retention| Vercel
   SEN -->|alerts| Notify[Email / Slack]
   UP -->|alerts| Notify
 ```
 
 **Coverage mapping to the requested categories:**
 
-- **User analytics** → GA4. **Product analytics** → GA4 typed events. **Performance monitoring** → Vercel Speed Insights (field) + Lighthouse (lab). **Error tracking** → Sentry. **Uptime** → Better Stack/UptimeRobot. **Server monitoring** → Vercel function metrics + logs (no servers you run). **API monitoring** → uptime probe on `/api/waitlist` + Sentry on route errors + Cloudflare rate-limit stats. **Security monitoring** → Cloudflare WAF/bot analytics + Sentry + rate-limit 429 rates. **Logs** → Vercel logs + Sentry breadcrumbs. **Alerts** → Sentry + Better Stack → email/Slack. **Dashboards** → GA4 + Vercel + Sentry + Cloudflare (four panes; no custom dashboard needed at this scale).
+- **User analytics** → GA4. **Product analytics** → GA4 typed events. **Performance monitoring** → Vercel Speed Insights (field) + Lighthouse (lab). **Error tracking** → Sentry (**server-side only** — no browser SDK, so client-side crashes are not reported; see [`error-monitoring.md`](./error-monitoring.md)). **Uptime** → Better Stack/UptimeRobot. **Server monitoring** → Vercel function metrics + logs (no servers you run). **API monitoring** → uptime probe on `/api/health/retention` + Sentry on route errors + Cloudflare rate-limit stats (**not** a GET probe on `/api/waitlist` — it is POST-only and returns 405). **Security monitoring** → Cloudflare WAF/bot analytics + Sentry + rate-limit 429 rates. **Logs** → Vercel logs + Sentry breadcrumbs. **Alerts** → Sentry + Better Stack → email/Slack. **Dashboards** → GA4 + Vercel + Sentry + Cloudflare (four panes; no custom dashboard needed at this scale).
 
 ---
 
@@ -105,7 +103,7 @@ The table above used to say Speed Insights needs no cookie banner. That is legal
 
 Configure and **test-fire** before launch:
 
-- **Uptime:** alert if `/` or `/api/waitlist` is down > 2 consecutive checks.
+- **Uptime:** alert if `/` or `/api/health/retention` is down > 2 consecutive checks. (Not `/api/waitlist` — POST-only, 405 on a GET probe.)
 - **Retention purge:** point a monitor at `/api/health/retention` (hourly is ample — the purge runs daily). It answers **200 healthy / 503 someone needs to look**, so the ordinary uptime alert is the mechanism; nothing extra to configure. This is the only alert here about a _compliance_ control rather than availability: a stalled purge means `/privacy` §8 keeps promising 24-month deletion while nothing deletes, and the site stays perfectly "up" throughout. Runbook: [`../deployment/data-retention.md`](../deployment/data-retention.md).
 - **Error rate:** Sentry alert on a spike (e.g. >10 errors in 5 min, or any new issue type in production).
 - **Latency:** alert if p95 route latency crosses a threshold (Vercel).
@@ -175,5 +173,5 @@ GA4 integrated (production-only, PII-safe, and **consent-gated since 2026-07-24*
 
 ---
 
-**Last Updated:** 2026-07-27
+**Last Updated:** 2026-07-28 (Sentry wired server-side only; stale `/api/waitlist` uptime probes corrected)
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

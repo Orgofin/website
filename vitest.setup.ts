@@ -28,3 +28,24 @@ class IntersectionObserverStub implements IntersectionObserver {
 if (typeof globalThis.IntersectionObserver === "undefined") {
   globalThis.IntersectionObserver = IntersectionObserverStub;
 }
+
+// jsdom has no `matchMedia` either, which `ThemeProvider` and `useMediaQuery`
+// both call at mount. `matches: false` is a deliberate default, not an
+// arbitrary one: it resolves `prefers-color-scheme: dark` to light, so a test
+// that renders anything theme-aware gets the same result on every machine
+// regardless of the host OS appearance setting. A test that needs dark mode
+// overrides this per-case rather than relying on the ambient environment.
+if (typeof window !== "undefined" && typeof window.matchMedia !== "function") {
+  window.matchMedia = (query: string): MediaQueryList =>
+    ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addEventListener: () => {},
+      removeEventListener: () => {},
+      // Deprecated pre-`addEventListener` API, still on the interface.
+      addListener: () => {},
+      removeListener: () => {},
+      dispatchEvent: () => false,
+    }) as MediaQueryList;
+}
