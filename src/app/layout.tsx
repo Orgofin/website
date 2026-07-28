@@ -1,7 +1,7 @@
 import { type Metadata, type Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { GoogleAnalytics } from "@/components/analytics";
+import { GoogleAnalytics, SpeedInsights } from "@/components/analytics";
 import { ConsentBanner } from "@/components/consent";
 import { LazyMotionProvider } from "@/components/motion/LazyMotionProvider";
 import { StructuredData } from "@/components/seo/StructuredData";
@@ -101,7 +101,11 @@ export default function RootLayout({
             the bottom of the viewport. It gates `GoogleAnalytics` below it —
             nothing loads until the visitor accepts. */}
         <ConsentBanner />
+        {/* Both are gated on the banner's decision. Speed Insights needs no
+            consent legally (no cookies, no personal data) but /privacy promises
+            that NO analytics script runs on essential-only — see the component. */}
         <GoogleAnalytics />
+        <SpeedInsights />
       </body>
     </html>
   );

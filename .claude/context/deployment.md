@@ -32,11 +32,31 @@ The workflow implementing this pipeline is [`.github/workflows/ci.yml`](../../.g
 
 **Why the audit is split, and what `package.json`'s `overrides` are doing (2026-07-25).** GHSA-mh99-v99m-4gvg (`brace-expansion`, DoS) is fixed **only** in `5.0.8` — the 1.x/2.x/3.x maintenance lines were never patched. But 5.x moved to a named export, which breaks `minimatch@3`'s `require()` call, so a blanket pin takes ESLint down entirely (`TypeError: expand is not a function`). The overrides therefore pin `brace-expansion` to `^5.0.8` and carve `minimatch@3` back to `^1.1.16`: that patches the `ts-morph` and `typescript-eslint` paths and leaves only ESLint 9's own bundled `minimatch@3`, which cannot be patched at all — **ESLint 9 is the last major to ship `minimatch@3`**. The real fix is the deferred ESLint 10 migration (TODO below); until then a permanently-unfixable dev-only advisory would block every release, which is why the blocking gate is scoped to the production tree. `shadcn` moved to `devDependencies` in the same change — it is a scaffolding CLI, never imported from `src/`, and keeping it in `dependencies` put `@hono/node-server` and `ts-morph` in the shipped tree. The production tree now audits clean at every severity.
 
+**The `@hono/node-server` override (2026-07-28).** Dependabot alert #2 (moderate — path traversal in `serve-static` via an encoded backslash on Windows) reached us at `1.19.14` through `shadcn → @modelcontextprotocol/sdk`. It is **dev-tree only and unreachable** — we never start the SDK's HTTP server — so it never blocked the gate. It is pinned anyway, because a one-line override is cheaper than re-deciding this every time the alert resurfaces.
+
+The fix is **two** overrides, not one: the advisory is first patched in `2.0.5`, but the installed SDK `1.29.0` declares `^1.19.9` and does not sanction a 2.x major. Pinning `@hono/node-server` alone would silently force an unsupported major on a dependency that never agreed to it. `@modelcontextprotocol/sdk` is therefore pinned to `^1.30.0` — the first release whose range reads `^1.19.9 || ^2.0.5` — so the hono pin lands inside a range its own consumer declares. **Both overrides must be removed together**, once `shadcn` resolves the SDK to `>=1.30.0` on its own. Verified after the bump: lint, typecheck, 148 tests, build all green, every route still statically prerendered, and the `shadcn` CLI still executes.
+
 **Node version (2026-07-27).** CI runs **Node 24**, the current Active LTS (maintenance from Oct 2026, EOL Apr 2028 per the [Node release schedule](https://github.com/nodejs/Release)). Pinned in three places that must agree: [`ci.yml`](../../.github/workflows/ci.yml)'s `node-version`, `package.json` `engines` (`>=24.15.0`), and [`.nvmrc`](../../.nvmrc) for local dev.
 
 It was `20` until this change, and **Node 20 reached EOL on 2026-04-30** — so CI spent roughly three months building on a runtime receiving no security patches, on a repo that otherwise gates hard on dependency advisories. Nothing flagged it: `npm audit` scans dependencies, not the interpreter, and CodeQL does not check runtime lifecycle either. What surfaced it was an unrelated Dependabot PR (jsdom 30, whose `engines` excludes Node 20) failing with `webidl.util.markAsUncloneable is not a function` — a message that names neither Node nor the version.
 
 The floor is `>=24.15.0` rather than `>=24` because that is what jsdom 30 requires; anything lower reintroduces the same failure. **Vercel's runtime Node is configured in project settings, not in this repo** — it is a separate dial and does not follow `engines` automatically. Check it when changing this.
+
+### Branch protection (repository rulesets)
+
+Enforced server-side by GitHub **rulesets**, not the older "branch protection" API — note that `gh api repos/Orgofin/website/branches/<b>/protection` returns **404 Branch not protected** even for fully protected branches. Read them with `gh api repos/Orgofin/website/rules/branches/<b>`.
+
+| Branch | PR required | Approvals | CI gate required | Strict |
+| ------ | ----------- | --------- | ---------------- | ------ |
+| `main` | yes         | **1**     | ⚠️ no            | —      |
+| `uat`  | yes         | 0         | yes              | yes    |
+| `dev`  | yes         | 0         | yes              | yes    |
+
+All three also block deletion and non-fast-forward pushes. The required check is the `ci.yml` job **`Lint, format, typecheck, test, build`**; CodeQL stays advisory by design (see the security section above), and the Vercel checks are deployment signal rather than a quality gate, so neither is required.
+
+**Why `strict` is on (2026-07-27).** Strict means a PR must be up to date with its base before merging, so its checks are re-run against what will actually land. Without it a check result can be stale: #123 (jsdom 30) was merged into `dev` carrying a **failing** run from before the Node 24 bump — the result was accurate when produced and meaningless by the time it merged. `dev` also had no `pull_request` rule at all until this change, so direct pushes bypassed CI entirely.
+
+**`main` still has no required status check.** Production merges are gated by one human approval and nothing else, so a red build can reach `main` if the reviewer does not look. That is the remaining gap in this table — deliberately left rather than changed quietly, since production protection is a founder decision.
 
 Local pre-commit/pre-push (Husky): [`.husky/pre-commit`](../../.husky/pre-commit) runs `lint-staged` (ESLint + Prettier on staged files) at commit; [`.husky/pre-push`](../../.husky/pre-push) runs `npm run typecheck` at push — catching most issues before they reach CI at all.
 
@@ -73,6 +93,7 @@ Wire the remaining pipeline steps (Playwright/axe, Lighthouse gate) into `ci.yml
 - [ ] Remove the `package.json` `overrides` entry forcing `next`'s nested `postcss` to `^8.5.10` (added 2026-07-15 for the Dependabot XSS alert, GHSA postcss < 8.5.10) once a Next release stops pinning `postcss@8.4.31` — check on each Next upgrade.
 - [ ] **Deferred toolchain majors (2026-07-19):** TypeScript **7.x** and ESLint **10.x** are `ignore`d for `semver-major` in `.github/dependabot.yml` — both broke `typecheck`/`lint` on the first Dependabot bump (TS 7 is the native-compiler jump past 6.x; ESLint 10 is a flat-config-breaking major) and are gated on ecosystem support. Do each as its own deliberate migration PR (verify the toolchain + Next.js/plugins are ready), then remove the corresponding `ignore` rule. Minor/patch for both still auto-update. **ESLint 10 gained a security reason to move on 2026-07-25** — it is the only way to clear GHSA-mh99-v99m-4gvg from the dev tree, because ESLint 9 bundles an unpatchable `minimatch@3` (see the audit note above). Not urgent — the advisory is a DoS in lint tooling running on trusted local input — but it should stop being indefinitely deferred.
 - [ ] Re-tighten the dependency audit once ESLint 10 lands: if the full tree goes clean, consider collapsing the two audit steps back into one blocking `npm audit --audit-level=high` and dropping the `brace-expansion` overrides.
+- [ ] Drop the `@hono/node-server` **and** `@modelcontextprotocol/sdk` overrides together (added 2026-07-28, see above) once `shadcn` resolves the SDK to `>=1.30.0` unaided — check on each `shadcn` upgrade.
 
 ## References
 
