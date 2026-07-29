@@ -43,6 +43,7 @@ The first is not an aspiration — it is a literal description of [`src/lib/obse
 | `request.cookies`                             | Identity.                                                                                                                              |
 | Headers outside an allowlist                  | `cookie`, `authorization`, `x-forwarded-for` all carry identity.                                                                       |
 | `event.user`                                  | Sentry's IP inference. `sendDefaultPii: false` should prevent it; this removes it again so it stays gone if that flag is ever flipped. |
+| Console breadcrumbs                           | Not removed by `beforeSend` but by dropping the integration entirely — arbitrary log text cannot be scrubbed structurally. See below.  |
 
 | Kept                            | Why                                                             |
 | ------------------------------- | --------------------------------------------------------------- |
@@ -91,13 +92,15 @@ Two things worth knowing rather than rediscovering:
 - **Sentry's UI can lag.** The first check reported "no issue in Sentry" and prompted a fruitless hunt for a broken transport; the event was simply not visible yet. Give it a few minutes before concluding anything is wrong.
 - **`Content-Length` is on the allowlist, so the body's _size_ is recorded** even though its contents are not. Accepted deliberately: a length is not "the contents" under any reading, and content-length is genuinely useful when diagnosing a malformed request. Noted here so it is a decision rather than an oversight.
 
-### Known gap: breadcrumbs are not scrubbed
+### Console breadcrumbs are disabled
 
-`scrubEvent` cleans `event.user` and `event.request`. It does **not** touch `event.breadcrumbs`, and the Node SDK's console integration turns every `console.error` on the server into a breadcrumb attached to the next event. That is a second channel into Sentry with none of the guarantees above.
+The verification above surfaced a second channel into Sentry that `beforeSend` does not cover. `scrubEvent` cleans `event.user` and `event.request`, but the Node SDK's console integration turns every server-side `console.error` into a breadcrumb — and a breadcrumb's payload is arbitrary formatted text, so it cannot meaningfully be scrubbed the way a structured `request` object can.
 
-It does not leak today, but only narrowly. [`src/lib/api/waitlist.ts`](../../src/lib/api/waitlist.ts) returns early on unique-violation `23505` — the duplicate-signup case, whose Postgres error carries the submitted address in `details` — _before_ reaching its `console.error`. Any other database error still logs the raw error object, and a Postgres CHECK violation puts `Failing row contains (…, user@example.com, …)` in that same field.
+That was not hypothetical. [`src/lib/api/*`](../../src/lib/api/) log raw Supabase errors on failure, and a Postgres error carries submitted values in `details`: a CHECK violation renders as `Failing row contains (…, user@example.com, …)`. Nothing leaked, but only because [`waitlist.ts`](../../src/lib/api/waitlist.ts) returns early on unique-violation `23505` — the one case whose error text holds an address — _before_ reaching its `console.error`. A published promise resting on a single early return is exactly the arrangement [`scrub.ts`](../../src/lib/observability/scrub.ts) was written to replace.
 
-So the promise currently holds by virtue of one early return rather than by construction, which is precisely the arrangement [`scrub.ts`](../../src/lib/observability/scrub.ts) was written to avoid. Tracked in the TODO below.
+The `Console` integration is therefore **filtered out of the default set** in [`src/instrumentation.ts`](../../src/instrumentation.ts) — deny-by-default, the same reasoning as the header allowlist. The cost is low: the exception and its full stack are still captured, and breadcrumbs earn their keep by reconstructing a user's journey, which a server-side-only integration does not have. `console.error` still reaches the Vercel runtime logs, where it belongs.
+
+Four tests in [`instrumentation.test.ts`](../../src/instrumentation.test.ts) assert the filter drops `Console`, keeps the other defaults (so this never becomes a blanket opt-out), and that `sendDefaultPii` and `tracesSampleRate` stay put.
 
 ### Client-bundle verification
 
@@ -132,7 +135,7 @@ Re-run this against production (not a local build) whenever a dependency that co
 - [ ] **Engineering:** configure a Sentry alert rule and **test-fire it**, then record here what it routes to. Use an **Issues** alert, not a Metrics one — `tracesSampleRate` is 0, so metric alerts would never fire. Condition: "a new issue is created", environment `production`, no rate threshold (a single 500 on a waitlist POST is the event that matters).
 - [ ] **Engineering:** revisit source-map upload — either adopt `withSentryConfig` deliberately, having re-checked it does not disturb the CSP or static rendering, or upload maps out-of-band. Until then, server stack traces point at built output.
 - [x] **Engineering:** verify end-to-end against a real Sentry ingest that the event arrives with the body absent. Done 2026-07-29 — see "Ingest and scrubbing, verified against a real event" above.
-- [ ] **Engineering:** close the breadcrumb gap described above. `scrubEvent` guards `request` and `user` but not `breadcrumbs`, so a `console.error` carrying a Postgres error object could ship PII that the request scrubbing would have caught. Options: extend `scrubEvent` to drop console breadcrumbs, or disable the console integration outright. Deny-by-default argues for the latter — the exception and stack are already captured, and breadcrumb value is low on a server-side-only integration.
+- [x] **Engineering:** close the breadcrumb gap. Done 2026-07-29 — the `Console` integration is filtered out; see "Console breadcrumbs are disabled" above.
 
 ## References
 

@@ -67,6 +67,26 @@ export async function register() {
     // redundant with Speed Insights, which already reports real-user timings.
     tracesSampleRate: 0,
 
+    // Console breadcrumbs are dropped. `beforeSend` scrubs `request` and
+    // `user`, but it does not — and practically cannot — scrub breadcrumbs,
+    // because a console breadcrumb's payload is arbitrary formatted text.
+    // That makes the console a second, unguarded channel into Sentry.
+    //
+    // It is not hypothetical. `lib/api/*` log raw Supabase errors on failure,
+    // and a Postgres error carries submitted values in `details` — a CHECK
+    // violation renders as `Failing row contains (…, user@example.com, …)`.
+    // Today nothing leaks only because `submitWaitlist` returns early on
+    // unique-violation 23505, before its `console.error`. That is the one
+    // case whose error text holds an address. A promise that holds by virtue
+    // of a single early return is exactly what scrub.ts exists to replace.
+    //
+    // Deny-by-default, the same reasoning as the header allowlist. The cost
+    // is low: the exception and its full stack are still captured, and
+    // breadcrumbs earn their keep by reconstructing a user's journey — which
+    // a server-side-only integration on a marketing site does not have.
+    integrations: (defaults) =>
+      defaults.filter((integration) => integration.name !== "Console"),
+
     beforeSend: scrubEvent,
   });
 }
