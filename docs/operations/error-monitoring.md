@@ -69,7 +69,29 @@ Env-gated exactly like GA4 and Supabase: `.optional()` in [`src/env.ts`](../../s
 
 ## Current Status
 
-**Wired 2026-07-28, server-side only, and inert until `SENTRY_DSN` is set in Vercel.** Verified at build time that **zero** Sentry code reaches the client bundle (`grep` over `.next/static/chunks` returns nothing) while it is present in the server and edge builds. All routes remain statically prerendered.
+**Wired 2026-07-28, server-side only, shipped to production, and `SENTRY_DSN` is set in Vercel.** Ingest has still never been observed end-to-end — see the TODO below. All routes remain statically prerendered.
+
+### Client-bundle verification
+
+The claim that matters here is that the "no browser SDK" decision above is a fact about what ships, not an intention. Measured **2026-07-29 against the live production bundle** — 22 unique chunks across `/`, `/platform`, `/about`, `/privacy`, `/terms`, `/contact`, ~1.18 MB of JavaScript, searched **case-insensitively**:
+
+| Token              | Hits | Meaning                                                       |
+| ------------------ | ---- | ------------------------------------------------------------- |
+| `@sentry/`         | 0    | No SDK module ever bundled.                                   |
+| `captureException` | 0    | No SDK surface.                                               |
+| `getCurrentHub`    | 0    | No SDK surface.                                               |
+| `sentry-trace`     | 0    | No trace propagation header — consistent with no browser SDK. |
+| `ingest.sentry.io` | 0    | The client never has an endpoint to talk to.                  |
+| `SENTRY_DSN`       | 3    | **The variable name only — not its value.** See below.        |
+
+The three `SENTRY_DSN` hits are all `@t3-oss/env-nextjs`, which bundles the whole `createEnv` schema — including the server half — into the client. They read `SENTRY_DSN: lg.string().url().optional()` (the schema) and `SENTRY_DSN: l.default.env.SENTRY_DSN` (a runtime property access that resolves to `undefined` in a browser). **The DSN is a lookup that fails at runtime, never an inlined literal**; no DSN-shaped string appears anywhere in the bundle. The same is true of `SUPABASE_SERVICE_ROLE_KEY` beside it. Harmless, but it means "the string `SENTRY_DSN` appears in the bundle" is the expected state and is not evidence of a leak.
+
+**Two traps for whoever repeats this check:**
+
+- **`grep -rl sentry .next/static/chunks` is not a valid test.** It is case-sensitive and can never match `SENTRY_DSN`; it returns nothing whether or not the SDK is present. An earlier revision of this document cited exactly that command as its verification. Right conclusion, method that could not have proved it — which is worse than no check, because it reads as settled.
+- **`beforeSend` is a false positive.** It matches 8 times in production and **none of them are Sentry** — it is Vercel Speed Insights' own option, called through `window.si`. Do not treat a hit on it as an SDK sighting.
+
+Re-run this against production (not a local build) whenever a dependency that could pull in `@sentry/*` transitively changes.
 
 ## Future Improvements
 
@@ -78,8 +100,8 @@ Env-gated exactly like GA4 and Supabase: `.optional()` in [`src/env.ts`](../../s
 
 ## TODO
 
-- [ ] **Founder:** create the Sentry project and set `SENTRY_DSN` in Vercel (Production scope first). Until then this is inert.
-- [ ] **Engineering:** configure a Sentry alert rule and **test-fire it**, then record here what it routes to.
+- [x] **Founder:** create the Sentry project and set `SENTRY_DSN` in Vercel. Done 2026-07-28. Which environment scopes it covers is not yet recorded here — the end-to-end check below needs it on **Preview**.
+- [ ] **Engineering:** configure a Sentry alert rule and **test-fire it**, then record here what it routes to. Use an **Issues** alert, not a Metrics one — `tracesSampleRate` is 0, so metric alerts would never fire. Condition: "a new issue is created", environment `production`, no rate threshold (a single 500 on a waitlist POST is the event that matters).
 - [ ] **Engineering:** revisit source-map upload — either adopt `withSentryConfig` deliberately, having re-checked it does not disturb the CSP or static rendering, or upload maps out-of-band. Until then, server stack traces point at built output.
 - [ ] **Engineering:** once a DSN exists, verify end-to-end by forcing a server error on a preview deploy and confirming the event arrives **with the body absent** — the scrubbing is unit-tested, but it has never been observed against a real Sentry ingest.
 
@@ -97,5 +119,5 @@ Env-gated exactly like GA4 and Supabase: `.optional()` in [`src/env.ts`](../../s
 
 ---
 
-**Last Updated:** 2026-07-28
+**Last Updated:** 2026-07-29
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
