@@ -43,6 +43,7 @@ The first is not an aspiration — it is a literal description of [`src/lib/obse
 | `request.cookies`                             | Identity.                                                                                                                              |
 | Headers outside an allowlist                  | `cookie`, `authorization`, `x-forwarded-for` all carry identity.                                                                       |
 | `event.user`                                  | Sentry's IP inference. `sendDefaultPii: false` should prevent it; this removes it again so it stays gone if that flag is ever flipped. |
+| Console breadcrumbs                           | Not removed by `beforeSend` but by dropping the integration entirely — arbitrary log text cannot be scrubbed structurally. See below.  |
 
 | Kept                            | Why                                                             |
 | ------------------------------- | --------------------------------------------------------------- |
@@ -69,7 +70,59 @@ Env-gated exactly like GA4 and Supabase: `.optional()` in [`src/env.ts`](../../s
 
 ## Current Status
 
-**Wired 2026-07-28, server-side only, and inert until `SENTRY_DSN` is set in Vercel.** Verified at build time that **zero** Sentry code reaches the client bundle (`grep` over `.next/static/chunks` returns nothing) while it is present in the server and edge builds. All routes remain statically prerendered.
+**Wired 2026-07-28, server-side only, shipped to production, `SENTRY_DSN` set in Vercel, and ingest verified end-to-end on 2026-07-29.** All routes remain statically prerendered.
+
+### Ingest and scrubbing, verified against a real event
+
+Performed 2026-07-29 on a **preview** deployment from a throwaway branch (never merged, deleted afterwards). A temporary route threw on POST so Next's `onRequestError` fired, carrying a genuine request through `captureRequestError` → `beforeSend` → Sentry — the same path a waitlist 500 takes. The request seeded four distinct markers, one per branch of `scrubEvent`.
+
+**Result: the issue arrived with `environment: preview`, and none of the four markers appear anywhere in the stored event.**
+
+| Seeded in the request   | Scrub branch under test                      | Present in the event?     |
+| ----------------------- | -------------------------------------------- | ------------------------- |
+| JSON body with a marker | `delete request.data`                        | **No** — no body at all   |
+| `?leak=…` query string  | `delete request.query_string` + `stripQuery` | **No** — URL has no query |
+| `Cookie:` with a marker | `delete request.cookies`                     | **No**                    |
+| `x-leak-marker:` header | header allowlist                             | **No**                    |
+
+The header result is the most informative of the four: `x-leak-marker` is a header no blocklist would have anticipated, so its absence is direct evidence that the **allowlist** design does what the PII-guarantee section claims. The seven headers that survived are exactly `SAFE_HEADERS`, no more.
+
+Two things worth knowing rather than rediscovering:
+
+- **Sentry's UI can lag.** The first check reported "no issue in Sentry" and prompted a fruitless hunt for a broken transport; the event was simply not visible yet. Give it a few minutes before concluding anything is wrong.
+- **`Content-Length` is on the allowlist, so the body's _size_ is recorded** even though its contents are not. Accepted deliberately: a length is not "the contents" under any reading, and content-length is genuinely useful when diagnosing a malformed request. Noted here so it is a decision rather than an oversight.
+
+### Console breadcrumbs are disabled
+
+The verification above surfaced a second channel into Sentry that `beforeSend` does not cover. `scrubEvent` cleans `event.user` and `event.request`, but the Node SDK's console integration turns every server-side `console.error` into a breadcrumb — and a breadcrumb's payload is arbitrary formatted text, so it cannot meaningfully be scrubbed the way a structured `request` object can.
+
+That was not hypothetical. [`src/lib/api/*`](../../src/lib/api/) log raw Supabase errors on failure, and a Postgres error carries submitted values in `details`: a CHECK violation renders as `Failing row contains (…, user@example.com, …)`. Nothing leaked, but only because [`waitlist.ts`](../../src/lib/api/waitlist.ts) returns early on unique-violation `23505` — the one case whose error text holds an address — _before_ reaching its `console.error`. A published promise resting on a single early return is exactly the arrangement [`scrub.ts`](../../src/lib/observability/scrub.ts) was written to replace.
+
+The `Console` integration is therefore **filtered out of the default set** in [`src/instrumentation.ts`](../../src/instrumentation.ts) — deny-by-default, the same reasoning as the header allowlist. The cost is low: the exception and its full stack are still captured, and breadcrumbs earn their keep by reconstructing a user's journey, which a server-side-only integration does not have. `console.error` still reaches the Vercel runtime logs, where it belongs.
+
+Four tests in [`instrumentation.test.ts`](../../src/instrumentation.test.ts) assert the filter drops `Console`, keeps the other defaults (so this never becomes a blanket opt-out), and that `sendDefaultPii` and `tracesSampleRate` stay put.
+
+### Client-bundle verification
+
+The claim that matters here is that the "no browser SDK" decision above is a fact about what ships, not an intention. Measured **2026-07-29 against the live production bundle** — 22 unique chunks across `/`, `/platform`, `/about`, `/privacy`, `/terms`, `/contact`, ~1.18 MB of JavaScript, searched **case-insensitively**:
+
+| Token              | Hits | Meaning                                                       |
+| ------------------ | ---- | ------------------------------------------------------------- |
+| `@sentry/`         | 0    | No SDK module ever bundled.                                   |
+| `captureException` | 0    | No SDK surface.                                               |
+| `getCurrentHub`    | 0    | No SDK surface.                                               |
+| `sentry-trace`     | 0    | No trace propagation header — consistent with no browser SDK. |
+| `ingest.sentry.io` | 0    | The client never has an endpoint to talk to.                  |
+| `SENTRY_DSN`       | 3    | **The variable name only — not its value.** See below.        |
+
+The three `SENTRY_DSN` hits are all `@t3-oss/env-nextjs`, which bundles the whole `createEnv` schema — including the server half — into the client. They read `SENTRY_DSN: lg.string().url().optional()` (the schema) and `SENTRY_DSN: l.default.env.SENTRY_DSN` (a runtime property access that resolves to `undefined` in a browser). **The DSN is a lookup that fails at runtime, never an inlined literal**; no DSN-shaped string appears anywhere in the bundle. The same is true of `SUPABASE_SERVICE_ROLE_KEY` beside it. Harmless, but it means "the string `SENTRY_DSN` appears in the bundle" is the expected state and is not evidence of a leak.
+
+**Two traps for whoever repeats this check:**
+
+- **`grep -rl sentry .next/static/chunks` is not a valid test.** It is case-sensitive and can never match `SENTRY_DSN`; it returns nothing whether or not the SDK is present. An earlier revision of this document cited exactly that command as its verification. Right conclusion, method that could not have proved it — which is worse than no check, because it reads as settled.
+- **`beforeSend` is a false positive.** It matches 8 times in production and **none of them are Sentry** — it is Vercel Speed Insights' own option, called through `window.si`. Do not treat a hit on it as an SDK sighting.
+
+Re-run this against production (not a local build) whenever a dependency that could pull in `@sentry/*` transitively changes.
 
 ## Future Improvements
 
@@ -78,10 +131,11 @@ Env-gated exactly like GA4 and Supabase: `.optional()` in [`src/env.ts`](../../s
 
 ## TODO
 
-- [ ] **Founder:** create the Sentry project and set `SENTRY_DSN` in Vercel (Production scope first). Until then this is inert.
-- [ ] **Engineering:** configure a Sentry alert rule and **test-fire it**, then record here what it routes to.
+- [x] **Founder:** create the Sentry project and set `SENTRY_DSN` in Vercel. Done 2026-07-28. Which environment scopes it covers is not yet recorded here — the end-to-end check below needs it on **Preview**.
+- [ ] **Engineering:** configure a Sentry alert rule and **test-fire it**, then record here what it routes to. Use an **Issues** alert, not a Metrics one — `tracesSampleRate` is 0, so metric alerts would never fire. Condition: "a new issue is created", environment `production`, no rate threshold (a single 500 on a waitlist POST is the event that matters).
 - [ ] **Engineering:** revisit source-map upload — either adopt `withSentryConfig` deliberately, having re-checked it does not disturb the CSP or static rendering, or upload maps out-of-band. Until then, server stack traces point at built output.
-- [ ] **Engineering:** once a DSN exists, verify end-to-end by forcing a server error on a preview deploy and confirming the event arrives **with the body absent** — the scrubbing is unit-tested, but it has never been observed against a real Sentry ingest.
+- [x] **Engineering:** verify end-to-end against a real Sentry ingest that the event arrives with the body absent. Done 2026-07-29 — see "Ingest and scrubbing, verified against a real event" above.
+- [x] **Engineering:** close the breadcrumb gap. Done 2026-07-29 — the `Console` integration is filtered out; see "Console breadcrumbs are disabled" above.
 
 ## References
 
@@ -97,5 +151,5 @@ Env-gated exactly like GA4 and Supabase: `.optional()` in [`src/env.ts`](../../s
 
 ---
 
-**Last Updated:** 2026-07-28
+**Last Updated:** 2026-07-29
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
