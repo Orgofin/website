@@ -82,7 +82,9 @@ Three things about this rule are deliberate rather than accidental, so do not "f
 - **The condition is "high priority", not "a new issue is created".** Sentry's priority is a heuristic, so in principle a 500 could be down-ranked and stay silent. Kept anyway: unhandled server exceptions — the waitlist/data-room 500 this integration exists to catch — are classified high priority, and the verification event confirmed it on exactly that shape of error. The alternative pages on every new issue, including preview noise.
 - **It covers all environments, not just production.** A preview error is usually worth knowing about _before_ it reaches production, and preview deploys are rare and short-lived.
 
-**Not yet confirmed: whether the notification was actually delivered.** "Last triggered" proves the rule matched, not that anything arrived in an inbox. Until someone confirms receipt, this control is verified only up to Sentry's boundary.
+**Delivery is confirmed.** The founder received the email for that firing, from `noreply@md.getsentry.com`. This matters as a separate fact: "last triggered" proves only that the rule _matched_, and an alert that matches but never reaches a human is indistinguishable from no alert at all. The chain is now verified end to end — server error → `onRequestError` → scrubbed event → Sentry issue → alert rule → **inbox**.
+
+Two operational consequences: `noreply@md.getsentry.com` is the sender to keep out of spam filters, and this is the address whose silence would be meaningful during an incident.
 
 ## Design Decisions
 
