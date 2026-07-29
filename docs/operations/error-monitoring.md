@@ -69,7 +69,35 @@ Env-gated exactly like GA4 and Supabase: `.optional()` in [`src/env.ts`](../../s
 
 ## Current Status
 
-**Wired 2026-07-28, server-side only, shipped to production, and `SENTRY_DSN` is set in Vercel.** Ingest has still never been observed end-to-end — see the TODO below. All routes remain statically prerendered.
+**Wired 2026-07-28, server-side only, shipped to production, `SENTRY_DSN` set in Vercel, and ingest verified end-to-end on 2026-07-29.** All routes remain statically prerendered.
+
+### Ingest and scrubbing, verified against a real event
+
+Performed 2026-07-29 on a **preview** deployment from a throwaway branch (never merged, deleted afterwards). A temporary route threw on POST so Next's `onRequestError` fired, carrying a genuine request through `captureRequestError` → `beforeSend` → Sentry — the same path a waitlist 500 takes. The request seeded four distinct markers, one per branch of `scrubEvent`.
+
+**Result: the issue arrived with `environment: preview`, and none of the four markers appear anywhere in the stored event.**
+
+| Seeded in the request   | Scrub branch under test                      | Present in the event?     |
+| ----------------------- | -------------------------------------------- | ------------------------- |
+| JSON body with a marker | `delete request.data`                        | **No** — no body at all   |
+| `?leak=…` query string  | `delete request.query_string` + `stripQuery` | **No** — URL has no query |
+| `Cookie:` with a marker | `delete request.cookies`                     | **No**                    |
+| `x-leak-marker:` header | header allowlist                             | **No**                    |
+
+The header result is the most informative of the four: `x-leak-marker` is a header no blocklist would have anticipated, so its absence is direct evidence that the **allowlist** design does what the PII-guarantee section claims. The seven headers that survived are exactly `SAFE_HEADERS`, no more.
+
+Two things worth knowing rather than rediscovering:
+
+- **Sentry's UI can lag.** The first check reported "no issue in Sentry" and prompted a fruitless hunt for a broken transport; the event was simply not visible yet. Give it a few minutes before concluding anything is wrong.
+- **`Content-Length` is on the allowlist, so the body's _size_ is recorded** even though its contents are not. Accepted deliberately: a length is not "the contents" under any reading, and content-length is genuinely useful when diagnosing a malformed request. Noted here so it is a decision rather than an oversight.
+
+### Known gap: breadcrumbs are not scrubbed
+
+`scrubEvent` cleans `event.user` and `event.request`. It does **not** touch `event.breadcrumbs`, and the Node SDK's console integration turns every `console.error` on the server into a breadcrumb attached to the next event. That is a second channel into Sentry with none of the guarantees above.
+
+It does not leak today, but only narrowly. [`src/lib/api/waitlist.ts`](../../src/lib/api/waitlist.ts) returns early on unique-violation `23505` — the duplicate-signup case, whose Postgres error carries the submitted address in `details` — _before_ reaching its `console.error`. Any other database error still logs the raw error object, and a Postgres CHECK violation puts `Failing row contains (…, user@example.com, …)` in that same field.
+
+So the promise currently holds by virtue of one early return rather than by construction, which is precisely the arrangement [`scrub.ts`](../../src/lib/observability/scrub.ts) was written to avoid. Tracked in the TODO below.
 
 ### Client-bundle verification
 
@@ -103,7 +131,8 @@ Re-run this against production (not a local build) whenever a dependency that co
 - [x] **Founder:** create the Sentry project and set `SENTRY_DSN` in Vercel. Done 2026-07-28. Which environment scopes it covers is not yet recorded here — the end-to-end check below needs it on **Preview**.
 - [ ] **Engineering:** configure a Sentry alert rule and **test-fire it**, then record here what it routes to. Use an **Issues** alert, not a Metrics one — `tracesSampleRate` is 0, so metric alerts would never fire. Condition: "a new issue is created", environment `production`, no rate threshold (a single 500 on a waitlist POST is the event that matters).
 - [ ] **Engineering:** revisit source-map upload — either adopt `withSentryConfig` deliberately, having re-checked it does not disturb the CSP or static rendering, or upload maps out-of-band. Until then, server stack traces point at built output.
-- [ ] **Engineering:** once a DSN exists, verify end-to-end by forcing a server error on a preview deploy and confirming the event arrives **with the body absent** — the scrubbing is unit-tested, but it has never been observed against a real Sentry ingest.
+- [x] **Engineering:** verify end-to-end against a real Sentry ingest that the event arrives with the body absent. Done 2026-07-29 — see "Ingest and scrubbing, verified against a real event" above.
+- [ ] **Engineering:** close the breadcrumb gap described above. `scrubEvent` guards `request` and `user` but not `breadcrumbs`, so a `console.error` carrying a Postgres error object could ship PII that the request scrubbing would have caught. Options: extend `scrubEvent` to drop console breadcrumbs, or disable the console integration outright. Deny-by-default argues for the latter — the exception and stack are already captured, and breadcrumb value is low on a server-side-only integration.
 
 ## References
 
