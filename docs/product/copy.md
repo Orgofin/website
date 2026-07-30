@@ -426,7 +426,9 @@ _Original deck copy (retained for reference):_ **Headline:** We're not hiring ye
 ## 14. Privacy Policy & Terms
 
 **Privacy intro line (above the legal text):** We ask you to trust us with sensitive company data. Here's exactly what we do — and don't do — with it.
-**Terms intro line (above the legal text):** Plain language first, legal language second. If anything here is unclear, ask us — that's what [support email] is for.
+**Terms intro line (above the legal text):** Plain language first, legal language second. If anything here is unclear, ask us — that's what our contact address is for.
+
+> **Synced 2026-07-30.** This line read "…that's what [support email] is for" until today, a placeholder left over from before the address was decided. The shipped page ([`terms/page.tsx`](<../../src/app/(marketing)/terms/page.tsx>) `intro`) says "our contact address", deliberately: the address itself is rendered from `lib/site/contact.ts`, so naming it a second time in prose would create the drift this deck is supposed to prevent. The address is `contact@orgofin.com` (founder-supplied 2026-07-24) — quoted here only as the record of the decision, never as a second source.
 
 > **Both pages shipped 2026-07-24 and this deck does not hold their text.** The full text lives with the pages — [`privacy/page.tsx`](<../../src/app/(marketing)/privacy/page.tsx>) and [`terms/page.tsx`](<../../src/app/(marketing)/terms/page.tsx>) — as structured section data, with shared facts in [`lib/legal/constants.ts`](../../src/lib/legal/constants.ts). A second copy here would be a legal document that can silently disagree with the published one (CLAUDE.md non-negotiable #4). The two intro lines above are the deck's whole contribution, and the pages render them verbatim.
 >
@@ -468,7 +470,8 @@ _(Kept verbatim from the founder's original handwritten PRD — already on-brand
 - **Waitlist form fields:** Name*, Email*, Company*, Role, Country, Company Size, Products Interested In _(multi-select: HRMS, Finance, CRM, Support, Collaboration, IT, Compliance)_, Notes _(optional)_
 - **Waitlist submit button:** Join the Waitlist
 - **Waitlist success message:** You're on the list. Welcome to the early group.
-- **Waitlist generic error message:** Something went wrong on our end — try again, or email us directly at [support email].
+- **Waitlist generic error message:** We couldn't add you to the waitlist. Please try again. _(and, when the backend is unreachable: "The waitlist isn't available right now. Please try again later.")_
+  > **Corrected 2026-07-30.** This read "Something went wrong on our end — try again, or email us directly at [support email]" — text that was never built. The shipped strings are in [`lib/api/waitlist.ts`](../../src/lib/api/waitlist.ts) and distinguish two cases the single drafted line could not: the insert failed, versus the waitlist is not configured at all. The email invitation was dropped rather than filled in, because an error message is exactly where a mistyped address does the most damage and `/contact` already carries the real one.
 - **Newsletter (footer) helper text:** Founder updates, not spam. Unsubscribe anytime.
 - **Newsletter field/button:** Email → Subscribe
 - **Cookie consent banner headline:** We use cookies to understand how people experience Orgofin — nothing more. _(Shipped verbatim 2026-07-24 in `components/consent/ConsentBanner.tsx`.)_
