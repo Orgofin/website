@@ -20,36 +20,36 @@ The engineering foundation is strong: strict TypeScript, App Router with Server 
 
 ### Blockers — all cleared (verified live 2026-07-19)
 
-| ID   | Blocker                                                                                          | Status  | Verification                                                                                                                         |
-| ---- | ------------------------------------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| B-01 | Missing social/brand assets — `/og/default.png` and `/logo.png` don't exist (`public/` is empty) | ✅ Done | Eclipse brand shipped; `/og/default.png` + `/logo.png` return `200 image/png` on the apex.                                           |
-| B-02 | Custom domain + `NEXT_PUBLIC_SITE_URL` not yet live (E13.1.3) — canonical URLs point at fallback | ✅ Done | `orgofin.com` serves `200`, `www` 308→apex, canonicals/OG resolve to the apex.                                                       |
-| B-03 | Security headers/CSP + rate limiting absent (see security audit H-01/H-02)                       | ✅ Done | CSP, HSTS (preload), `X-Frame-Options: DENY`, nosniff, Referrer/Permissions-Policy live; app-layer rate limiting + honeypot shipped. |
+| ID   | Blocker                                                                                          | Status  | Verification                                                                                                                                                                                                                                                            |
+| ---- | ------------------------------------------------------------------------------------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| B-01 | Missing social/brand assets — `/og/default.png` and `/logo.png` don't exist (`public/` is empty) | ✅ Done | Brand assets shipped. Re-verified 2026-07-30: `/og/default.png` + **`/brand/logo.png`** return `200 image/png` on the apex. **The path changed** when the new mark landed 2026-07-27 — `/logo.png` now 404s; app references were moved with it, external ones were not. |
+| B-02 | Custom domain + `NEXT_PUBLIC_SITE_URL` not yet live (E13.1.3) — canonical URLs point at fallback | ✅ Done | `orgofin.com` serves `200`, `www` 308→apex, canonicals/OG resolve to the apex.                                                                                                                                                                                          |
+| B-03 | Security headers/CSP + rate limiting absent (see security audit H-01/H-02)                       | ✅ Done | CSP, HSTS (preload), `X-Frame-Options: DENY`, nosniff, Referrer/Permissions-Policy live; app-layer rate limiting + honeypot shipped.                                                                                                                                    |
 
 ### High-priority (fix before or immediately at launch)
 
-| ID   | Item                                                                              | Effort | Impact |
-| ---- | --------------------------------------------------------------------------------- | ------ | ------ |
-| P-01 | Lighthouse CI gate + Playwright/axe not wired (targets defined, unverified in CI) | Medium | Medium |
-| P-02 | No verified OG render / Twitter card (depends on B-01)                            | Low    | Medium |
-| P-03 | Google Search Console + Bing Webmaster not set up; no indexing verification       | Low    | High   |
-| P-04 | Backup/export of lead tables not established (security L-06)                      | Low    | Medium |
+| ID   | Item                                                                              | Effort | Impact | Status (2026-07-30)                                                                                                                                                                                                                                                                                                                                                      |
+| ---- | --------------------------------------------------------------------------------- | ------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| P-01 | Lighthouse CI gate + Playwright/axe not wired (targets defined, unverified in CI) | Medium | Medium | ⚠️ **Partly closed.** The targets are no longer unverified — both were measured by hand against production on 2026-07-27 ([`lighthouse-baseline.md`](./lighthouse-baseline.md); axe: 13 routes × 2 themes, 0 violations). The **CI gate itself is still unbuilt** (E1.2.3/E1.2.4), so this is sampled, not enforced. Not a launch blocker; a regression risk afterwards. |
+| P-02 | No verified OG render / Twitter card (depends on B-01)                            | Low    | Medium | ⚠️ **Open — needs the founder.** The tags and the image are correct and serving (verified 2026-07-30), but _rendering_ can only be confirmed in each platform's debugger, which requires a logged-in account.                                                                                                                                                            |
+| P-03 | Google Search Console + Bing Webmaster not set up; no indexing verification       | Low    | High   | ⚠️ **Open — needs the founder** (domain ownership + DNS verification).                                                                                                                                                                                                                                                                                                   |
+| P-04 | Backup/export of lead tables not established (security L-06)                      | Low    | Medium | ⚠️ **Open — needs the founder** (Supabase plan determines PITR availability).                                                                                                                                                                                                                                                                                            |
 
 ---
 
 ## 2. SEO Readiness
 
-| Item                                  | Status     | Evidence / Notes                                                                                                                                                      |
-| ------------------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `robots.txt`                          | ✅ Good    | `src/app/robots.ts` — allows `/`, disallows `/api/` and `/investors/data-room`; emits sitemap+host.                                                                   |
-| `sitemap.xml`                         | ✅ Good    | `src/app/sitemap.ts` — home/vision/investors with priority tiers; data-room deliberately absent.                                                                      |
-| Metadata                              | ✅ Good    | `createMetadata()` builds unique title+description, canonical, OG, Twitter per page; root has `metadataBase`.                                                         |
-| Canonical URLs                        | ✅ Good    | Driven by `NEXT_PUBLIC_SITE_URL`, now set to the live apex — canonicals resolve to `https://orgofin.com` and match the served host (B-02 done). www 308→apex.         |
-| Structured data                       | ✅ Good    | `Organization` + `WebSite` JSON-LD in root layout, `<` escaped; Article/Breadcrumb helpers ready. `organizationSchema`'s `/logo.png` now resolves (`200`, B-01 done). |
-| Open Graph / Twitter                  | ✅ Good    | Tags emitted and `/og/default.png` resolves (`200`, B-01 done). Live render still to be verified in the social-card debuggers (P-02).                                 |
-| `noindex` on gated/confirmation pages | ✅ Good    | Data room and `/waitlist/thank-you` correctly excluded from index/sitemap.                                                                                            |
-| Search Console / Bing                 | ❌ Missing | Not set up (P-03) — needed to submit the sitemap and verify indexing.                                                                                                 |
-| Keywords/semantics                    | ✅ Good    | Centralized keyword set; semantic headings; skip-link present.                                                                                                        |
+| Item                                  | Status     | Evidence / Notes                                                                                                                                                                                                                 |
+| ------------------------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `robots.txt`                          | ✅ Good    | `src/app/robots.ts` — allows `/`, disallows `/api/` and `/investors/data-room`; emits sitemap+host.                                                                                                                              |
+| `sitemap.xml`                         | ✅ Good    | `src/app/sitemap.ts` — home/vision/investors with priority tiers; data-room deliberately absent.                                                                                                                                 |
+| Metadata                              | ✅ Good    | `createMetadata()` builds unique title+description, canonical, OG, Twitter per page; root has `metadataBase`.                                                                                                                    |
+| Canonical URLs                        | ✅ Good    | Driven by `NEXT_PUBLIC_SITE_URL`, now set to the live apex — canonicals resolve to `https://orgofin.com` and match the served host (B-02 done). www 308→apex.                                                                    |
+| Structured data                       | ✅ Good    | `Organization` + `WebSite` JSON-LD in root layout, `<` escaped; Article/Breadcrumb helpers ready. `organizationSchema`'s logo points at **`/brand/logo.png`** and resolves (`200`, re-verified 2026-07-30 after the asset move). |
+| Open Graph / Twitter                  | ✅ Good    | Tags emitted and `/og/default.png` resolves (`200`, B-01 done). Live render still to be verified in the social-card debuggers (P-02).                                                                                            |
+| `noindex` on gated/confirmation pages | ✅ Good    | Data room and `/waitlist/thank-you` correctly excluded from index/sitemap.                                                                                                                                                       |
+| Search Console / Bing                 | ❌ Missing | Not set up (P-03) — needed to submit the sitemap and verify indexing.                                                                                                                                                            |
+| Keywords/semantics                    | ✅ Good    | Centralized keyword set; semantic headings; skip-link present.                                                                                                                                                                   |
 
 **Actions:** ~~create the OG image + logo (B-01)~~ done; ~~complete domain cutover (B-02)~~ done; verify the OG/Twitter card in the social-card debuggers (P-02); register Search Console + Bing and submit the sitemap post-launch (P-03).
 
@@ -162,8 +162,9 @@ Reviewed 2026-07-18 on `dev`; **blockers reconciled 2026-07-19** — all three (
 ## Related Documents
 
 - [`../operations/monitoring-and-analytics.md`](../operations/monitoring-and-analytics.md)
+- [`founder-inputs.md`](./founder-inputs.md) — where P-02, P-03 and P-04 are tracked on the founder side
 
 ---
 
-**Last Updated:** 2026-07-19 (launch blockers B-01/B-02/B-03 reconciled — all live; verdict → GO)
+**Last Updated:** 2026-07-30 (P-01–P-04 given explicit status; B-01 corrected — the logo path moved to `/brand/logo.png` on 2026-07-27 and this file still cited the dead `/logo.png`). Verdict remains **GO**.
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

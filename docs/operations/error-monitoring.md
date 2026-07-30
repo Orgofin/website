@@ -62,6 +62,30 @@ Env-gated exactly like GA4 and Supabase: `.optional()` in [`src/env.ts`](../../s
 
 `environment` is taken from `VERCEL_ENV`, so production and preview separate in the Sentry UI. `tracesSampleRate` is **0** — performance tracing would sample every request and is redundant with Speed Insights, which already reports real-user timings.
 
+## Alerting
+
+One rule, **"Send a notification for high priority issues"** — Sentry's project default, created 2026-07-28.
+
+|              |                                                              |
+| ------------ | ------------------------------------------------------------ |
+| Type         | **Issue alert**                                              |
+| Condition    | Sentry marks an issue (new or existing) as high priority     |
+| Environments | All                                                          |
+| Throttling   | Notify on every trigger                                      |
+| Action       | Notify Suggested Assignees; if none, Recently Active Members |
+
+It **has fired against a real event**: the 2026-07-29 ingest verification tripped it at 05:56 UTC, roughly ten minutes after the deliberate error was thrown. No separate test-fire was needed.
+
+Three things about this rule are deliberate rather than accidental, so do not "fix" them without reading this:
+
+- **It must be an Issue alert, never a Metric alert.** `tracesSampleRate` is 0, so no performance data is ever sent and a metric alert could never fire. This is the single easiest mistake to make here.
+- **The condition is "high priority", not "a new issue is created".** Sentry's priority is a heuristic, so in principle a 500 could be down-ranked and stay silent. Kept anyway: unhandled server exceptions — the waitlist/data-room 500 this integration exists to catch — are classified high priority, and the verification event confirmed it on exactly that shape of error. The alternative pages on every new issue, including preview noise.
+- **It covers all environments, not just production.** A preview error is usually worth knowing about _before_ it reaches production, and preview deploys are rare and short-lived.
+
+**Delivery is confirmed.** The founder received the email for that firing, from `noreply@md.getsentry.com`. This matters as a separate fact: "last triggered" proves only that the rule _matched_, and an alert that matches but never reaches a human is indistinguishable from no alert at all. The chain is now verified end to end — server error → `onRequestError` → scrubbed event → Sentry issue → alert rule → **inbox**.
+
+Two operational consequences: `noreply@md.getsentry.com` is the sender to keep out of spam filters, and this is the address whose silence would be meaningful during an incident.
+
 ## Design Decisions
 
 **`withSentryConfig` is not used.** The Sentry Next.js plugin wraps `next.config.ts` — the file that carries the CSP and is load-bearing for the static rendering the performance target depends on. The plugin's main benefit here is source-map upload, a debuggability nicety rather than a correctness one. Registering the SDK directly leaves that config untouched. **The cost is real:** server stack traces reference built output rather than original sources. Recorded below rather than absorbed silently.
@@ -127,12 +151,12 @@ Re-run this against production (not a local build) whenever a dependency that co
 ## Future Improvements
 
 - Revisit the browser SDK once the mobile performance gap closes or the target is re-baselined. If it is ever added it **must** be consent-gated, like Speed Insights, for the reasons in that component's header comment.
-- Alert routing: a Sentry project with no notification rule is an untested control, exactly like an uptime monitor that has never fired.
+- **Pin the alert's destination.** The rule currently notifies "Suggested Assignees, and if none found, Recently Active Members". With a one-person team that resolves to the founder, but it is derived rather than declared — it will silently start routing somewhere else as the team grows. Replace it with a named destination (a specific member, an email alias, or a Slack channel) and record that destination here.
 
 ## TODO
 
 - [x] **Founder:** create the Sentry project and set `SENTRY_DSN` in Vercel. Done 2026-07-28. Which environment scopes it covers is not yet recorded here — the end-to-end check below needs it on **Preview**.
-- [ ] **Engineering:** configure a Sentry alert rule and **test-fire it**, then record here what it routes to. Use an **Issues** alert, not a Metrics one — `tracesSampleRate` is 0, so metric alerts would never fire. Condition: "a new issue is created", environment `production`, no rate threshold (a single 500 on a waitlist POST is the event that matters).
+- [x] **Engineering:** configure a Sentry alert rule and test-fire it. Done — see "Alerting" above. The rule is Sentry's project default and it fired on the 2026-07-29 verification event without anyone staging a separate test.
 - [ ] **Engineering:** revisit source-map upload — either adopt `withSentryConfig` deliberately, having re-checked it does not disturb the CSP or static rendering, or upload maps out-of-band. Until then, server stack traces point at built output.
 - [x] **Engineering:** verify end-to-end against a real Sentry ingest that the event arrives with the body absent. Done 2026-07-29 — see "Ingest and scrubbing, verified against a real event" above.
 - [x] **Engineering:** close the breadcrumb gap. Done 2026-07-29 — the `Console` integration is filtered out; see "Console breadcrumbs are disabled" above.
@@ -151,5 +175,5 @@ Re-run this against production (not a local build) whenever a dependency that co
 
 ---
 
-**Last Updated:** 2026-07-29
+**Last Updated:** 2026-07-29 (alerting recorded)
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
