@@ -19,6 +19,43 @@ Per `README.md`, three long-lived branches:
 
 Feature work happens on short-lived branches off `dev`, merged via PR. Promotion flows `dev → uat → main`, never sideways or backwards without an explicit, deliberate revert.
 
+## Promotion Procedure
+
+**Every `dev → uat` promotion blocks the next one.** This is structural, not a one-off, and it has cost real time on consecutive cycles. Read this before promoting rather than re-diagnosing it.
+
+### Why it happens
+
+`uat`'s ruleset sets `strict_required_status_checks_policy: true` ("require branches to be up to date before merging"). Merging `dev → uat` creates a merge commit **on `uat`** that `dev` never sees. The branches are then identical in content but divergent in history, and GitHub refuses the next promotion.
+
+**The symptom varies, which is what makes it confusing.** It has presented both as `BEHIND` and — more misleadingly — as `mergeable: CONFLICTING` / `mergeStateStatus: DIRTY`, with the merge API returning a hard `405 Pull Request has merge conflicts`, while `git merge` succeeds cleanly in _both_ directions locally. **A phantom conflict here is this problem, not a real one. Do not go hunting for conflicting hunks.**
+
+### The fix
+
+Land a zero-change back-merge first:
+
+```bash
+git checkout -b chore/sync-uat-into-dev origin/dev
+git merge origin/uat --no-ff
+git diff --stat origin/dev HEAD   # MUST be empty — no content changes
+```
+
+Push, open a PR into `dev`, merge it. `uat` then becomes an ancestor of `dev` and the promotion is a clean fast-forward.
+
+Two things that do **not** work:
+
+- **`PUT /pulls/{n}/update-branch` returns 422.** `dev` requires changes to arrive via pull request, and update-branch pushes directly to the head branch.
+- **A direct `uat → dev` PR.** It hits the same phantom conflict and reports a misleading file count (an artifact of the three-dot diff from the merge base). Use the sync-branch shape above.
+
+### Approvals
+
+| Branch | Approvals | Notes                                                                            |
+| ------ | --------- | -------------------------------------------------------------------------------- |
+| `dev`  | 0         | PR required                                                                      |
+| `uat`  | 0         | PR required                                                                      |
+| `main` | **1**     | `dismiss_stale_reviews_on_push: true` — anything landing after approval drops it |
+
+`main` has **no bypass actors**, so there is no admin override and `--admin` will not work. Since PRs are authored by the account that opens them and GitHub forbids self-approval, a production promotion **requires a second account to approve** — this is a human step and must never be worked around.
+
 ## Pull Request Expectations
 
 - A PR does one thing. A copy fix and a new component are two PRs, not one.
@@ -111,5 +148,5 @@ Revisit the PR template once real PRs surface friction — if a checklist row is
 
 ---
 
-**Last Updated:** 2026-07-04
+**Last Updated:** 2026-07-30
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
