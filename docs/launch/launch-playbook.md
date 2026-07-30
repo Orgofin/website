@@ -64,8 +64,9 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 
 ### Go/No-Go
 
-- [x] Rollback target identified (last known-good Vercel deployment). [Eng] — **`6012800`** (merge of #148), deployed 2026-07-29 17:49 UTC and verified in production: all 12 sitemap routes `200`, 7 security headers intact, no `x-powered-by`, retention purge healthy. This is the deployment to "Promote to Production" in Vercel if a launch deploy goes bad.
-  > Re-identify this **immediately after the launch deploy** — the whole point is that it names the build _before_ the one at risk, so a target recorded here weeks earlier is the wrong one by then.
+- [x] Rollback target identified (last known-good Vercel deployment). [Eng] — **`e89f604`** (merge of #155), deployed 2026-07-30 16:45 UTC and verified in production: 12 sitemap routes `200`, 7 security headers intact, no `x-powered-by`, both API routes `405` on GET, retention purge healthy, OG image `1200×630`, client bundle free of the Sentry SDK. This is the deployment to "Promote to Production" in Vercel if a launch deploy goes bad. Supersedes `6012800` (merge of #148, 2026-07-29).
+  > Re-identify this **immediately after the launch deploy** — the whole point is that it names the build _before_ the one at risk, so a target recorded here weeks earlier is the wrong one by then. It also goes stale on any ordinary promotion, as it did within an hour of #155.
+  > The route sweep reads the route list out of the live `sitemap.xml` rather than a list typed from memory — a hardcoded list can only confirm what you already believed, and cannot notice a route that disappeared.
 - [ ] On-call/owner for launch window named and reachable. [Founder+Eng]
 - [ ] Final go/no-go sign-off. [Founder]
 
