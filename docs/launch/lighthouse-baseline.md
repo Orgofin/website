@@ -74,9 +74,20 @@ Below the 95 target, though not badly. The audits, in order of estimated saving:
 
 LCP is the binding metric: **3.1–3.4 s on the failing routes vs 2.4 s on the two that pass**. The pattern is clear — the two routes at 98 (`/company-brain`, `/privacy`) are the ones with the least JavaScript. This is a bundle problem, not a server or image problem (CLS is 0 and there is no image-weight finding anywhere).
 
+## Investigated 2026-07-30 — the two obvious causes are already ruled out
+
+Before launch, the mobile gap was re-examined to decide whether it was a **defect** (fix now) or an **optimization** (schedule). It is an optimization. The two structural explanations anyone would reach for first are both already handled:
+
+- **Framer Motion is already on the light path.** `LazyMotionProvider` loads only the `domAnimation` feature bundle and every primitive uses `m.*`, with `strict` enabled so a full `motion.*` import throws rather than silently restoring the heavy bundle. There is nothing to win here.
+- **The d3-force graph is already code-split and gated.** `CompanyBrainGraphLazy` mounts it via `next/dynamic` with `ssr: false`, only once the frame is within 320 px of the viewport, with the aspect ratio reserved up front — which is why CLS is 0 rather than merely low.
+
+So the remaining `unused-javascript` is **spread across the framework and page chunks, not concentrated in one avoidable import**. There is no single change that closes the gap.
+
+The one untried build-configuration lever is a **`browserslist` targeting modern browsers**, aimed at the ~14 KiB `legacy-javascript` finding. It was deliberately **not** taken before launch: it changes the compiled output for _every_ visitor, its blast radius is "older browsers silently break", and the browser-matrix check that would catch that ([`launch-playbook.md`](./launch-playbook.md) → Quality) has not been run. Trading an unbounded compatibility risk for ~4 lab points on a metric whose desktop score is already 100 is the wrong side of that bet in a launch week. **Do it after launch, behind the browser matrix.**
+
 ## Current Status
 
-**Measured for the first time 2026-07-27, against production.** Three of four targets (Accessibility, SEO, and — after the 2026-07-28 amendment — Best Practices) are now met on every route. Mobile performance is 91–98, short of 95 on four of six routes; desktop is 100 throughout. **Mobile performance is the one remaining gap against the PRD.**
+**Measured for the first time 2026-07-27, against production.** Three of four targets (Accessibility, SEO, and — after the 2026-07-28 amendment — Best Practices) are now met on every route. Mobile performance is 91–98, short of 95 on four of six routes; desktop is 100 throughout. **Mobile performance is the one remaining gap against the PRD, and it is a known, measured, non-blocking one** (§ above).
 
 Nothing here is a regression — it is the first baseline, so it is the number everything later is compared against.
 
@@ -88,8 +99,9 @@ Nothing here is a regression — it is the first baseline, so it is the number e
 ## TODO
 
 - [x] **Founder:** decide whether Best Practices 100 or static-rendering performance wins, given they currently conflict (§1). **Done 2026-07-28 — static rendering wins, 96 accepted, PRD §6 amended.**
+- [x] **Engineering:** determine whether the mobile gap is a defect or an optimization. **Done 2026-07-30 — an optimization; motion and graph paths were already optimal, see § above.**
+- [ ] **Engineering (post-launch):** try a modern `browserslist` against the `legacy-javascript` finding — **only after** the browser matrix runs, for the reason recorded above.
 - [ ] **Engineering:** explain why `/privacy` scores 100 on Best Practices when every other route scores 96. Still worth knowing — it is the cheapest lead on reaching 100 without touching the CSP — but no longer blocks a target.
-- [ ] **Engineering:** close the mobile performance gap on `/`, `/platform`, `/products`, `/investors` — start with the ~43 KiB of unused JavaScript and the legacy-JS transpilation, both of which are build-configuration rather than code changes.
 - [ ] **Engineering:** re-run and update this table after any of the above, and after the CI gate exists.
 
 ## References
@@ -105,5 +117,5 @@ Nothing here is a regression — it is the first baseline, so it is the number e
 
 ---
 
-**Last Updated:** 2026-07-28
+**Last Updated:** 2026-07-30 (mobile gap triaged as an optimization, not a defect; `browserslist` deliberately deferred past launch)
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
