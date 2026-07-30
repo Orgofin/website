@@ -16,9 +16,12 @@ Owns the launch sequence and early-operations checklists. Depends on [`productio
 
 Nothing below is optional for a _public_ launch. Group owners in brackets.
 
+> **Every `[Founder]` item is also indexed in [`founder-inputs.md`](./founder-inputs.md)**, grouped by what it blocks rather than by checklist section. Use that file to work through founder-side items; use this one to sequence the launch.
+
 ### Blockers (from the readiness review + security audit)
 
-- [x] **Assets:** `public/og/default.png` + `public/logo.png` committed and serving `200` on the apex (Eclipse brand). Social-card _render_ still to verify in the debuggers (P-02). [Eng]
+- [x] **Assets:** `public/og/default.png` + `public/brand/logo.png` committed and serving `200` on the apex. Social-card _render_ still to verify in the debuggers (P-02). [Eng]
+  > **Path changed 2026-07-27.** The brand assets moved into `public/brand/` with the new mark, so `/logo.png` now **404s** and `/brand/logo.png` is the live URL. This line said `/logo.png` until 2026-07-30. Nothing in the app was broken by the move — `lib/seo/structured-data.ts` and `app/manifest.ts` both point at `/brand/…` — but any external reference (a press kit, an old social post, a partner listing) written against the old path is dead. Re-verified 2026-07-30: `/og/default.png` **200**, `/brand/logo.png` **200**, `/logo.png` **404**.
 - [x] **Domain:** `orgofin.com` live in Vercel, DNS + TLS valid, `www`→apex **308** working, `NEXT_PUBLIC_SITE_URL=https://orgofin.com` set in Production; canonicals/OG resolve to the apex (verified 2026-07-19). [Founder+Eng]
 - [x] **Security headers + CSP** live: CSP, HSTS (preload), `X-Frame-Options: DENY`, nosniff, Referrer/Permissions-Policy (`next.config.ts`). Confirm Grade A on securityheaders.com at launch. [Eng]
 - [x] **Rate limiting + bot protection** shipped app-layer (per-IP in-memory limiter + honeypot on both routes). Edge upgrade (Upstash/Cloudflare + Turnstile) recommended — security audit H-02/M-02/M-04. [Eng]
@@ -30,11 +33,12 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 - [ ] Data-room decision: if in launch scope, migration applied + private bucket created + `SUPABASE_SERVICE_ROLE_KEY` set + `storagePath` flipped; else confirm graceful "in preparation" state. [Founder+Eng]
 - [ ] Only competitor-safe collateral (deck/one-pager) in the data-room catalog (M-01 discipline). [Founder]
 - [ ] Lead-table backup/export configured; Supabase plan backup/PITR coverage confirmed. [Eng]
-- [ ] All Production env vars present and correctly scoped (Supabase prod, GA4, site URL). [Eng]
+- [x] All Production env vars present and correctly scoped (Supabase prod, GA4, site URL, Sentry). [Eng] — **verified 2026-07-30, each by observing its effect in production rather than by reading the Vercel dashboard**, so the check proves the value is both set _and_ working: `NEXT_PUBLIC_SITE_URL` (canonicals/OG resolve to the apex), Supabase URL + service-role key (`/api/health/retention` returns `healthy` — that path runs Next → env → Supabase → RPC), `NEXT_PUBLIC_GA_MEASUREMENT_ID` (`G-JJ0EPH3TVF` present in the served client chunks), `SENTRY_DSN` (an event reached the Sentry project on 2026-07-29).
 
 ### Quality
 
-- [ ] CI green on `main`; `npm audit` clean. [Eng]
+- [x] CI green on `main`; `npm audit` clean. [Eng] — **verified 2026-07-30.** Latest `main` run (`#148` merge) **success**. `npm audit --omit=dev --audit-level=high` → **0 vulnerabilities**, which is the merge-blocking gate.
+  > **A bare `npm audit` reports 9 high findings, and that is expected — do not treat it as a launch blocker.** All nine resolve to one advisory chain (`brace-expansion`/`minimatch` via `@eslint/config-array` and `@eslint/eslintrc`) reaching the tree only through **ESLint 9 devDependencies**. None of it ships to a visitor. npm's only offered remedy is ESLint 10, a semver-major flat-config break already attempted and closed as **#84**. This is exactly why `ci.yml` runs two audits — blocking on `--omit=dev`, advisory-only on the full tree.
 - [x] ~~Manual Lighthouse baseline recorded~~ — **done 2026-07-27** against production: [`lighthouse-baseline.md`](./lighthouse-baseline.md). A11y **100** and SEO **100** on every route; desktop perf **100**. Two gaps: mobile perf 91–93 on four routes, and Best Practices capped at **96** by the deliberate `unsafe-inline` CSP — a target that currently conflicts with the static-rendering performance target and needs a founder call. [Eng]
 - [x] ~~Manual axe pass~~ — **done 2026-07-27**: axe WCAG 2.0/2.1 A+AA across **13 routes × both themes, 0 violations**, corroborating Lighthouse a11y 100. Still run by hand; the CI step (E1.2.3) is unbuilt. [Eng]
 - [ ] Browser matrix pass: iOS Safari, Android Chrome, desktop Chrome/Firefox/Safari/Edge, 320px width. [Eng]
@@ -42,22 +46,26 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 
 ### Analytics & monitoring (see monitoring doc)
 
-- [ ] GA4 property live; waitlist/data-room events firing in prod. [Eng]
+- [x] GA4 **property live** — measurement ID `G-JJ0EPH3TVF` is present in the client chunks served from production (verified 2026-07-30). [Eng]
+- [ ] GA4 **events** (`waitlist_submit`, data-room unlock) confirmed firing in prod. [Eng] — **not yet observed, and it cannot be checked passively:** GA4 only loads after the consent banner is accepted, so realtime correctly shows nothing until someone accepts. Needs one deliberate consented run-through on the live site. Do this at **T-30m** on launch day, where the playbook already schedules it.
 - [x] Error tracking (Sentry) wired with PII scrubbing. [Eng] — done 2026-07-28, **server-side only** and inert until `SENTRY_DSN` is set. Scope, the PII guarantee, and why there is no browser SDK: [`../operations/error-monitoring.md`](../operations/error-monitoring.md).
-- [ ] Create the Sentry project and set `SENTRY_DSN` in Vercel. [Founder] — nothing is collected until this is done.
+- [x] Create the Sentry project and set `SENTRY_DSN` in Vercel. [Founder] — **done; proven end to end 2026-07-29**, not merely configured. A deliberately-thrown error on a preview deploy produced a real Sentry issue, and four seeded PII markers (one per branch of `scrubEvent`) were **all absent** from it. The `x-leak-marker` header case is the one that carries weight: no blocklist could have anticipated that name, so its absence is direct evidence the **allowlist** works. See [`../operations/error-monitoring.md`](../operations/error-monitoring.md).
 - [x] ~~Uptime monitor (Better Stack/UptimeRobot)~~ — **live 2026-07-27**, watching `/` and `/api/health/retention`. The second is the retention alarm: it returns 503 once no purge has succeeded for 48 hours, so an ordinary uptime alert is the mechanism and nothing extra needed configuring ([`../deployment/data-retention.md`](../deployment/data-retention.md)). [Eng]
   > **`/api/waitlist` is deliberately NOT monitored.** This line used to list it; a GET returns **405** (the route is POST-only), so a standard monitor reads it as permanently down and the alert trains you to ignore it. Nothing is lost — `/api/health/retention` exercises a strictly longer path: Next runtime → env vars → Supabase → RPC. If you do want it watched, configure the monitor to expect 405 rather than 2xx.
-- [ ] Alert routing (email/Slack) configured and test-fired. [Eng]
+- [x] Alert routing (email/Slack) configured and test-fired. [Eng] — **done 2026-07-29, and the test-fire was real rather than simulated.** Sentry's project-default issue alert ("Send a notification for high priority issues") fired on the verification event above at 05:56 UTC and the founder **received the email** from `noreply@md.getsentry.com`. The full chain is confirmed: server error → `onRequestError` → scrubbed event → issue → rule → inbox.
+  > Two properties were reviewed and **deliberately kept**: the condition is "high priority" rather than "new issue", and environments is "All". Both are intentional — do not tighten them without a decision to revisit. The alert's destination is still _derived_ ("Suggested Assignees, else Recently Active Members") rather than a named recipient; pinning it is optional hardening, not a launch blocker.
 
 ### Legal/compliance
 
 - [x] Privacy policy published (covers lead PII; DPDP-aware, India-first) — `/privacy`, 2026-07-24. **Pending counsel review** ([`../legal/README.md`](../legal/README.md)). [Founder/Eng]
 - [x] Cookie/analytics consent posture decided (GA4) **and reflected on site** — banner shipped 2026-07-24; GA4 loads only on acceptance. Note for the launch-day analytics checks: GA4 realtime will only show visitors who accepted. [Founder+Eng]
-- [x] Terms page present — `/terms`, 2026-07-24. A `/contact` page still does not exist; both legal pages route to `contact@orgofin.com`. [Founder/Eng]
+- [x] Terms page present — `/terms`, 2026-07-24. [Founder/Eng]
+- [x] `/contact` published (2026-07-25) and serving `200`. Both legal pages and the contact page resolve to the same address, `contact@orgofin.com`, from a single constant (`lib/site/contact.ts`) imported by both — so a published policy can never name a channel the contact page doesn't. [Eng]
 
 ### Go/No-Go
 
-- [ ] Rollback target identified (last known-good Vercel deployment). [Eng]
+- [x] Rollback target identified (last known-good Vercel deployment). [Eng] — **`6012800`** (merge of #148), deployed 2026-07-29 17:49 UTC and verified in production: all 12 sitemap routes `200`, 7 security headers intact, no `x-powered-by`, retention purge healthy. This is the deployment to "Promote to Production" in Vercel if a launch deploy goes bad.
+  > Re-identify this **immediately after the launch deploy** — the whole point is that it names the build _before_ the one at risk, so a target recorded here weeks earlier is the wrong one by then.
 - [ ] On-call/owner for launch window named and reachable. [Founder+Eng]
 - [ ] Final go/no-go sign-off. [Founder]
 
@@ -210,5 +218,7 @@ After the first launch, convert this into a reusable template and record actuals
 
 ---
 
-**Last Updated:** 2026-07-27
+**Last Updated:** 2026-07-30 (pre-launch reconciliation — every `[Eng]` item re-verified against production rather than carried forward; see the note below)
 **Owner:** Orgofin Founders + Engineering (TODO: assign DRIs)
+
+> **On the ticks in this file.** Each `[x]` added on 2026-07-30 was set by observing the behaviour in production, not by reading a previous version of this document. That distinction matters: the `/logo.png` line had been ticked and true when written, and was silently false for three days after the asset moved. **When you tick something here, record how you checked it** — a checklist that carries claims forward is how a launch ships on stale confidence.
