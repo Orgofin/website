@@ -89,7 +89,7 @@ export default function RootLayout({
         <ThemeScript />
         <a
           href="#main-content"
-          className="bg-surface-raised text-fg sr-only z-50 rounded-sm px-4 py-2 focus:not-sr-only focus:absolute focus:top-4 focus:left-4"
+          className="bg-surface-raised text-fg sr-only z-[var(--z-skip-link)] rounded-sm px-4 py-2 focus:not-sr-only focus:absolute focus:top-4 focus:left-4"
         >
           Skip to content
         </a>

@@ -7,7 +7,10 @@ const cardVariants = cva("rounded-md", {
     variant: {
       standard: "bg-surface border border-border shadow-elevation-1",
       elevated: "bg-surface-raised border border-border shadow-elevation-2",
-      glass: "glass-surface",
+      // `glass-edge` is explicit now that `glass-surface` no longer sets a
+      // border shorthand — same rendered result, but it no longer silently
+      // overrides a border colour a caller passed in `className`.
+      glass: "glass-surface glass-edge",
       interactive:
         "bg-surface border border-border shadow-elevation-1 transition duration-[var(--motion-base)] ease-standard hover:shadow-elevation-2 hover:border-border-strong motion-safe:hover:-translate-y-0.5",
     },

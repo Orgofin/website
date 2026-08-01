@@ -153,6 +153,22 @@
   --neutral-900: #12151f;
   --neutral-950: #080a11;
 
+  /* Layering ladder (design-system.md §7). Theme-independent. Every fixed,
+     sticky or portalled layer names a rung here instead of picking a number.
+     Before this existed, five unrelated layers shared a bare `z-50` while the
+     site header sat BELOW them at `z-40`, and the nav dropdown had no z-index
+     at all — it resolved correctly only because it happened to sit inside the
+     header's stacking context. Gaps of 10 leave room to insert a rung without
+     renumbering. Every rung has a real consumer; do not add speculative ones. */
+  --z-header: 30; /* Navbar */
+  --z-progress: 35; /* ScrollProgressProvider — hairline on the header's edge */
+  --z-dropdown: 40; /* NavDropdown panel */
+  --z-banner: 50; /* ConsentBanner */
+  --z-overlay: 60; /* Dialog scrim */
+  --z-modal: 70; /* Dialog panel / mobile nav drawer */
+  --z-blocker: 90; /* MobileBlockScreen — covers the whole site below 320px */
+  --z-skip-link: 100; /* must outrank everything, or it is unusable */
+
   /* Motion durations (design-system.md §5). Exposed as CSS vars for CSS-driven
      transitions; mirrored for Framer Motion in src/lib/motion/tokens.ts. */
   --motion-instant: 100ms;
@@ -216,8 +232,29 @@
     var(--blue-500),
     var(--blue-700)
   );
+  /* Translucent materials — THREE roles, not one (design-system.md §2).
+       --glass-*    decorative tint over a KNOWN background (cards, callouts)
+       --chrome-*   occluding chrome — page content scrolls BEHIND it
+       --overlay-*  transient menus/drawers — content must never read through
+     They are separate because their opacity requirements are mutually
+     exclusive: a 4%-white decorative tint is invisible as a navbar, and a menu
+     you can read moving text through is a defect. Chrome/overlay tints are the
+     PAGE colour at reduced alpha (Apple's approach), never white at low alpha —
+     white at 4% over a near-black page is not a material, it is nothing.
+
+     Each role carries an `-opaque` twin. That is the value a browser gets when
+     `backdrop-filter` is unavailable (see the @utility definitions below): the
+     failure mode is "solid", never "see-through". Raw rgba is correct HERE —
+     this file is the token layer; the no-raw-values rule governs components. */
   --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-bg-opaque: var(--surface-raised);
   --glass-border: var(--border);
+  /* = --page (#fafbfd) at 82% */
+  --chrome-bg: rgba(250, 251, 253, 0.82);
+  --chrome-bg-opaque: var(--page);
+  /* = --surface-raised (#ffffff) at 97% */
+  --overlay-bg: rgba(255, 255, 255, 0.97);
+  --overlay-bg-opaque: var(--surface-raised);
   --glow-ambient: transparent;
 }
 
@@ -254,7 +291,16 @@
     var(--blue-500)
   );
   --glass-bg: rgba(255, 255, 255, 0.04);
+  --glass-bg-opaque: var(--surface);
   --glass-border: rgba(61, 127, 255, 0.24);
+  /* = --page (#080a11) at 80%. Deliberately more transparent than light mode:
+     dark-mode glass is the primary designed experience (design-system.md §10),
+     and 20% of a near-black page still occludes far more than 20% of white. */
+  --chrome-bg: rgba(8, 10, 17, 0.8);
+  --chrome-bg-opaque: var(--page);
+  /* = --surface-raised (#141826) at 97% */
+  --overlay-bg: rgba(20, 24, 38, 0.97);
+  --overlay-bg-opaque: var(--surface-raised);
   --glow-ambient: radial-gradient(
     circle at 50% 0%,
     rgba(30, 99, 240, 0.18),
@@ -302,10 +348,99 @@
   background-image: var(--gradient-brand-cta);
 }
 
+/* Translucent materials. All three follow the same contract:
+ *
+ *   1. The OPAQUE value is declared first and unconditionally. Everything below
+ *      is an upgrade applied only when the browser can actually deliver it.
+ *   2. Translucency + blur live inside `@supports (backdrop-filter: ...)`.
+ *      Without that guard, a browser that cannot blur keeps the translucent
+ *      background and renders see-through — which is exactly the production
+ *      defect this contract exists to prevent. `backdrop-filter` is not
+ *      reliably available: an ancestor with `filter`, `contain: paint` or
+ *      `mix-blend-mode` becomes the backdrop root and the blur samples nothing,
+ *      and it is disabled outright when hardware acceleration is off and in
+ *      several in-app WebViews.
+ *   3. `prefers-reduced-transparency` returns to opaque. Translucent chrome is
+ *      a legibility cost some users have explicitly asked their OS to stop
+ *      paying (accessibility.md).
+ *   4. `saturate()` rides with `blur()`. Blur alone desaturates whatever is
+ *      behind the surface into grey mush; the saturation boost is what makes
+ *      the material read as frosted glass rather than as a smeared screenshot.
+ *   5. `-webkit-backdrop-filter` is declared BEFORE the unprefixed property,
+ *      and the order is load-bearing. Lightning CSS collapses a prefixed and
+ *      unprefixed pair and keeps whichever came LAST, so the reverse order
+ *      silently deletes `backdrop-filter` from the build. That is not
+ *      hypothetical: the shipped bundle emitted `-webkit-backdrop-filter` only,
+ *      so Firefox — which has never supported the -webkit- alias — rendered a
+ *      4%-white navbar with no blur at all over live scrolling content. That
+ *      was the production defect. Tailwind's own `backdrop-blur-*` utilities
+ *      use this same order; match it. Verify after any edit here with
+ *      `grep -o 'backdrop-filter:[^;}]*' .next/static/chunks/*.css`.
+ *
+ * None of them set a border — a `border` shorthand here silently overrode every
+ * consumer's own border colour. Opt into the identity edge with `glass-edge`,
+ * or use a plain `border-*` utility (design-system.md §2 lists `glass-surface`
+ * and `glass-border-glow` as two separate tokens for exactly this reason).
+ */
+
+/* Decorative: a tint over a known background. Never use for anything that
+   scrolling page content passes behind — it is far too transparent for that. */
 @utility glass-surface {
-  background-color: var(--glass-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background-color: var(--glass-bg-opaque);
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    background-color: var(--glass-bg);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    backdrop-filter: blur(20px) saturate(150%);
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--glass-bg-opaque);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Occluding chrome: the sticky header. Page content scrolls behind it, so it
+   has to stay legible over anything — a hero, a photo, a dense table. */
+@utility glass-chrome {
+  background-color: var(--chrome-bg-opaque);
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    background-color: var(--chrome-bg);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--chrome-bg-opaque);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* Transient overlays: menus, drawers, the consent banner. Near-opaque on
+   purpose. These carry interactive text over unrelated moving content, and
+   nobody should ever have to read a menu item against a scrolling paragraph. */
+@utility glass-overlay {
+  background-color: var(--overlay-bg-opaque);
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    background-color: var(--overlay-bg);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    background-color: var(--overlay-bg-opaque);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* The identity edge (design-system.md §2 `glass-border-glow`) — a blue-tinted
+   hairline in dark mode, a plain border in light. Opt-in. */
+@utility glass-edge {
   border: 1px solid var(--glass-border);
 }
 

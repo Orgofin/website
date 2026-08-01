@@ -30,7 +30,7 @@ function ProgressBar() {
   return (
     <div
       aria-hidden="true"
-      className="bg-accent fixed inset-x-0 top-0 z-50 h-0.5 origin-left"
+      className="bg-accent fixed inset-x-0 top-0 z-[var(--z-progress)] h-0.5 origin-left"
       style={{ transform: `scaleX(${progress})` }}
     />
   );

@@ -84,8 +84,15 @@ export function Navbar({ items = DEFAULT_ITEMS, cta, logo }: NavbarProps) {
   return (
     <header
       className={cn(
-        "ease-standard sticky top-0 z-40 w-full border-b transition-colors duration-[var(--motion-base)]",
-        scrolled ? "glass-surface border-border" : "bg-page border-transparent",
+        // One material at every scroll position (`glass-chrome`), so the header
+        // is never transparent in any state and the blur never snaps on
+        // mid-transition. Scrolling changes only the hairline — which is all
+        // `transition-colors` can honestly animate anyway; `backdrop-filter` is
+        // not a color and was never part of that transition.
+        // `sticky` + a non-auto z-index already gives the header its own
+        // stacking context, which is what contains the dropdown below.
+        "glass-chrome ease-standard sticky top-0 z-[var(--z-header)] w-full border-b transition-colors duration-[var(--motion-base)]",
+        scrolled ? "border-border" : "border-transparent",
       )}
     >
       <Container>
@@ -141,8 +148,8 @@ export function Navbar({ items = DEFAULT_ITEMS, cta, logo }: NavbarProps) {
                 </Button>
               </Dialog.Trigger>
               <Dialog.Portal>
-                <Dialog.Overlay className="data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" />
-                <Dialog.Content className="glass-surface data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right fixed top-0 right-0 z-50 flex h-full w-80 max-w-[80vw] flex-col gap-1 p-6">
+                <Dialog.Overlay className="data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-[var(--z-overlay)] bg-black/50 backdrop-blur-sm" />
+                <Dialog.Content className="glass-overlay border-border shadow-elevation-5 data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right fixed top-0 right-0 z-[var(--z-modal)] flex h-full w-80 max-w-[80vw] flex-col gap-1 border-l p-6">
                   <Dialog.Title className="sr-only">Navigation</Dialog.Title>
                   <Dialog.Description className="sr-only">
                     Site navigation links
@@ -231,8 +238,12 @@ function NavDropdown({ item, pathname }: { item: NavItem; pathname: string }) {
         />
       </button>
       {open && (
-        <div className="glass-surface shadow-elevation-3 absolute top-full left-0 mt-1 min-w-48 rounded-md p-1">
-          <ul>
+        // The gap between trigger and panel is PADDING on the positioner, not a
+        // margin on the panel. As a margin it was a 4px dead zone: moving the
+        // pointer diagonally toward a menu item left the hover container and
+        // closed the menu. Padding keeps the hover target contiguous.
+        <div className="absolute top-full left-0 z-[var(--z-dropdown)] pt-1">
+          <ul className="glass-overlay border-border shadow-elevation-3 min-w-48 rounded-md border p-1">
             {item.items?.map((sub) => (
               <li key={sub.label}>
                 <Link

@@ -14,9 +14,22 @@
 import { CONTACT_EMAIL } from "@/lib/site/contact";
 
 /**
- * Founder-supplied 2026-07-24. This is the trading name; the *registered* legal
- * entity name may differ once incorporation completes.
- * TODO(legal): confirm the registered entity name and replace if it differs.
+ * Founder-supplied 2026-07-24; provenance confirmed 2026-08-01.
+ *
+ * This is the **trading name**, and as of 2026-08-01 it is the only name there
+ * is: the founders confirmed there is **no incorporated entity yet**. So the
+ * value is right, but not for the reason the original note assumed — it is not
+ * a stand-in for a registered name that already exists elsewhere.
+ *
+ * That distinction matters legally, not just editorially. Both policies are
+ * currently published by an unincorporated venture, which is a question for
+ * counsel review (docs/legal/README.md § TODO, tracked as founder input A3) and
+ * not something engineering can resolve by choosing a different string.
+ *
+ * TODO(legal): on incorporation, replace with the registered name exactly as it
+ * appears on the incorporation certificate — including the statutory suffix
+ * ("Private Limited" / "LLP" / "Limited"), which a registered Indian entity
+ * always carries and a trading name never does.
  */
 export const LEGAL_ENTITY_NAME = "Orgofin";
 
@@ -44,12 +57,19 @@ export const LEGAL_ENTITY_DEFINED = `${LEGAL_ENTITY_NAME} (“we”, “us”, �
 export const LEGAL_CONTACT_EMAIL = CONTACT_EMAIL;
 
 /**
- * Registered address — deliberately `null`, not a placeholder string. The
- * founders have not settled the registered office yet (2026-07-24), and the
- * pages render an honest "not yet published, write to us instead" line rather
- * than inventing one (CLAUDE.md non-negotiable #1). Set this to the real
- * address and both pages pick it up.
- * TODO(legal): registered office address, founder input pending.
+ * Registered address — deliberately `null`, not a placeholder string. The pages
+ * render an honest "not yet published, write to us instead" line rather than
+ * inventing one (CLAUDE.md non-negotiable #1).
+ *
+ * Founder-confirmed 2026-08-01: there is **no registered office**, because the
+ * company operates fully remotely and is not incorporated (see
+ * {@link LEGAL_ENTITY_NAME}). The planned base is **Hyderabad**. Recorded so
+ * this reads as a settled, deliberate absence rather than an unanswered
+ * question — it is not an oversight and does not need re-raising.
+ *
+ * Set this to the real address once one exists and both pages pick it up.
+ * TODO(legal): registered office address — pending incorporation, not pending a
+ * decision.
  */
 export const LEGAL_REGISTERED_ADDRESS: string | null = null;
 
