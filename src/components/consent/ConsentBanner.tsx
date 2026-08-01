@@ -40,10 +40,13 @@ export function ConsentBanner() {
     <div
       role="region"
       aria-label="Analytics consent"
-      className="motion-safe:animate-in motion-safe:slide-in-from-bottom-4 motion-safe:fade-in-0 fixed inset-x-0 bottom-0 z-40 motion-safe:duration-[var(--motion-base)]"
+      className="motion-safe:animate-in motion-safe:slide-in-from-bottom-4 motion-safe:fade-in-0 fixed inset-x-0 bottom-0 z-[var(--z-banner)] motion-safe:duration-[var(--motion-base)]"
     >
       <Container className="pb-4">
-        <div className="glass-surface border-border shadow-elevation-2 flex flex-col gap-4 rounded-md border p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
+        {/* `glass-overlay`, not `glass-surface`: page content scrolls behind
+            this, and it carries the two consent buttons — a decorative tint
+            would let paragraphs read through a legally significant control. */}
+        <div className="glass-overlay border-border shadow-elevation-2 flex flex-col gap-4 rounded-md border p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
           <Text size="body-sm" tone="muted" className="text-pretty">
             We use cookies to understand how people experience Orgofin — nothing
             more.{" "}

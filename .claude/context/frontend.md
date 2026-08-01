@@ -150,6 +150,7 @@ This mirrors the design-system's own primitive → semantic → component token 
 - **Marketing layout** (`app/(marketing)/layout.tsx`): renders `Nav` + `{children}` + `Footer`, and mounts `MobileBlockScreen` here so the <320px lockout (design-system §9 `bp-blocked`; floor lowered from 390px 2026-07-16) is enforced once, at the layout level — not re-implemented per page.
 - **`PageShell`**: every page's content sits inside this wrapper, which enforces the `bp-desktop-xl` max-width cap (~1440–1600px, per `design-system.md` §9) and applies the vertical rhythm spacing tokens (`space-24`/`space-32`) between sections — no page hand-rolls its own container widths.
 - **Home is the special case**: a single continuous scroll of `Section` components sharing a `ScrollProgressProvider` (local to the Home tree, not global — **implemented**, E9.1.1) that renders the top-edge reading-progress indicator. Its second planned consumer, nav active-chapter highlighting, is unbuilt because the canonical header (`information-architecture.md` §2) has no chapter-level links to highlight — `useHomeScrollProgress` is the seam it would consume.
+- **Chrome materials and layering**: the sticky header uses `glass-chrome` at every scroll position (scrolling toggles only the hairline border — the one thing `transition-colors` can honestly animate); dropdowns, the mobile drawer and the consent banner use the near-opaque `glass-overlay`. Never `glass-surface`, which is decorative-only and cannot occlude. Every fixed/sticky/portalled layer names a rung on the `--z-*` ladder rather than picking a number. Both are specified in [`design-system.md`](./design-system.md) §2 and §7.
 - **Legal pages** reuse the same marketing layout — no separate chrome, just simpler section content — avoiding an unnecessary second layout for two pages.
 - **Investor Data Room** is not a separate layout; it's the `/investors/data-room` page rendering a gate component before its content, inside the normal marketing shell — keeps it discoverable and on-brand rather than feeling like a different product.
 
@@ -277,5 +278,5 @@ Scaffold + core infrastructure implemented (Phase 10), with molecules (`componen
 
 ---
 
-**Last Updated:** 2026-07-15 (E9.3.2 CompanyBrainGraph shipped)
+**Last Updated:** 2026-08-01 (chrome/overlay materials + `--z-*` layering ladder)
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
