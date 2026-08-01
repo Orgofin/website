@@ -135,14 +135,54 @@ This is what makes the palette memorable rather than "blue like everyone else":
 | `glow-ambient`        | radial-gradient, `blue-600` at 18% opacity → transparent, large radius (600–900px) | Background ambient glow behind Company Brain graph, hero sections — dark mode only, near-invisible in light mode |
 | `glow-focus`          | radial-gradient, `blue-500` at 30% opacity → transparent, small radius (200–300px) | Behind interactive graph nodes on hover/active                                                                   |
 
-### Glass surfaces
+### Glass surfaces — three materials, split by job
 
-| Token               | Definition                                                                                                                          | Usage                                                                                                                                            |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `glass-surface`     | background `rgba(255,255,255,0.04)` (dark) / `rgba(255,255,255,0.6)` (light), backdrop-blur 20px, 1px border `color-border-default` | Nav bar, floating cards over the graph/animation layers, modals                                                                                  |
-| `glass-border-glow` | 1px border, `blue-500` at 24% opacity                                                                                               | Edge highlight on glass surfaces in dark mode only — light mode uses plain `color-border-default` (glow reads as a smudge on white, not premium) |
+There is no single "glass." A translucent surface's opacity is dictated by **what is behind it**, and the three cases have mutually exclusive requirements. Choose by job, never by looks:
 
-**Rule:** glass and glow effects are dark-mode-forward. In light mode they're dialed down substantially or omitted — glow effects that look premium on near-black backgrounds usually look like a rendering bug on near-white ones.
+| Material       | Utility         | Light                    | Dark                     | Blur / saturate | Use for                                                                       |
+| -------------- | --------------- | ------------------------ | ------------------------ | --------------- | ----------------------------------------------------------------------------- |
+| **Decorative** | `glass-surface` | `rgba(255,255,255,0.6)`  | `rgba(255,255,255,0.04)` | 20px / 150%     | A tint over a **known** background — cards over the graph, spotlight callouts |
+| **Chrome**     | `glass-chrome`  | `rgba(250,251,253,0.82)` | `rgba(8,10,17,0.80)`     | 24px / 180%     | Surfaces page content scrolls **behind** — the sticky header                  |
+| **Overlay**    | `glass-overlay` | `rgba(255,255,255,0.97)` | `rgba(20,24,38,0.97)`    | 24px / 180%     | Transient interactive layers — dropdowns, the mobile drawer, consent banner   |
+| `glass-edge`   | `glass-edge`    | `color-border-default`   | `blue-500` @ 24%         | —               | Opt-in identity edge (the `glass-border-glow` concept), dark-mode-forward     |
+
+**Chrome and overlay tints are the page/surface colour at reduced alpha, never white at low alpha.** This is Apple's approach (their nav is `rgba(255,255,255,0.8)` light / `rgba(22,22,23,0.8)` dark) and it is the difference between a material and an artifact: white at 4% over a near-black page is not translucency, it is nothing.
+
+**Decorative glass may never be used as chrome or as an overlay.** It is far too transparent to occlude; using it on a navbar is what caused the 2026-08-01 production defect below.
+
+#### The translucency contract
+
+Every one of the three utilities is built the same way in `globals.css`, and all four clauses are load-bearing:
+
+1. **The opaque value is declared first and unconditionally.** Everything after it is an upgrade.
+2. **Translucency and blur live inside `@supports (backdrop-filter: …)`.** `backdrop-filter` is not reliably available — an ancestor with `filter`, `contain: paint` or `mix-blend-mode` becomes the backdrop root and the blur samples nothing; it is disabled outright when hardware acceleration is off and in several in-app WebViews. Without the guard, a browser that cannot blur keeps the translucent background and renders **see-through**. The failure mode must be "solid," never "transparent."
+3. **`prefers-reduced-transparency: reduce` returns to opaque.** Translucent chrome is a legibility cost some users have asked their OS to stop paying.
+4. **`saturate()` rides with `blur()`.** Blur alone desaturates the backdrop into grey mush; the saturation boost is what reads as frosted glass rather than a smeared screenshot.
+
+**`-webkit-backdrop-filter` is declared BEFORE the unprefixed property, and the order is load-bearing.** Lightning CSS collapses a prefixed/unprefixed pair and keeps whichever came **last**, so the reverse order silently deletes `backdrop-filter` from the build. Tailwind's own `backdrop-blur-*` utilities use this order; match it. After any edit to these utilities, verify with:
+
+```
+grep -o 'backdrop-filter:[^;}]*' .next/static/chunks/*.css
+```
+
+#### 2026-08-01 — why this section exists
+
+The original `glass-surface` was a single decorative token applied to the sticky header, the nav dropdown, the mobile drawer, the consent banner **and** three decorative surfaces. Three defects compounded:
+
+- Its 4%-white dark value cannot occlude scrolling content, so page text collided with the header and read straight through open dropdowns.
+- It had no `@supports` fallback, so any browser without `backdrop-filter` got the translucent background with no blur at all.
+- The property order above meant the shipped bundle emitted **`-webkit-backdrop-filter` only**. Firefox has never supported that alias, so Firefox users had a 4%-white navbar with **zero** blur over live content — the worst-case rendering, in production, on the default browser of a real slice of visitors.
+
+Measured on `/platform` (mean per-channel difference of the header band screenshotted at two scroll offsets — the header's own pixels are identical, so any difference is bleed-through):
+
+| Theme | Before (prod)       | After        |
+| ----- | ------------------- | ------------ |
+| Light | 15.2 mean / 82 max  | **5.2 / 12** |
+| Dark  | 46.3 mean / 215 max | **7.0 / 17** |
+
+A max of 215/255 is full-contrast content rendering through the header. The residual 12–17 is the intended frosted wash: low-frequency luminance only, no legible content.
+
+**Rule:** glow and the identity edge remain dark-mode-forward. In light mode they're dialed down substantially or omitted — glow effects that look premium on near-black backgrounds usually look like a rendering bug on near-white ones.
 
 ---
 
@@ -243,6 +283,27 @@ Premium products avoid heavy drop-shadows (they read as Material Design/dated). 
 
 **Rule:** never stack more than one elevation jump on hover (e.g., `elevation-1 → elevation-2` on hover is correct; jumping straight to `elevation-4` reads as broken, not delightful).
 
+### The layering ladder (z-index)
+
+Elevation says how a surface _looks_; this says what it _covers_. Every fixed, sticky or portalled layer names a rung — **no component picks a bare number**, because a bare number can only be chosen by guessing what else exists.
+
+| Token           | Value | Consumer                                                    |
+| --------------- | ----- | ----------------------------------------------------------- |
+| `--z-header`    | 30    | `Navbar`                                                    |
+| `--z-progress`  | 35    | `ScrollProgressProvider` — hairline on the header's edge    |
+| `--z-dropdown`  | 40    | `NavDropdown` panel                                         |
+| `--z-banner`    | 50    | `ConsentBanner`                                             |
+| `--z-overlay`   | 60    | Dialog scrim                                                |
+| `--z-modal`     | 70    | Dialog panel / mobile nav drawer                            |
+| `--z-blocker`   | 90    | `MobileBlockScreen` — covers the whole site below 320px     |
+| `--z-skip-link` | 100   | Skip-to-content — must outrank everything or it is unusable |
+
+Consumed as `z-[var(--z-header)]`, matching the existing `duration-[var(--motion-base)]` idiom. Gaps of 10 leave room to insert a rung without renumbering.
+
+**Every rung has a real consumer. Do not add speculative ones** — an unused rung is an invitation to invent `z-[75]` next to it.
+
+Added 2026-08-01. Before it, five unrelated layers shared a bare `z-50` (skip link, dialog scrim, dialog panel, progress bar, <320px lockout) while the site header sat _below_ them at `z-40`, and the nav dropdown had **no z-index at all** — it resolved correctly only because it happened to live inside the header's stacking context. The header gets its stacking context from `position: sticky` + a non-auto `z-index`; it does not need (and should not be given) `isolation: isolate`, which per the Filter Effects spec forms a backdrop root and would neuter its own `backdrop-filter`.
+
 ---
 
 ## 8. Accessibility
@@ -334,6 +395,8 @@ The Tailwind **utility names** are role-based and slightly abbreviated from this
 | type scale                              | `--text-display-2xl` …                             | `text-display-2xl` … `text-mono-md`                                          |
 | radius / shadow / easing                | `--radius-*` / `--shadow-elevation-*` / `--ease-*` | `rounded-*` / `shadow-elevation-*` / `ease-standard`                         |
 | gradients / glass / glow                | `--gradient-*` / `--glass-*` / `--glow-*`          | `text-gradient-brand` / `bg-brand-cta` / `glass-surface` / `bg-glow-ambient` |
+| chrome / overlay materials              | `--chrome-*` / `--overlay-*`                       | `glass-chrome` / `glass-overlay` / `glass-edge`                              |
+| layering ladder                         | `--z-*`                                            | `z-[var(--z-header)]` … (see §7)                                             |
 | breakpoints (device tiers)              | `--breakpoint-mobile…wide`                         | `mobile:` / `tablet:` / `laptop:` / `desktop:` / `wide:`                     |
 | content widths                          | `--container-readable…wide`                        | `max-w-readable` … `max-w-wide`                                              |
 
@@ -374,5 +437,5 @@ Implemented. All token categories in this document exist in `globals.css` for bo
 
 ---
 
-**Last Updated:** 2026-07-27
+**Last Updated:** 2026-08-01
 **Owner:** Orgofin Design/Engineering (TODO: assign a DRI)
