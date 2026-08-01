@@ -47,6 +47,28 @@ for (const scheme of ["light", "dark"] as const) {
           window.scrollTo(0, 0);
         });
 
+        // Let reveal animations settle before scanning.
+        //
+        // Not cosmetic — this was a real intermittent failure. Returning to the
+        // top re-enters elements into view, and axe scanning one mid-fade sees
+        // its *transient* opacity, computes a lower effective contrast and
+        // reports a genuine-looking `[serious] color-contrast` violation that
+        // passes on retry. WCAG applies to the settled state, so the scan has
+        // to wait for it. `prefers-reduced-motion` (set globally) shortens the
+        // cross-fade but does not remove it — animations.md keeps opacity
+        // transitions on the reduced path deliberately.
+        await page.evaluate(() =>
+          Promise.all(
+            document
+              .getAnimations()
+              .map((a) => a.finished.catch(() => undefined)),
+          ),
+        );
+        // Framer Motion drives some transitions off rAF rather than the Web
+        // Animations API, so `getAnimations()` cannot see them; this covers the
+        // remainder. `motion-slow` is 450ms.
+        await page.waitForTimeout(600);
+
         const { violations } = await new AxeBuilder({ page })
           .withTags(WCAG_AA)
           .analyze();
