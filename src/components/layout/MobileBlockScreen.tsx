@@ -15,7 +15,7 @@ export function MobileBlockScreen() {
       role="dialog"
       aria-modal="true"
       aria-label="Screen too small"
-      className="bg-page mobile:hidden fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 px-6 text-center"
+      className="bg-page mobile:hidden fixed inset-0 z-[var(--z-blocker)] flex flex-col items-center justify-center gap-4 px-6 text-center"
     >
       <Heading level={1} size="heading-lg" balance>
         A slightly wider view awaits.
