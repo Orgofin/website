@@ -13,6 +13,14 @@ import { expect, test, type Page } from "@playwright/test";
  * not to describe the current implementation. In particular, `backdrop-filter`
  * is read from *computed style in a real engine*, which is the only place the
  * `-webkit-`-only regression is observable at all.
+ *
+ * Navigation strategy differs per test, deliberately. Tests that only read
+ * computed style or hit-test wait for `domcontentloaded`: stylesheets are
+ * render-blocking in `<head>`, so the cascade is fully applied by then, and
+ * waiting for `load` means waiting for fonts, images and the code-split graph
+ * chunk — which made the first Firefox navigation in CI exceed its timeout and
+ * land as flake. Tests that *interact* (hover, click) wait for `load`, because
+ * they need React to have hydrated and `domcontentloaded` fires before that.
  */
 
 type Surface = { alpha: number; backdropFilter: string; zIndex: string };
@@ -67,7 +75,7 @@ for (const scheme of ["light", "dark"] as const) {
     test("the header occludes content at every scroll position", async ({
       page,
     }) => {
-      await page.goto("/platform");
+      await page.goto("/platform", { waitUntil: "domcontentloaded" });
       const header = "header";
       await expect(page.locator(header)).toBeVisible();
 
@@ -83,7 +91,7 @@ for (const scheme of ["light", "dark"] as const) {
     });
 
     test("the header hit-tests above page content", async ({ page }) => {
-      await page.goto("/platform");
+      await page.goto("/platform", { waitUntil: "domcontentloaded" });
       await page.evaluate(() => window.scrollTo(0, 900));
       await page.waitForTimeout(300);
 
@@ -104,6 +112,10 @@ for (const scheme of ["light", "dark"] as const) {
     test("an open dropdown is near-opaque and above the header", async ({
       page,
     }) => {
+      // Full `load` here, unlike the style-only tests above: this one hovers a
+      // control and waits on the state React sets, so it needs hydration to
+      // have happened. `domcontentloaded` fires before that, and the hover then
+      // lands on an element with no handler attached yet.
       await page.goto("/platform");
       await page.setViewportSize({ width: 1440, height: 900 });
 
@@ -158,6 +170,7 @@ for (const scheme of ["light", "dark"] as const) {
       page,
     }) => {
       await page.setViewportSize({ width: 375, height: 780 });
+      // Full `load` — clicking the menu trigger requires hydration (see above).
       await page.goto("/platform");
       await page.evaluate(() => window.scrollTo(0, 900));
 
@@ -174,7 +187,7 @@ for (const scheme of ["light", "dark"] as const) {
 test("the layering ladder is fully defined and strictly ordered", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/", { waitUntil: "domcontentloaded" });
 
   const z = await page.evaluate(() => {
     const cs = getComputedStyle(document.documentElement);

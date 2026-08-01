@@ -36,8 +36,17 @@ export default defineConfig({
   // bug report, not a budget request.
   retries: process.env.CI ? 1 : 0,
   workers: process.env.CI ? 2 : undefined,
-  reporter: process.env.CI ? [["github"], ["list"]] : [["list"]],
-  timeout: 30_000,
+  // `github` annotates the PR diff; `html` is what the CI artifact uploads —
+  // without it the upload step warns and finds nothing, which is how the first
+  // run shipped. `list` keeps the raw log readable either way.
+  reporter: process.env.CI
+    ? [["github"], ["list"], ["html", { open: "never" }]]
+    : [["list"]],
+  // Longer in CI: a cold first navigation on a shared runner is genuinely
+  // slower than anything local, and 30s was close enough to the real cost to
+  // produce flake rather than signal. Still short enough that a true hang
+  // fails the build rather than burning the job timeout.
+  timeout: process.env.CI ? 60_000 : 30_000,
   expect: { timeout: 10_000 },
 
   use: {
