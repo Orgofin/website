@@ -18,7 +18,8 @@
     "prepare": "husky",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:lighthouse": "lhci autorun"
+    "test:lighthouse": "lhci autorun",
+    "rollback-target": "node scripts/rollback-target.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.5.7",

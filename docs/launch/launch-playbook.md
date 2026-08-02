@@ -64,9 +64,17 @@ Nothing below is optional for a _public_ launch. Group owners in brackets.
 
 ### Go/No-Go
 
-- [x] Rollback target identified (last known-good Vercel deployment). [Eng] — **`8d83329`** (merge of #159), deployed 2026-07-30 and verified in production: 12 sitemap routes `200`, 7 security headers intact, no `x-powered-by`, both API routes `405` on GET, retention purge healthy, OG image `1200×630`, client bundle free of the Sentry SDK. This is the deployment to "Promote to Production" in Vercel if the current one goes bad. Supersedes `e89f604` (merge of #155, 2026-07-30), which had fallen **three** deployments behind (#155 → #159 → #164) while still carrying its own verification timestamp — a stale claim, not merely a stale pointer, which is the condition that makes this entry actively misleading rather than just old.
-  > Re-identify this **immediately after the launch deploy** — the whole point is that it names the build _before_ the one at risk, so a target recorded here weeks earlier is the wrong one by then. It also goes stale on any ordinary promotion, as it did within an hour of #155.
-  > The route sweep reads the route list out of the live `sitemap.xml` rather than a list typed from memory — a hardcoded list can only confirm what you already believed, and cannot notice a route that disappeared.
+- [x] **Rollback procedure known.** [Eng] — deliberately **not** a recorded SHA; the target is derived at the moment it is needed. Run `npm run rollback-target`, which prints the commit currently in production, the one to roll back to, and the steps below.
+
+  **To roll back:**
+
+  1. **Vercel → Deployments → filter Production.** The entry directly below **Current** is the target. Use **Promote to Production** — promoting an existing build is faster than reverting and redeploying, and that build has already been verified once.
+  2. Cross-check the commit identity against `npm run rollback-target`. **Vercel's list is authoritative** — it contains only deployments that actually built, whereas `main` could in principle carry a commit whose deploy failed. If the two disagree, trust Vercel.
+  3. Re-run the production sweep afterwards (below).
+
+  > **Why there is no SHA written here.** There was one, twice, and it was wrong both times. It goes stale on **every** promotion, not just the launch deploy — and a stale pointer that still carries its own "verified in production" timestamp reads as a current, checked fact rather than an old one. Correcting it by hand cost a full four-PR promotion cycle on 2026-07-30 (#156) and again on 2026-08-01 (#165). A value that must be re-verified every cycle to stay true is a procedure wearing a value's clothing, so it is now written as the procedure it always was.
+  > The route sweep reads the route list out of the live `sitemap.xml` rather than a list typed from memory — a hardcoded list can only confirm what you already believed, and cannot notice a route that disappeared. Same principle, same reason.
+
 - [ ] On-call/owner for launch window named and reachable. [Founder+Eng]
 - [ ] Final go/no-go sign-off. [Founder]
 
@@ -219,7 +227,7 @@ After the first launch, convert this into a reusable template and record actuals
 
 ---
 
-**Last Updated:** 2026-07-30 (pre-launch reconciliation — every `[Eng]` item re-verified against production rather than carried forward; see the note below)
+**Last Updated:** 2026-08-02 (rollback target is now derived, not recorded)
 **Owner:** Orgofin Founders + Engineering (TODO: assign DRIs)
 
 > **On the ticks in this file.** Each `[x]` added on 2026-07-30 was set by observing the behaviour in production, not by reading a previous version of this document. That distinction matters: the `/logo.png` line had been ticked and true when written, and was silently false for three days after the asset moved. **When you tick something here, record how you checked it** — a checklist that carries claims forward is how a launch ships on stale confidence.
