@@ -420,7 +420,7 @@ Implemented. All token categories in this document exist in `globals.css` for bo
 
 ## TODO
 
-- [ ] Stand up an _automated_ contrast check in CI over the full color pairing matrix (all text/background token combinations, both themes). The graduated Cobalt Prime pairs were verified manually against WCAG AA on 2026-07-18; the standing programmatic guard is still not wired.
+- [x] Stand up an _automated_ contrast check in CI — done 2026-08-02, and **solved differently than specified**. The plan was a matrix over every token pair; what shipped is axe over every rendered route × both themes (`e2e/a11y.spec.ts`, E1.2.3). That is strictly stronger: a token matrix only checks combinations someone remembered to enumerate, whereas axe checks what is **actually painted** — including text sitting over a surface nobody thought to pair it with, which is precisely how this palette broke on 2026-07-25 and again on 2026-07-27.
 - [ ] Confirm final typeface licensing (Geist Sans/Mono, SIL OFL) with whoever handles legal/brand sign-off.
 
 ## References
@@ -437,5 +437,5 @@ Implemented. All token categories in this document exist in `globals.css` for bo
 
 ---
 
-**Last Updated:** 2026-08-01
+**Last Updated:** 2026-08-02 (contrast-check TODO closed via axe)
 **Owner:** Orgofin Design/Engineering (TODO: assign a DRI)
