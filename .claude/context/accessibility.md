@@ -33,7 +33,7 @@ Once components exist, consider a periodic manual screen-reader pass (VoiceOver/
 ## TODO
 
 - [ ] Wire `@axe-core/react` into the dev build once the first components exist.
-- [ ] Add the axe Playwright integration to the CI pipeline (see `deployment.md` TODO).
+- [x] Add the axe Playwright integration to the CI pipeline — done 2026-08-02 (E1.2.3). `e2e/a11y.spec.ts` runs axe over every sitemap route in **both** themes; an accessibility regression now fails the build. Both themes because all three historical contrast defects in this palette were theme-specific.
 
 ## References
 
@@ -48,5 +48,5 @@ Once components exist, consider a periodic manual screen-reader pass (VoiceOver/
 
 ---
 
-**Last Updated:** 2026-07-04
+**Last Updated:** 2026-08-02 (E1.2.3 + E1.2.4 wired; pipeline order corrected)
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

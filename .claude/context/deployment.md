@@ -20,9 +20,13 @@ Owns: CI pipeline conventions, branch-to-environment mapping, and the backend-mi
 
 ## CI Pipeline (GitHub Actions)
 
-Required, in order, before merge: lint (ESLint) → format check (Prettier) → type-check (`tsc --noEmit`) → unit tests → Playwright E2E + axe accessibility pass → build → Lighthouse CI gate (Performance 95+, Accessibility/SEO/Best Practices 100 — see `docs/product/prd.md` §6). A regression at any step blocks merge; there is no "merge now, fix later" path for this pipeline.
+Required, in order, before merge: lint (ESLint) → format check (Prettier) → type-check (`tsc --noEmit`) → unit tests → dependency audit → **build** → Playwright E2E + axe accessibility pass → Lighthouse CI gate. A regression at any step blocks merge; there is no "merge now, fix later" path for this pipeline.
 
-The workflow implementing this pipeline is [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml): **lint → format check → typecheck → unit tests → dependency audit → build** on every PR to `dev`/`uat`/`main` (E1.2.1, plus the Vitest step E1.2.2). The Playwright/axe (E1.2.3) and Lighthouse (E1.2.4) steps are not wired yet — they depend on infrastructure that doesn't exist yet, and slot into the same file (after unit tests, before build, in the order above) once it does. A plain-English explainer of the whole gate lives at [`docs/engineering/quality-gates-explained.md`](../../docs/engineering/quality-gates-explained.md).
+**The E2E and Lighthouse steps run _after_ the build, not before it.** This document specified the reverse until 2026-08-02, which was not implementable: both drive the built output through `npm start`, so neither can precede the thing it tests. The order above is what `ci.yml` actually does.
+
+The workflow implementing this pipeline is [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml), on every PR to `dev`/`uat`/`main`. All steps are now wired: the base gate (E1.2.1), Vitest (E1.2.2), **Playwright E2E + axe (E1.2.3, added 2026-08-02)** and the **Lighthouse gate (E1.2.4, added 2026-08-02)**. A plain-English explainer of the whole gate lives at [`docs/engineering/quality-gates-explained.md`](../../docs/engineering/quality-gates-explained.md).
+
+**What the Lighthouse gate enforces is narrower than the PRD targets, deliberately** — accessibility/SEO/best-practices and byte-weight ceilings are hard errors, while the performance _score_ is a warning, because a shared CI runner cannot measure the production performance target (the same commit scores 91–98 on production and ~84 on a local build). Read [`docs/engineering/lighthouse-gate.md`](../../docs/engineering/lighthouse-gate.md) before changing any threshold; **a green CI run is not evidence the 95+ performance target is met.**
 
 **Security scanning (audit M-03, added 2026-07-19).** Three layers, only the first merge-blocking:
 
@@ -56,7 +60,9 @@ All three also block deletion and non-fast-forward pushes. The required check is
 
 **Why `strict` is on (2026-07-27).** Strict means a PR must be up to date with its base before merging, so its checks are re-run against what will actually land. Without it a check result can be stale: #123 (jsdom 30) was merged into `dev` carrying a **failing** run from before the Node 24 bump — the result was accurate when produced and meaningless by the time it merged. `dev` also had no `pull_request` rule at all until this change, so direct pushes bypassed CI entirely.
 
-**`main` still has no required status check.** Production merges are gated by one human approval and nothing else, so a red build can reach `main` if the reviewer does not look. That is the remaining gap in this table — deliberately left rather than changed quietly, since production protection is a founder decision.
+**Closed 2026-08-02: `main` now requires the `ci.yml` status check**, like `dev` and `uat`. It previously had none, so production merges were gated by one human approval and nothing else and a red build could reach `main` if the reviewer did not look at the checks.
+
+**`strict` is deliberately OFF for `main`, and should stay off.** `dev` and `uat` both set it, which is exactly what forces a zero-change back-merge PR on every promotion cycle (see `workflows.md` § Promotion Procedure). Enabling it on `main` would create a _second_ recurring sync — `main` → `uat` after every production merge — in exchange for no real safety, since `uat` is already required to be current with `dev` and what reaches `main` is byte-identical to what `uat` verified. `main` still has no bypass actors.
 
 Local pre-commit/pre-push (Husky): [`.husky/pre-commit`](../../.husky/pre-commit) runs `lint-staged` (ESLint + Prettier on staged files) at commit; [`.husky/pre-push`](../../.husky/pre-push) runs `npm run typecheck` at push — catching most issues before they reach CI at all.
 
@@ -107,5 +113,5 @@ Wire the remaining pipeline steps (Playwright/axe, Lighthouse gate) into `ci.yml
 
 ---
 
-**Last Updated:** 2026-07-27
+**Last Updated:** 2026-08-02 (E1.2.3 + E1.2.4 wired; pipeline order corrected)
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
