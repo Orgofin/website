@@ -6,15 +6,15 @@
 #
 # Steps run in the order defined by deployment.md:
 #   lint -> format check -> typecheck -> unit tests -> dependency audit
-#     -> build -> E2E + axe
+#     -> build -> E2E + axe -> Lighthouse
 #
 # The dependency audit (`npm audit --audit-level=high`) is the merge-blocking
 # half of the CI security layer (audit M-03); SAST lives in codeql.yml and
 # secret scanning is GitHub-native (repo settings). See deployment.md.
 #
-# Playwright E2E + axe (E1.2.3) runs after the build, because it drives the
-# built output via `npm start`. The Lighthouse CI gate (E1.2.4) is still
-# pending.
+# Playwright E2E + axe (E1.2.3) and the Lighthouse gate (E1.2.4) both run
+# after the build, because both drive the built output via `npm start`.
+# deployment.md previously sequenced E2E before build, which is impossible.
 
 name: CI
 
@@ -36,7 +36,7 @@ jobs:
   quality-gate:
     name: Lint, format, typecheck, test, build
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -110,4 +110,20 @@ jobs:
         with:
           name: playwright-report
           path: playwright-report/
+          retention-days: 7
+
+      # Lighthouse gate (E1.2.4). What it does and does not enforce — and why
+      # the performance score is a warning rather than an error — is
+      # docs/engineering/lighthouse-gate.md. Read that before changing a
+      # threshold: a green run here is NOT evidence the PRD's 95+ performance
+      # target is met, because a shared runner cannot measure it.
+      - name: Lighthouse CI gate
+        run: npm run test:lighthouse
+
+      - name: Upload Lighthouse reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
           retention-days: 7
