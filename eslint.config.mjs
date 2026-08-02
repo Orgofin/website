@@ -78,6 +78,18 @@ const eslintConfig = defineConfig([
     },
   },
   {
+    // Developer-facing CLI scripts. `no-console` exists because a stray
+    // console.* left in application code ships to the browser and becomes a
+    // leak channel — the exact reason it is a warning everywhere else. A
+    // terminal script's whole purpose is writing to stdout, so the rule is
+    // scoped off here rather than silenced line-by-line. Nothing in this folder
+    // is imported by `src/`.
+    files: ["scripts/**"],
+    rules: {
+      "no-console": "off",
+    },
+  },
+  {
     // The one place @supabase/* is allowed to be imported (frontend.md §11).
     // This is the backend-migration seam: when a real backend eventually
     // replaces direct Supabase calls, only these files change.
