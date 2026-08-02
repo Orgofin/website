@@ -42,8 +42,8 @@ Broaden component coverage as primitives/molecules land (each ships with its tes
 
 - [x] Choose and configure the unit/component test runner — Vitest (see decision above).
 - [x] Add the unit/component test step to the CI pipeline — done (E1.2.2).
-- [ ] Set up Playwright for E2E.
-- [ ] Wire `@axe-core/playwright` into the E2E suite (see `accessibility.md`).
+- [x] Set up Playwright for E2E — done 2026-08-02 (E1.2.3). Config `playwright.config.ts`, specs in `e2e/`, run with `npm run test:e2e`.
+- [x] Wire `@axe-core/playwright` into the E2E suite — done 2026-08-02; every sitemap route × both themes, WCAG 2.1 AA.
 - [ ] Define a minimum coverage expectation, if any — not yet decided, and coverage percentage should not become a proxy for actual test quality.
 
 ## References
@@ -58,5 +58,5 @@ Broaden component coverage as primitives/molecules land (each ships with its tes
 
 ---
 
-**Last Updated:** 2026-07-27
+**Last Updated:** 2026-08-02 (E1.2.3 + E1.2.4 wired; pipeline order corrected)
 **Owner:** Orgofin Engineering (TODO: assign a DRI)

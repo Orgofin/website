@@ -5,15 +5,16 @@
 # of Done in docs/product/implementation-backlog.md.
 #
 # Steps run in the order defined by deployment.md:
-#   lint -> format check -> typecheck -> unit tests -> dependency audit -> build
+#   lint -> format check -> typecheck -> unit tests -> dependency audit
+#     -> build -> E2E + axe -> Lighthouse
 #
 # The dependency audit (`npm audit --audit-level=high`) is the merge-blocking
 # half of the CI security layer (audit M-03); SAST lives in codeql.yml and
 # secret scanning is GitHub-native (repo settings). See deployment.md.
 #
-# Still pending their own infrastructure (slot in after unit tests, before
-# build, in the order deployment.md defines): Playwright E2E + axe (E1.2.3)
-# and the Lighthouse CI gate (E1.2.4).
+# Playwright E2E + axe (E1.2.3) and the Lighthouse gate (E1.2.4) both run
+# after the build, because both drive the built output via `npm start`.
+# deployment.md previously sequenced E2E before build, which is impossible.
 
 name: CI
 
@@ -35,7 +36,7 @@ jobs:
   quality-gate:
     name: Lint, format, typecheck, test, build
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -78,3 +79,51 @@ jobs:
 
       - name: Build (next build)
         run: npm run build
+
+      # E2E + accessibility (E1.2.3). Runs AFTER the build, not before it as
+      # deployment.md originally sequenced: the suite drives `npm start`, which
+      # serves the build output, so it cannot precede the thing it tests.
+      #
+      # Browsers are cached on the lockfile hash — a cold install is ~40s and
+      # this is the only step that would pay it on every run.
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      # `--with-deps` installs the host libraries Firefox needs. Without it
+      # Firefox fails to launch with a missing-library error that looks like a
+      # test failure (every spec failing in ~2ms) rather than a setup problem.
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium firefox
+
+      - name: E2E + accessibility (Playwright + axe)
+        run: npm run test:e2e
+
+      # The report is the difference between "CI is red" and knowing why —
+      # traces are captured on first retry, screenshots on failure.
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+      # Lighthouse gate (E1.2.4). What it does and does not enforce — and why
+      # the performance score is a warning rather than an error — is
+      # docs/engineering/lighthouse-gate.md. Read that before changing a
+      # threshold: a green run here is NOT evidence the PRD's 95+ performance
+      # target is met, because a shared runner cannot measure it.
+      - name: Lighthouse CI gate
+        run: npm run test:lighthouse
+
+      - name: Upload Lighthouse reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci/
+          retention-days: 7
