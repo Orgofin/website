@@ -40,7 +40,13 @@ The workflow implementing this pipeline is [`.github/workflows/ci.yml`](../../.g
 
 The same advisory also covers `<=1.1.17` on the maintenance line — but unlike last time **1.x was patched**, in `1.1.18`. The `minimatch@3` carve-out therefore moved to `^1.1.18`, which **retires the "permanently unfixable dev-only advisory"** this document previously described: `brace-expansion` is now clean at every severity in both trees, and `1.1.18` keeps the CommonJS default export, so ESLint still loads (verified — `npm run lint` clean). The deferred ESLint 10 migration is still the right long-term fix, but it is no longer holding back a security finding.
 
-**What the two trees look like as of 2026-08-04.** The production tree is clean at high/critical (the blocking gate), carrying one **moderate, no-fix** finding: `postcss` GHSA-fxqj-rqcc-2cmp via `next`. The full tree additionally carries `tmp` (high) and `uuid` (moderate), **both reached only through `@lhci/cli`** — the Lighthouse runner added 2026-08-02, which executes in CI and ships nothing. Those are precisely the case the `continue-on-error` full-tree step exists to surface without blocking; do not "fix" them by relaxing the blocking gate.
+**The `fast-uri` advisory the same day, and why the floor went to `^3.1.5` and not 4.x (2026-08-04).** GHSA-7p8r-x3mc-p8w7 (high, host confusion via a backslash authority introducer) landed hours after the `brace-expansion` one and took the blocking gate red a second time, in the identical way: the repo already pinned `fast-uri` to `^3.1.4`, and the advisory's 3.x range is `>=3.0.0 <3.1.5`. The existing floor _was_ the vulnerable version.
+
+The advisory patches three lines (`2.4.4`, `3.1.5`, `4.1.2`), so 4.x is available — but **`ajv@8.20.0` declares `fast-uri: ^3.0.1`**, and this reaches production through `@hookform/resolvers → ajv`. Pinning 4.x would force an unsanctioned major on a consumer that never agreed to it, which is exactly the mistake the `@hono/node-server` note above exists to prevent. `^3.1.5` patches it inside a range `ajv` declares. **Unlike `brace-expansion` (build-time only, via Sentry's bundler plugin), this one is on a genuine runtime path** — form-validation code — so it mattered more than the red gate suggested.
+
+**The recurring shape: a fix pinned to an exact floor becomes the next advisory's vulnerable version.** Both 2026-08-04 advisories broke the gate this way, on overrides added specifically to fix an earlier advisory in the same package. This is inherent to the approach and not a reason to abandon it — a caret floor still floats upward within its line — but **when the audit gate fails on an unchanged diff, check the existing `overrides` floors first.** It is far more likely than a real regression.
+
+**What the two trees look like as of 2026-08-04.** The production tree is clean at high/critical (the blocking gate), carrying one **moderate** finding: `postcss` GHSA-fxqj-rqcc-2cmp via `next`. It is only fixable by moving off the pinned `next@16.2.12` (`npm audit fix --force` proposes `next@16.3.0`), so it is deferred to a deliberate Next upgrade rather than taken as a side effect. The full tree additionally carries `tmp` (high) and `uuid` (moderate), **both reached only through `@lhci/cli`** — the Lighthouse runner added 2026-08-02, which executes in CI and ships nothing. Those are precisely the case the `continue-on-error` full-tree step exists to surface without blocking; do not "fix" them by relaxing the blocking gate.
 
 **The `@hono/node-server` override (2026-07-28).** Dependabot alert #2 (moderate — path traversal in `serve-static` via an encoded backslash on Windows) reached us at `1.19.14` through `shadcn → @modelcontextprotocol/sdk`. It is **dev-tree only and unreachable** — we never start the SDK's HTTP server — so it never blocked the gate. It is pinned anyway, because a one-line override is cheaper than re-deciding this every time the alert resurfaces.
 
@@ -119,5 +125,5 @@ Wire the remaining pipeline steps (Playwright/axe, Lighthouse gate) into `ci.yml
 
 ---
 
-**Last Updated:** 2026-08-04 (brace-expansion GHSA-rgw5-rvv9-x895 cleared; audit-split status refreshed)
+**Last Updated:** 2026-08-04 (brace-expansion + fast-uri advisories cleared; audit-split status refreshed)
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
