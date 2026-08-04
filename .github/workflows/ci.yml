@@ -120,10 +120,19 @@ jobs:
       - name: Lighthouse CI gate
         run: npm run test:lighthouse
 
+      # `include-hidden-files` is REQUIRED here and is not optional styling:
+      # lighthouserc.json writes to `.lighthouseci/`, a dot-prefixed directory,
+      # and upload-artifact excludes hidden paths by default. Without it the
+      # step still reports success while uploading nothing, logging only
+      # "##[warning]No files were found with the provided path". That is
+      # exactly what happened from the gate landing (2026-08-02) until
+      # 2026-08-04 — every run claimed to upload reports and none existed.
+      # If the reports go missing again, check this input before anything else.
       - name: Upload Lighthouse reports
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v7
         with:
           name: lighthouse-reports
           path: .lighthouseci/
+          include-hidden-files: true
           retention-days: 7
