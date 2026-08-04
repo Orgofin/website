@@ -106,7 +106,7 @@ jobs:
       # traces are captured on first retry, screenshots on failure.
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: playwright-report
           path: playwright-report/
@@ -122,7 +122,7 @@ jobs:
 
       - name: Upload Lighthouse reports
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lighthouse-reports
           path: .lighthouseci/
