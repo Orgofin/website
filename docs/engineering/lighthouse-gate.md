@@ -55,6 +55,12 @@ Not a relaxed standard — an amended one. Reaching 100 requires removing `'unsa
 
 Nothing else is skipped. In particular `is-crawlable` is **not** skipped: it was considered and rejected, because it is a real SEO check that passes.
 
+## Reading the reports after a failed run
+
+The full Lighthouse output is uploaded as the **`lighthouse-reports`** artifact on the CI run (7-day retention) — three runs per URL, HTML and JSON. Start there rather than re-running the gate locally, because a local score is not the number that failed.
+
+**This did not work from the gate landing (2026-08-02) until 2026-08-04.** `lighthouserc.json` writes to `.lighthouseci/`, and `actions/upload-artifact` skips dot-prefixed paths unless `include-hidden-files: true` is set. The step reported success on every run while uploading nothing, logging only a `No files were found with the provided path` warning. If the artifact is ever missing again, check that input in [`ci.yml`](../../.github/workflows/ci.yml) first.
+
 ## Design Decisions
 
 - **Gate on what the environment can actually measure.** Splitting the assertions into "deterministic → error" and "hardware-dependent → warn" is what keeps the gate honest. A threshold that must be lowered whenever it fires was never a threshold.
@@ -87,5 +93,5 @@ Live in [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml) as of 2026-
 
 ---
 
-**Last Updated:** 2026-08-02
+**Last Updated:** 2026-08-04 (report artifact fixed — it had never uploaded)
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
