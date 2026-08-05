@@ -42,3 +42,14 @@ updates:
       interval: weekly
       day: monday
     labels: ["dependencies", "github-actions"]
+    ignore:
+      # Every action here is referenced by its floating major tag, which the
+      # publisher advances in place — that is how patches arrive at all. For
+      # github/codeql-action the tag also carries the CodeQL query bundle, so
+      # Dependabot proposing `@v4` -> `@v4.37.4` (PR #177) was a *pin*, not an
+      # upgrade: it would freeze the security queries until someone merged the
+      # next bump. Suppress minor/patch; genuine majors (v4 -> v5) still open
+      # a PR for deliberate review, as actions/cache and upload-artifact did.
+      - dependency-name: "github/codeql-action"
+        update-types:
+          ["version-update:semver-minor", "version-update:semver-patch"]
