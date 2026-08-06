@@ -45,6 +45,7 @@ Broaden component coverage as primitives/molecules land (each ships with its tes
 - [x] Set up Playwright for E2E — done 2026-08-02 (E1.2.3). Config `playwright.config.ts`, specs in `e2e/`, run with `npm run test:e2e`.
 - [x] Wire `@axe-core/playwright` into the E2E suite — done 2026-08-02; every sitemap route × both themes, WCAG 2.1 AA.
 - [ ] Define a minimum coverage expectation, if any — not yet decided, and coverage percentage should not become a proxy for actual test quality.
+- [ ] **Stabilise the axe colour-contrast checks against the reveal animation (found 2026-08-06).** The `axe — light` tests on `/platform`, `/company-brain`, `/products`, `/security`, `/careers`, and `/contact` failed once with `color-contrast` (≈93 nodes, `#989ca8` on `#fafbfd`, ratio 2.64) and then passed on an immediate re-run of the identical build. The failing run was the **first** against a cold `npm start` server (1.3 min vs 21 s warm), so the reveal animation had not settled when axe sampled — it measures partially-faded text, not the final colour. Two independent facts rule out a real defect: the built CSS was **byte-identical** to the previous build, and Lighthouse scored accessibility **1.0** on the same artifact. This is a false-red risk on a merge-blocking gate; the fix is to wait for the reveal animation to finish (or disable it under test) before running axe, not to relax the assertion.
 
 ## References
 
@@ -58,5 +59,5 @@ Broaden component coverage as primitives/molecules land (each ships with its tes
 
 ---
 
-**Last Updated:** 2026-08-02 (E1.2.3 + E1.2.4 wired; pipeline order corrected)
+**Last Updated:** 2026-08-06 (recorded the axe-vs-reveal-animation false red on a cold server)
 **Owner:** Orgofin Engineering (TODO: assign a DRI)
