@@ -79,7 +79,7 @@
     },
     "brace-expansion": "^5.0.9",
     "@hono/node-server": "^2.0.5",
-    "@modelcontextprotocol/sdk": "^1.30.0"
+    "@modelcontextprotocol/sdk": "^1.32.1"
   },
   "_overridesNote": "Why each override exists, and why minimatch@3 is carved out of the brace-expansion pin: .claude/context/deployment.md (CI Pipeline → Dependency audit).",
   "lint-staged": {
